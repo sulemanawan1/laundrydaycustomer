@@ -1,0 +1,132 @@
+Flutter crash report.
+Please report a bug at https://github.com/flutter/flutter/issues.
+
+## command
+
+flutter pub get --no-example
+
+## exception
+
+ProcessException: ProcessException: The command failed
+Stdout:
+building file list ... done
+Versions/
+Versions/Current -> A
+Versions/A/
+Versions/A/FlutterMacOS
+Versions/A/Headers/
+Versions/A/Headers/FlutterAppDelegate.h
+Versions/A/Headers/FlutterAppLifecycleDelegate.h
+Versions/A/Headers/FlutterBinaryMessenger.h
+Versions/A/Headers/FlutterChannels.h
+Versions/A/Headers/FlutterCodecs.h
+Versions/A/Headers/FlutterDartProject.h
+Versions/A/Headers/FlutterEngine.h
+Versions/A/Headers/FlutterMacOS.h
+Versions/A/Headers/FlutterMacros.h
+Versions/A/Headers/FlutterPlatformViews.h
+Versions/A/Headers/FlutterPluginMacOS.h
+Versions/A/Headers/FlutterPluginRegistrarMacOS.h
+Versions/A/Headers/FlutterTexture.h
+Versions/A/Headers/FlutterViewController.h
+Versions/A/Modules/
+Versions/A/Modules/module.modulemap
+Versions/A/Resources/
+Versions/A/Resources/Info.plist
+Versions/A/Resources/icudtl.dat
+Versions/A/_CodeSignature/
+Versions/A/_CodeSignature/CodeResources
+
+sent 105061863 bytes  received 480 bytes  210124686.00 bytes/sec
+total size is 105047498  speedup is 1.00
+
+Stderr:
+rsync: stat "/Users/sulemanabrar/Desktop/flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.framework/Versions/A/.FlutterMacOS.7G5LT6" failed: No such file or directory (2)
+rsync: rename "/Users/sulemanabrar/Desktop/flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.framework/Versions/A/.FlutterMacOS.7G5LT6" -> "Versions/A/FlutterMacOS": No such file or directory (2)
+rsync error: some files could not be transferred (code 23) at /AppleInternal/Library/BuildRoots/d9889869-120b-11ee-b796-7a03568b17ac/Library/Caches/com.apple.xbs/Sources/rsync/rsync/main.c(996) [sender=2.6.9]
+
+  Command: rsync -8 -av --delete /var/folders/vr/l9ggshdx3bj6hq_3jg6f3rk00000gn/T/flutter_tools.0fY1Ua/flutter_FlutterMacOS.framework.zip.Sk3IYU/Versions /Users/sulemanabrar/Desktop/flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.framework
+
+```
+#0      RunResult.throwException (package:flutter_tools/src/base/process.dart:127:5)
+#1      _DefaultProcessUtils.runSync (package:flutter_tools/src/base/process.dart:461:17)
+#2      _MacOSUtils.unzip (package:flutter_tools/src/base/os.dart:446:25)
+#3      EngineCachedArtifact.updateInner (package:flutter_tools/src/cache.dart:955:30)
+<asynchronous suspension>
+#4      CachedArtifact.update (package:flutter_tools/src/cache.dart:848:5)
+<asynchronous suspension>
+#5      Cache.updateAll (package:flutter_tools/src/cache.dart:715:9)
+<asynchronous suspension>
+#6      FlutterCommand.verifyThenRunCommand (package:flutter_tools/src/runner/flutter_command.dart:1699:7)
+<asynchronous suspension>
+#7      FlutterCommand.run.<anonymous closure> (package:flutter_tools/src/runner/flutter_command.dart:1389:27)
+<asynchronous suspension>
+#8      AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:153:19)
+<asynchronous suspension>
+#9      CommandRunner.runCommand (package:args/command_runner.dart:212:13)
+<asynchronous suspension>
+#10     FlutterCommandRunner.runCommand.<anonymous closure> (package:flutter_tools/src/runner/flutter_command_runner.dart:355:9)
+<asynchronous suspension>
+#11     AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:153:19)
+<asynchronous suspension>
+#12     FlutterCommandRunner.runCommand (package:flutter_tools/src/runner/flutter_command_runner.dart:295:5)
+<asynchronous suspension>
+#13     run.<anonymous closure>.<anonymous closure> (package:flutter_tools/runner.dart:119:9)
+<asynchronous suspension>
+#14     AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:153:19)
+<asynchronous suspension>
+#15     main (package:flutter_tools/executable.dart:90:3)
+<asynchronous suspension>
+```
+
+## flutter doctor
+
+```
+[!] Flutter (Channel stable, 3.19.1, on macOS 13.5 22G74 darwin-arm64, locale en-SA)
+    • Flutter version 3.19.1 on channel stable at /Users/sulemanabrar/Desktop/flutter
+    ! Warning: `dart` on your path resolves to /opt/homebrew/Cellar/dart/3.2.6/libexec/bin/dart, which is not inside your current Flutter SDK checkout at /Users/sulemanabrar/Desktop/flutter. Consider adding /Users/sulemanabrar/Desktop/flutter/bin to the front of your path.
+    • Upstream repository https://github.com/flutter/flutter.git
+    • Framework revision abb292a07e (4 days ago), 2024-02-20 14:35:05 -0800
+    • Engine revision 04817c99c9
+    • Dart version 3.3.0
+    • DevTools version 2.31.1
+    • If those were intentional, you can disregard the above warnings; however it is recommended to use "git" directly to perform update checks and upgrades.
+
+[✓] Android toolchain - develop for Android devices (Android SDK version 34.0.0)
+    • Android SDK at /Users/sulemanabrar/Library/Android/sdk
+    • Platform android-34-ext8, build-tools 34.0.0
+    • Java binary at: /Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java
+    • Java version OpenJDK Runtime Environment (build 17.0.7+0-17.0.7b1000.6-10550314)
+    • All Android licenses accepted.
+
+[✓] Xcode - develop for iOS and macOS (Xcode 15.1)
+    • Xcode at /Applications/Xcode.app/Contents/Developer
+    • Build 15C65
+    • CocoaPods version 1.14.3
+
+[✓] Chrome - develop for the web
+    • Chrome at /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+
+[✓] Android Studio (version 2023.1)
+    • Android Studio at /Applications/Android Studio.app/Contents
+    • Flutter plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/9212-flutter
+    • Dart plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/6351-dart
+    • Java version OpenJDK Runtime Environment (build 17.0.7+0-17.0.7b1000.6-10550314)
+
+[✓] VS Code (version 1.86.1)
+    • VS Code at /Applications/Visual Studio Code.app/Contents
+    • Flutter extension version 3.83.20240201
+
+[✓] Connected device (4 available)
+    • SM A025F (mobile)       • adb-R9JNC02YFPJ-2KgmBr._adb-tls-connect._tcp. • android-arm    • Android 12 (API 31)
+    • iPhone 15 Plus (mobile) • 73929AEE-6627-4DC1-87EF-48C8AFA9393E          • ios            • com.apple.CoreSimulator.SimRuntime.iOS-17-2 (simulator)
+    • macOS (desktop)         • macos                                         • darwin-arm64   • macOS 13.5 22G74 darwin-arm64
+    • Chrome (web)            • chrome                                        • web-javascript • Google Chrome 121.0.6167.184
+
+[✓] Network resources
+    • All expected network resources are available.
+
+! Doctor found issues in 1 category.
+```
