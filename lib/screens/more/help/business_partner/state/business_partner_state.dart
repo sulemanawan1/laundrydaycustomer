@@ -1,12 +1,35 @@
+import 'package:image_picker/image_picker.dart';
+import 'package:laundryday/models/services_model.dart';
+
 import 'package:laundryday/screens/more/help/business_partner/notifier/business_partner_notifier.dart';
 
 class BusinessPartnerState {
-  List<String> items = [];
+  List<ServicesModel> items = [];
+  int? currentStep;
+  XFile? image;
   CategoryType categoryType;
-  List<String> selectedItems = [];
+  List<ServicesModel> selectedItems = [];
 
   BusinessPartnerState(
       {required this.items,
+      required this.currentStep,
       required this.categoryType,
-      required this.selectedItems});
+      required this.selectedItems,
+      required this.image});
+
+  BusinessPartnerState copyWith({
+    List<ServicesModel>? items,
+    XFile? image,
+    int? currentStep,
+    CategoryType? categoryType,
+    List<ServicesModel>? selectedItems,
+  }) {
+    return BusinessPartnerState(
+      items: items ?? this.items,
+      image: image ?? this.image,
+      currentStep: currentStep??this.currentStep,
+      categoryType: categoryType ?? this.categoryType,
+      selectedItems: selectedItems ?? this.selectedItems,
+    );
+  }
 }
