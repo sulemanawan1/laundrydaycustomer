@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/Widgets/my_heading/heading.dart';
 import 'package:laundryday/app_services/location_handler.dart';
 import 'package:laundryday/models/city.dart' as city;
@@ -12,12 +14,14 @@ import 'package:laundryday/models/state.dart' as state;
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:laundryday/models/city.dart';
 import 'package:laundryday/models/state.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/font_manager.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/utils.dart';
+import 'package:laundryday/utils/value_manager.dart';
+import 'package:laundryday/widgets/my_button/my_button.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
@@ -35,7 +39,7 @@ class _AddressInformationState extends State<AddressInformation> {
   List<dynamic> _placeList = [];
   String? address;
   state.Datum? datum;
-  List<state. Datum> stateLi = [];
+  List<state.Datum> stateLi = [];
 
   List<city.Datum> citiesLi = [];
 
@@ -81,7 +85,7 @@ class _AddressInformationState extends State<AddressInformation> {
     }
   }
 
-  Future<List<state. Datum>> fetchAlbum() async {
+  Future<List<state.Datum>> fetchAlbum() async {
     try {
       final response =
           await http.post(Uri.parse('http://192.168.1.7:8000/api/states/194'));
@@ -92,7 +96,6 @@ class _AddressInformationState extends State<AddressInformation> {
         stateLi.clear();
         stateLi.addAll(stateModel.data);
         return stateLi;
-
       } else {
         throw Exception('Failed to load Country');
       }
@@ -156,24 +159,17 @@ class _AddressInformationState extends State<AddressInformation> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          10.ph,
-          const Heading(text: 'Where is your Laundry located.'),
-          10.ph,
-          HeadingMedium(
-            title:
-                'Customers will use this delivery information\nto find your laundry location.',
-            color: ColorManager.greyColor,
-          ),
-          10.ph,
-          FutureBuilder<List<state. Datum>>(
+          const Heading(text: 'Address'),
+          8.ph,
+          FutureBuilder<List<state.Datum>>(
             future: fetchAlbum(),
-            builder:
-                (BuildContext context, AsyncSnapshot<List<state. Datum>> snapshot) {
+            builder: (BuildContext context,
+                AsyncSnapshot<List<state.Datum>> snapshot) {
               if (snapshot.hasData) {
                 return DropdownButton(
                   // value: datum,
 
-                  onChanged: (state. Datum? v) {
+                  onChanged: (state.Datum? v) {
                     datum = v;
 
                     stateID = v!.id;
@@ -222,7 +218,7 @@ class _AddressInformationState extends State<AddressInformation> {
               }
             },
           ),
-          10.ph,
+          8.ph,
           Align(
             alignment: Alignment.topCenter,
             child: TextField(
@@ -282,7 +278,7 @@ class _AddressInformationState extends State<AddressInformation> {
                   ),
                 )
               : Container(),
-          10.ph,
+          8.ph,
           SizedBox(
             height: 300,
             child: Stack(alignment: Alignment.center, children: [
@@ -349,7 +345,92 @@ class _AddressInformationState extends State<AddressInformation> {
               )
             ]),
           ),
-          20.ph
+          8.ph,
+          ListView.builder(
+            shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
+            itemCount: 3,
+            itemBuilder: (BuildContext context, int index) {
+              return Card(
+                child: ExpansionTile(
+                  expandedAlignment: Alignment.topLeft,
+                  trailing: SvgPicture.asset(
+                    'assets/icons/delete.svg',
+                    height: 20,
+                    color: Colors.red,
+                  ),
+                  title: Text(
+                    "Store ${index + 1}",
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeightManager.semiBold),
+                  ),
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: AppPadding.p6),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Heading(text: 'Store Name in English'),
+                          HeadingMedium(
+                            title: 'Aljabr',
+                            color: ColorManager.greyColor,
+                          ),
+                          8.ph,
+                          const Heading(text: 'Store Name in Arabic'),
+                          HeadingMedium(
+                            title: 'الجبر',
+                            color: ColorManager.greyColor,
+                          ),
+                          8.ph,
+                          8.ph,
+                          const Heading(text: 'Store Type'),
+                          HeadingMedium(
+                            title: 'Laundry',
+                            color: ColorManager.greyColor,
+                          ),
+                          8.ph,
+                          const Heading(text: 'Number of  Branches'),
+                          HeadingMedium(
+                            title: '3',
+                            color: ColorManager.greyColor,
+                          ),
+                          8.ph,
+                          const Heading(text: 'Services'),
+                          HeadingMedium(
+                            title: 'Clothing',
+                            color: ColorManager.greyColor,
+                          ),
+                          const Heading(text: 'Service Types'),
+                          HeadingMedium(
+                            title: 'Dry Cleaning ,Pressing,Laundry',
+                            color: ColorManager.greyColor,
+                          ),
+
+                           8.ph,
+                          const Heading(text: 'Region'),
+                          HeadingMedium(
+                            title: 'Riyadh Region',
+                            color: ColorManager.greyColor,
+                          ),
+                           8.ph,
+                          const Heading(text: 'City'),
+                          HeadingMedium(
+                            title: 'Riyadh',
+                            color: ColorManager.greyColor,
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
+          MyButton(
+            name: 'Add Another Store',
+            isBorderButton: true,
+            color: Colors.amber,
+          )
         ],
       ),
     );

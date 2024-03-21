@@ -1,13 +1,12 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/models/services_model.dart';
 
-import 'package:laundryday/screens/more/help/business_partner/notifier/business_partner_notifier.dart';
 
 class BusinessPartnerState {
   List<ServicesModel> items = [];
   int? currentStep;
   XFile? image;
-  CategoryType categoryType;
+  String?categoryType;
   List<ServicesModel> selectedItems = [];
 
   BusinessPartnerState(
@@ -21,7 +20,7 @@ class BusinessPartnerState {
     List<ServicesModel>? items,
     XFile? image,
     int? currentStep,
-    CategoryType? categoryType,
+    String? categoryType,
     List<ServicesModel>? selectedItems,
   }) {
     return BusinessPartnerState(

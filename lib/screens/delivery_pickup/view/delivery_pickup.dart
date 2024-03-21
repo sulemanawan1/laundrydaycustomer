@@ -541,7 +541,7 @@ class ItemDetailWidget extends ConsumerWidget {
                       ))
                   : const SizedBox()
             ] else if (servicesModel.id == 2) ...[
-              quantity > 1
+              quantity > 3
                   ? Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
@@ -552,7 +552,7 @@ class ItemDetailWidget extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "2 max. +1 SAR/ex.",
+                              "3 max. +2 SAR/ex.",
                               style: GoogleFonts.poppins(
                                   fontWeight: FontWeight.w500, fontSize: 12),
                             ),

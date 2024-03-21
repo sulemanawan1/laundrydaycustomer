@@ -6,7 +6,6 @@ import 'package:laundryday/app_services/image_picker_handler.dart';
 import 'package:laundryday/models/services_model.dart';
 import 'package:laundryday/screens/more/help/business_partner/state/business_partner_state.dart';
 
-enum CategoryType { laundry }
 
 final businessPartnerProvider = StateNotifierProvider.autoDispose<
     BusinessPartnerNotifier, BusinessPartnerState>((ref) {
@@ -53,11 +52,9 @@ class BusinessPartnerNotifier extends StateNotifier<BusinessPartnerState> {
             ],
             selectedItems: [],
             image: null,
-            categoryType: CategoryType.laundry));
+            categoryType: null));
 
-  selectCategory(CategoryType? isSelected) {
-    state.categoryType = isSelected!;
-  }
+ 
 
   addItem(ServicesModel item) {
     state.selectedItems.add(item);
@@ -77,14 +74,5 @@ class BusinessPartnerNotifier extends StateNotifier<BusinessPartnerState> {
     });
   }
 
-  stepCountIncrement() {
-    state.currentStep = state.currentStep! + 1;
-        state = state.copyWith(currentStep: state.currentStep);
-
-  }
-
-  stepCountDecrement() {
-    state.currentStep = state.currentStep! - 1;
-    state = state.copyWith(currentStep:  state.currentStep);
-  }
+ 
 }

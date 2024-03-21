@@ -87,4 +87,3 @@ class HeadingSmall extends StatelessWidget {
     );
   }
 }
-

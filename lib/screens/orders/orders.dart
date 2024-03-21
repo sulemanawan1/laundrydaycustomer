@@ -36,7 +36,7 @@ class _OrdersState extends State<Orders> {
             flex: 2,
             child: ListView.separated(
               separatorBuilder: (context, index) => 10.ph,
-              itemCount: 10,
+              itemCount: 3,
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
                 return _orderTile2(onTap: () {
@@ -117,8 +117,7 @@ class _OrdersState extends State<Orders> {
           10.ph,
           const Heading(text: 'Order Again'),
           10.ph,
-          Expanded(
-            flex: 4,
+          Expanded(flex: 4,
             child: ListView.separated(
               separatorBuilder: (context, index) => 10.ph,
               itemCount: 10,

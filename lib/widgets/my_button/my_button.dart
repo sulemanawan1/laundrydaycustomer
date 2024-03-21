@@ -11,6 +11,7 @@ class MyButton extends StatelessWidget {
   final Color? textColor;
   bool? isLoading;
   Widget? widget;
+  EdgeInsetsGeometry? padding;
   MyButton(
       {super.key,
       required this.name,
@@ -20,37 +21,43 @@ class MyButton extends StatelessWidget {
       this.textColor,
       this.isLoading,
       this.widget,
+      this.padding,
       this.isBorderButton = false});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: isLoading == false ? null : onPressed,
-      borderRadius: BorderRadius.circular(40),
-      child: Container(
-        width: double.infinity,
-        height: 50,
-        decoration: BoxDecoration(
-            border: isBorderButton
-                ? Border.all(color: borderColor ?? ColorManager.primaryColor)
-                : null,
-            color: isLoading == false
-                ? (isBorderButton ? null : ColorManager.greyColor)
-                : (isBorderButton ? null : color??ColorManager.primaryColor),
-            borderRadius: BorderRadius.circular(40)),
-        child: widget ??
-            Center(
-              child: Text(
-                name!,
-                style: GoogleFonts.poppins(
-                  color: isBorderButton
-                      ? textColor ?? ColorManager.primaryColor
-                      : ColorManager.whiteColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+    return Padding(
+      padding:padding?? EdgeInsets.zero,
+      child: InkWell(
+        onTap: isLoading == false ? null : onPressed,
+        borderRadius: BorderRadius.circular(40),
+        child: Container(
+          width: double.infinity,
+          height: 50,
+          decoration: BoxDecoration(
+              border: isBorderButton
+                  ? Border.all(color: borderColor ?? ColorManager.primaryColor)
+                  : null,
+              color: isLoading == false
+                  ? (isBorderButton ? null : ColorManager.greyColor)
+                  : (isBorderButton
+                      ? null
+                      : color ?? ColorManager.primaryColor),
+              borderRadius: BorderRadius.circular(40)),
+          child: widget ??
+              Center(
+                child: Text(
+                  name!,
+                  style: GoogleFonts.poppins(
+                    color: isBorderButton
+                        ? textColor ?? ColorManager.primaryColor
+                        : ColorManager.whiteColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
-            ),
+        ),
       ),
     );
   }

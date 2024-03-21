@@ -86,15 +86,7 @@ class MyTextFormField extends StatelessWidget {
             fontWeight: FontWeight.w400,
             fontSize: 10,
           ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: const BorderSide(color: Colors.red, width: 1.5),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide:
-                BorderSide(color: ColorManager.primaryColor, width: 1.0),
-          ),
+          
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           contentPadding:
@@ -120,6 +112,15 @@ class MyTextFormField extends StatelessWidget {
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
             borderSide: const BorderSide(color: Color(0xffEEEEEE), width: 1.5),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: const BorderSide(color: Colors.red, width: 1.5),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide:
+                BorderSide(color: ColorManager.primaryColor, width: 1.0),
           ),
         ),
       ),

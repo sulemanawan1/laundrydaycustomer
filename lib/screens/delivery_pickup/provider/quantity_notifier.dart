@@ -5,10 +5,20 @@ class QuantityNotifier extends StateNotifier<int> {
   QuantityNotifier() : super(0);
 
   addQuantitiy({required ServicesModel servicesModel}) {
-    if (state >= 10) {
-      state = 10;
+    if (servicesModel.id == 2) {
+
+if (state >= 5) {
+        state = 5;
+      } else {
+        state = state + 1;
+      }
+
     } else {
-      state = state + 1;
+      if (state >= 10) {
+        state = 10;
+      } else {
+        state = state + 1;
+      }
     }
   }
 

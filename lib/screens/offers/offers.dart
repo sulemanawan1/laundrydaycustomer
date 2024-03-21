@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:laundryday/screens/offers/models/subsription_plan_model.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/widgets/my_app_bar/my_app_bar.dart';
@@ -188,18 +189,4 @@ class _OffersState extends State<Offers> {
   }
 }
 
-class SubscriptionPlan {
-  final String name;
-  final String price;
-  final int duration;
-  final String features;
-  final Color color;
 
-  SubscriptionPlan({
-    required this.name,
-    required this.price,
-    required this.duration,
-    required this.features,
-    required this.color,
-  });
-}
