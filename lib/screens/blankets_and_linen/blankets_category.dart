@@ -11,7 +11,6 @@ import 'package:laundryday/screens/blankets_and_linen/provider/blanket_and_linen
 import 'package:laundryday/screens/blankets_and_linen/provider/selected_item_count_notifier.dart';
 import 'package:laundryday/screens/blankets_and_linen/provider/selected_items_notifier.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
-import 'package:laundryday/screens/order_review/order_review.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/sized_box.dart';

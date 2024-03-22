@@ -6,7 +6,7 @@ import 'package:laundryday/widgets/my_app_bar/my_app_bar.dart';
 
 class ViewImage extends StatelessWidget {
   final String? image;
-   ViewImage({super.key,required this.image});
+   const ViewImage({super.key,required this.image});
 
   @override
   Widget build(BuildContext context) {

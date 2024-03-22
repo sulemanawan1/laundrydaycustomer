@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/screens/more/more.dart';
 import 'package:laundryday/screens/offers/offers.dart';
 import 'package:laundryday/screens/orders/orders.dart';
-import 'package:laundryday/screens/services/services.dart';
+import 'package:laundryday/screens/services/view/services.dart';
 import 'package:laundryday/utils/colors.dart';
 
 class Home extends StatefulWidget {

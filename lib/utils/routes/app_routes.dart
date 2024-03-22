@@ -34,7 +34,7 @@ import 'package:laundryday/screens/home/home.dart';
 import 'package:laundryday/screens/more/more.dart';
 import 'package:laundryday/screens/carpet_order_checkout/carpet_order_checkout.dart';
 import 'package:laundryday/screens/more/profile/profile.dart';
-import 'package:laundryday/screens/services/services.dart';
+import 'package:laundryday/screens/services/view/services.dart';
 import 'package:laundryday/screens/more/settings/settings.dart';
 import 'package:laundryday/utils/routes/route_paths.dart';
 import '../../screens/carpets/carpets_category/carpes_category.dart';

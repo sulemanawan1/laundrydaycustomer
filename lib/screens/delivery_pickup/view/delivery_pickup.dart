@@ -17,7 +17,6 @@ import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_item
 import 'package:laundryday/screens/delivery_pickup/provider/selected_delivery_pickup_item_notifer.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/quantity_notifier.dart';
 import 'package:laundryday/screens/delivery_pickup/services/delivery_pickup_services.dart';
-import 'package:laundryday/screens/order_review/order_review.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/sized_box.dart';
