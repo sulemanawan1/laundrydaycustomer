@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/Widgets/my_heading/heading.dart';
 import 'package:laundryday/Widgets/my_textForm%20_field/my_textform_field.dart';
 import 'package:laundryday/helpers/validation_helper/validation_helper.dart';
+import 'package:laundryday/screens/more/help/business_partner/notifier/business_partner_textformfields.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/value_manager.dart';
 
-class ContactInformation extends StatelessWidget {
-  final _fullNameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _confirmEmailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confrimPasswordController = TextEditingController();
-  final _mobileNumberContactController = TextEditingController();
+class ContactInformation extends ConsumerWidget {
+  const ContactInformation({super.key});
 
-  ContactInformation({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -28,40 +24,46 @@ class ContactInformation extends StatelessWidget {
         8.ph,
         MyTextFormField(
           hintText: 'Ex : Ali',
-          labelText: 'Full Name',
-          controller: _fullNameController,
+          labelText: 'First Name',
+          controller: BusinessPartnerTextFormFields.firstNameController,
+        ),
+        8.ph,
+        MyTextFormField(
+          hintText: 'Ex : Ahmed',
+          labelText: 'Last Name',
+          controller: BusinessPartnerTextFormFields.lastNameController,
         ),
         8.ph,
         MyTextFormField(
           validator: ValidationHelper().emailValidator,
           hintText: 'Ex : person@gmail.com',
           labelText: 'Email',
-          controller: _emailController,
+          controller: BusinessPartnerTextFormFields. emailController,
         ),
         8.ph,
         MyTextFormField(
           validator: ValidationHelper().emailValidator,
           hintText: 'Ex : person@gmail.com',
           labelText: 'Confirm Email',
-          controller: _confirmEmailController,
+          controller: BusinessPartnerTextFormFields.confirmEmailController,
         ),
         8.ph,
         MyTextFormField(
           validator: ValidationHelper().passwordValidator,
           hintText: 'Enter your password',
           labelText: 'Password',
-          controller: _passwordController,
+          controller: BusinessPartnerTextFormFields.passwordController,
         ),
         8.ph,
         MyTextFormField(
           validator: ValidationHelper().passwordValidator,
           hintText: 'Re-enter your password',
           labelText: 'Confirm Password',
-          controller: _confrimPasswordController,
+          controller: BusinessPartnerTextFormFields.confrimPasswordController,
         ),
         8.ph,
         MyTextFormField(
-          controller: _mobileNumberContactController,
+          controller: BusinessPartnerTextFormFields.mobileNumberContactController,
           textInputType: TextInputType.number,
           maxLength: 9,
           validator: ValidationHelper().validatePhoneNumber,

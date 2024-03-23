@@ -36,7 +36,7 @@ class ApiServices {
           distance: 2.7,
           type: 'register',
           banner: 'assets/category_banner/clothes_banner.jpg',
-          categories: [
+          seviceTypes: [
             ServiceTypesModel(
                 id: 1,
                 serviceId: 1,
@@ -118,7 +118,7 @@ class ApiServices {
           distance: 2.1,
           type: 'register',
           banner: 'assets/category_banner/clothes_banner.jpg',
-          categories: [
+          seviceTypes: [
             ServiceTypesModel(id: 2, serviceId: 1, type: 'drycleaning'),
             ServiceTypesModel(id: 3, serviceId: 1, type: 'pressing'),
           ],
@@ -180,7 +180,7 @@ class ApiServices {
           banner: 'assets/category_banner/clothes_banner.jpg',
           distance: 2.1,
           type: 'deliverypickup',
-          categories: [],
+          seviceTypes: [],
           timeslot: [
             TimeSlot(
                 openTime: TimeOfDay(hour: 7, minute: 0),
@@ -239,7 +239,7 @@ class ApiServices {
           banner: 'assets/blanket_and_linen_banner.jpg',
           distance: 1.6,
           type: 'register',
-          categories: [
+          seviceTypes: [
             ServiceTypesModel(id: 1, serviceId: 1, type: 'laundry'),
           ],
           timeslot: [
@@ -297,7 +297,7 @@ class ApiServices {
           banner: 'assets/blanket_and_linen_banner.jpg',
           distance: 2.8,
           type: 'register',
-          categories: [
+          seviceTypes: [
             ServiceTypesModel(id: 1, serviceId: 1, type: 'laundry'),
           ],
           timeslot: [
@@ -356,7 +356,7 @@ class ApiServices {
           banner: 'assets/blanket_and_linen_banner.jpg',
           distance: 3.0,
           type: 'deliverypickup',
-          categories: [],
+          seviceTypes: [],
           timeslot: [
             TimeSlot(
                 openTime: TimeOfDay(hour: 7, minute: 0),

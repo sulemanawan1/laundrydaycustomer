@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/app_services/image_picker_handler.dart';
 import 'package:laundryday/models/services_model.dart';
-import 'package:laundryday/screens/more/help/business_partner/state/business_partner_state.dart';
-
+import 'package:laundryday/screens/more/help/business_partner/models/bussiness_partner_model.dart';
+import 'package:laundryday/screens/more/help/business_partner/notifier/business_partner_state.dart';
 
 final businessPartnerProvider = StateNotifierProvider.autoDispose<
     BusinessPartnerNotifier, BusinessPartnerState>((ref) {
@@ -16,6 +16,7 @@ class BusinessPartnerNotifier extends StateNotifier<BusinessPartnerState> {
   BusinessPartnerNotifier()
       : super(BusinessPartnerState(
             currentStep: 1,
+            laundriesList: [],
             items: [
               ServicesModel(
                   vat: 0.00,
@@ -54,8 +55,6 @@ class BusinessPartnerNotifier extends StateNotifier<BusinessPartnerState> {
             image: null,
             categoryType: null));
 
- 
-
   addItem(ServicesModel item) {
     state.selectedItems.add(item);
     state.selectedItems = [...state.selectedItems];
@@ -74,5 +73,17 @@ class BusinessPartnerNotifier extends StateNotifier<BusinessPartnerState> {
     });
   }
 
- 
+  addBusiness({required LaundryBusinessModel laundryBusinessModel}) {
+    log(laundryBusinessModel.toString());
+
+    state.laundriesList.add(laundryBusinessModel);
+
+    state = state.copyWith(laundriesList: state.laundriesList);
+  }
+
+  deleteBusiness({required String id}) {
+    state.laundriesList.removeWhere((element) => element.id == id);
+
+    state = state.copyWith(laundriesList: state.laundriesList);
+  }
 }

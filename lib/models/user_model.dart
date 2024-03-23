@@ -1,44 +1,52 @@
 import 'dart:convert';
 
+import 'package:flutter/widgets.dart';
+
 class UserModel {
-  final int id;
-  final String firstName;
-  final String lastName;
-  final String role;
-  final String image;
-  final String mobileNumber;
-  final String userName;
-  final String email;
+  final int? id;
+  final String? firstName;
+  final String? lastName;
+  final String? role;
+  final String? image;
+  final String? mobileNumber;
+  final String? userName;
+  final String? email;
+  final String? password;
   UserModel({
-    required this.id,
-    required this.firstName,
-    required this.lastName,
-    required this.role,
-    required this.image,
-    required this.mobileNumber,
-    required this.userName,
-    required this.email,
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.role,
+    this.image,
+    this.mobileNumber,
+    this.userName,
+    this.email,
+    this.password,
   });
 
+
+
   UserModel copyWith({
-    int? id,
-    String? firstName,
-    String? lastName,
-    String? role,
-    String? image,
-    String? mobileNumber,
-    String? userName,
-    String? email,
+    ValueGetter<int?>? id,
+    ValueGetter<String?>? firstName,
+    ValueGetter<String?>? lastName,
+    ValueGetter<String?>? role,
+    ValueGetter<String?>? image,
+    ValueGetter<String?>? mobileNumber,
+    ValueGetter<String?>? userName,
+    ValueGetter<String?>? email,
+    ValueGetter<String?>? password,
   }) {
     return UserModel(
-      id: id ?? this.id,
-      firstName: firstName ?? this.firstName,
-      lastName: lastName ?? this.lastName,
-      role: role ?? this.role,
-      image: image ?? this.image,
-      mobileNumber: mobileNumber ?? this.mobileNumber,
-      userName: userName ?? this.userName,
-      email: email ?? this.email,
+      id: id != null ? id() : this.id,
+      firstName: firstName != null ? firstName() : this.firstName,
+      lastName: lastName != null ? lastName() : this.lastName,
+      role: role != null ? role() : this.role,
+      image: image != null ? image() : this.image,
+      mobileNumber: mobileNumber != null ? mobileNumber() : this.mobileNumber,
+      userName: userName != null ? userName() : this.userName,
+      email: email != null ? email() : this.email,
+      password: password != null ? password() : this.password,
     );
   }
 
@@ -52,19 +60,21 @@ class UserModel {
       'mobileNumber': mobileNumber,
       'userName': userName,
       'email': email,
+      'password': password,
     };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      id: map['id']?.toInt() ?? 0,
-      firstName: map['firstName'] ?? '',
-      lastName: map['lastName'] ?? '',
-      role: map['role'] ?? '',
-      image: map['image'] ?? '',
-      mobileNumber: map['mobileNumber'] ?? '',
-      userName: map['userName'] ?? '',
-      email: map['email'] ?? '',
+      id: map['id']?.toInt(),
+      firstName: map['firstName'],
+      lastName: map['lastName'],
+      role: map['role'],
+      image: map['image'],
+      mobileNumber: map['mobileNumber'],
+      userName: map['userName'],
+      email: map['email'],
+      password: map['password'],
     );
   }
 
@@ -74,7 +84,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'User(id: $id, firstName: $firstName, lastName: $lastName, role: $role, image: $image, mobileNumber: $mobileNumber, userName: $userName, email: $email)';
+    return 'UserModel(id: $id, firstName: $firstName, lastName: $lastName, role: $role, image: $image, mobileNumber: $mobileNumber, userName: $userName, email: $email, password: $password)';
   }
 
   @override
@@ -89,7 +99,8 @@ class UserModel {
       other.image == image &&
       other.mobileNumber == mobileNumber &&
       other.userName == userName &&
-      other.email == email;
+      other.email == email &&
+      other.password == password;
   }
 
   @override
@@ -101,6 +112,7 @@ class UserModel {
       image.hashCode ^
       mobileNumber.hashCode ^
       userName.hashCode ^
-      email.hashCode;
+      email.hashCode ^
+      password.hashCode;
   }
 }

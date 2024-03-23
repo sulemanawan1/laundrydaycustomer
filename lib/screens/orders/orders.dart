@@ -68,7 +68,7 @@ class _OrdersState extends State<Orders> {
                       distance: 2.1,
                       type: 'register',
                       banner: 'assets/category_banner/clothes_banner.jpg',
-                      categories: [
+                      seviceTypes: [
                         ServiceTypesModel(
                             id: 2, serviceId: 1, type: 'drycleaning'),
                         ServiceTypesModel(
@@ -117,7 +117,8 @@ class _OrdersState extends State<Orders> {
           10.ph,
           const Heading(text: 'Order Again'),
           10.ph,
-          Expanded(flex: 4,
+          Expanded(
+            flex: 4,
             child: ListView.separated(
               separatorBuilder: (context, index) => 10.ph,
               itemCount: 10,
@@ -230,8 +231,6 @@ class _OrdersState extends State<Orders> {
     );
   }
 
-
-
   Widget _orderTile2({void Function()? onTap}) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -327,8 +326,4 @@ class _OrdersState extends State<Orders> {
       ),
     );
   }
-
-
-
-
 }

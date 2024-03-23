@@ -12,7 +12,7 @@ class ResuableLaundryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var types = laundry!.categories.map((e) => e.type).toList();
+    var types = laundry!.seviceTypes?.map((e) => e.type).toList();
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -129,14 +129,15 @@ class ResuableLaundryTile extends StatelessWidget {
                   ),
                   5.pw,
                   Text(
-                    "${laundry!.timeslot.first.openTime.hour} ${laundry!.timeslot.first.openTime.period.name}-${laundry!.timeslot.first.closeTime.hourOfPeriod}${laundry!.timeslot.first.closeTime.period.name}",
+                    "${laundry!.timeslot!.first.openTime.hour} ${laundry!.timeslot!.first.openTime.period.name}-${laundry!.timeslot!.first.closeTime.hourOfPeriod}${laundry!.timeslot!.first.closeTime.period.name}",
                     style: GoogleFonts.poppins(
                         color: ColorManager.greyColor,
                         fontWeight: FontWeight.w400),
                     overflow: TextOverflow.ellipsis,
                   ),
-                  5.pw,Text(
-                    laundry!.status,
+                  5.pw,
+                  Text(
+                    laundry!.status??'',
                     style: GoogleFonts.poppins(
                         color: laundry!.status == 'closed'
                             ? Colors.red

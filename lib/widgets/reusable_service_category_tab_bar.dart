@@ -13,7 +13,7 @@ final indexProvider = StateProvider.autoDispose<int>((ref) {
 });
 
 class ReusableServiceCategoryTabBar extends ConsumerWidget {
-  final List<ServiceTypesModel> list;
+   List<ServiceTypesModel>? list;
   TabController? tabController;
   void Function(int)? onTap;
   ReusableServiceCategoryTabBar(
@@ -54,8 +54,8 @@ class ReusableServiceCategoryTabBar extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(
                   30,
                 )),
-            tabs: List.generate(list.length, (indexx) {
-              var category = list[indexx];
+            tabs: List.generate(list!.length, (indexx) {
+              var category = list![indexx];
 
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),

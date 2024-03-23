@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
 import 'package:laundryday/models/service_types_model.dart';
 import 'package:laundryday/models/services_model.dart';
 
 class LaundryModel {
-  double? lat;
   String? name;
+  int? branches;
+  int? taxNumber;
+  int? commercialRegNo;
+  XFile? commercialRegImage;
+  String? secondaryName;
+  String? region;
+  String? city;
   String status;
+  double? lat;
   double? lng;
   double? distance;
   double? rating;
   String? address;
+    String? googleMapAddress;
+
   int? userRatingTotal;
   int? id;
   String? placeId;
@@ -17,26 +28,35 @@ class LaundryModel {
   String? logo;
   String? banner;
   ServicesModel? service;
-  List<ServiceTypesModel> categories;
+  List<ServiceTypesModel> seviceTypes;
   List<TimeSlot> timeslot;
+  LaundryModel({
+    this.name,
+    this.branches,
+    this.taxNumber,
+    this.commercialRegNo,
+    this.commercialRegImage,
+    this.secondaryName,
+    this.region,
+    this.city,
+    required this.status,
+    this.lat,
+    this.lng,
+    this.distance,
+    this.rating,
+    this.address,
+    this.userRatingTotal,
+    this.id,
+    this.placeId,
+    this.type,
+    this.logo,
+    this.banner,
+    this.service,
+    required this.seviceTypes,
+    required this.timeslot,
+  });
 
-  LaundryModel(
-      {this.lat,
-      this.lng,
-      this.rating,
-      this.name,
-      this.address,
-      this.userRatingTotal,
-      this.id,
-      this.placeId,
-      this.logo,
-      this.banner,
-      this.distance,
-      this.type,
-      required this.status,
-      required this.service,
-      required this.categories,
-      required this.timeslot});
+ 
 }
 
 class TimeSlot {

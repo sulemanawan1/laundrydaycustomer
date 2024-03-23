@@ -63,7 +63,9 @@ class TypeWidget extends StatelessWidget {
         menuStyle: MenuStyle(
             backgroundColor: MaterialStateColor.resolveWith(
                 (states) => ColorManager.whiteColor)),
-        onSelected: (val) {},
+        onSelected: (val) {
+          
+        },
         dropdownMenuEntries: const [
           DropdownMenuEntry(value: 'Laundry', label: 'Laundry'),
           DropdownMenuEntry(

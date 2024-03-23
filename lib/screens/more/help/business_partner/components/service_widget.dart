@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/screens/more/help/business_partner/business_partner.dart';
+import 'package:laundryday/screens/more/help/business_partner/view/business_partner.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';

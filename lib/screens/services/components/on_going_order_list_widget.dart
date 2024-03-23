@@ -61,7 +61,7 @@ class OnGoingOrderListWidget extends StatelessWidget {
                       distance: 2.1,
                       type: 'register',
                       banner: 'assets/category_banner/clothes_banner.jpg',
-                      categories: [
+                      seviceTypes: [
                         ServiceTypesModel(
                             id: 2, serviceId: 1, type: 'drycleaning'),
                         ServiceTypesModel(

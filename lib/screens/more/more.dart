@@ -39,8 +39,7 @@ class _MoreState extends State<More> {
                       leading: const Icon(Icons.person),
                       title: const Text('Profile'),
                       onTap: () {
-                        // Navigate to the home screen
-                        GoRouter.of(context).pushNamed(RouteNames().profile);
+                      context.pushNamed(RouteNames().profile);
                       },
                     ),
                     ListTile(

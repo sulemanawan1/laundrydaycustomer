@@ -60,7 +60,7 @@ class _BlanketsCategoryState extends ConsumerState<BlanketsCategory>
     super.initState();
 
     tabController =
-        TabController(length: widget.laundry!.categories.length, vsync: this);
+        TabController(length: widget.laundry!.seviceTypes!.length, vsync: this);
   }
 
   @override
@@ -143,13 +143,13 @@ class _BlanketsCategoryState extends ConsumerState<BlanketsCategory>
       ),
 
       10.ph,
-      widget.laundry!.categories.length == 1
+      widget.laundry!.seviceTypes!.length == 1
           ? const SizedBox()
           : ReusableServiceCategoryTabBar(
               onTap: (v) {
                 ref.read(indexProvider.notifier).state = v;
               },
-              list: widget.laundry!.categories,
+              list: widget.laundry!.seviceTypes,
               tabController: tabController),
 
       Expanded(
@@ -158,7 +158,7 @@ class _BlanketsCategoryState extends ConsumerState<BlanketsCategory>
                 .read(blanketAndLinenProvider.notifier)
                 .getAllLaundryItemCategory(
                     serviceId: widget.laundry!.service!.id,
-                    categoryId: widget.laundry!.categories[index].id!),
+                    categoryId: widget.laundry!.seviceTypes![index].id!),
             builder: (BuildContext context,
                 AsyncSnapshot<List<LaundryItemModel>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

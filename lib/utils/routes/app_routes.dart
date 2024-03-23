@@ -27,7 +27,7 @@ import 'package:laundryday/screens/more/addresses/add_new_address/add_new_addres
 import 'package:laundryday/screens/more/addresses/my_addresses/my_addresses.dart';
 import 'package:laundryday/screens/more/help/agent_registration/agent_registration.dart';
 import 'package:laundryday/screens/more/help/agent_registration/fetch_agent_address.dart';
-import 'package:laundryday/screens/more/help/business_partner/business_partner.dart';
+import 'package:laundryday/screens/more/help/business_partner/view/business_partner.dart';
 import 'package:laundryday/screens/more/profile/edit_profile/edit_profile.dart';
 import 'package:laundryday/screens/more/help/help.dart';
 import 'package:laundryday/screens/home/home.dart';

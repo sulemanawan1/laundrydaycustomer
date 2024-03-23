@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,12 +11,14 @@ import 'package:laundryday/Widgets/my_heading/heading.dart';
 import 'package:laundryday/app_services/location_handler.dart';
 import 'package:laundryday/models/city.dart' as city;
 import 'package:laundryday/models/state.dart' as state;
-
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:laundryday/models/state.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
+import 'package:laundryday/screens/more/help/business_partner/models/bussiness_partner_model.dart';
+import 'package:laundryday/screens/more/help/business_partner/notifier/business_partner_notifier.dart';
+import 'package:laundryday/screens/more/help/business_partner/notifier/business_partner_textformfields.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/font_manager.dart';
 import 'package:laundryday/utils/sized_box.dart';
@@ -25,14 +28,14 @@ import 'package:laundryday/widgets/my_button/my_button.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
-class AddressInformation extends StatefulWidget {
+class AddressInformation extends ConsumerStatefulWidget {
   const AddressInformation({super.key});
 
   @override
-  State<AddressInformation> createState() => _AddressInformationState();
+  ConsumerState<AddressInformation> createState() => _AddressInformationState();
 }
 
-class _AddressInformationState extends State<AddressInformation> {
+class _AddressInformationState extends ConsumerState<AddressInformation> {
   final _controller = TextEditingController();
   var uuid = const Uuid();
   final String _sessionToken = '1234567890';
@@ -155,6 +158,8 @@ class _AddressInformationState extends State<AddressInformation> {
 
   @override
   Widget build(BuildContext context) {
+    final states = ref.read(businessPartnerProvider);
+    final laudnryList = ref.watch(businessPartnerProvider).laundriesList;
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -347,19 +352,27 @@ class _AddressInformationState extends State<AddressInformation> {
           ),
           8.ph,
           ListView.builder(
-            shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
-            itemCount: 3,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: laudnryList.length,
             itemBuilder: (BuildContext context, int index) {
+              final laundry = laudnryList[index];
               return Card(
                 child: ExpansionTile(
                   expandedAlignment: Alignment.topLeft,
-                  trailing: SvgPicture.asset(
-                    'assets/icons/delete.svg',
-                    height: 20,
-                    color: Colors.red,
+                  trailing: InkWell(
+                    onTap: () {
+                      ref
+                          .read(businessPartnerProvider.notifier)
+                          .deleteBusiness(id: laundry.id!);
+                    },
+                    child: SvgPicture.asset(
+                      'assets/icons/delete.svg',
+                      height: 20,
+                      color: Colors.red,
+                    ),
                   ),
-                  title: Text(
-                    "Store ${index + 1}",
+                  title: Text(laundry.name.toString(),
                     style: GoogleFonts.poppins(
                         fontWeight: FontWeightManager.semiBold),
                   ),
@@ -372,32 +385,32 @@ class _AddressInformationState extends State<AddressInformation> {
                         children: [
                           const Heading(text: 'Store Name in English'),
                           HeadingMedium(
-                            title: 'Aljabr',
+                            title: laundry.name.toString(),
                             color: ColorManager.greyColor,
                           ),
                           8.ph,
                           const Heading(text: 'Store Name in Arabic'),
                           HeadingMedium(
-                            title: 'الجبر',
+                            title: laundry.secondaryName.toString(),
                             color: ColorManager.greyColor,
                           ),
                           8.ph,
                           8.ph,
                           const Heading(text: 'Store Type'),
                           HeadingMedium(
-                            title: 'Laundry',
+                            title: laundry.type.toString(),
                             color: ColorManager.greyColor,
                           ),
                           8.ph,
                           const Heading(text: 'Number of  Branches'),
                           HeadingMedium(
-                            title: '3',
+                            title:  laundry.branches.toString(),
                             color: ColorManager.greyColor,
                           ),
                           8.ph,
                           const Heading(text: 'Services'),
                           HeadingMedium(
-                            title: 'Clothing',
+                            title: '', 
                             color: ColorManager.greyColor,
                           ),
                           const Heading(text: 'Service Types'),
@@ -405,14 +418,13 @@ class _AddressInformationState extends State<AddressInformation> {
                             title: 'Dry Cleaning ,Pressing,Laundry',
                             color: ColorManager.greyColor,
                           ),
-
-                           8.ph,
+                          8.ph,
                           const Heading(text: 'Region'),
                           HeadingMedium(
                             title: 'Riyadh Region',
                             color: ColorManager.greyColor,
                           ),
-                           8.ph,
+                          8.ph,
                           const Heading(text: 'City'),
                           HeadingMedium(
                             title: 'Riyadh',
@@ -427,6 +439,47 @@ class _AddressInformationState extends State<AddressInformation> {
             },
           ),
           MyButton(
+            onPressed: () {
+              // List<LaundryBusinessModel> laundryBusinessModel =
+              final iD = DateTime.now().millisecondsSinceEpoch;
+
+              LaundryBusinessModel laundryBusinessModel = LaundryBusinessModel(
+                id: iD.toString(),
+                name: BusinessPartnerTextFormFields.storeNameEnglish.text,
+                secondaryName:
+                    BusinessPartnerTextFormFields.storeNameArabic.text,
+                type: 'Laundry',
+                service: states.selectedItems,
+                branches: int.tryParse(
+                    BusinessPartnerTextFormFields.branchController.text),
+                taxNumber: BusinessPartnerTextFormFields.taxNumber.text,
+                commercialRegNo: BusinessPartnerTextFormFields.taxNumber.text,
+                commercialRegImage: states.image,
+                address: 'Unknown',
+                lat: 22.0,
+                lng: 33.0,
+                googleMapAddress: 'sjsjs',
+                region: 'Riyadh Region',
+                city: 'Riyad City',
+              );
+
+              // UserModel user = UserModel(
+              //   firstName:
+              //       BusinessPartnerTextFormFields.firstNameController.text,
+              //   lastName: BusinessPartnerTextFormFields.lastNameController.text,
+              //   email: BusinessPartnerTextFormFields.emailController.text,
+              //   password: BusinessPartnerTextFormFields.passwordController.text,
+              //   role: 'businessowner',
+              //   mobileNumber: BusinessPartnerTextFormFields
+              //       .mobileNumberContactController.text,
+              // );
+
+              ref
+                  .read(businessPartnerProvider.notifier)
+                  .addBusiness(laundryBusinessModel: laundryBusinessModel);
+
+              BusinessPartnerTextFormFields.cleartAllTextFormFields();
+            },
             name: 'Add Another Store',
             isBorderButton: true,
             color: Colors.amber,
