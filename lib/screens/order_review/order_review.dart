@@ -42,10 +42,12 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
   void initState() {
     super.initState();
 
-    var subtotal = widget.orderDatailsArguments.laundryModel!.service!.deliveryFee +
-        widget.orderDatailsArguments.laundryModel!.service!.operationFee;
+    var subtotal =
+        widget.orderDatailsArguments.laundryModel!.service!.deliveryFee +
+            widget.orderDatailsArguments.laundryModel!.service!.operationFee;
 
-    widget.orderDatailsArguments..laundryModel!.service!.vat = (subtotal * 15) / 100;
+    widget.orderDatailsArguments
+      .laundryModel!.service!.vat = (subtotal * 15) / 100;
     ref.read(orderReviewProvider.notifier).state.total =
         subtotal + widget.orderDatailsArguments.laundryModel!.service!.vat;
   }
@@ -58,8 +60,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
   @override
   Widget build(BuildContext context) {
     final itemsList = ref.watch(selectedItemNotifier);
-    final states = ref.watch(orderReviewProvider);
-    final orderItem = ref.watch(selectedDeliveryPickupItemProvider);
+    final orderItem = ref.watch(deliverPickupProvider).selectedItems;
     Map<int?, List<LaundryItemModel>> li = groupItemsByCategory(itemsList);
     // var finalAmount = ref.watch(orderReviewProvider.notifier).state.total * 100;
     var finalAmount = ref.watch(orderReviewProvider.notifier).state.total;
@@ -72,7 +73,8 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
           return SingleChildScrollView(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              widget.orderDatailsArguments.laundryModel!.type == 'deliverypickup'
+              widget.orderDatailsArguments.laundryModel!.type ==
+                      'deliverypickup'
                   ? SizedBox(
                       height: cx.maxHeight * 0.5,
                       child: Card(
@@ -92,7 +94,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
                                   // shrinkWrap: true,
-                                  itemCount: orderItem.length,
+                                  itemCount: orderItem!.length,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return ListTile(
@@ -228,7 +230,6 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                             log(paymentConfig.toString());
                             final source = CardPaymentRequestSource(
                                 creditCardData: CardFormModel(
-                                  
                                     name: 'Suleman Abrar',
                                     number: '4847831061063886',
                                     month: '03',
@@ -248,11 +249,12 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                                 apiKey: paymentConfig.publishableApiKey,
                                 paymentRequest: paymentRequest);
 
-                      var t=      result as ValidationError;
-                      
+                            var t = result as ValidationError;
+
                             log(t.errors.toString());
 
-                            context.pushNamed(RouteNames().findCourier,extra: widget.orderDatailsArguments);
+                            context.pushNamed(RouteNames().findCourier,
+                                extra: widget.orderDatailsArguments);
 
                             // ignore: use_build_context_synchronously
                             // onPaymentResult(
@@ -304,7 +306,8 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                       : MyButton(
                           name: 'Place Order',
                           onPressed: () {
-                            context.pushNamed(RouteNames().findCourier,extra: widget.orderDatailsArguments);
+                            context.pushNamed(RouteNames().findCourier,
+                                extra: widget.orderDatailsArguments);
                           },
                         ),
                   30.ph,

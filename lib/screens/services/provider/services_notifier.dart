@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:laundryday/models/address_model.dart';
-import 'package:laundryday/screens/services/provider/services_states.dart';
+import 'package:laundryday/screens/services/services_states.dart';
 
 class ServicesNotifier extends StateNotifier<ServicesStates> {
   ServicesNotifier()

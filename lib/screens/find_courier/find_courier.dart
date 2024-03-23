@@ -6,8 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:laundryday/app_services/location_handler.dart';
-import 'package:laundryday/models/blankets_model.dart';
-import 'package:laundryday/models/laundry_model.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/find_courier/find_courier_notifier.dart';

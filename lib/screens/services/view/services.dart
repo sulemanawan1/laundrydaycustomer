@@ -9,7 +9,7 @@ import 'package:laundryday/screens/services/components/address_bottom_sheet_widg
 import 'package:laundryday/screens/services/components/on_going_order_list_widget.dart';
 import 'package:laundryday/screens/services/components/services_grid_widget.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
-import 'package:laundryday/screens/services/provider/services_states.dart';
+import 'package:laundryday/screens/services/services_states.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/value_manager.dart';
