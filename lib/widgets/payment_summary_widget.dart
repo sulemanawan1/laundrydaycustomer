@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/models/services_model.dart';
 import 'package:laundryday/screens/order_review/order_review.dart';
 import 'package:laundryday/utils/sized_box.dart';
-import 'package:laundryday/widgets/my_heading/heading.dart';
+import 'package:laundryday/widgets/heading.dart';
 
 // ignore: must_be_immutable
 class PaymentSummaryWidget extends StatelessWidget {

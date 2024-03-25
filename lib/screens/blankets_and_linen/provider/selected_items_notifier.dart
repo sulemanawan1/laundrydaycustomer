@@ -2,25 +2,25 @@ import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:laundryday/models/blankets_model.dart';
+import 'package:laundryday/models/item_model.dart';
 
-class SelectedItemsNotifier extends StateNotifier<List<LaundryItemModel>> {
+class SelectedItemsNotifier extends StateNotifier<List<ItemModel>> {
   SelectedItemsNotifier({required this.ref}) : super([]);
 
   final Ref ref;
 
   checkAndUpdate(
-      {required id, required LaundryItemModel blankets, required categoryId}) {
+      {required id, required ItemModel blankets, required categoryId}) {
     log(id.toString());
     log(blankets.toString());
 
-    LaundryItemModel bb = blankets;
+    ItemModel bb = blankets;
 
     bb.categoryId = categoryId;
 
-    LaundryItemModel b = state.firstWhere(
+    ItemModel b = state.firstWhere(
       (element) => element.id == id,
-      orElse: () => LaundryItemModel(),
+      orElse: () => ItemModel(),
     );
 
     if (b.id == null) {
@@ -34,8 +34,7 @@ class SelectedItemsNotifier extends StateNotifier<List<LaundryItemModel>> {
   }
 
   removeQuantity({required id}) {
-    LaundryItemModel blanketsModel =
-        state.firstWhere((element) => element.id == id);
+    ItemModel blanketsModel = state.firstWhere((element) => element.id == id);
 
     if (blanketsModel.quantity! <= 0) {
       blanketsModel.quantity;
@@ -46,8 +45,7 @@ class SelectedItemsNotifier extends StateNotifier<List<LaundryItemModel>> {
   }
 
   addQuantity({required id}) {
-    LaundryItemModel blanketsModel =
-        state.firstWhere((element) => element.id == id);
+    ItemModel blanketsModel = state.firstWhere((element) => element.id == id);
 
     if (blanketsModel.quantity! >= 10) {
       blanketsModel.quantity = 10;
@@ -64,16 +62,12 @@ class SelectedItemsNotifier extends StateNotifier<List<LaundryItemModel>> {
   }
 }
 
-
 class CategoryList {
-
-
   String? categoryid;
 
-  List<LaundryItemModel>? li;
+  List<ItemModel>? li;
   CategoryList({
     this.categoryid,
     this.li,
   });
-  
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:laundryday/models/blankets_model.dart';
+import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/models/service_types_model.dart';
 import 'package:laundryday/models/laundry_model.dart';
 import 'package:laundryday/models/service_carousel_images.dart';
@@ -90,7 +90,7 @@ class ApiServices {
                 weekNumber: 7),
           ],
           status: 'opened'),
-     
+
       LaundryModel(
           service: ServicesModel(
             vat: 15.0,
@@ -683,10 +683,9 @@ class ApiServices {
                 closeTime: TimeOfDay(hour: 0, minute: 0),
                 weekNumber: 7),
           ],
-          status: 'opened')
-   ,
+          status: 'opened'),
 
-    LaundryModel(
+      LaundryModel(
           service: ServicesModel(
               operationFee: 2.0,
               vat: 15.0,
@@ -743,19 +742,15 @@ class ApiServices {
                 weekNumber: 7),
           ],
           status: 'opened')
-   
-   
-   
-   
     ].where((element) => element.service!.id == serviceId).toList();
 
     return items;
   }
 
-  Future<List<LaundryItemModel>> getLaundryItemSubCategories(
+  Future<List<ItemModel>> getLaundryItemSubCategories(
       {required int itemId}) async {
-    List<LaundryItemModel> clothes = [
-      LaundryItemModel(
+    List<ItemModel> clothes = [
+      ItemModel(
           id: 1,
           name: 'Bed Cover Small',
           laundryId: 1,
@@ -765,7 +760,7 @@ class ApiServices {
           categoryId: 1,
           serviceId: 2,
           blanketItemId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 2,
           name: 'Bed Cover Medium',
           laundryId: 1,
@@ -775,7 +770,7 @@ class ApiServices {
           categoryId: 1,
           serviceId: 2,
           blanketItemId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 3,
           name: 'Bed Cover Large',
           laundryId: 1,
@@ -785,7 +780,7 @@ class ApiServices {
           categoryId: 1,
           serviceId: 2,
           blanketItemId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 4,
           name: 'Bed Spread Small',
           laundryId: 1,
@@ -795,7 +790,7 @@ class ApiServices {
           categoryId: 1,
           serviceId: 2,
           blanketItemId: 2),
-      LaundryItemModel(
+      ItemModel(
           id: 5,
           name: 'Bed Spread Medium',
           laundryId: 1,
@@ -805,7 +800,7 @@ class ApiServices {
           categoryId: 1,
           serviceId: 2,
           blanketItemId: 2),
-      LaundryItemModel(
+      ItemModel(
           id: 6,
           name: 'Bed Spread Large',
           laundryId: 1,
@@ -815,7 +810,7 @@ class ApiServices {
           categoryId: 1,
           serviceId: 2,
           blanketItemId: 2),
-      LaundryItemModel(
+      ItemModel(
           id: 7,
           name: 'Blanket Small',
           laundryId: 1,
@@ -825,7 +820,7 @@ class ApiServices {
           categoryId: 1,
           serviceId: 2,
           blanketItemId: 3),
-      LaundryItemModel(
+      ItemModel(
           id: 8,
           name: 'Blanket Medium',
           laundryId: 1,
@@ -835,7 +830,7 @@ class ApiServices {
           categoryId: 1,
           serviceId: 2,
           blanketItemId: 3),
-      LaundryItemModel(
+      ItemModel(
           id: 9,
           name: 'BlanketLarge',
           laundryId: 1,
@@ -845,7 +840,7 @@ class ApiServices {
           categoryId: 1,
           serviceId: 2,
           blanketItemId: 3),
-      LaundryItemModel(
+      ItemModel(
           id: 10,
           name: 'Guthra Red',
           laundryId: 1,
@@ -856,7 +851,7 @@ class ApiServices {
           categoryId: 1,
           serviceId: 1,
           blanketItemId: 12),
-      LaundryItemModel(
+      ItemModel(
           id: 11,
           name: 'Guthra White',
           laundryId: 1,
@@ -867,7 +862,7 @@ class ApiServices {
           categoryId: 1,
           serviceId: 1,
           blanketItemId: 12),
-      LaundryItemModel(
+      ItemModel(
           id: 12,
           name: 'Thobe',
           laundryId: 1,
@@ -878,7 +873,7 @@ class ApiServices {
           categoryId: 1,
           serviceId: 1,
           blanketItemId: 11),
-      LaundryItemModel(
+      ItemModel(
           id: 13,
           name: 'Scrub',
           laundryId: 1,
@@ -889,7 +884,7 @@ class ApiServices {
           categoryId: 1,
           serviceId: 1,
           blanketItemId: 26),
-      LaundryItemModel(
+      ItemModel(
           id: 14,
           name: 'Medical Trouser',
           laundryId: 1,
@@ -900,7 +895,7 @@ class ApiServices {
           categoryId: 1,
           serviceId: 1,
           blanketItemId: 26),
-      LaundryItemModel(
+      ItemModel(
           id: 15,
           name: 'Lab Coat',
           laundryId: 1,
@@ -911,7 +906,7 @@ class ApiServices {
           categoryId: 1,
           serviceId: 1,
           blanketItemId: 26),
-      LaundryItemModel(
+      ItemModel(
           id: 16,
           name: 'Security Uniform',
           laundryId: 1,
@@ -922,7 +917,7 @@ class ApiServices {
           categoryId: 1,
           serviceId: 1,
           blanketItemId: 25),
-      LaundryItemModel(
+      ItemModel(
           id: 17,
           name: 'Army Uniform',
           laundryId: 1,

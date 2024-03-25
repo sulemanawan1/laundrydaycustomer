@@ -19,9 +19,9 @@ import 'package:laundryday/utils/sized_box.dart';
 
 import 'package:laundryday/app_services/date_picker_handler.dart';
 import 'package:laundryday/utils/value_manager.dart';
-import 'package:laundryday/widgets/my_app_bar/my_app_bar.dart';
-import 'package:laundryday/widgets/my_button/my_button.dart';
-import 'package:laundryday/widgets/my_textForm%20_field/my_textform_field.dart';
+import 'package:laundryday/widgets/my_app_bar.dart';
+import 'package:laundryday/widgets/my_button.dart';
+import 'package:laundryday/widgets/my_textform_field.dart';
 
 final agentRegistrationNotifier = StateNotifierProvider.autoDispose<
     AgentRegistrationNotifier,

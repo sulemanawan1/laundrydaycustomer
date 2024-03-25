@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:laundryday/models/blankets_model.dart';
+import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/screens/blankets_and_linen/blankets_category.dart';
 
-class BlanketAndLinenNotifier extends StateNotifier<List<LaundryItemModel>> {
+class BlanketAndLinenNotifier extends StateNotifier<List<ItemModel>> {
   BlanketAndLinenNotifier({required this.ref}) : super([]);
   final Ref ref;
 
@@ -19,8 +19,7 @@ class BlanketAndLinenNotifier extends StateNotifier<List<LaundryItemModel>> {
   }
 
   removeQuantity({required id}) {
-    LaundryItemModel blanketsModel =
-        state.firstWhere((element) => element.id == id);
+    ItemModel blanketsModel = state.firstWhere((element) => element.id == id);
 
     if (blanketsModel.quantity! <= 0) {
       blanketsModel.quantity;
@@ -31,8 +30,7 @@ class BlanketAndLinenNotifier extends StateNotifier<List<LaundryItemModel>> {
   }
 
   addQuantity({required id}) {
-    LaundryItemModel blanketsModel =
-        state.firstWhere((element) => element.id == id);
+    ItemModel blanketsModel = state.firstWhere((element) => element.id == id);
 
     if (blanketsModel.quantity! >= 10) {
       blanketsModel.quantity = 10;
@@ -42,75 +40,75 @@ class BlanketAndLinenNotifier extends StateNotifier<List<LaundryItemModel>> {
     state = [...state];
   }
 
-  Future<List<LaundryItemModel>> getAllLaundryItemCategory(
+  Future<List<ItemModel>> getAllLaundryItemCategory(
       {required int serviceId, required int categoryId}) async {
     print("service Id ${serviceId.toString()}");
     print("category Id ${categoryId.toString()}");
 
     await Future.delayed(const Duration(seconds: 0));
 
-    List<LaundryItemModel> items = [
-      LaundryItemModel(
+    List<ItemModel> items = [
+      ItemModel(
           id: 1,
           image: 'assets/blankets_and_linen/Bed Cover.png',
           name: 'Bed Cover',
           serviceId: 2,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 2,
-          image : 'assets/blankets_and_linen/Bed Spread.png',
+          image: 'assets/blankets_and_linen/Bed Spread.png',
           name: 'Bed Spread',
           serviceId: 2,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 3,
           image: 'assets/blankets_and_linen/Blanket.png',
           name: 'Blanket',
           serviceId: 2,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 4,
           image: 'assets/blankets_and_linen/Pillow Case.png',
           name: 'Pillow Case',
           serviceId: 2,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 5,
           image: 'assets/blankets_and_linen/Pillow.png',
           name: 'Pillow',
           serviceId: 2,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 6,
           image: 'assets/blankets_and_linen/Sheet.png',
           name: 'Sheet',
           serviceId: 2,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 7,
           image: 'assets/blankets_and_linen/Sleeping Bag.png',
           name: 'Sleeping Bag',
           serviceId: 2,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 8,
           image: 'assets/blankets_and_linen/Sofa Cover.png',
           name: 'Sofa Cover',
           serviceId: 2,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 9,
           image: 'assets/blankets_and_linen/Table Cloth.png',
           name: 'Table Cloth',
           serviceId: 2,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 10,
           image: 'assets/blankets_and_linen/Towel.png',
           name: 'Towel',
           serviceId: 2,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 11,
           image: 'assets/clothes/laundry/Thobe.png',
           name: 'Thobe',
@@ -119,14 +117,14 @@ class BlanketAndLinenNotifier extends StateNotifier<List<LaundryItemModel>> {
 
 // Dry Cleaning
 
-      LaundryItemModel(
+      ItemModel(
           id: 12,
           image: 'assets/clothes/laundry/Guthra.png',
           name: 'Guthra',
           serviceId: 1,
           categoryId: 2),
 
-      LaundryItemModel(
+      ItemModel(
           id: 26,
           image: 'assets/clothes/laundry/Doctor Uniform.png',
           name: 'Doctor Uniform',
@@ -135,7 +133,7 @@ class BlanketAndLinenNotifier extends StateNotifier<List<LaundryItemModel>> {
 
       // pressing
 
-      LaundryItemModel(
+      ItemModel(
           id: 25,
           image: 'assets/clothes/laundry/Security Uniform.png',
           name: 'Uniforms',
@@ -144,91 +142,91 @@ class BlanketAndLinenNotifier extends StateNotifier<List<LaundryItemModel>> {
 
 // Laundry
 
-      LaundryItemModel(
+      ItemModel(
           id: 12,
           image: 'assets/clothes/laundry/Guthra.png',
           name: 'Guthra',
           serviceId: 1,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 13,
           image: 'assets/clothes/laundry/Pant.png',
           name: 'Pant',
           serviceId: 1,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 14,
           image: 'assets/clothes/laundry/Shirt & T-Shirt.png',
           name: 'Shirt & T-Shirt',
           serviceId: 1,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 15,
           image: 'assets/clothes/laundry/Cap.png',
           name: 'Cap',
           serviceId: 1,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 16,
           image: 'assets/clothes/laundry/Under Garments.png',
           name: 'Under Garments',
           serviceId: 1,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 17,
           image: 'assets/clothes/laundry/hoodie.png',
           name: 'Hoodie',
           serviceId: 1,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 18,
           image: 'assets/clothes/laundry/Jacket.png',
           name: 'Jacket',
           serviceId: 1,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 19,
           image: 'assets/clothes/laundry/Abayah.png',
           name: 'Abayah',
           serviceId: 1,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 20,
           image: 'assets/clothes/laundry/Blouse.png',
           name: 'Blouse',
           serviceId: 1,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 21,
           image: 'assets/clothes/laundry/Dress Normal.png',
           name: 'Dress Normal',
           serviceId: 1,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 22,
           image: 'assets/clothes/laundry/Night Gown.png',
           name: 'Night Gown',
           serviceId: 1,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 23,
           image: 'assets/clothes/laundry/Skirt.png',
           name: 'Skirt',
           serviceId: 1,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 24,
           image: 'assets/clothes/laundry/School Uniform.png',
           name: 'School Uniform',
           serviceId: 1,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 25,
           image: 'assets/clothes/laundry/Security Uniform.png',
           name: 'Uniforms',
           serviceId: 1,
           categoryId: 1),
-      LaundryItemModel(
+      ItemModel(
           id: 26,
           image: 'assets/clothes/laundry/Doctor Uniform.png',
           name: 'Doctor Uniform',

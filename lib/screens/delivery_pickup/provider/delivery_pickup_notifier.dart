@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/app_services/image_picker_handler.dart';
-import 'package:laundryday/models/blankets_model.dart';
+import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/models/laundry_model.dart';
 import 'package:laundryday/models/services_model.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_states.dart';
@@ -43,7 +43,7 @@ class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {
     });
   }
 
-  selectBlanketItem({required LaundryItemModel laundryItem}) {
+  selectBlanketItem({required ItemModel laundryItem}) {
     state = state.copyWith(laundryItemModel: laundryItem);
   }
 
@@ -92,7 +92,7 @@ class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {
             final iD = DateTime.now().millisecondsSinceEpoch;
 
             addItem(
-                item: LaundryItemModel(
+                item: ItemModel(
                     name: 'receipt', id: iD, image: state.image!.path));
           }
         }).onError((error, stackTrace) {
@@ -108,7 +108,7 @@ class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {
     state = state.copyWith(image: null);
   }
 
-  addItem({required LaundryItemModel item}) {
+  addItem({required ItemModel item}) {
     state.selectedItems!.add(item);
     state = state.copyWith(laundryItemList: state.laundryItemList);
   }
@@ -146,19 +146,14 @@ class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {
     state = state.copyWith(recievingMethod: recievingMethodTypes);
   }
 
-
-
-  goToOrderReview({required LaundryModel? laundryModel,required BuildContext context})
-
-  {
-
-    if (state.image== null) {
+  goToOrderReview(
+      {required LaundryModel? laundryModel, required BuildContext context}) {
+    if (state.image == null) {
       Fluttertoast.showToast(msg: 'Please select Receipt.');
     } else {
-      
       context.pushNamed(RouteNames().orderReview,
           extra: Arguments(
-            laundryModel:laundryModel,
+            laundryModel: laundryModel,
           ));
     }
   }

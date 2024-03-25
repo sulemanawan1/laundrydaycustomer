@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/models/blankets_model.dart';
+import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/models/laundry_model.dart';
 import 'package:laundryday/models/services_model.dart';
 import 'package:laundryday/screens/blankets_and_linen/blankets_category.dart';
@@ -16,9 +16,9 @@ import 'package:laundryday/screens/order_review/order_review_states.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/sized_box.dart';
-import 'package:laundryday/widgets/my_app_bar/my_app_bar.dart';
-import 'package:laundryday/widgets/my_button/my_button.dart';
-import 'package:laundryday/widgets/my_heading/heading.dart';
+import 'package:laundryday/widgets/my_app_bar.dart';
+import 'package:laundryday/widgets/my_button.dart';
+import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/payment_method_widget.dart';
 import 'package:laundryday/widgets/payment_summary_widget.dart';
 import 'package:collection/collection.dart';
@@ -46,14 +46,13 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
         widget.orderDatailsArguments.laundryModel!.service!.deliveryFee +
             widget.orderDatailsArguments.laundryModel!.service!.operationFee;
 
-    widget.orderDatailsArguments
-      .laundryModel!.service!.vat = (subtotal * 15) / 100;
+    widget.orderDatailsArguments.laundryModel!.service!.vat =
+        (subtotal * 15) / 100;
     ref.read(orderReviewProvider.notifier).state.total =
         subtotal + widget.orderDatailsArguments.laundryModel!.service!.vat;
   }
 
-  Map<int?, List<LaundryItemModel>> groupItemsByCategory(
-      List<LaundryItemModel> items) {
+  Map<int?, List<ItemModel>> groupItemsByCategory(List<ItemModel> items) {
     return groupBy(items, (items) => items.categoryId);
   }
 
@@ -61,7 +60,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
   Widget build(BuildContext context) {
     final itemsList = ref.watch(selectedItemNotifier);
     final orderItem = ref.watch(deliverPickupProvider).selectedItems;
-    Map<int?, List<LaundryItemModel>> li = groupItemsByCategory(itemsList);
+    Map<int?, List<ItemModel>> li = groupItemsByCategory(itemsList);
     // var finalAmount = ref.watch(orderReviewProvider.notifier).state.total * 100;
     var finalAmount = ref.watch(orderReviewProvider.notifier).state.total;
 
@@ -139,8 +138,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                         itemBuilder: (BuildContext context, int index) {
                           int? category = li.keys.elementAt(index);
 
-                          List<LaundryItemModel> itemsInCategory =
-                              li[category]!;
+                          List<ItemModel> itemsInCategory = li[category]!;
 
                           return Column(
                             children: [
@@ -321,7 +319,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
   }
 
   Widget groupItemCard(
-      {required LaundryItemModel element,
+      {required ItemModel element,
       required Color color,
       required Color buttonColor}) {
     return Container(

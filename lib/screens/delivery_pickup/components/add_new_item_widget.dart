@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/models/blankets_model.dart';
+import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
@@ -23,7 +23,7 @@ class AddNewItemWidget extends ConsumerWidget {
         if (selectedItem == null || quantity == 0) {
           Fluttertoast.showToast(msg: 'Select an Item');
         } else {
-          final LaundryItemModel item = LaundryItemModel(
+          final ItemModel item = ItemModel(
               id: selectedItem.id, name: selectedItem.name, quantity: quantity);
 
           ref.read(deliverPickupProvider.notifier).addItem(item: item);

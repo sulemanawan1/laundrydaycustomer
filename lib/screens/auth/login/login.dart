@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/Widgets/my_heading/heading.dart';
-import 'package:laundryday/Widgets/my_textForm%20_field/my_textform_field.dart';
 import 'package:laundryday/helpers/validation_helper/validation_helper.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/value_manager.dart';
-import 'package:laundryday/widgets/my_button/my_button.dart';
+import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/widgets/my_button.dart';
+import 'package:laundryday/widgets/my_textform_field.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});

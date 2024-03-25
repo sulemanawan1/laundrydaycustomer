@@ -10,7 +10,7 @@ import 'package:laundryday/screens/more/help/business_partner/notifier/business_
 import 'package:laundryday/screens/more/help/business_partner/notifier/business_partner_state.dart';
 import 'package:laundryday/screens/more/help/business_partner/notifier/business_partner_textformfields.dart';
 import 'package:laundryday/utils/colors.dart';
-import 'package:laundryday/widgets/my_app_bar/my_app_bar.dart';
+import 'package:laundryday/widgets/my_app_bar.dart';
 
 final bussinessPartnerProvider = StateNotifierProvider.autoDispose<
     BusinessPartnerNotifier,

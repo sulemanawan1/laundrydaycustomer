@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/Widgets/my_heading/heading.dart';
-import 'package:laundryday/models/blankets_model.dart';
+import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/models/laundry_model.dart';
 import 'package:laundryday/models/services_model.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
@@ -21,8 +20,9 @@ import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/value_manager.dart';
-import 'package:laundryday/widgets/my_app_bar/my_app_bar.dart';
-import 'package:laundryday/widgets/my_button/my_button.dart';
+import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/widgets/my_app_bar.dart';
+import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/reusable_laundry_detail_card.dart';
 
 enum RecievingMethodTypes { outsidedoor, dooroftheapartment }
@@ -90,7 +90,8 @@ class _DeliveryPickupState extends ConsumerState<DeliveryPickup> {
                   ),
                 ),
                 NextWiget(
-                  laundryModel: widget.arguments!.laundryModel!,constraints: constraints,
+                  laundryModel: widget.arguments!.laundryModel!,
+                  constraints: constraints,
                 )
               ],
             ),
@@ -105,7 +106,7 @@ class NextWiget extends ConsumerWidget {
   final LaundryModel laundryModel;
   BoxConstraints constraints;
 
-  NextWiget({super.key, required this.laundryModel,required this.constraints});
+  NextWiget({super.key, required this.laundryModel, required this.constraints});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -198,16 +199,15 @@ class ItemListWidget extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(4),
                           border: Border.all(
                               color: ColorManager.greyColor, width: 0.4)),
-                      child: DropdownButton<LaundryItemModel>(
+                      child: DropdownButton<ItemModel>(
                         padding: const EdgeInsets.only(left: AppPadding.p10),
                         underline: const SizedBox(),
                         hint: const Text('Select Item'),
                         elevation: 8,
                         isExpanded: true,
                         menuMaxHeight: 500,
-                        items:
-                            laundryItemList!.map((LaundryItemModel? orderItem) {
-                          return DropdownMenuItem<LaundryItemModel>(
+                        items: laundryItemList!.map((ItemModel? orderItem) {
+                          return DropdownMenuItem<ItemModel>(
                             value: orderItem,
                             child: Text(
                               orderItem?.name.toString() ?? "",
@@ -215,7 +215,7 @@ class ItemListWidget extends ConsumerWidget {
                             ),
                           );
                         }).toList(),
-                        onChanged: (LaundryItemModel? val) {
+                        onChanged: (ItemModel? val) {
                           log(val.toString());
 
                           ref

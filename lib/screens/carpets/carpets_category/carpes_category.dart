@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/Widgets/my_heading/heading.dart';
 import 'package:laundryday/helpers/db_helper.dart';
 import 'package:laundryday/models/carpet.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
@@ -17,8 +16,9 @@ import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/screens/carpets/carpets_category/notifier/carpet_list_notifier.dart';
 import 'package:laundryday/screens/carpets/carpets_category/notifier/quantity_notifier.dart';
-import 'package:laundryday/widgets/my_app_bar/my_app_bar.dart';
-import 'package:laundryday/widgets/my_button/my_button.dart';
+import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/widgets/my_app_bar.dart';
+import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/reusable_checkout_card.dart';
 
 class CarpetsCategory extends ConsumerStatefulWidget {

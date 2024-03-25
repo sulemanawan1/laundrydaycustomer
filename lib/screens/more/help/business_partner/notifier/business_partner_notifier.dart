@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/app_services/image_picker_handler.dart';
 import 'package:laundryday/models/city.dart';
 import 'package:laundryday/models/services_model.dart';
-import 'package:laundryday/models/state.dart';
+import 'package:laundryday/models/regions.dart';
 import 'package:laundryday/screens/more/help/business_partner/models/bussiness_partner_model.dart';
 import 'package:laundryday/screens/more/help/business_partner/notifier/business_partner_state.dart';
 import 'package:laundryday/screens/more/help/business_partner/notifier/business_partner_textformfields.dart';

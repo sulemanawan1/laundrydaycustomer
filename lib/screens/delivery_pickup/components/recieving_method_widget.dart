@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/screens/delivery_pickup/components/extra_quantity_charges_widget.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
-import 'package:laundryday/widgets/my_heading/heading.dart';
+import 'package:laundryday/widgets/heading.dart';
 
 class RecievingMethod extends ConsumerWidget {
   RecievingMethod({super.key});

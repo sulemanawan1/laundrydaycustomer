@@ -14,9 +14,9 @@ import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/screens/carpets/carpets_category/notifier/quantity_notifier.dart';
 import 'package:laundryday/screens/carpet_order_checkout/notifiers/item_list_notifier.dart';
-import 'package:laundryday/widgets/my_app_bar/my_app_bar.dart';
-import 'package:laundryday/widgets/my_button/my_button.dart';
-import 'package:laundryday/widgets/my_heading/heading.dart';
+import 'package:laundryday/widgets/my_app_bar.dart';
+import 'package:laundryday/widgets/my_button.dart';
+import 'package:laundryday/widgets/heading.dart';
 
 // ignore: must_be_immutable
 class CarpetOrderCheckout extends ConsumerStatefulWidget {

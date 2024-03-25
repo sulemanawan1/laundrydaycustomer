@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/Widgets/my_heading/heading.dart';
 import 'package:laundryday/models/carpet.dart';
 import 'package:laundryday/models/carpet_category_laundry.dart';
 import 'package:laundryday/models/services_model.dart';
@@ -12,7 +11,8 @@ import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/screens/carpets/carpet_service_detail/notifier/laundry_list_notifier.dart';
-import 'package:laundryday/widgets/my_carousel/my_carousel.dart';
+import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/widgets/my_carousel.dart';
 
 class CarpetServiceDetail extends ConsumerStatefulWidget {
   ServicesModel? services;

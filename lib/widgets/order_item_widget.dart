@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:laundryday/models/blankets_model.dart';
+import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/utils/sized_box.dart';
-import 'package:laundryday/widgets/my_heading/heading.dart';
+import 'package:laundryday/widgets/heading.dart';
 
 class OrderItemWidget extends StatelessWidget {
-  final List<LaundryItemModel> items;
+  final List<ItemModel> items;
   const OrderItemWidget({super.key, required this.items});
 
   @override

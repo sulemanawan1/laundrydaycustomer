@@ -1,12 +1,12 @@
 import 'package:image_picker/image_picker.dart';
 
-import 'package:laundryday/models/blankets_model.dart';
+import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 
 class DeliveryPickupStates {
-  LaundryItemModel? laundryItemModel;
-  List<LaundryItemModel>? laundryItemList;
-  List<LaundryItemModel>? selectedItems;
+  ItemModel? laundryItemModel;
+  List<ItemModel>? laundryItemList;
+  List<ItemModel>? selectedItems;
   RecievingMethodTypes? recievingMethod;
   XFile? image;
   int? quanitiy;
@@ -19,9 +19,9 @@ class DeliveryPickupStates {
       this.recievingMethod});
 
   DeliveryPickupStates copyWith({
-    LaundryItemModel? laundryItemModel,
-    List<LaundryItemModel>? laundryItemList,
-    List<LaundryItemModel>? selectedItems,
+    ItemModel? laundryItemModel,
+    List<ItemModel>? laundryItemList,
+    List<ItemModel>? selectedItems,
     RecievingMethodTypes? recievingMethod,
     XFile? image,
     int? quanitiy,

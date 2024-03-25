@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/app_services/api_services.dart';
-import 'package:laundryday/models/blankets_model.dart';
+import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/models/laundry_model.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/blankets_and_linen/provider/blanket_and_linen_notifier.dart';
@@ -16,21 +16,21 @@ import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/utils.dart';
 import 'package:laundryday/utils/value_manager.dart';
-import 'package:laundryday/widgets/my_heading/heading.dart';
-import 'package:laundryday/widgets/my_loader/my_loader.dart';
+import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/widgets/my_loader.dart';
 import 'package:laundryday/widgets/reusable_checkout_card.dart';
-import 'package:laundryday/widgets/reusable_service_category_tab_bar.dart';
+import 'package:laundryday/widgets/reusable_service_category_tab_bar_widget.dart';
 import 'package:laundryday/widgets/reuseable_laundry_detail_banner_card.dart';
 
 final blanketAndLinenFakeApiProvider =
     Provider<ApiServices>((ref) => ApiServices());
 
-final blanketAndLinenProvider = StateNotifierProvider.autoDispose<
-    BlanketAndLinenNotifier,
-    List<LaundryItemModel>>((ref) => BlanketAndLinenNotifier(ref: ref));
+final blanketAndLinenProvider =
+    StateNotifierProvider.autoDispose<BlanketAndLinenNotifier, List<ItemModel>>(
+        (ref) => BlanketAndLinenNotifier(ref: ref));
 
 final selectedItemNotifier =
-    StateNotifierProvider<SelectedItemsNotifier, List<LaundryItemModel>>(
+    StateNotifierProvider<SelectedItemsNotifier, List<ItemModel>>(
         (ref) => SelectedItemsNotifier(ref: ref));
 
 final selectedItemsCountNotifier =
@@ -70,12 +70,8 @@ class _BlanketsCategoryState extends ConsumerState<BlanketsCategory>
 
     return Scaffold(
         body: Column(children: [
-
-
-          
       ReusabelLaundryDetailBannerCard(laundryModel: widget.laundry!),
       30.ph,
-
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
         child: Container(
@@ -144,7 +140,6 @@ class _BlanketsCategoryState extends ConsumerState<BlanketsCategory>
           ),
         ),
       ),
-
       10.ph,
       widget.laundry!.seviceTypes!.length == 1
           ? const SizedBox()
@@ -154,7 +149,6 @@ class _BlanketsCategoryState extends ConsumerState<BlanketsCategory>
               },
               list: widget.laundry!.seviceTypes,
               tabController: tabController),
-
       Expanded(
         child: FutureBuilder(
             future: ref
@@ -163,7 +157,7 @@ class _BlanketsCategoryState extends ConsumerState<BlanketsCategory>
                     serviceId: widget.laundry!.service!.id,
                     categoryId: widget.laundry!.seviceTypes![index].id!),
             builder: (BuildContext context,
-                AsyncSnapshot<List<LaundryItemModel>> snapshot) {
+                AsyncSnapshot<List<ItemModel>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Loader();
               } else if (snapshot.hasError) {
@@ -176,22 +170,6 @@ class _BlanketsCategoryState extends ConsumerState<BlanketsCategory>
               return const Loader();
             }),
       ),
-//       ref
-//           .watch(blanketAndLinenItemsProvider(
-
-//             Ids(serviceId: widget.laundry!.categories[index].serviceId!, categoryId:  widget.laundry!.categories[index].id!)
-// ,
-//           ))
-//           .when(
-//               data: (data) {
-//                 return Expanded(
-//                   child: _blanketAndLinenItemCard(
-//                     item: data,
-//                   ),
-//                 );
-//               },
-//               error: (error, stackTrace) => const Loader(),
-//               loading: () => const Loader()),
       count > 0
           ? ReusableCheckOutCard(
               onPressed: () {
@@ -208,7 +186,7 @@ class _BlanketsCategoryState extends ConsumerState<BlanketsCategory>
     ]));
   }
 
-  Widget _blanketAndLinenItemCard({required List<LaundryItemModel> item}) {
+  Widget _blanketAndLinenItemCard({required List<ItemModel> item}) {
     return GridView.builder(
       shrinkWrap: true,
       itemCount: item.length,
@@ -248,7 +226,7 @@ class _BlanketsCategoryState extends ConsumerState<BlanketsCategory>
   }
 
   Widget _blanketCard(
-      {void Function()? onTap, required LaundryItemModel blanketItem}) {
+      {void Function()? onTap, required ItemModel blanketItem}) {
     return badges.Badge(
       position: badges.BadgePosition.topEnd(top: 8, end: 8),
       badgeContent: Padding(
@@ -296,7 +274,7 @@ class _BlanketsCategoryState extends ConsumerState<BlanketsCategory>
   }
 
   Widget _blanketBottomSheetItem(
-      {required WidgetRef reff, required LaundryItemModel item}) {
+      {required WidgetRef reff, required ItemModel item}) {
     final blankets = reff.watch(blanketAndLinenProvider);
     final loader = reff.watch(isLoadingProductsProvider);
 
@@ -415,7 +393,7 @@ class _BlanketsCategoryState extends ConsumerState<BlanketsCategory>
 
   Widget quantityAddRemoveCard(
       {required BuildContext context,
-      required LaundryItemModel blankets,
+      required ItemModel blankets,
       required void Function()? onTapRemoveQuantity,
       required void Function()? onTapAddQuantity}) {
     return Container(

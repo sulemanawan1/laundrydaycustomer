@@ -7,7 +7,7 @@ import 'package:laundryday/screens/blankets_and_linen/blankets_category.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/sized_box.dart';
-import 'package:laundryday/widgets/my_app_bar/my_app_bar.dart';
+import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/order_item_widget.dart';
 import 'package:laundryday/widgets/payment_method_widget.dart';
 import 'package:laundryday/widgets/payment_summary_widget.dart';

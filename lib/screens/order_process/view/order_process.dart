@@ -23,10 +23,10 @@ import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/utils.dart';
 import 'package:laundryday/widgets/map_icon_widget.dart';
-import 'package:laundryday/widgets/my_app_bar/my_app_bar.dart';
-import 'package:laundryday/widgets/my_button/my_button.dart';
-import 'package:laundryday/widgets/my_heading/heading.dart';
-import 'package:laundryday/widgets/my_loader/my_loader.dart';
+import 'package:laundryday/widgets/my_app_bar.dart';
+import 'package:laundryday/widgets/my_button.dart';
+import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/widgets/my_loader.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final orderProcessProvider =

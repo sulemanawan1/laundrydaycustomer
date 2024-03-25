@@ -11,9 +11,9 @@ import 'package:laundryday/screens/more/addresses/add_new_address/add_address_st
 import 'package:laundryday/screens/more/addresses/add_new_address/notifiers/add_new_address_notifier.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
-import 'package:laundryday/widgets/my_app_bar/my_app_bar.dart';
-import 'package:laundryday/widgets/my_button/my_button.dart';
-import 'package:laundryday/widgets/my_textForm%20_field/my_textform_field.dart';
+import 'package:laundryday/widgets/my_app_bar.dart';
+import 'package:laundryday/widgets/my_button.dart';
+import 'package:laundryday/widgets/my_textform_field.dart';
 
 final addAddressNotifier =
     StateNotifierProvider.autoDispose<AddAddressNotifier, AddAddressState?>(

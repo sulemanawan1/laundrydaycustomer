@@ -5,7 +5,7 @@ import 'package:laundryday/screens/add_new_card.dart/add_new_card.dart';
 import 'package:laundryday/screens/auth/login/login.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/auth/verification/verification.dart';
-import 'package:laundryday/screens/blankets_and_linen/blanket_and_linen_service_detail.dart';
+import 'package:laundryday/screens/blankets_and_linen/view/blanket_and_linen_service_detail.dart';
 import 'package:laundryday/screens/blankets_and_linen/blankets_category.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/delivery_pickup/components/view_image.dart';
@@ -13,7 +13,7 @@ import 'package:laundryday/screens/carpets/carpet_service_detail/carpet_service_
 import 'package:laundryday/screens/laundry_care_guide/laundry_care_guide.dart';
 import 'package:laundryday/screens/more/payment_options/payment_options.dart';
 import 'package:laundryday/screens/order_review/order_review.dart';
-import 'package:laundryday/screens/find_courier/find_courier.dart';
+import 'package:laundryday/screens/find_courier/view/find_courier.dart';
 import 'package:laundryday/screens/invoice/invoice.dart';
 import 'package:laundryday/screens/order_chat/order_chat.dart';
 import 'package:laundryday/screens/order_checkout/order_checkout.dart';

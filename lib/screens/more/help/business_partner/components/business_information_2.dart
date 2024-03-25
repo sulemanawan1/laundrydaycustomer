@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:laundryday/Widgets/my_textForm%20_field/my_textform_field.dart';
 import 'package:laundryday/helpers/validation_helper/validation_helper.dart';
 import 'package:laundryday/screens/more/help/business_partner/components/commercial_registration_image_widget.dart';
 import 'package:laundryday/screens/more/help/business_partner/notifier/business_partner_textformfields.dart';
 import 'package:laundryday/screens/more/help/business_partner/view/business_partner.dart';
 import 'package:laundryday/utils/sized_box.dart';
-import 'package:laundryday/widgets/my_heading/heading.dart';
+import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/widgets/my_textform_field.dart';
 
 class BusinessInformation2 extends ConsumerWidget {
   const BusinessInformation2({super.key});

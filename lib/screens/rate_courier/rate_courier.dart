@@ -4,9 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
-import 'package:laundryday/widgets/my_app_bar/my_app_bar.dart';
-import 'package:laundryday/widgets/my_button/my_button.dart';
-import 'package:laundryday/widgets/my_heading/heading.dart';
+import 'package:laundryday/widgets/my_app_bar.dart';
+import 'package:laundryday/widgets/my_button.dart';
+import 'package:laundryday/widgets/heading.dart';
 
 class RateCourier extends StatefulWidget {
   const RateCourier({super.key});
