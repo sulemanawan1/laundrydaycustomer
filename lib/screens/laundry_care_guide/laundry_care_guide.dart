@@ -8,23 +8,18 @@ class LaundryCareGuilde extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.white,
-      appBar: MyAppBar(title: 'Laundry Care Guide',),
-    body: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-        20.ph,
-        Image.asset('assets/laundry_care_guide.JPG')
-        
-      
-      
-        
-      ],),
-    ),
-    
-    
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: MyAppBar(
+        title: 'Laundry Care Guide',
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [20.ph, Image.asset('assets/laundry_care_guide.JPG')],
+        ),
+      ),
     );
   }
 }
