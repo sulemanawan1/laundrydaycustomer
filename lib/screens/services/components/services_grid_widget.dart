@@ -72,7 +72,7 @@ class ServicesGrid extends ConsumerWidget {
                       Text(
                         services[index].name.toString(),
                         style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500, fontSize: 18),
+                            fontWeight: FontWeight.w600, fontSize: 18),
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,

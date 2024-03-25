@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/font_manager.dart';
 
 class Heading extends StatelessWidget {
   final String text;
@@ -15,7 +16,7 @@ class Heading extends StatelessWidget {
       style: GoogleFonts.poppins(
           color: color ??ColorManager. blackColor,
           fontSize: 16,
-          fontWeight: FontWeight.w500),
+          fontWeight: FontWeightManager.semiBold),
     );
   }
 }

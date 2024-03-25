@@ -10,7 +10,6 @@ import 'package:laundryday/app_services/image_picker_handler.dart';
 import 'package:laundryday/models/blankets_model.dart';
 import 'package:laundryday/models/laundry_model.dart';
 import 'package:laundryday/models/services_model.dart';
-import 'package:laundryday/screens/delivery_pickup/components/recieving_method_widget.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_states.dart';
 import 'package:laundryday/screens/delivery_pickup/services/delivery_pickup_services.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';

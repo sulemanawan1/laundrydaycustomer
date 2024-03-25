@@ -6,7 +6,12 @@ class BusinessPartnerState {
   
 
   List<ServicesModel> items = [];
-  int? currentStep;
+  int currentStep;
+    int regionId;
+
+    String type;
+
+
   XFile? image;
   String? categoryType;
   List<ServicesModel> selectedItems = [];
@@ -15,9 +20,11 @@ class BusinessPartnerState {
   BusinessPartnerState(
       {required this.items,
       required this.currentStep,
+      required this.type,
       required this.categoryType,
       required this.selectedItems,
       required this.image,
+      required this.regionId,
       required this.laundriesList
       });
 
@@ -26,13 +33,18 @@ class BusinessPartnerState {
     XFile? image,
     int? currentStep,
     String? categoryType,
+        String? type,
+
+    int? regionId,
     List<ServicesModel>? selectedItems,
       List<LaundryBusinessModel>? laundriesList 
 
   }) {
     return BusinessPartnerState(
+      regionId: regionId??this.regionId,
       items: items ?? this.items,
       image: image ?? this.image,
+      type: type??this.type,
       currentStep: currentStep ?? this.currentStep,
       categoryType: categoryType ?? this.categoryType,
       selectedItems: selectedItems ?? this.selectedItems,

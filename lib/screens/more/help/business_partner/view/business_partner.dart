@@ -24,12 +24,16 @@ class BusinessPartner extends ConsumerStatefulWidget {
 }
 
 class _BusinessPartnerState extends ConsumerState<BusinessPartner> {
-  
-  int currentStep = 0;
   @override
   Widget build(BuildContext context) {
+    var currentStep = ref.watch(businessPartnerProvider).currentStep;
+
     return Scaffold(
       appBar: MyAppBar(
+        onPressed: () {
+          BusinessPartnerTextFormFields.cleartAllTextFormFields();
+          context.pop();
+        },
         title: 'Laundry Day Business',
       ),
       body: Theme(
@@ -72,22 +76,14 @@ class _BusinessPartnerState extends ConsumerState<BusinessPartner> {
                 return Colors.grey;
               }),
               onStepContinue: () {
-                if (currentStep < 3) {
-                  currentStep++;
-                  setState(() {});
-                }
+                ref
+                    .read(businessPartnerProvider.notifier)
+                    .onStepContinue(context: context);
               },
               onStepCancel: () {
-                if (currentStep <= 0) {
-                  currentStep = 0;
-                  context.pop();
-                      // BusinessPartnerTextFormFields.disposeController();
-
-                } else {
-                  currentStep--;
-
-                  setState(() {});
-                }
+                ref
+                    .read(businessPartnerProvider.notifier)
+                    .onStepCancel(context: context);
               },
               type: StepperType.horizontal,
               steps: [
@@ -97,7 +93,7 @@ class _BusinessPartnerState extends ConsumerState<BusinessPartner> {
                     content: BusinessInformation()),
                 Step(
                     title: const SizedBox(),
-                    content: BusinessInformation2(),
+                    content: const BusinessInformation2(),
                     isActive: currentStep >= 1 ? true : false),
                 Step(
                     title: const SizedBox(),

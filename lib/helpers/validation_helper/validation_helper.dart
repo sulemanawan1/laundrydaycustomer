@@ -30,7 +30,7 @@ class ValidationHelper {
     int phoneNumberLength = cleanedPhoneNumber.length;
     if (phoneNumberLength == 0) {
       return 'Please Enter Phone Number';
-    } else if (phoneNumberLength != 10 && phoneNumberLength != 11) {
+    } else if (phoneNumberLength <9) {
       return 'Invalid Phone Number !';
     }
 

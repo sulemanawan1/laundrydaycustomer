@@ -90,6 +90,7 @@ class ApiServices {
                 weekNumber: 7),
           ],
           status: 'opened'),
+     
       LaundryModel(
           service: ServicesModel(
             vat: 15.0,
@@ -153,6 +154,301 @@ class ApiServices {
                 weekNumber: 7),
           ],
           status: 'closed'),
+      LaundryModel(
+          service: ServicesModel(
+              vat: 15.0,
+              id: 1,
+              name: 'Clothes',
+              deliveryFee: 14.0,
+              operationFee: 2.0,
+              image: 'assets/services_clothing.jpg',
+              images: [
+                // ServiceCarouselImage(image: 'assets/clothes_1.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_2.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_3.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_4.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_5.jpg'),
+              ]),
+          lat: 24.2,
+          lng: 44.5,
+          rating: 5.0,
+          address: "Riyadh, 12232",
+          userRatingTotal: 25,
+          id: 2,
+          name: 'Haadi  Laundrys',
+          placeId: "#place1",
+          logo: 'assets/clothing_services_icons.png',
+          banner: 'assets/category_banner/clothes_banner.jpg',
+          distance: 2.1,
+          type: 'deliverypickup',
+          seviceTypes: [],
+          timeslot: [
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 1),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 2),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 3),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 4),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 5),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 6),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 7),
+          ],
+          status: 'opened'),
+      LaundryModel(
+          service: ServicesModel(
+              vat: 15.0,
+              id: 1,
+              name: 'Clothes',
+              deliveryFee: 14.0,
+              operationFee: 2.0,
+              image: 'assets/services_clothing.jpg',
+              images: [
+                // ServiceCarouselImage(image: 'assets/clothes_1.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_2.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_3.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_4.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_5.jpg'),
+              ]),
+          lat: 24.2,
+          lng: 44.5,
+          rating: 5.0,
+          address: "Riyadh, 12232",
+          userRatingTotal: 25,
+          id: 2,
+          name: 'Haadi  Laundrys',
+          placeId: "#place1",
+          logo: 'assets/clothing_services_icons.png',
+          banner: 'assets/category_banner/clothes_banner.jpg',
+          distance: 2.1,
+          type: 'deliverypickup',
+          seviceTypes: [],
+          timeslot: [
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 1),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 2),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 3),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 4),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 5),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 6),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 7),
+          ],
+          status: 'opened'),
+      LaundryModel(
+          service: ServicesModel(
+              vat: 15.0,
+              id: 1,
+              name: 'Clothes',
+              deliveryFee: 14.0,
+              operationFee: 2.0,
+              image: 'assets/services_clothing.jpg',
+              images: [
+                // ServiceCarouselImage(image: 'assets/clothes_1.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_2.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_3.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_4.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_5.jpg'),
+              ]),
+          lat: 24.2,
+          lng: 44.5,
+          rating: 5.0,
+          address: "Riyadh, 12232",
+          userRatingTotal: 25,
+          id: 2,
+          name: 'Haadi  Laundrys',
+          placeId: "#place1",
+          logo: 'assets/clothing_services_icons.png',
+          banner: 'assets/category_banner/clothes_banner.jpg',
+          distance: 2.1,
+          type: 'deliverypickup',
+          seviceTypes: [],
+          timeslot: [
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 1),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 2),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 3),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 4),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 5),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 6),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 7),
+          ],
+          status: 'opened'),
+      LaundryModel(
+          service: ServicesModel(
+              vat: 15.0,
+              id: 1,
+              name: 'Clothes',
+              deliveryFee: 14.0,
+              operationFee: 2.0,
+              image: 'assets/services_clothing.jpg',
+              images: [
+                // ServiceCarouselImage(image: 'assets/clothes_1.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_2.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_3.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_4.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_5.jpg'),
+              ]),
+          lat: 24.2,
+          lng: 44.5,
+          rating: 5.0,
+          address: "Riyadh, 12232",
+          userRatingTotal: 25,
+          id: 2,
+          name: 'Haadi  Laundrys',
+          placeId: "#place1",
+          logo: 'assets/clothing_services_icons.png',
+          banner: 'assets/category_banner/clothes_banner.jpg',
+          distance: 2.1,
+          type: 'deliverypickup',
+          seviceTypes: [],
+          timeslot: [
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 1),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 2),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 3),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 4),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 5),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 6),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 7),
+          ],
+          status: 'opened'),
+      LaundryModel(
+          service: ServicesModel(
+              vat: 15.0,
+              id: 1,
+              name: 'Clothes',
+              deliveryFee: 14.0,
+              operationFee: 2.0,
+              image: 'assets/services_clothing.jpg',
+              images: [
+                // ServiceCarouselImage(image: 'assets/clothes_1.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_2.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_3.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_4.jpg'),
+                // ServiceCarouselImage(image: 'assets/clothes_5.jpg'),
+              ]),
+          lat: 24.2,
+          lng: 44.5,
+          rating: 5.0,
+          address: "Riyadh, 12232",
+          userRatingTotal: 25,
+          id: 2,
+          name: 'Haadi  Laundrys',
+          placeId: "#place1",
+          logo: 'assets/clothing_services_icons.png',
+          banner: 'assets/category_banner/clothes_banner.jpg',
+          distance: 2.1,
+          type: 'deliverypickup',
+          seviceTypes: [],
+          timeslot: [
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 1),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 2),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 3),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 4),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 5),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 6),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 7),
+          ],
+          status: 'opened'),
       LaundryModel(
           service: ServicesModel(
               vat: 15.0,
@@ -388,6 +684,69 @@ class ApiServices {
                 weekNumber: 7),
           ],
           status: 'opened')
+   ,
+
+    LaundryModel(
+          service: ServicesModel(
+              operationFee: 2.0,
+              vat: 15.0,
+              id: 2,
+              deliveryFee: 18.0,
+              name: 'Blankets',
+              image: 'assets/services_blankets.jpg',
+              images: [
+                ServiceCarouselImage(image: 'assets/blankets_1.jpg'),
+                ServiceCarouselImage(image: 'assets/blankets_2.jpg'),
+              ]),
+          lat: 24.2,
+          lng: 44.5,
+          rating: 5.0,
+          address:
+              "4135 Ibn Taymeeyah Rd, حي المروة, RLMA6432, 6432, Riyadh 14721",
+          userRatingTotal: 25,
+          id: 2,
+          name: 'Mahazed Laundry',
+          placeId: "#place1",
+          logo: 'assets/clothing_services_icons.png',
+          banner: 'assets/blanket_and_linen_banner.jpg',
+          distance: 3.0,
+          type: 'deliverypickup',
+          seviceTypes: [],
+          timeslot: [
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 1),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 2),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 3),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 4),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 5),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 6),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 7),
+          ],
+          status: 'opened')
+   
+   
+   
+   
     ].where((element) => element.service!.id == serviceId).toList();
 
     return items;

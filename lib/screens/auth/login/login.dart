@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/Widgets/my_heading/heading.dart';
@@ -53,11 +54,15 @@ class Login extends StatelessWidget {
                       ),
                       10.ph,
                       MyTextFormField(
+                         textInputType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                  
                         textColor: ColorManager.whiteColor,
                         fillColor: ColorManager.tranparentColor,
                         hintTextColor: ColorManager.whiteColor,
                         labelTextColor: ColorManager.whiteColor,
-                        textInputType: TextInputType.number,
                         maxLength: 9,
                         controller: phoneNumberController,
                         validator: ValidationHelper().validatePhoneNumber,

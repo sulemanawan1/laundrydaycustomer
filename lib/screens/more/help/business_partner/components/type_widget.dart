@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:laundryday/screens/more/help/business_partner/notifier/business_partner_notifier.dart';
 import 'package:laundryday/utils/colors.dart';
 
-class TypeWidget extends StatelessWidget {
+class TypeWidget extends ConsumerWidget {
   const TypeWidget({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return DropdownMenu(
         inputDecorationTheme: InputDecorationTheme(
           errorStyle: GoogleFonts.poppins(
@@ -32,8 +34,7 @@ class TypeWidget extends StatelessWidget {
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
-            borderSide:
-                const BorderSide(color: Color(0xffEEEEEE), width: 1.5),
+            borderSide: const BorderSide(color: Color(0xffEEEEEE), width: 1.5),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
@@ -64,12 +65,11 @@ class TypeWidget extends StatelessWidget {
             backgroundColor: MaterialStateColor.resolveWith(
                 (states) => ColorManager.whiteColor)),
         onSelected: (val) {
-          
+          ref.read(businessPartnerProvider.notifier).setType(type: val!);
         },
         dropdownMenuEntries: const [
           DropdownMenuEntry(value: 'Laundry', label: 'Laundry'),
-          DropdownMenuEntry(
-              value: 'Central Laundry', label: 'Central Laundry')
+          DropdownMenuEntry(value: 'Central Laundry', label: 'Central Laundry')
         ]);
   }
 }

@@ -8,25 +8,39 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   void Function()? onPressed;
   List<Widget>? actions;
+  Color? backgroundColor;
 
+  Color? iconColor;
   bool isLeading;
   MyAppBar(
-      {super.key, required this.title, this.isLeading = true, this.onPressed,this.actions});
+      {super.key,
+      required this.title,
+      this.iconColor,
+      this.backgroundColor,
+      this.isLeading = true,
+      this.onPressed,
+      this.actions});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+
         automaticallyImplyLeading: isLeading,
-        iconTheme:  IconThemeData(color: ColorManager. primaryColor),
+        
+        iconTheme: IconThemeData(color:iconColor?? ColorManager.primaryColor),
         elevation: 0,
-        backgroundColor: const Color.fromRGBO(241, 240, 245, 1),
+        backgroundColor:
+            backgroundColor ??  ColorManager.backgroundColor,
         centerTitle: true,
         title: Text(
-          title!,
+          title ?? "",
           style: GoogleFonts.poppins(
-              color: ColorManager. blackColor, fontSize: 16, fontWeight: FontWeight.w600),
+              color: ColorManager.blackColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w600),
         ),
         actions: actions,
+        
         leading: isLeading
             ? IconButton(
                 onPressed: onPressed ??
@@ -35,7 +49,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     },
                 icon: const Icon(Icons.arrow_back_ios),
               )
-            : null);
+            : const SizedBox());
   }
 
   @override

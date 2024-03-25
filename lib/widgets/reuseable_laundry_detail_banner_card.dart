@@ -41,6 +41,8 @@ class ReusabelLaundryDetailBannerCard extends StatelessWidget {
                 )),
           ),
         ),
+        
+        
         Positioned(
           left: 20,
           top: 160,

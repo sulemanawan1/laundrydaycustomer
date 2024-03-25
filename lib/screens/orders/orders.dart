@@ -27,16 +27,15 @@ class _OrdersState extends State<Orders> {
         title: 'Orders',
         isLeading: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Heading(text: 'Ongoing Orders'),
-          10.ph,
-          Expanded(
-            flex: 2,
-            child: ListView.separated(
+      body:
+         Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            const Heading(text: 'Ongoing Orders'),10.ph,
+            ListView.separated(
               separatorBuilder: (context, index) => 10.ph,
-              itemCount: 3,
+              itemCount: 4,
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
                 return _orderTile2(onTap: () {
@@ -49,11 +48,16 @@ class _OrdersState extends State<Orders> {
                         operationFee: 2.0,
                         image: 'assets/services_clothing.jpg',
                         images: [
-                          ServiceCarouselImage(image: 'assets/clothes_1.jpg'),
-                          ServiceCarouselImage(image: 'assets/clothes_2.jpg'),
-                          ServiceCarouselImage(image: 'assets/clothes_3.jpg'),
-                          ServiceCarouselImage(image: 'assets/clothes_4.jpg'),
-                          ServiceCarouselImage(image: 'assets/clothes_5.jpg'),
+                          ServiceCarouselImage(
+                              image: 'assets/clothes_1.jpg'),
+                          ServiceCarouselImage(
+                              image: 'assets/clothes_2.jpg'),
+                          ServiceCarouselImage(
+                              image: 'assets/clothes_3.jpg'),
+                          ServiceCarouselImage(
+                              image: 'assets/clothes_4.jpg'),
+                          ServiceCarouselImage(
+                              image: 'assets/clothes_5.jpg'),
                         ],
                       ),
                       lat: 24.2,
@@ -105,33 +109,33 @@ class _OrdersState extends State<Orders> {
                             weekNumber: 7),
                       ],
                       status: 'closed');
-
-                  Arguments arguments = Arguments(laundryModel: laundryModel);
-
+                        
+                  Arguments arguments =
+                      Arguments(laundryModel: laundryModel);
+                        
                   context.pushNamed(RouteNames().orderProcess,
                       extra: arguments);
                 });
               },
             ),
-          ),
-          10.ph,
-          const Heading(text: 'Order Again'),
-          10.ph,
-          Expanded(
-            flex: 4,
-            child: ListView.separated(
-              separatorBuilder: (context, index) => 10.ph,
-              itemCount: 10,
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                return _orderTile(onTap: () {
-                  context.pushNamed(RouteNames().orderSummary);
-                });
-              },
+            10.ph,
+            const Heading(text: 'Order Again'),
+            10.ph,
+            Expanded(
+              child: ListView.separated(
+                separatorBuilder: (context, index) => 10.ph,
+                itemCount: 10,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  return _orderTile(onTap: () {
+                    context.pushNamed(RouteNames().orderSummary);
+                  });
+                },
+              ),
             ),
-          ),
-        ]),
-      ),
+          ]),
+        )
+      
     );
   }
 

@@ -8,6 +8,10 @@ class BusinessPartnerTextFormFields {
   static final registrationNumber = TextEditingController();
   static final branchController = TextEditingController();
   static final taxNumber = TextEditingController();
+  static final formKey1 = GlobalKey<FormState>();
+    static final formKey2 = GlobalKey<FormState>();
+  static final formKey3= GlobalKey<FormState>();
+  static final formKey4= GlobalKey<FormState>();
 
   static final firstNameController = TextEditingController();
   static final lastNameController = TextEditingController();

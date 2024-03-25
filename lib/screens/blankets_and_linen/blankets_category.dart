@@ -70,6 +70,9 @@ class _BlanketsCategoryState extends ConsumerState<BlanketsCategory>
 
     return Scaffold(
         body: Column(children: [
+
+
+          
       ReusabelLaundryDetailBannerCard(laundryModel: widget.laundry!),
       30.ph,
 
