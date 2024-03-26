@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/models/laundry_model.dart';
 import 'package:laundryday/models/services_model.dart';
-import 'package:laundryday/screens/blankets_and_linen/blankets_category.dart';
+import 'package:laundryday/screens/blankets_and_linen/view/blankets_category.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/order_review/order_review_notifier.dart';
 import 'package:laundryday/screens/order_review/order_review_states.dart';
@@ -61,8 +61,10 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
     final itemsList = ref.watch(selectedItemNotifier);
     final orderItem = ref.watch(deliverPickupProvider).selectedItems;
     Map<int?, List<ItemModel>> li = groupItemsByCategory(itemsList);
-    // var finalAmount = ref.watch(orderReviewProvider.notifier).state.total * 100;
     var finalAmount = ref.watch(orderReviewProvider.notifier).state.total;
+
+    log(orderItem!.length.toString());
+    log(itemsList.length.toString());
 
     return Scaffold(
       appBar: MyAppBar(title: 'Review Order'),
@@ -72,129 +74,154 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
           return SingleChildScrollView(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              widget.orderDatailsArguments.laundryModel!.type ==
-                      'deliverypickup'
+              widget.orderDatailsArguments.laundryModel!.service!.id == 3
                   ? SizedBox(
                       height: cx.maxHeight * 0.5,
-                      child: Card(
-                        elevation: 0,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                5.ph,
-                                const Heading(
-                                  text: 'Order Details',
-                                ),
-                                10.ph,
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  // shrinkWrap: true,
-                                  itemCount: orderItem!.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return ListTile(
-                                      tileColor: ColorManager.mediumWhiteColor,
-                                      trailing: orderItem[index].image != null
-                                          ? GestureDetector(
-                                              onTap: () {
-                                                context.pushNamed(
-                                                    RouteNames().viewImage,
-                                                    extra: orderItem[index]
-                                                        .image
-                                                        .toString());
-                                              },
-                                              child: Hero(
-                                                tag: 'reciept',
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Image.file(File(
-                                                      orderItem[index]
-                                                          .image
-                                                          .toString())),
-                                                ),
-                                              ))
-                                          : Text(
-                                              '${orderItem[index].quantity.toString()} x'),
-                                      title: Text(
-                                          orderItem[index].name.toString()),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  : SizedBox(
-                      height: cx.maxHeight * 0.5,
                       child: ListView.builder(
-                        itemCount: li.length,
+                        itemCount: itemsList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          int? category = li.keys.elementAt(index);
-
-                          List<ItemModel> itemsInCategory = li[category]!;
-
-                          return Column(
-                            children: [
-                              if (category == 1) ...[
-                                GroupHeaderCard(
-                                  color: Colors.blue.withOpacity(0.7),
-                                  text: 'Laundry',
-                                  image: 'assets/icons/laundry.png',
-                                ),
-                              ] else if (category == 2) ...[
-                                GroupHeaderCard(
-                                  color: Colors.red.withOpacity(0.7),
-                                  text: 'Dry Cleaning',
-                                  image: 'assets/icons/dry_cleaning.png',
-                                ),
-                              ] else if (category == 3) ...[
-                                GroupHeaderCard(
-                                  color: Colors.green.withOpacity(0.7),
-                                  text: 'Pressing',
-                                  image: 'assets/icons/pressing.png',
-                                ),
-                              ],
-                              ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: itemsInCategory.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Column(
-                                    children: [
-                                      if (category == 1) ...[
-                                        groupItemCard(
-                                            color: Colors.blue.withOpacity(0.7),
-                                            element: itemsInCategory[index],
-                                            buttonColor: Colors.blue),
-                                      ] else if (category == 2) ...[
-                                        groupItemCard(
-                                            color: Colors.red.withOpacity(0.7),
-                                            buttonColor: Colors.red,
-                                            element: itemsInCategory[index])
-                                      ] else if (category == 3) ...[
-                                        groupItemCard(
-                                          color: Colors.green.withOpacity(0.7),
-                                          element: itemsInCategory[index],
-                                          buttonColor: Colors.green,
-                                        )
-                                      ]
-                                    ],
-                                  );
-                                },
-                              ),
-                              10.ph,
-                            ],
-                          );
+                          return groupItemCard(
+                              textColor: ColorManager.blackColor,
+                              color: Colors.white,
+                              quantityCardColor: ColorManager.primaryColorOpacity10,
+                              element: itemsList[index],
+                              buttonColor: ColorManager.blackColor);
                         },
                       ),
-                    ),
+                    )
+                  : widget.orderDatailsArguments.laundryModel!.type ==
+                          'deliverypickup'
+                      ? SizedBox(
+                          height: cx.maxHeight * 0.5,
+                          child: Card(
+                            elevation: 0,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    5.ph,
+                                    const Heading(
+                                      text: 'Order Details',
+                                    ),
+                                    10.ph,
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      // shrinkWrap: true,
+                                      itemCount: orderItem.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return ListTile(
+                                          tileColor:
+                                              ColorManager.mediumWhiteColor,
+                                          trailing: orderItem[index].image !=
+                                                  null
+                                              ? GestureDetector(
+                                                  onTap: () {
+                                                    context.pushNamed(
+                                                        RouteNames().viewImage,
+                                                        extra: orderItem[index]
+                                                            .image
+                                                            .toString());
+                                                  },
+                                                  child: Hero(
+                                                    tag: 'reciept',
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Image.file(File(
+                                                          orderItem[index]
+                                                              .image
+                                                              .toString())),
+                                                    ),
+                                                  ))
+                                              : Text(
+                                                  '${orderItem[index].quantity.toString()} x'),
+                                          title: Text(
+                                              orderItem[index].name.toString()),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : SizedBox(
+                          height: cx.maxHeight * 0.5,
+                          child: ListView.builder(
+                            itemCount: li.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              int? category = li.keys.elementAt(index);
+
+                              List<ItemModel> itemsInCategory = li[category]!;
+
+                              return Column(
+                                children: [
+                                  if (category == 1) ...[
+                                    GroupHeaderCard(
+                                      color: Colors.blue.withOpacity(0.7),
+                                      text: 'Laundry',
+                                      image: 'assets/icons/laundry.png',
+                                    ),
+                                  ] else if (category == 2) ...[
+                                    GroupHeaderCard(
+                                      color: Colors.red.withOpacity(0.7),
+                                      text: 'Dry Cleaning',
+                                      image: 'assets/icons/dry_cleaning.png',
+                                    ),
+                                  ] else if (category == 3) ...[
+                                    GroupHeaderCard(
+                                      color: Colors.green.withOpacity(0.7),
+                                      text: 'Pressing',
+                                      image: 'assets/icons/pressing.png',
+                                    ),
+                                  ],
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: itemsInCategory.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Column(
+                                        children: [
+                                          if (category == 1) ...[
+                                            groupItemCard(
+                                                color: Colors.blue
+                                                    .withOpacity(0.7),
+                                                element: itemsInCategory[index],
+                                                buttonColor: Colors.blue),
+                                          ] else if (category == 2) ...[
+                                            groupItemCard(
+                                                color:
+                                                    Colors.red.withOpacity(0.7),
+                                                buttonColor: Colors.red,
+                                                element: itemsInCategory[index])
+                                          ] else if (category == 3) ...[
+                                            groupItemCard(
+                                              color:
+                                                  Colors.green.withOpacity(0.7),
+                                              element: itemsInCategory[index],
+                                              buttonColor: Colors.green,
+                                            )
+                                          ]
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                  10.ph,
+                                ],
+                              );
+                            },
+                          ),
+                        ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -209,7 +236,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                   widget.orderDatailsArguments.laundryModel!.type ==
                           'deliverypickup'
                       ? MyButton(
-                          name: 'Pay ${finalAmount}',
+                          name: 'Pay $finalAmount',
                           onPressed: () async {
                             final paymentConfig = PaymentConfig(
                               publishableApiKey:
@@ -259,48 +286,6 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                             //     ref: ref, context: context, result: result);
                           },
                         )
-                      // ? CreditCard(
-                      //     config: PaymentConfiguration(
-                      //         amount: ref
-                      //             .read(orderReviewProvider.notifier)
-                      //             .state
-                      //             .total),
-                      //     onPaymentResult: (result) {
-                      //       if (result is PaymentResponse) {
-                      //         switch (result.status) {
-                      //           case PaymentStatus.initiated:
-                      //             // handle 3DS redirection.
-
-                      //             log(result.status.toString());
-                      //             break;
-                      //           case PaymentStatus.paid:
-                      //             // handle success.
-                      //             // states.isPaid = true;
-                      //             context.pushNamed(RouteNames().findCourier);
-
-                      //             log(result.status.toString());
-
-                      //             break;
-                      //           case PaymentStatus.failed:
-                      //             // handle failure.
-                      //             log(result.status.toString());
-
-                      //             break;
-                      //           case PaymentStatus.authorized:
-                      //             // TODO: Handle this case.
-                      //             log(result.status.toString());
-                      //             break;
-
-                      //           case PaymentStatus.captured:
-                      //             log(result.status.toString());
-                      //             break;
-
-                      //           // TODO: Handle this case.
-                      //         }
-                      //       }
-                      //     },
-                      //   )
-
                       : MyButton(
                           name: 'Place Order',
                           onPressed: () {
@@ -321,7 +306,11 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
   Widget groupItemCard(
       {required ItemModel element,
       required Color color,
-      required Color buttonColor}) {
+      required Color buttonColor,
+       Color? textColor,
+       Color? quantityCardColor,
+      
+      }) {
     return Container(
       margin: EdgeInsets.zero,
       color: color,
@@ -331,7 +320,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
             title: Text(
               element.name.toString(),
               style: GoogleFonts.poppins(
-                  color: ColorManager.whiteColor, fontWeight: FontWeight.w600),
+                  color:textColor?? ColorManager.whiteColor, fontWeight: FontWeight.w600),
             ),
             subtitle: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -341,14 +330,14 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                     .toString(),
                 maxLines: 2,
                 style: GoogleFonts.poppins(
-                    color: ColorManager.whiteColor,
+                    color:textColor?? ColorManager.whiteColor,
                     fontWeight: FontWeight.w500),
               ),
             ),
             trailing: Container(
               height: 30,
-              decoration: const ShapeDecoration(
-                  color: Colors.white, shape: StadiumBorder()),
+              decoration:  ShapeDecoration(
+                  color:quantityCardColor?? Colors.white, shape: const StadiumBorder()),
               margin: EdgeInsets.zero,
               child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -420,7 +409,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
               child: Text(
                 ''.toString(),
                 style: GoogleFonts.poppins(
-                    color: ColorManager.whiteColor,
+                    color: textColor ?? ColorManager.whiteColor,
                     fontWeight: FontWeight.w600),
               ),
             ),

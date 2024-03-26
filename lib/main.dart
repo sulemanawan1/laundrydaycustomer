@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:laundryday/helpers/db_helper.dart';
 import 'package:laundryday/utils/theme_manager.dart';
 import 'utils/routes/app_routes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -10,7 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  DBHelper().initDatabase();
+  // DBHelper().initDatabase();
 
   runApp(const ProviderScope(child: MyApp()));
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(

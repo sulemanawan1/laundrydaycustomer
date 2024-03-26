@@ -13,14 +13,13 @@ class LaundryModel {
   String? secondaryName;
   String? region;
   String? city;
-  String status;
+  String? status;
   double? lat;
   double? lng;
   double? distance;
   double? rating;
   String? address;
-    String? googleMapAddress;
-
+  String? googleMapAddress;
   int? userRatingTotal;
   int? id;
   String? placeId;
@@ -29,7 +28,7 @@ class LaundryModel {
   String? banner;
   ServicesModel? service;
   List<ServiceTypesModel> seviceTypes;
-  List<TimeSlot> timeslot;
+  List<TimeSlot>? timeslot;
   LaundryModel({
     this.name,
     this.branches,
@@ -39,7 +38,7 @@ class LaundryModel {
     this.secondaryName,
     this.region,
     this.city,
-    required this.status,
+     this.status,
     this.lat,
     this.lng,
     this.distance,
@@ -53,7 +52,7 @@ class LaundryModel {
     this.banner,
     this.service,
     required this.seviceTypes,
-    required this.timeslot,
+     this.timeslot,
   });
 
  

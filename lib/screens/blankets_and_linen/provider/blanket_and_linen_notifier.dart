@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:laundryday/models/item_model.dart';
-import 'package:laundryday/screens/blankets_and_linen/blankets_category.dart';
+import 'package:laundryday/screens/blankets_and_linen/view/blankets_category.dart';
 
 class BlanketAndLinenNotifier extends StateNotifier<List<ItemModel>> {
   BlanketAndLinenNotifier({required this.ref}) : super([]);
@@ -54,12 +54,15 @@ class BlanketAndLinenNotifier extends StateNotifier<List<ItemModel>> {
           name: 'Bed Cover',
           serviceId: 2,
           categoryId: 1),
+
       ItemModel(
           id: 2,
           image: 'assets/blankets_and_linen/Bed Spread.png',
           name: 'Bed Spread',
           serviceId: 2,
           categoryId: 1),
+
+          
       ItemModel(
           id: 3,
           image: 'assets/blankets_and_linen/Blanket.png',
@@ -232,6 +235,23 @@ class BlanketAndLinenNotifier extends StateNotifier<List<ItemModel>> {
           name: 'Doctor Uniform',
           serviceId: 1,
           categoryId: 1),
+
+
+
+          ItemModel(
+          id: 27,
+          image: 'assets/carpets/normal_carpet.png',
+          name: 'Carpet',
+          serviceId: 3,
+          categoryId: 4),
+
+
+          ItemModel(
+          id: 28,
+          image: 'assets/carpets/mats.png',
+          name: 'Mat',
+          serviceId: 3,
+          categoryId: 4),
     ]
         .where((element) =>
             element.serviceId == serviceId && element.categoryId == categoryId)

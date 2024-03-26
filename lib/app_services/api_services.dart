@@ -122,6 +122,7 @@ class ApiServices {
           seviceTypes: [
             ServiceTypesModel(id: 2, serviceId: 1, type: 'drycleaning'),
             ServiceTypesModel(id: 3, serviceId: 1, type: 'pressing'),
+          
           ],
           timeslot: [
             TimeSlot(
@@ -684,7 +685,6 @@ class ApiServices {
                 weekNumber: 7),
           ],
           status: 'opened'),
-
       LaundryModel(
           service: ServicesModel(
               operationFee: 2.0,
@@ -704,6 +704,7 @@ class ApiServices {
               "4135 Ibn Taymeeyah Rd, حي المروة, RLMA6432, 6432, Riyadh 14721",
           userRatingTotal: 25,
           id: 2,
+          
           name: 'Mahazed Laundry',
           placeId: "#place1",
           logo: 'assets/clothing_services_icons.png',
@@ -741,7 +742,139 @@ class ApiServices {
                 closeTime: TimeOfDay(hour: 0, minute: 0),
                 weekNumber: 7),
           ],
+          status: 'opened'),
+   
+   // Carpets
+   
+
+
+   LaundryModel(
+         service: ServicesModel(
+              vat: 0.00,
+              id: 3,
+              deliveryFee: 12.00,
+              operationFee: 4.00,
+              name: "Carpets",
+              image: 'assets/services_carpets.jpeg',
+              images: [
+                ServiceCarouselImage(image: 'assets/carpets_1.jpg'),
+                ServiceCarouselImage(image: 'assets/carpets_2.jpg'),
+              ]),
+          lat: 24.2,
+          lng: 44.5,
+          rating: 5.0,
+          address:
+              "4135 Ibn Taymeeyah Rd, حي المروة, RLMA6432, 6432, Riyadh 14721",
+          userRatingTotal: 25,
+           id: 2,
+          name: 'Aljabr Laundry',
+          placeId: "#place1",
+          logo: 'assets/aljabr.png',
+          distance: 1.2,
+          type: 'register',
+          banner: 'assets/blanket_and_linen_banner.jpg',
+          seviceTypes: [
+            ServiceTypesModel(id: 4, serviceId: 3, type: 'wash'),
+          ],
+          timeslot: [
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 1),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 2),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 3),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 4),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 5),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 6),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 7),
+          ],
           status: 'opened')
+   ,
+   
+   LaundryModel(
+         service: ServicesModel(
+              vat: 0.00,
+              id: 3,
+              deliveryFee: 12.00,
+              operationFee: 4.00,
+              name: "Carpets",
+              image: 'assets/services_carpets.jpeg',
+              images: [
+                ServiceCarouselImage(image: 'assets/carpets_1.jpg'),
+                ServiceCarouselImage(image: 'assets/carpets_2.jpg'),
+              ]),
+          lat: 24.2,
+          lng: 44.5,
+          rating: 5.0,
+            address: "MPR5+M2J, Abu Bakr Alrazi St, As Sulimaniyah, Riyadh 12232",
+          userRatingTotal: 25,
+          id: 2,
+          name: 'Al Rahden',
+          placeId: "#place1",
+          logo: 'assets/al_rahden.png',
+          distance: 1.7,
+          type: 'register',
+                    banner: 'assets/blanket_and_linen_banner.jpg',
+
+          
+          seviceTypes: [
+               ServiceTypesModel(id: 4, serviceId: 3, type: 'wash'),
+          
+          ],
+          timeslot: [
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 1),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 2),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 3),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 4),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 5),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 6),
+            TimeSlot(
+                openTime: TimeOfDay(hour: 7, minute: 0),
+                closeTime: TimeOfDay(hour: 0, minute: 0),
+                weekNumber: 7),
+          ],
+          status: 'opened')
+   
+   
+   
+   
+   
     ].where((element) => element.service!.id == serviceId).toList();
 
     return items;
@@ -928,6 +1061,44 @@ class ApiServices {
           categoryId: 1,
           serviceId: 1,
           blanketItemId: 25),
+ItemModel(
+          id: 18,
+          name: 'Carpet',
+          laundryId: 1,
+          quantity: 0,
+          initialCharges: 13.0,
+          charges: 0,
+          category: 'carpets',
+          categoryId: 4,
+          serviceId: 3,
+          blanketItemId: 27),
+
+
+ItemModel(
+          id: 19,
+          name: 'Mats',
+          laundryId: 1,
+          quantity: 0,
+          initialCharges: 7.0,
+          charges: 0,
+          category: 'carpets',
+          categoryId: 4,
+          serviceId: 3,
+          blanketItemId: 28),
+
+
+
+
+      ItemModel(
+          id: 28,
+          image: 'assets/carpets/mats.png',
+          name: 'Mat',
+          serviceId: 3,
+          categoryId: 4),
+
+
+
+
     ];
 
     await Future.delayed(const Duration(seconds: 1));

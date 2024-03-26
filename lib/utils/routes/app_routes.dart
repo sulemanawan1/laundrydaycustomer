@@ -5,11 +5,10 @@ import 'package:laundryday/screens/add_new_card.dart/add_new_card.dart';
 import 'package:laundryday/screens/auth/login/login.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/auth/verification/verification.dart';
-import 'package:laundryday/screens/blankets_and_linen/view/blanket_and_linen_service_detail.dart';
-import 'package:laundryday/screens/blankets_and_linen/blankets_category.dart';
+import 'package:laundryday/screens/blankets_and_linen/blanket_and_linen_service_detail.dart';
+import 'package:laundryday/screens/blankets_and_linen/view/blankets_category.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/delivery_pickup/components/view_image.dart';
-import 'package:laundryday/screens/carpets/carpet_service_detail/carpet_service_detail.dart';
 import 'package:laundryday/screens/laundry_care_guide/laundry_care_guide.dart';
 import 'package:laundryday/screens/more/payment_options/payment_options.dart';
 import 'package:laundryday/screens/order_review/order_review.dart';
@@ -32,12 +31,9 @@ import 'package:laundryday/screens/more/profile/edit_profile/edit_profile.dart';
 import 'package:laundryday/screens/more/help/help.dart';
 import 'package:laundryday/screens/home/home.dart';
 import 'package:laundryday/screens/more/more.dart';
-import 'package:laundryday/screens/carpet_order_checkout/carpet_order_checkout.dart';
 import 'package:laundryday/screens/more/profile/profile.dart';
 import 'package:laundryday/screens/services/view/services.dart';
 import 'package:laundryday/screens/more/settings/settings.dart';
-import 'package:laundryday/utils/routes/route_paths.dart';
-import '../../screens/carpets/carpets_category/carpes_category.dart';
 
 class AppRoutes {
   final GoRouter routes = GoRouter(routes: [
@@ -73,11 +69,7 @@ class AppRoutes {
             builder: (context, state) => const Profile(),
           ),
 
-          GoRoute(
-              name: RouteNames().carpetsScreen,
-              path: "carpets",
-              builder: (context, state) => CarpetsCategory(
-                  arguments: state.extra as CarpetDetailsArguments?)),
+          
           GoRoute(
             name: RouteNames().furnitureScreen,
             path: "furniture",
@@ -94,14 +86,14 @@ class AppRoutes {
             path: "services",
             builder: (context, state) => const Services(),
           ),
-          GoRoute(
-            name: RouteNames().serviceDetail,
-            path: "service_detail",
-            builder: (context, state) {
-              return CarpetServiceDetail(
-                  services: state.extra as ServicesModel?);
-            },
-          ),
+          // GoRoute(
+          //   name: RouteNames().serviceDetail,
+          //   path: "service_detail",
+          //   builder: (context, state) {
+          //     return CarpetServiceDetail(
+          //         services: state.extra as ServicesModel?);
+          //   },
+          // ),
           GoRoute(
             name: RouteNames().addNewAddress,
             path: "add_new_address",
@@ -141,16 +133,11 @@ class AppRoutes {
             builder: (context, state) => const FetchAgentAddress(),
           ),
 
-          GoRoute(
-            name: RouteNames().carpetOrderCheckout,
-            path: "carpet_order_checkout",
-            builder: (context, state) => CarpetOrderCheckout(
-                orderDatailsArguments: state.extra as CarpetDetailsArguments),
-          ),
+         
 
           GoRoute(
             name: RouteNames().orderReview,
-            path: "cloth_order_review",
+            path: "order_review",
             builder: (context, state) => OrderReview(
                 orderDatailsArguments: state.extra as Arguments),
           ),
@@ -168,9 +155,9 @@ class AppRoutes {
           ),
 
           GoRoute(
-            name: RouteNames().blanketAndLinenServiceDetail,
+            name: RouteNames().laundries,
             path: "blanket_and_linen_service_detail",
-            builder: (context, state) => BlanketAndLinenServiceDetail(
+            builder: (context, state) => Laundries(
                 services: state.extra as ServicesModel?),
           ),
 

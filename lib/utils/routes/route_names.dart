@@ -24,8 +24,7 @@ class RouteNames {
   final String businessPartner = "business_partner";
   final String clothesServiceDetail = "clothes_service_detail";
   final String clothesCategory = "clothes_category";
-  final String blanketAndLinenServiceDetail =
-      "blanket_and_linen_service_detail";
+  final String laundries = "laundries";
   final String blanketsCategory = "blankets_category";
   final String deliveryPickup = "delivery_pickup";
   final String orderSummary = "order_summary";
@@ -38,7 +37,6 @@ class RouteNames {
   final String rateCourier = "rate_courier";
   final String viewImage = "view_image";
   final String addNewCard = "add_new_card";
-    final String laundryCareGuide = "laundry_care_guide";
+  final String laundryCareGuide = "laundry_care_guide";
   final String paymentOptions = "payment_options";
-
 }

@@ -97,7 +97,7 @@ class ItemModel {
 
   @override
   String toString() {
-    return 'LaundryItemModel(id: $id, laundryId: $laundryId, name: $name, image: $image, quantity: $quantity, initialCharges: $initialCharges, charges: $charges, category: $category, categoryId: $categoryId, blanketItemId: $blanketItemId, serviceId: $serviceId)';
+    return 'ItemModel(id: $id, laundryId: $laundryId, name: $name, image: $image, quantity: $quantity, initialCharges: $initialCharges, charges: $charges, category: $category, categoryId: $categoryId, blanketItemId: $blanketItemId, serviceId: $serviceId)';
   }
 
   @override
@@ -131,5 +131,108 @@ class ItemModel {
         categoryId.hashCode ^
         blanketItemId.hashCode ^
         serviceId.hashCode;
+  }
+}
+
+class Carpets extends ItemModel {
+  double? length;
+  double? width;
+  int? prefixLength;
+  int? postfixLength;
+  int? prefixWidth;
+  int? postfixWidth;
+  double? size;
+
+  Carpets({
+    int? id,
+    int? laundryId,
+    String? name,
+    String? image,
+    int? quantity,
+    double? initialCharges,
+    double? charges,
+    String? category,
+    int? categoryId,
+    int? blanketItemId,
+    final int? serviceId,
+    this.length,
+    this.width,
+    this.prefixLength,
+    this.postfixLength,
+    this.prefixWidth,
+    this.postfixWidth,
+    this.size,
+  }) : super(
+            id: id,
+            name: name,
+            laundryId: laundryId,
+            quantity: quantity,
+            image: image,
+            charges: charges,
+            initialCharges: initialCharges,
+            categoryId: categoryId,
+            blanketItemId: blanketItemId,
+            serviceId: serviceId);
+
+ 
+
+  
+
+  Map<String, dynamic> toMap() {
+    return {
+      'length': length,
+      'width': width,
+      'prefixLength': prefixLength,
+      'postfixLength': postfixLength,
+      'prefixWidth': prefixWidth,
+      'postfixWidth': postfixWidth,
+      'size': size,
+    };
+  }
+
+  factory Carpets.fromMap(Map<String, dynamic> map) {
+    return Carpets(
+      length: map['length']?.toDouble(),
+      width: map['width']?.toDouble(),
+      prefixLength: map['prefixLength']?.toInt(),
+      postfixLength: map['postfixLength']?.toInt(),
+      prefixWidth: map['prefixWidth']?.toInt(),
+      postfixWidth: map['postfixWidth']?.toInt(),
+      size: map['size']?.toDouble(),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Carpets.fromJson(String source) => Carpets.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'Carpets(length: $length, width: $width, prefixLength: $prefixLength, postfixLength: $postfixLength, prefixWidth: $prefixWidth, postfixWidth: $postfixWidth, size: $size)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+  
+    return other is Carpets &&
+      other.length == length &&
+      other.width == width &&
+      other.prefixLength == prefixLength &&
+      other.postfixLength == postfixLength &&
+      other.prefixWidth == prefixWidth &&
+      other.postfixWidth == postfixWidth &&
+      other.size == size;
+  }
+
+  @override
+  int get hashCode {
+    return length.hashCode ^
+      width.hashCode ^
+      prefixLength.hashCode ^
+      postfixLength.hashCode ^
+      prefixWidth.hashCode ^
+      postfixWidth.hashCode ^
+      size.hashCode;
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/models/services_model.dart';
-import 'package:laundryday/screens/blankets_and_linen/blankets_category.dart';
+import 'package:laundryday/screens/blankets_and_linen/view/blankets_category.dart';
 import 'package:laundryday/screens/services/view/services.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
@@ -69,15 +69,16 @@ class AddressBottomSheetWidget extends ConsumerWidget {
 
                         ref.read(selectedItemNotifier.notifier).state.clear();
 
-                        GoRouter.of(context).pushNamed(
-                            RouteNames().blanketAndLinenServiceDetail,
+                        GoRouter.of(context).pushNamed(RouteNames().laundries,
                             extra: servicesModel);
 
                         context.pop();
                       } else if (servicesModel?.name.toString() == "Carpets") {
-                        print(servicesModel!.deliveryFee);
-                        GoRouter.of(context).pushNamed(
-                            RouteNames().serviceDetail,
+                        log(servicesModel!.deliveryFee.toString());
+
+                        ref.read(selectedItemNotifier.notifier).state.clear();
+
+                        GoRouter.of(context).pushNamed(RouteNames().laundries,
                             extra: servicesModel);
 
                         context.pop();
@@ -87,8 +88,7 @@ class AddressBottomSheetWidget extends ConsumerWidget {
 
                         ref.read(selectedItemNotifier.notifier).state.clear();
 
-                        GoRouter.of(context).pushNamed(
-                            RouteNames().blanketAndLinenServiceDetail,
+                        GoRouter.of(context).pushNamed(RouteNames().laundries,
                             extra: servicesModel);
                         context.pop();
                       }

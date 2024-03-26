@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/models/laundry_model.dart';
-import 'package:laundryday/screens/blankets_and_linen/view/blanket_and_linen_service_detail.dart';
+import 'package:laundryday/screens/blankets_and_linen/blanket_and_linen_service_detail.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
