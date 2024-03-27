@@ -1,10 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:laundryday/models/service_carousel_images.dart';
+import 'package:laundryday/models/service_images.dart';
 
 // ignore: must_be_immutable
 class MyCarousel extends StatefulWidget {
-  List<ServiceCarouselImage> images;
+  List<ServiceImage> images;
   CarouselController? carouselController;
   double? aspectRatio;
   dynamic Function(int, CarouselPageChangedReason)? onPageChanged;
@@ -23,12 +23,11 @@ class MyCarousel extends StatefulWidget {
 class _MyCarouselState extends State<MyCarousel> {
   @override
   Widget build(BuildContext context) {
-    
     return Card(
       color: Colors.transparent,
       elevation: 0,
       child: CarouselSlider(
-        carouselController:widget. carouselController,
+        carouselController: widget.carouselController,
         items: widget.images
             .map((e) => ClipRRect(
                   borderRadius: BorderRadius.circular(8),

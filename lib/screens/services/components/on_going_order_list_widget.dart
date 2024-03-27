@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/models/laundry_model.dart';
-import 'package:laundryday/models/service_carousel_images.dart';
+import 'package:laundryday/models/service_images.dart';
 import 'package:laundryday/models/service_types_model.dart';
 import 'package:laundryday/models/services_model.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
@@ -42,11 +42,11 @@ class OnGoingOrderListWidget extends StatelessWidget {
                         operationFee: 2.0,
                         image: 'assets/services_clothing.jpg',
                         images: [
-                          ServiceCarouselImage(image: 'assets/clothes_1.jpg'),
-                          ServiceCarouselImage(image: 'assets/clothes_2.jpg'),
-                          ServiceCarouselImage(image: 'assets/clothes_3.jpg'),
-                          ServiceCarouselImage(image: 'assets/clothes_4.jpg'),
-                          ServiceCarouselImage(image: 'assets/clothes_5.jpg'),
+                          ServiceImage(image: 'assets/clothes_1.jpg'),
+                          ServiceImage(image: 'assets/clothes_2.jpg'),
+                          ServiceImage(image: 'assets/clothes_3.jpg'),
+                          ServiceImage(image: 'assets/clothes_4.jpg'),
+                          ServiceImage(image: 'assets/clothes_5.jpg'),
                         ],
                       ),
                       lat: 24.2,

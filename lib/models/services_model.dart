@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:laundryday/models/service_carousel_images.dart';
+import 'package:laundryday/models/service_images.dart';
 
 ServicesModel servicesModelFromJson(String str) =>
     ServicesModel.fromJson(json.decode(str));
@@ -18,7 +18,7 @@ class ServicesModel {
   double vat;
   String name;
   String image;
-  List<ServiceCarouselImage> images;
+  List<ServiceImage> images;
 
   ServicesModel({
     required this.vat,
@@ -37,7 +37,7 @@ class ServicesModel {
         operationFee: json['operation_fee'],
         name: json["name"],
         image: json["image"],
-        images: List<ServiceCarouselImage>.from(json["images"].map((x) => x)),
+        images: List<ServiceImage>.from(json["images"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {

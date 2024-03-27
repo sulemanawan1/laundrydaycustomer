@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/models/laundry_model.dart';
-import 'package:laundryday/models/service_carousel_images.dart';
+import 'package:laundryday/models/service_images.dart';
 import 'package:laundryday/models/service_types_model.dart';
 import 'package:laundryday/models/services_model.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
@@ -23,16 +23,16 @@ class _OrdersState extends State<Orders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(
-        title: 'Orders',
-        isLeading: false,
-      ),
-      body:
-         Padding(
+        appBar: MyAppBar(
+          title: 'Orders',
+          isLeading: false,
+        ),
+        body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Heading(text: 'Ongoing Orders'),10.ph,
+            const Heading(text: 'Ongoing Orders'),
+            10.ph,
             ListView.separated(
               separatorBuilder: (context, index) => 10.ph,
               itemCount: 4,
@@ -48,16 +48,11 @@ class _OrdersState extends State<Orders> {
                         operationFee: 2.0,
                         image: 'assets/services_clothing.jpg',
                         images: [
-                          ServiceCarouselImage(
-                              image: 'assets/clothes_1.jpg'),
-                          ServiceCarouselImage(
-                              image: 'assets/clothes_2.jpg'),
-                          ServiceCarouselImage(
-                              image: 'assets/clothes_3.jpg'),
-                          ServiceCarouselImage(
-                              image: 'assets/clothes_4.jpg'),
-                          ServiceCarouselImage(
-                              image: 'assets/clothes_5.jpg'),
+                          ServiceImage(image: 'assets/clothes_1.jpg'),
+                          ServiceImage(image: 'assets/clothes_2.jpg'),
+                          ServiceImage(image: 'assets/clothes_3.jpg'),
+                          ServiceImage(image: 'assets/clothes_4.jpg'),
+                          ServiceImage(image: 'assets/clothes_5.jpg'),
                         ],
                       ),
                       lat: 24.2,
@@ -109,10 +104,9 @@ class _OrdersState extends State<Orders> {
                             weekNumber: 7),
                       ],
                       status: 'closed');
-                        
-                  Arguments arguments =
-                      Arguments(laundryModel: laundryModel);
-                        
+
+                  Arguments arguments = Arguments(laundryModel: laundryModel);
+
                   context.pushNamed(RouteNames().orderProcess,
                       extra: arguments);
                 });
@@ -134,9 +128,7 @@ class _OrdersState extends State<Orders> {
               ),
             ),
           ]),
-        )
-      
-    );
+        ));
   }
 
   Widget _orderTile({void Function()? onTap}) {

@@ -1,16 +1,14 @@
-
-
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/models/service_carousel_images.dart';
+import 'package:laundryday/models/service_images.dart';
 import 'package:laundryday/models/services_model.dart';
 import 'package:laundryday/screens/services/components/address_bottom_sheet_widget.dart';
 import 'package:laundryday/screens/services/components/on_going_order_list_widget.dart';
 import 'package:laundryday/screens/services/components/services_grid_widget.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
-import 'package:laundryday/screens/services/services_states.dart';
+import 'package:laundryday/screens/services/provider/services_states.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/value_manager.dart';
@@ -49,11 +47,11 @@ class _ServicesState extends ConsumerState<Services> {
         operationFee: 2.00,
         image: 'assets/services_clothing.jpg',
         images: [
-          ServiceCarouselImage(image: 'assets/clothes_1.jpg'),
-          ServiceCarouselImage(image: 'assets/clothes_2.jpg'),
-          ServiceCarouselImage(image: 'assets/clothes_3.jpg'),
-          ServiceCarouselImage(image: 'assets/clothes_4.jpg'),
-          ServiceCarouselImage(image: 'assets/clothes_5.jpg'),
+          ServiceImage(image: 'assets/clothes_1.jpg'),
+          ServiceImage(image: 'assets/clothes_2.jpg'),
+          ServiceImage(image: 'assets/clothes_3.jpg'),
+          ServiceImage(image: 'assets/clothes_4.jpg'),
+          ServiceImage(image: 'assets/clothes_5.jpg'),
         ]));
     services.add(ServicesModel(
         vat: 0.00,
@@ -63,8 +61,8 @@ class _ServicesState extends ConsumerState<Services> {
         name: 'Blankets',
         image: 'assets/services_blankets.jpg',
         images: [
-          ServiceCarouselImage(image: 'assets/blankets_1.jpg'),
-          ServiceCarouselImage(image: 'assets/blankets_2.jpg'),
+          ServiceImage(image: 'assets/blankets_1.jpg'),
+          ServiceImage(image: 'assets/blankets_2.jpg'),
         ]));
     services.add(ServicesModel(
         vat: 0.00,
@@ -74,8 +72,8 @@ class _ServicesState extends ConsumerState<Services> {
         name: "Carpets",
         image: 'assets/services_carpets.jpeg',
         images: [
-          ServiceCarouselImage(image: 'assets/carpets_1.jpg'),
-          ServiceCarouselImage(image: 'assets/carpets_2.jpg'),
+          ServiceImage(image: 'assets/carpets_1.jpg'),
+          ServiceImage(image: 'assets/carpets_2.jpg'),
         ]));
     services.add(ServicesModel(
         vat: 0.0,
@@ -85,8 +83,8 @@ class _ServicesState extends ConsumerState<Services> {
         name: "Furniture",
         image: 'assets/services_furniture.jpeg',
         images: [
-          ServiceCarouselImage(image: 'assets/furniture_1.jpg'),
-          ServiceCarouselImage(image: 'assets/furniture_2.jpg'),
+          ServiceImage(image: 'assets/furniture_1.jpg'),
+          ServiceImage(image: 'assets/furniture_2.jpg'),
         ]));
   }
 
@@ -192,7 +190,7 @@ class _ServicesState extends ConsumerState<Services> {
                 height: constraints.maxHeight * 0.3,
                 child: const OnGoingOrderListWidget(),
               ),
-             
+
               // MyCarousel(
               //   images: images,
               //   index: _currentIndex,

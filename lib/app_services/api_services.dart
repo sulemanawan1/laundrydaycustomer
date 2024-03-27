@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/models/service_types_model.dart';
 import 'package:laundryday/models/laundry_model.dart';
-import 'package:laundryday/models/service_carousel_images.dart';
+import 'package:laundryday/models/service_images.dart';
 import 'package:laundryday/models/services_model.dart';
 
 class ApiServices {
@@ -18,11 +18,11 @@ class ApiServices {
               operationFee: 2.0,
               image: 'assets/services_clothing.jpg',
               images: [
-                ServiceCarouselImage(image: 'assets/clothes_1.jpg'),
-                ServiceCarouselImage(image: 'assets/clothes_2.jpg'),
-                ServiceCarouselImage(image: 'assets/clothes_3.jpg'),
-                ServiceCarouselImage(image: 'assets/clothes_4.jpg'),
-                ServiceCarouselImage(image: 'assets/clothes_5.jpg'),
+                ServiceImage(image: 'assets/clothes_1.jpg'),
+                ServiceImage(image: 'assets/clothes_2.jpg'),
+                ServiceImage(image: 'assets/clothes_3.jpg'),
+                ServiceImage(image: 'assets/clothes_4.jpg'),
+                ServiceImage(image: 'assets/clothes_5.jpg'),
               ]),
           lat: 24.2,
           lng: 44.5,
@@ -100,11 +100,11 @@ class ApiServices {
             operationFee: 2.0,
             image: 'assets/services_clothing.jpg',
             images: [
-              ServiceCarouselImage(image: 'assets/clothes_1.jpg'),
-              ServiceCarouselImage(image: 'assets/clothes_2.jpg'),
-              ServiceCarouselImage(image: 'assets/clothes_3.jpg'),
-              ServiceCarouselImage(image: 'assets/clothes_4.jpg'),
-              ServiceCarouselImage(image: 'assets/clothes_5.jpg'),
+              ServiceImage(image: 'assets/clothes_1.jpg'),
+              ServiceImage(image: 'assets/clothes_2.jpg'),
+              ServiceImage(image: 'assets/clothes_3.jpg'),
+              ServiceImage(image: 'assets/clothes_4.jpg'),
+              ServiceImage(image: 'assets/clothes_5.jpg'),
             ],
           ),
           lat: 24.2,
@@ -122,7 +122,6 @@ class ApiServices {
           seviceTypes: [
             ServiceTypesModel(id: 2, serviceId: 1, type: 'drycleaning'),
             ServiceTypesModel(id: 3, serviceId: 1, type: 'pressing'),
-          
           ],
           timeslot: [
             TimeSlot(
@@ -521,8 +520,8 @@ class ApiServices {
               name: 'Blankets',
               image: 'assets/services_blankets.jpg',
               images: [
-                ServiceCarouselImage(image: 'assets/blankets_1.jpg'),
-                ServiceCarouselImage(image: 'assets/blankets_2.jpg'),
+                ServiceImage(image: 'assets/blankets_1.jpg'),
+                ServiceImage(image: 'assets/blankets_2.jpg'),
               ]),
           lat: 24.2,
           lng: 44.5,
@@ -579,8 +578,8 @@ class ApiServices {
               name: 'Blankets',
               image: 'assets/services_blankets.jpg',
               images: [
-                ServiceCarouselImage(image: 'assets/blankets_1.jpg'),
-                ServiceCarouselImage(image: 'assets/blankets_2.jpg'),
+                ServiceImage(image: 'assets/blankets_1.jpg'),
+                ServiceImage(image: 'assets/blankets_2.jpg'),
               ]),
           lat: 24.2,
           lng: 44.5,
@@ -637,8 +636,8 @@ class ApiServices {
               name: 'Blankets',
               image: 'assets/services_blankets.jpg',
               images: [
-                ServiceCarouselImage(image: 'assets/blankets_1.jpg'),
-                ServiceCarouselImage(image: 'assets/blankets_2.jpg'),
+                ServiceImage(image: 'assets/blankets_1.jpg'),
+                ServiceImage(image: 'assets/blankets_2.jpg'),
               ]),
           lat: 24.2,
           lng: 44.5,
@@ -694,8 +693,8 @@ class ApiServices {
               name: 'Blankets',
               image: 'assets/services_blankets.jpg',
               images: [
-                ServiceCarouselImage(image: 'assets/blankets_1.jpg'),
-                ServiceCarouselImage(image: 'assets/blankets_2.jpg'),
+                ServiceImage(image: 'assets/blankets_1.jpg'),
+                ServiceImage(image: 'assets/blankets_2.jpg'),
               ]),
           lat: 24.2,
           lng: 44.5,
@@ -704,7 +703,6 @@ class ApiServices {
               "4135 Ibn Taymeeyah Rd, حي المروة, RLMA6432, 6432, Riyadh 14721",
           userRatingTotal: 25,
           id: 2,
-          
           name: 'Mahazed Laundry',
           placeId: "#place1",
           logo: 'assets/clothing_services_icons.png',
@@ -743,13 +741,11 @@ class ApiServices {
                 weekNumber: 7),
           ],
           status: 'opened'),
-   
-   // Carpets
-   
 
+      // Carpets
 
-   LaundryModel(
-         service: ServicesModel(
+      LaundryModel(
+          service: ServicesModel(
               vat: 0.00,
               id: 3,
               deliveryFee: 12.00,
@@ -757,8 +753,8 @@ class ApiServices {
               name: "Carpets",
               image: 'assets/services_carpets.jpeg',
               images: [
-                ServiceCarouselImage(image: 'assets/carpets_1.jpg'),
-                ServiceCarouselImage(image: 'assets/carpets_2.jpg'),
+                ServiceImage(image: 'assets/carpets_1.jpg'),
+                ServiceImage(image: 'assets/carpets_2.jpg'),
               ]),
           lat: 24.2,
           lng: 44.5,
@@ -766,7 +762,7 @@ class ApiServices {
           address:
               "4135 Ibn Taymeeyah Rd, حي المروة, RLMA6432, 6432, Riyadh 14721",
           userRatingTotal: 25,
-           id: 2,
+          id: 2,
           name: 'Aljabr Laundry',
           placeId: "#place1",
           logo: 'assets/aljabr.png',
@@ -806,11 +802,10 @@ class ApiServices {
                 closeTime: TimeOfDay(hour: 0, minute: 0),
                 weekNumber: 7),
           ],
-          status: 'opened')
-   ,
-   
-   LaundryModel(
-         service: ServicesModel(
+          status: 'opened'),
+
+      LaundryModel(
+          service: ServicesModel(
               vat: 0.00,
               id: 3,
               deliveryFee: 12.00,
@@ -818,13 +813,13 @@ class ApiServices {
               name: "Carpets",
               image: 'assets/services_carpets.jpeg',
               images: [
-                ServiceCarouselImage(image: 'assets/carpets_1.jpg'),
-                ServiceCarouselImage(image: 'assets/carpets_2.jpg'),
+                ServiceImage(image: 'assets/carpets_1.jpg'),
+                ServiceImage(image: 'assets/carpets_2.jpg'),
               ]),
           lat: 24.2,
           lng: 44.5,
           rating: 5.0,
-            address: "MPR5+M2J, Abu Bakr Alrazi St, As Sulimaniyah, Riyadh 12232",
+          address: "MPR5+M2J, Abu Bakr Alrazi St, As Sulimaniyah, Riyadh 12232",
           userRatingTotal: 25,
           id: 2,
           name: 'Al Rahden',
@@ -832,12 +827,9 @@ class ApiServices {
           logo: 'assets/al_rahden.png',
           distance: 1.7,
           type: 'register',
-                    banner: 'assets/blanket_and_linen_banner.jpg',
-
-          
+          banner: 'assets/blanket_and_linen_banner.jpg',
           seviceTypes: [
-               ServiceTypesModel(id: 4, serviceId: 3, type: 'wash'),
-          
+            ServiceTypesModel(id: 4, serviceId: 3, type: 'wash'),
           ],
           timeslot: [
             TimeSlot(
@@ -870,11 +862,6 @@ class ApiServices {
                 weekNumber: 7),
           ],
           status: 'opened')
-   
-   
-   
-   
-   
     ].where((element) => element.service!.id == serviceId).toList();
 
     return items;
@@ -1061,7 +1048,14 @@ class ApiServices {
           categoryId: 1,
           serviceId: 1,
           blanketItemId: 25),
-ItemModel(
+      ItemModel(
+          postfixLength: 0,
+          postfixWidth: 0,
+          prefixLength: 0,
+          prefixWidth: 0,
+          width: 0.0,
+          length: 0.0,
+          size: 0.0,
           id: 18,
           name: 'Carpet',
           laundryId: 1,
@@ -1072,9 +1066,7 @@ ItemModel(
           categoryId: 4,
           serviceId: 3,
           blanketItemId: 27),
-
-
-ItemModel(
+      ItemModel(
           id: 19,
           name: 'Mats',
           laundryId: 1,
@@ -1085,20 +1077,6 @@ ItemModel(
           categoryId: 4,
           serviceId: 3,
           blanketItemId: 28),
-
-
-
-
-      ItemModel(
-          id: 28,
-          image: 'assets/carpets/mats.png',
-          name: 'Mat',
-          serviceId: 3,
-          categoryId: 4),
-
-
-
-
     ];
 
     await Future.delayed(const Duration(seconds: 1));
