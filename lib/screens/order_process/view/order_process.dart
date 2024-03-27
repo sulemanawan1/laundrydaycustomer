@@ -10,7 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:laundryday/models/ratings.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
-import 'package:laundryday/screens/blankets_and_linen/view/blankets_category.dart';
+import 'package:laundryday/screens/laundry_items/view/blankets_category.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/order_process/components/delivery_time_widget.dart';
 import 'package:laundryday/screens/order_process/components/four_digit_code_widget.dart';

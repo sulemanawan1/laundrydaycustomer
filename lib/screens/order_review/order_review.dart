@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/models/laundry_model.dart';
 import 'package:laundryday/models/services_model.dart';
-import 'package:laundryday/screens/blankets_and_linen/view/blankets_category.dart';
+import 'package:laundryday/screens/laundry_items/view/blankets_category.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/order_review/order_review_notifier.dart';
 import 'package:laundryday/screens/order_review/order_review_states.dart';
