@@ -4,23 +4,24 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
-import 'package:laundryday/screens/laundry_items/view/blankets_category.dart';
+import 'package:laundryday/screens/laundry_items/components/carpet_measurement_widget.dart';
+import 'package:laundryday/screens/laundry_items/view/laundry_items.dart';
 import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/font_manager.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/value_manager.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_loader.dart';
 
 class ItemBottomSheet extends ConsumerWidget {
-
- final ItemModel itemModel;
-   ItemBottomSheet({super.key, required this. itemModel});
+  final ItemModel itemModel;
+  ItemBottomSheet({super.key, required this.itemModel});
 
   @override
-  Widget build(BuildContext context, WidgetRef reff) {
-
-    final blankets = reff.watch(blanketAndLinenProvider);
-    final loader = reff.watch(isLoadingProductsProvider);
+  Widget build(BuildContext context,WidgetRef ref) {
+  
+    final blankets = ref.watch(blanketAndLinenProvider);
+    final loader = ref.watch(isLoadingProductsProvider);
     return loader == false && blankets.isNotEmpty
         ? Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
@@ -49,41 +50,89 @@ class ItemBottomSheet extends ConsumerWidget {
                     itemBuilder: (BuildContext context, int index) {
                       return Card(
                         elevation: 6,
-                        child: ListTile(
-                          trailing: quantityAddRemoveCard(
-                              context: context,
-                              blankets: blankets[index],
-                              onTapRemoveQuantity: () {
-                                reff
-                                    .read(blanketAndLinenProvider.notifier)
-                                    .removeQuantity(id: blankets[index].id);
+                        child: Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                showDialog<void>(
+                                  useSafeArea: true,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                        insetPadding: const EdgeInsets.all(10),
+                                        clipBehavior:
+                                            Clip.antiAliasWithSaveLayer,
+                                        title: Center(
+                                          child: Heading(
+                                              text:
+                                                  "${itemModel.name.toString()} Size"),
+                                        ),
+                                        content: CarpetMeasurementWidget(
+                                          itemModel: blankets[index],
+                                        ));
+                                  },
+                                );
                               },
-                              onTapAddQuantity: () {
-                                reff
-                                    .read(blanketAndLinenProvider.notifier)
-                                    .addQuantity(id: blankets[index].id);
-
-                                reff
-                                    .read(selectedItemNotifier.notifier)
-                                    .checkAndUpdate(
-                                        id: blankets[index].id,
-                                        blankets: blankets[index],
-                                        categoryId: itemModel.categoryId);
-                              }),
-                          title: Text(
-                            blankets[index].name.toString(),
-                            maxLines: 2,
-                          ),
-                          subtitle: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: AppPadding.p10),
-                            child: Text(
-                              "${blankets[index].initialCharges.toString()} SAR",
-                              maxLines: 2,
-                              style: GoogleFonts.poppins(
-                                  color: ColorManager.blackColor),
+                              child: Card(
+                                  color: ColorManager.primaryColorOpacity10,
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.all(AppPadding.p10),
+                                    child: blankets[index].category == 'carpets'
+                                        ? Row(
+                                            children: [
+                                              10.pw,
+                                              const Icon(Icons.edit),
+                                              10.pw,
+                                              Text(
+                                                'Select Size ${blankets[index].size.toString()}',
+                                                style: GoogleFonts.poppins(
+                                                    fontSize: FontSize.s16,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              )
+                                            ],
+                                          )
+                                        :SizedBox() ,
+                                  )),
                             ),
-                          ),
+                            ListTile(
+                              trailing: quantityAddRemoveCard(
+                                  context: context,
+                                  blankets: blankets[index],
+                                  onTapRemoveQuantity: () {
+                                    ref
+                                        .read(blanketAndLinenProvider.notifier)
+                                        .removeQuantity(id: blankets[index].id);
+                                  },
+                                  onTapAddQuantity: () {
+                                    ref
+                                        .read(blanketAndLinenProvider.notifier)
+                                        .addQuantity(id: blankets[index].id);
+
+                                    ref
+                                        .read(selectedItemNotifier.notifier)
+                                        .checkAndUpdate(
+                                            id: blankets[index].id,
+                                            blankets: blankets[index],
+                                            categoryId: itemModel.categoryId);
+                                  }),
+                              title: Text(
+                                blankets[index].name.toString(),
+                                maxLines: 2,
+                              ),
+                              subtitle: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: AppPadding.p10),
+                                child: Text(
+                                  "${blankets[index].initialCharges.toString()} SAR",
+                                  maxLines: 2,
+                                  style: GoogleFonts.poppins(
+                                      color: ColorManager.blackColor),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       );
                     },
@@ -92,8 +141,8 @@ class ItemBottomSheet extends ConsumerWidget {
                 5.ph,
                 GestureDetector(
                   onTap: () async {
-                    reff.read(selectedItemsCountNotifier.notifier).state =
-                        reff.read(selectedItemNotifier.notifier).state.length;
+                    ref.read(selectedItemsCountNotifier.notifier).state =
+                        ref.read(selectedItemNotifier.notifier).state.length;
 
                     context.pop();
                   },
@@ -134,53 +183,48 @@ class ItemBottomSheet extends ConsumerWidget {
         : const Loader();
   }
 }
- Widget quantityAddRemoveCard(
-      {required BuildContext context,
-      required ItemModel blankets,
-      required void Function()? onTapRemoveQuantity,
-      required void Function()? onTapAddQuantity}) {
-    return Container(
-      height: 30,
-      decoration: ShapeDecoration(
-          color: ColorManager.primaryColor.withOpacity(0.2),
-          shape: const StadiumBorder()),
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-                constraints: const BoxConstraints(maxWidth: 30, minHeight: 30),
-                padding: const EdgeInsets.only(left: 5),
-                onPressed: onTapRemoveQuantity,
-                icon: Icon(
-                  Icons.remove,
-                  color: ColorManager.blackColor,
-                  size: 18,
-                )),
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 40, minWidth: 40),
-              child: Center(
-                child: Text(
-                  blankets.quantity.toString(),
-                  style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
-                ),
+
+Widget quantityAddRemoveCard(
+    {required BuildContext context,
+    required ItemModel blankets,
+    required void Function()? onTapRemoveQuantity,
+    required void Function()? onTapAddQuantity}) {
+  return Container(
+    height: 30,
+    decoration: ShapeDecoration(
+        color: ColorManager.primaryColor.withOpacity(0.2),
+        shape: const StadiumBorder()),
+    child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+              constraints: const BoxConstraints(maxWidth: 30, minHeight: 30),
+              padding: const EdgeInsets.only(left: 5),
+              onPressed: onTapRemoveQuantity,
+              icon: Icon(
+                Icons.remove,
+                color: ColorManager.blackColor,
+                size: 18,
+              )),
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 40, minWidth: 40),
+            child: Center(
+              child: Text(
+                blankets.quantity.toString(),
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
               ),
             ),
-            IconButton(
-                constraints: const BoxConstraints(maxWidth: 30, minHeight: 30),
-                padding: const EdgeInsets.only(right: 5),
-                onPressed: onTapAddQuantity,
-                icon: Icon(
-                  Icons.add,
-                  color: ColorManager.blackColor,
-                  size: 18,
-                )),
-          ]),
-    );
-  }
-
-
- 
-
-
- 
+          ),
+          IconButton(
+              constraints: const BoxConstraints(maxWidth: 30, minHeight: 30),
+              padding: const EdgeInsets.only(right: 5),
+              onPressed: onTapAddQuantity,
+              icon: Icon(
+                Icons.add,
+                color: ColorManager.blackColor,
+                size: 18,
+              )),
+        ]),
+  );
+}

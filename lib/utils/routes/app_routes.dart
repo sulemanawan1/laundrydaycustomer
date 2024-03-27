@@ -6,7 +6,7 @@ import 'package:laundryday/screens/auth/login/login.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/auth/verification/verification.dart';
 import 'package:laundryday/screens/laundries/view/blanket_and_linen_service_detail.dart';
-import 'package:laundryday/screens/laundry_items/view/blankets_category.dart';
+import 'package:laundryday/screens/laundry_items/view/laundry_items.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/delivery_pickup/components/view_image.dart';
 import 'package:laundryday/screens/laundry_care_guide/laundry_care_guide.dart';

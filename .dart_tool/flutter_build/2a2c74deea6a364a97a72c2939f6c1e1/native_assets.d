@@ -1,0 +1,1 @@
+ /Users/sulemanabrar/AndroidStudioProjects/laundrydaycustomer/.dart_tool/flutter_build/2a2c74deea6a364a97a72c2939f6c1e1/native_assets.yaml: 

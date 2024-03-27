@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/models/services_model.dart';
-import 'package:laundryday/screens/laundry_items/view/blankets_category.dart';
+import 'package:laundryday/screens/laundry_items/view/laundry_items.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/sized_box.dart';

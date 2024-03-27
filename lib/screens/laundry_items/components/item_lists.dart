@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/screens/laundry_items/components/item_bottom_sheet_widget.dart';
-import 'package:laundryday/screens/laundry_items/view/blankets_category.dart';
+import 'package:laundryday/screens/laundry_items/view/laundry_items.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/value_manager.dart';
@@ -41,9 +41,7 @@ class ItemLists extends ConsumerWidget {
                         .read(blanketAndLinenProvider.notifier)
                         .fetchLaundryItemSubCategories(itemId: item[index].id!);
 
-                    return Consumer(builder: (context, reff, child) {
-                      return ItemBottomSheet(itemModel: item[index]);
-                    });
+                    return ItemBottomSheet(itemModel: item[index]);
                   }));
             });
       },

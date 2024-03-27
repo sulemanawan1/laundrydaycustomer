@@ -9,13 +9,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/models/laundry_model.dart';
 import 'package:laundryday/models/services_model.dart';
-import 'package:laundryday/screens/laundry_items/view/blankets_category.dart';
+import 'package:laundryday/screens/laundry_items/view/laundry_items.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/order_review/order_review_notifier.dart';
 import 'package:laundryday/screens/order_review/order_review_states.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/sized_box.dart';
+import 'package:laundryday/utils/value_manager.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/heading.dart';
@@ -64,7 +65,6 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
     var finalAmount = ref.watch(orderReviewProvider.notifier).state.total;
 
     log(orderItem!.length.toString());
-    log(itemsList.length.toString());
 
     return Scaffold(
       appBar: MyAppBar(title: 'Review Order'),
@@ -314,7 +314,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
     return Container(
       margin: EdgeInsets.zero,
       color: color,
-      child: Column(
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
             title: Text(
@@ -325,9 +325,9 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
             subtitle: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                (element.initialCharges! *
+             '${(element.initialCharges! *
                         int.parse(element.quantity.toString()))
-                    .toString(),
+                    .toString()} SAR ',
                 maxLines: 2,
                 style: GoogleFonts.poppins(
                     color:textColor?? ColorManager.whiteColor,
@@ -402,18 +402,30 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                   ]),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: Text(
-                ''.toString(),
-                style: GoogleFonts.poppins(
-                    color: textColor ?? ColorManager.whiteColor,
-                    fontWeight: FontWeight.w600),
-              ),
+    element.category=='carpets'   ?   Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppPadding.p12),
+            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'L:${element.prefixLength}.${element.postfixLength}*W:${element.prefixWidth}.${element.postfixWidth}'.toString(),
+                  style:  GoogleFonts.poppins(
+                      color: textColor ?? ColorManager.whiteColor,
+                      fontWeight: FontWeight.w500),
+                ),
+            
+                Text(
+                   element.category.toString(),
+                  style:  GoogleFonts.poppins(
+                      color: textColor ?? ColorManager.whiteColor,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
             ),
-          ),
+          ):const SizedBox()
+      
+      
+      
+      
         ],
       ),
     );

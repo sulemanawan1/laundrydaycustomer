@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:laundryday/app_services/api_services.dart';
 import 'package:laundryday/models/item_model.dart';
-import 'package:laundryday/screens/laundry_items/view/blankets_category.dart';
+import 'package:laundryday/screens/laundry_items/view/laundry_items.dart';
 
 final _blanketAndLinenFakeApiProvider =
     Provider<ApiServices>((ref) => ApiServices());

@@ -1049,6 +1049,7 @@ class ApiServices {
           serviceId: 1,
           blanketItemId: 25),
       ItemModel(
+        
           postfixLength: 0,
           postfixWidth: 0,
           prefixLength: 0,
@@ -1067,13 +1068,17 @@ class ApiServices {
           serviceId: 3,
           blanketItemId: 27),
       ItemModel(
+         postfixLength: 0,
+          postfixWidth: 0,
+          prefixLength: 0,
+          prefixWidth: 0,
           id: 19,
           name: 'Mats',
           laundryId: 1,
           quantity: 0,
           initialCharges: 7.0,
           charges: 0,
-          category: 'carpets',
+          category: 'mats',
           categoryId: 4,
           serviceId: 3,
           blanketItemId: 28),

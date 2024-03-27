@@ -10,10 +10,13 @@ import 'package:laundryday/widgets/my_button.dart';
 
 class CarpetMeasurementWidget extends ConsumerWidget {
   ItemModel itemModel;
-   CarpetMeasurementWidget({super.key,required this.itemModel});
+  CarpetMeasurementWidget({super.key, required this.itemModel});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print(itemModel.prefixLength);
+        print(itemModel.postfixLength);
+
     return Consumer(builder: (context, ref, child) {
       return SizedBox(
         width: 300,
@@ -25,46 +28,39 @@ class CarpetMeasurementWidget extends ConsumerWidget {
                 children: [
                   myWheelListScroller(
                       title: "Length",
-                      initialValueSmallList: itemModel.prefixLength,
-                      initialValueLargeList: itemModel.postfixLength,
+                      initialValueSmallList: itemModel.prefixLength ?? 0,
+                      initialValueLargeList: itemModel.postfixLength ?? 0,
                       prefixSelectedItemChanged: (v) {
                         itemModel.prefixLength = v;
 
-                        itemModel.length =
-                            double.parse(
-                                "${itemModel.prefixLength}.${itemModel.postfixLength}");
-
+                        itemModel.length = double.parse(
+                            "${itemModel.prefixLength}.${itemModel.postfixLength}");
                       },
                       postfixSelectedItemChanged: (v) {
                         String formattedNumber = v.toString().padLeft(2, '0');
 
-                       itemModel.postfixLength = v;
+                        itemModel.postfixLength = v;
 
-                       itemModel .length =
-                            double.parse(
-                                "${itemModel.prefixLength}.${formattedNumber}");
-
+                        itemModel.length = double.parse(
+                            "${itemModel.prefixLength}.$formattedNumber");
                       },
                       smallList: 4,
                       largeList: 100),
                   myWheelListScroller(
-                      initialValueSmallList: itemModel.prefixWidth,
-                      initialValueLargeList: itemModel.postfixWidth,
+                      initialValueSmallList: itemModel.prefixWidth ?? 0,
+                      initialValueLargeList: itemModel.postfixWidth ?? 0,
                       title: "Width",
                       prefixSelectedItemChanged: (v) {
                         itemModel.prefixWidth = v;
-                        itemModel .width =
-                            double.parse(
-                                "${itemModel.prefixWidth}.${itemModel.postfixWidth}");
+                        itemModel.width = double.parse(
+                            "${itemModel.prefixWidth}.${itemModel.postfixWidth}");
                       },
                       postfixSelectedItemChanged: (v) {
                         String formattedNumber = v.toString().padLeft(2, '0');
 
                         itemModel.postfixWidth = v;
-                        itemModel .width =
-                            double.parse(
-                                "${itemModel.prefixWidth}.${formattedNumber}");
-
+                        itemModel.width = double.parse(
+                            "${itemModel.prefixWidth}.$formattedNumber");
                       },
                       smallList: 4,
                       largeList: 100),
@@ -117,8 +113,8 @@ Widget myWheelListScroller({
   void Function(int)? postfixSelectedItemChanged,
   required int smallList,
   required int largeList,
-  required initialValueSmallList,
-  required initialValueLargeList,
+  required int initialValueSmallList,
+  required int initialValueLargeList,
 }) {
   return Column(
     children: [
