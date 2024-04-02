@@ -15,11 +15,11 @@ import 'package:laundryday/screens/delivery_pickup/components/recieving_method_w
 import 'package:laundryday/screens/delivery_pickup/components/scan_receipt_widget.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_notifier.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_states.dart';
-import 'package:laundryday/screens/order_summary/order_summary.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/value_manager.dart';
+import 'package:laundryday/widgets/address_detail_widget.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';

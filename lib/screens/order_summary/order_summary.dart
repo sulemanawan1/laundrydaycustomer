@@ -4,6 +4,7 @@ import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/sized_box.dart';
+import 'package:laundryday/widgets/address_detail_widget.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/heading.dart';
@@ -104,49 +105,3 @@ class OrderDetailAddressWidget extends StatelessWidget {
   }
 }
 
-class AddressDetailWidget extends StatelessWidget {
-  const AddressDetailWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 0,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10),
-        child: Column(children: [
-          10.ph,
-          Row(
-            children: [
-              const Icon(
-                Icons.flag,
-                size: 14,
-              ),
-              10.pw,
-              const HeadingSmall(title: 'Pickup From'),
-              4.pw,
-              const Text('Al Mashtal ,Riyadh')
-            ],
-          ),
-          10.ph,
-          Row(
-            children: [
-              const Icon(Icons.inventory, size: 14),
-              10.pw,
-              const HeadingSmall(title: 'Delivered To'),
-              4.pw,
-              const Expanded(
-                  child: Text(
-                'Al Mahamid,AlHazm ,Riyadh',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ))
-            ],
-          ),
-          10.ph,
-        ]),
-      ),
-    );
-  }
-}

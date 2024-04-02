@@ -12,9 +12,10 @@ class ItemModel {
   String? category;
   int? categoryId;
   int? blanketItemId;
-   int? serviceId;
-
-   double? length;
+  int? serviceId;
+  
+//Carpet 
+  double? length;
   double? width;
   int? prefixLength;
   int? postfixLength;
