@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
-
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -46,26 +44,24 @@ class OrderReview extends ConsumerStatefulWidget {
 
 class _OrderCheckoutState extends ConsumerState<OrderReview> {
   int totalSeconds = 0;
-
-
   final record = AudioRecorder();
   File? audioFile;
   bool isRecording = false;
-
   Timer? timer;
+  late VoiceController voiceController;
   void stopRecording() async {
     await record.stop();
     timer!.cancel();
     totalSeconds = 0;
-
     isRecording = false;
 
     setState(() {});
   }
+
   String formatTime(int seconds) {
     int minutes = seconds ~/ 60;
     int remainingSeconds = seconds % 60;
-  
+
     return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
   }
 
@@ -80,19 +76,15 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
 
       timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         totalSeconds++;
-        log('Recording Time :'+ totalSeconds.toString());
-        
-setState(() {
-  
-});
-        if (totalSeconds >=90) {
+        log('Recording Time :' + totalSeconds.toString());
+
+        setState(() {});
+        if (totalSeconds >= 90) {
           stopRecording();
         }
       });
 
-
       audioFile = File(path);
-
 
       setState(() {});
 
@@ -105,11 +97,22 @@ setState(() {
     super.dispose();
     record.dispose();
     timer!.cancel();
+    voiceController.dispose();
   }
 
   @override
   void initState() {
     super.initState();
+
+    // if (audioFile != null) {
+    //   voiceController = VoiceController(
+    //       audioSrc: audioFile!.path.toString(),
+    //       maxDuration: const Duration(seconds: 90),
+    //       isFile: true,
+    //       onComplete: () {},
+    //       onPause: () {},
+    //       onPlaying: () {});
+    // }
 
     var subtotal =
         widget.orderDatailsArguments.laundryModel!.service!.deliveryFee +
@@ -132,7 +135,7 @@ setState(() {
     Map<int?, List<ItemModel>> li = groupItemsByCategory(itemsList);
     var finalAmount = ref.watch(orderReviewProvider.notifier).state.total;
 
-    log("Order Item Length :"+orderItem!.length.toString());
+    log("Order Item Length :" + orderItem!.length.toString());
 
     return Scaffold(
       appBar: MyAppBar(title: 'Review Order'),
@@ -142,7 +145,6 @@ setState(() {
           return SingleChildScrollView(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
               Card(
                 child: Column(
                   children: [
@@ -195,23 +197,13 @@ setState(() {
                                   backgroundColor: ColorManager.whiteColor,
                                   activeSliderColor: ColorManager.primaryColor,
                                   circlesColor: ColorManager.primaryColor,
-                                  controller: VoiceController(
-                                    audioSrc: audioFile!.path.toString(),
-                                    maxDuration: const Duration(seconds: 90),
-                                    isFile: true,
-                                    onComplete: () {
-                                      /// do something on complete
-                                    },
-                                    onPause: () {
-                                      /// do something on pause
-                                    },
-                                    onPlaying: () {
-                                      /// do something on playing
-                                    },
-                                    onError: (err) {
-                                      /// do somethin on error
-                                    },
-                                  ),
+                                  controller: voiceController = VoiceController(
+                                      audioSrc: audioFile!.path.toString(),
+                                      maxDuration: const Duration(seconds: 90),
+                                      isFile: true,
+                                      onComplete: () {},
+                                      onPause: () {},
+                                      onPlaying: () {}),
                                   innerPadding: 12,
                                   cornerRadius: 20,
                                   size: 38,
@@ -239,6 +231,8 @@ setState(() {
                                                           .redColor))),
                                       onPressed: () {
                                         audioFile = null;
+                                        stopRecording();
+
                                         setState(() {});
                                       },
                                       child: Center(
