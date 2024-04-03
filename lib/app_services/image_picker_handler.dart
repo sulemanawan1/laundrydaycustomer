@@ -1,14 +1,20 @@
+import 'dart:developer';
+
 import 'package:image_picker/image_picker.dart';
 
 class ImagePickerHandler {
   static Future<XFile?> pickImage({
     required ImageSource imageSource,
   }) async {
+    
     final ImagePicker picker = ImagePicker();
 
-    XFile? image =
-        await picker.pickImage(source: imageSource).then((value) => value);
+    log(picker.toString());
 
+    final XFile? image = await picker.pickImage(source: imageSource);
+    
+    
+    log(image.toString());
     if (image != null) {
       return image;
     }

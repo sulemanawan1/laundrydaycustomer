@@ -46,8 +46,8 @@ class ScanReceiptWidget extends ConsumerWidget {
                           icon: const Icon(
                             Icons.camera,
                           ),
-                          onPressed: () async {
-                            await ref
+                          onPressed: ()  {
+                             ref
                                 .read(deliverPickupProvider.notifier)
                                 .pickImage(
                                     imageSource: ImageSource.camera,

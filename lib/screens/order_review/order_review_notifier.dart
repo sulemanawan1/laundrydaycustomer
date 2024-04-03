@@ -4,6 +4,8 @@ import 'package:laundryday/screens/order_review/order_review_states.dart';
 class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
   OrderReviewNotifier()
       : super(OrderReviewStates(
+        isRecording:false,
+        isPaid: false,
             total: 0.0,
             paymentSelectedIndex: -1,
             paymentMethods: [
@@ -23,5 +25,10 @@ class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
 
   isPaymentStatus({required bool isPaid}) {
     state = state.copyWith(isPaid: isPaid);
+  }
+
+
+  recordingStatus({required bool input}) {
+    state = state.copyWith(isRecording: input);
   }
 }

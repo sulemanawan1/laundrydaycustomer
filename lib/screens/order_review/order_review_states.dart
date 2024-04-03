@@ -2,27 +2,30 @@ class OrderReviewStates {
   List<PaymentMethods> paymentMethods;
   int paymentSelectedIndex;
   double total;
-  bool isPaid ;
+  bool isPaid;
+  bool isRecording;
+  OrderReviewStates({
+    required this.paymentMethods,
+    required this.paymentSelectedIndex,
+    required this.total,
+    required this.isPaid,
+    required this.isRecording,
+  });
 
-  OrderReviewStates(
-      {required this.paymentMethods,
-      required this.paymentSelectedIndex,
-      required this.total,
-      
-      this.isPaid=false});
-
-  OrderReviewStates copyWith(
-      {List<PaymentMethods>? paymentMethods,
-      int? paymentSelectedIndex,
-      double? total,
-      bool? isPaid
-      
-      }) {
+  OrderReviewStates copyWith({
+    List<PaymentMethods>? paymentMethods,
+    int? paymentSelectedIndex,
+    double? total,
+    bool? isPaid,
+    bool? isRecording,
+  }) {
     return OrderReviewStates(
-        paymentMethods: paymentMethods ?? this.paymentMethods,
-        paymentSelectedIndex: paymentSelectedIndex ?? this.paymentSelectedIndex,
-        total: total ?? this.total,
-        isPaid: isPaid??this.isPaid);
+      paymentMethods: paymentMethods ?? this.paymentMethods,
+      paymentSelectedIndex: paymentSelectedIndex ?? this.paymentSelectedIndex,
+      total: total ?? this.total,
+      isPaid: isPaid ?? this.isPaid,
+      isRecording: isRecording ?? this.isRecording,
+    );
   }
 }
 
