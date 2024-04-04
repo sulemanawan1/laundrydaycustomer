@@ -43,8 +43,8 @@ class LocationHandler {
         desiredAccuracy: LocationAccuracy.high);
   }
 
-
- static Future<void> goToTheCurrentLoaction({required Completer<GoogleMapController> googleMapcontroller}) async {
+  static Future<void> goToTheCurrentLoaction(
+      {required Completer<GoogleMapController> googleMapcontroller}) async {
     final GoogleMapController controller = await googleMapcontroller.future;
 
     double selectedLat = 0.0;
@@ -61,5 +61,4 @@ class LocationHandler {
             tilt: 0.0,
             zoom: 16)));
   }
-
 }

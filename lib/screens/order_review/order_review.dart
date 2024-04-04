@@ -76,7 +76,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
 
       timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         totalSeconds++;
-        log('Recording Time :' + totalSeconds.toString());
+        log('Recording Time :$totalSeconds');
 
         setState(() {});
         if (totalSeconds >= 90) {
@@ -135,7 +135,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
     Map<int?, List<ItemModel>> li = groupItemsByCategory(itemsList);
     var finalAmount = ref.watch(orderReviewProvider.notifier).state.total;
 
-    log("Order Item Length :" + orderItem!.length.toString());
+    log("Order Item Length :${orderItem!.length}");
 
     return Scaffold(
       appBar: MyAppBar(title: 'Review Order'),
@@ -257,7 +257,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                                 ),
                                 10.ph,
                               ])
-                        : SizedBox(),
+                        : const SizedBox(),
                   ],
                 ),
               ),

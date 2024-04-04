@@ -9,8 +9,8 @@ class DatePickerHandler {
           return Theme(
               data: ThemeData.light().copyWith(
                 primaryColor:
-                    ColorManager. primaryColor, // Change the primary color
-                colorScheme:  ColorScheme.light(
+                    ColorManager.primaryColor, // Change the primary color
+                colorScheme: ColorScheme.light(
                     primary: ColorManager
                         .primaryColor), // Change other colors if needed
                 buttonTheme:

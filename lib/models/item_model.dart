@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 class ItemModel {
   int? id;
   int? laundryId;
@@ -13,8 +12,8 @@ class ItemModel {
   int? categoryId;
   int? blanketItemId;
   int? serviceId;
-  
-//Carpet 
+
+//Carpet
   double? length;
   double? width;
   int? prefixLength;
@@ -22,7 +21,6 @@ class ItemModel {
   int? prefixWidth;
   int? postfixWidth;
   double? size;
-
 
   ItemModel({
     this.id,
@@ -44,8 +42,6 @@ class ItemModel {
     this.postfixWidth,
     this.size,
   });
-  
-
 
   Map<String, dynamic> toMap() {
     return {
@@ -95,7 +91,8 @@ class ItemModel {
 
   String toJson() => json.encode(toMap());
 
-  factory ItemModel.fromJson(String source) => ItemModel.fromMap(json.decode(source));
+  factory ItemModel.fromJson(String source) =>
+      ItemModel.fromMap(json.decode(source));
 }
 
 // class Carpets extends ItemModel {
@@ -138,10 +135,6 @@ class ItemModel {
 //             blanketItemId: blanketItemId,
 //             serviceId: serviceId);
 
- 
-
-  
-
 //   Map<String, dynamic> toMap() {
 //     return {
 //       'length': length,
@@ -178,7 +171,7 @@ class ItemModel {
 //   @override
 //   bool operator ==(Object other) {
 //     if (identical(this, other)) return true;
-  
+
 //     return other is Carpets &&
 //       other.length == length &&
 //       other.width == width &&

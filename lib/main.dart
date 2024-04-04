@@ -9,8 +9,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // DBHelper().initDatabase();
-
   runApp(const ProviderScope(child: MyApp()));
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor:
@@ -29,7 +27,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      
       locale: const Locale('en'),
       localizationsDelegates: const [
         AppLocalizations.delegate, // Add this line
@@ -45,7 +42,6 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       routerConfig: AppRoutes().routes,
       theme: getApplicatonTheme(),
-      
     );
   }
 }
