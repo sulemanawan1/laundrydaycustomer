@@ -2,7 +2,6 @@ import 'dart:convert';
 
 class ItemModel {
   int? id;
-  int? laundryId;
   String? name;
   String? image;
   int? quantity;
@@ -24,7 +23,6 @@ class ItemModel {
 
   ItemModel({
     this.id,
-    this.laundryId,
     this.name,
     this.image,
     this.quantity,
@@ -46,7 +44,6 @@ class ItemModel {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'laundryId': laundryId,
       'name': name,
       'image': image,
       'quantity': quantity,
@@ -69,7 +66,6 @@ class ItemModel {
   factory ItemModel.fromMap(Map<String, dynamic> map) {
     return ItemModel(
       id: map['id']?.toInt(),
-      laundryId: map['laundryId']?.toInt(),
       name: map['name'],
       image: map['image'],
       quantity: map['quantity']?.toInt(),

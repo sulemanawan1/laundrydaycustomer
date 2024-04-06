@@ -873,7 +873,6 @@ class ApiServices {
       ItemModel(
           id: 1,
           name: 'Bed Cover Small',
-          laundryId: 1,
           quantity: 0,
           initialCharges: 4,
           charges: 4,
@@ -883,7 +882,6 @@ class ApiServices {
       ItemModel(
           id: 2,
           name: 'Bed Cover Medium',
-          laundryId: 1,
           quantity: 0,
           initialCharges: 4,
           charges: 4,
@@ -893,7 +891,6 @@ class ApiServices {
       ItemModel(
           id: 3,
           name: 'Bed Cover Large',
-          laundryId: 1,
           quantity: 0,
           initialCharges: 4,
           charges: 4,
@@ -903,7 +900,6 @@ class ApiServices {
       ItemModel(
           id: 4,
           name: 'Bed Spread Small',
-          laundryId: 1,
           quantity: 0,
           initialCharges: 4,
           charges: 4,
@@ -913,7 +909,6 @@ class ApiServices {
       ItemModel(
           id: 5,
           name: 'Bed Spread Medium',
-          laundryId: 1,
           quantity: 0,
           initialCharges: 6,
           charges: 6,
@@ -923,7 +918,6 @@ class ApiServices {
       ItemModel(
           id: 6,
           name: 'Bed Spread Large',
-          laundryId: 1,
           quantity: 0,
           initialCharges: 8,
           charges: 8,
@@ -933,7 +927,6 @@ class ApiServices {
       ItemModel(
           id: 7,
           name: 'Blanket Small',
-          laundryId: 1,
           quantity: 0,
           initialCharges: 4,
           charges: 4,
@@ -943,7 +936,6 @@ class ApiServices {
       ItemModel(
           id: 8,
           name: 'Blanket Medium',
-          laundryId: 1,
           quantity: 0,
           initialCharges: 6,
           charges: 6,
@@ -953,7 +945,6 @@ class ApiServices {
       ItemModel(
           id: 9,
           name: 'BlanketLarge',
-          laundryId: 1,
           quantity: 0,
           initialCharges: 8,
           charges: 8,
@@ -963,7 +954,6 @@ class ApiServices {
       ItemModel(
           id: 10,
           name: 'Guthra Red',
-          laundryId: 1,
           quantity: 0,
           initialCharges: 4,
           charges: 4,
@@ -974,7 +964,6 @@ class ApiServices {
       ItemModel(
           id: 11,
           name: 'Guthra White',
-          laundryId: 1,
           quantity: 0,
           initialCharges: 4,
           charges: 4,
@@ -985,7 +974,6 @@ class ApiServices {
       ItemModel(
           id: 12,
           name: 'Thobe',
-          laundryId: 1,
           quantity: 0,
           initialCharges: 4,
           charges: 4,
@@ -996,7 +984,6 @@ class ApiServices {
       ItemModel(
           id: 13,
           name: 'Scrub',
-          laundryId: 1,
           quantity: 0,
           initialCharges: 4,
           charges: 4,
@@ -1007,7 +994,6 @@ class ApiServices {
       ItemModel(
           id: 14,
           name: 'Medical Trouser',
-          laundryId: 1,
           quantity: 0,
           initialCharges: 4,
           charges: 4,
@@ -1018,7 +1004,6 @@ class ApiServices {
       ItemModel(
           id: 15,
           name: 'Lab Coat',
-          laundryId: 1,
           quantity: 0,
           initialCharges: 4,
           charges: 4,
@@ -1029,7 +1014,6 @@ class ApiServices {
       ItemModel(
           id: 16,
           name: 'Security Uniform',
-          laundryId: 1,
           quantity: 0,
           initialCharges: 4,
           charges: 4,
@@ -1040,7 +1024,6 @@ class ApiServices {
       ItemModel(
           id: 17,
           name: 'Army Uniform',
-          laundryId: 1,
           quantity: 0,
           initialCharges: 4,
           charges: 4,
@@ -1058,7 +1041,6 @@ class ApiServices {
           size: 0.0,
           id: 18,
           name: 'Carpet',
-          laundryId: 1,
           quantity: 0,
           initialCharges: 13.0,
           charges: 0,
@@ -1073,7 +1055,6 @@ class ApiServices {
           prefixWidth: 0,
           id: 19,
           name: 'Mats',
-          laundryId: 1,
           quantity: 0,
           initialCharges: 7.0,
           charges: 0,
