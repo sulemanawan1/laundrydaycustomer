@@ -104,16 +104,6 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
   void initState() {
     super.initState();
 
-    // if (audioFile != null) {
-    //   voiceController = VoiceController(
-    //       audioSrc: audioFile!.path.toString(),
-    //       maxDuration: const Duration(seconds: 90),
-    //       isFile: true,
-    //       onComplete: () {},
-    //       onPause: () {},
-    //       onPlaying: () {});
-    // }
-
     var subtotal =
         widget.orderDatailsArguments.laundryModel!.service!.deliveryFee +
             widget.orderDatailsArguments.laundryModel!.service!.operationFee;
@@ -145,123 +135,6 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
           return SingleChildScrollView(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Card(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        isRecording == false
-                            ? Row(
-                                children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        startRecording();
-                                      },
-                                      icon: Icon(Icons.mic,
-                                          color: ColorManager.blueColor)),
-                                  5.pw,
-                                  Text(
-                                    'Record your Order instructions.',
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w600),
-                                  )
-                                ],
-                              )
-                            : Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        stopRecording();
-                                      },
-                                      icon: Icon(
-                                        Icons.stop,
-                                        color: ColorManager.redColor,
-                                      )),
-                                  5.pw,
-                                  Text(
-                                    'Stop Recording ${formatTime(totalSeconds)}',
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w600),
-                                  )
-                                ],
-                              )
-                      ],
-                    ),
-                    audioFile?.path != null
-                        ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                                10.ph,
-                                VoiceMessageView(
-                                  backgroundColor: ColorManager.whiteColor,
-                                  activeSliderColor: ColorManager.primaryColor,
-                                  circlesColor: ColorManager.primaryColor,
-                                  controller: voiceController = VoiceController(
-                                      audioSrc: audioFile!.path.toString(),
-                                      maxDuration: const Duration(seconds: 90),
-                                      isFile: true,
-                                      onComplete: () {},
-                                      onPause: () {},
-                                      onPlaying: () {}),
-                                  innerPadding: 12,
-                                  cornerRadius: 20,
-                                  size: 38,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: AppPadding.p10),
-                                  child: OutlinedButton(
-                                      style: ButtonStyle(
-                                          overlayColor:
-                                              MaterialStateColor.resolveWith(
-                                                  (states) =>
-                                                      ColorManager
-                                                          .redColor
-                                                          .withOpacity(0.1)),
-                                          textStyle: MaterialStateProperty
-                                              .resolveWith(
-                                            (states) => GoogleFonts.poppins(
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          side: MaterialStateBorderSide
-                                              .resolveWith((states) =>
-                                                  BorderSide(
-                                                      color: ColorManager
-                                                          .redColor))),
-                                      onPressed: () {
-                                        audioFile = null;
-                                        stopRecording();
-
-                                        setState(() {});
-                                      },
-                                      child: Center(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.delete,
-                                              color: ColorManager.redColor,
-                                            ),
-                                            Text(
-                                              'Delete',
-                                              style: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.w500,
-                                                  color:
-                                                      ColorManager.blackColor),
-                                            )
-                                          ],
-                                        ),
-                                      )),
-                                ),
-                                10.ph,
-                              ])
-                        : const SizedBox(),
-                  ],
-                ),
-              ),
-              5.ph,
               widget.orderDatailsArguments.laundryModel!.service!.id == 3
                   ? ListView.builder(
                       shrinkWrap: true,
@@ -402,6 +275,122 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                             );
                           },
                         ),
+              Card(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        isRecording == false
+                            ? Row(
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        startRecording();
+                                      },
+                                      icon: Icon(Icons.mic,
+                                          color: ColorManager.blueColor)),
+                                  5.pw,
+                                  Text(
+                                    'Record your Order instructions.',
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                ],
+                              )
+                            : Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        stopRecording();
+                                      },
+                                      icon: Icon(
+                                        Icons.stop,
+                                        color: ColorManager.redColor,
+                                      )),
+                                  5.pw,
+                                  Text(
+                                    'Stop Recording ${formatTime(totalSeconds)}',
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                ],
+                              )
+                      ],
+                    ),
+                    audioFile?.path != null
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                                10.ph,
+                                VoiceMessageView(
+                                  backgroundColor: ColorManager.whiteColor,
+                                  activeSliderColor: ColorManager.primaryColor,
+                                  circlesColor: ColorManager.primaryColor,
+                                  controller: voiceController = VoiceController(
+                                      audioSrc: audioFile!.path.toString(),
+                                      maxDuration: const Duration(seconds: 90),
+                                      isFile: true,
+                                      onComplete: () {},
+                                      onPause: () {},
+                                      onPlaying: () {}),
+                                  innerPadding: 12,
+                                  cornerRadius: 20,
+                                  size: 38,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: AppPadding.p10),
+                                  child: OutlinedButton(
+                                      style: ButtonStyle(
+                                          overlayColor:
+                                              MaterialStateColor.resolveWith(
+                                                  (states) =>
+                                                      ColorManager
+                                                          .redColor
+                                                          .withOpacity(0.1)),
+                                          textStyle: MaterialStateProperty
+                                              .resolveWith(
+                                            (states) => GoogleFonts.poppins(
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          side: MaterialStateBorderSide
+                                              .resolveWith((states) =>
+                                                  BorderSide(
+                                                      color: ColorManager
+                                                          .redColor))),
+                                      onPressed: () {
+                                        audioFile = null;
+                                        stopRecording();
+
+                                        setState(() {});
+                                      },
+                                      child: Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.delete,
+                                              color: ColorManager.redColor,
+                                            ),
+                                            Text(
+                                              'Delete',
+                                              style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w500,
+                                                  color:
+                                                      ColorManager.blackColor),
+                                            )
+                                          ],
+                                        ),
+                                      )),
+                                ),
+                                10.ph,
+                              ])
+                        : const SizedBox(),
+                  ],
+                ),
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

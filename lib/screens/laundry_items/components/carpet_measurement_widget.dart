@@ -6,6 +6,7 @@ import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/widgets/heading_small.dart';
 import 'package:laundryday/widgets/my_button.dart';
 
 class CarpetMeasurementWidget extends ConsumerWidget {

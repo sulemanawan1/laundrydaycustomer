@@ -9,6 +9,7 @@ import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/value_manager.dart';
 import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/widgets/heading_small.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/my_textform_field.dart';
 
@@ -16,7 +17,7 @@ class Login extends StatelessWidget {
   const Login({super.key});
   @override
   Widget build(BuildContext context) {
-    final _key = GlobalKey<FormState>();
+    final key = GlobalKey<FormState>();
 
     final phoneNumberController = TextEditingController();
     return Container(
@@ -35,7 +36,7 @@ class Login extends StatelessWidget {
         child: Scaffold(
           backgroundColor: ColorManager.tranparentColor,
           body: Form(
-              key: _key,
+              key: key,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
                 child: Column(
@@ -54,11 +55,10 @@ class Login extends StatelessWidget {
                       ),
                       10.ph,
                       MyTextFormField(
-                         textInputType: TextInputType.number,
+                        textInputType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly,
                         ],
-                  
                         textColor: ColorManager.whiteColor,
                         fillColor: ColorManager.tranparentColor,
                         hintTextColor: ColorManager.whiteColor,

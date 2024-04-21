@@ -5,6 +5,7 @@ import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/value_manager.dart';
+import 'package:laundryday/widgets/heading_small.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:laundryday/widgets/heading.dart';
@@ -64,26 +65,6 @@ class HeadingMedium extends StatelessWidget {
           fontSize: 15,
           color: color ?? ColorManager.blackColor),
       textAlign: textAlign,
-    );
-  }
-}
-
-class HeadingSmall extends StatelessWidget {
-  final String title;
-
-  final Color? color;
-  const HeadingSmall({super.key, required this.title, this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      title,
-      textAlign: TextAlign.center,
-      style: GoogleFonts.poppins(
-        fontWeight: FontWeight.w500,
-        fontSize: 13,
-        color: color ?? ColorManager.blackColor,
-      ),
     );
   }
 }

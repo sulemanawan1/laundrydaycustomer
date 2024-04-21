@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/utils/sized_box.dart';
+import 'package:laundryday/widgets/heading_small.dart';
 
 class AddressDetailWidget extends StatelessWidget {
   const AddressDetailWidget({

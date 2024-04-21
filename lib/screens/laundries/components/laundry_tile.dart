@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/models/laundry_model.dart';
-import 'package:laundryday/screens/laundries/view/blanket_and_linen_service_detail.dart';
+import 'package:laundryday/screens/laundries/view/laundries.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
@@ -27,7 +27,7 @@ class LaundryTile extends ConsumerWidget {
 
       return Expanded(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppMargin.m10),
+          padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
           child: ListView.builder(
               shrinkWrap: true,
               itemCount: groupedItems.length,
@@ -38,28 +38,33 @@ class LaundryTile extends ConsumerWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    10.ph,
                     category == 'deliverypickup'
                         ? Center(
                             child: Container(
                               decoration: ShapeDecoration(
-                                shape: const StadiumBorder(),
-                                color: ColorManager.lightPurple,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(AppSize.s8)),
+                                color: ColorManager.purpleColor,
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: AppPadding.p10),
+                                  horizontal: AppPadding.p10,
+                                ),
                                 child: Center(
                                     child: Padding(
-                                  padding: const EdgeInsets.all(16),
+                                  padding: const EdgeInsets.all(AppPadding.p4),
                                   child: Heading(
                                     text: 'Recieving from the Laundry',
-                                    color: ColorManager.purpleColor,
+                                    color: ColorManager.whiteColor,
                                   ),
                                 )),
                               ),
                             ),
                           )
                         : const SizedBox(),
+                    10.ph,
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),

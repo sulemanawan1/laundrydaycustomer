@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/utils/colors.dart';
@@ -24,13 +25,16 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-
+      
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+          statusBarBrightness: Brightness.light, // For iOS (dark icons)
+        ),
         automaticallyImplyLeading: isLeading,
-        
-        iconTheme: IconThemeData(color:iconColor?? ColorManager.primaryColor),
+        iconTheme: IconThemeData(color: iconColor ?? ColorManager.primaryColor),
         elevation: 0,
-        backgroundColor:
-            backgroundColor ??  ColorManager.backgroundColor,
+        backgroundColor: backgroundColor ?? ColorManager.backgroundColor,
         centerTitle: true,
         title: Text(
           title ?? "",
@@ -40,7 +44,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               fontWeight: FontWeight.w600),
         ),
         actions: actions,
-        
         leading: isLeading
             ? IconButton(
                 onPressed: onPressed ??

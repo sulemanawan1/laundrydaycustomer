@@ -44,6 +44,8 @@ class OrderProcess extends ConsumerStatefulWidget {
 }
 
 class _OrderProcessState extends ConsumerState<OrderProcess> {
+  TimeOfDay? selectedTime;
+
   final _controller = DraggableScrollableController();
 
   final Completer<GoogleMapController> _googleMapcontroller =
@@ -60,6 +62,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
   @override
   void initState() {
     ref.read(orderProcessProvider.notifier).getCurrentLocation();
+    selectedTime = TimeOfDay.now();
 
     super.initState();
     generateRandomCode();
@@ -178,7 +181,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                             image: 'assets/vectors/step3.png',
                             title: 'Driver recieved order.',
                             description:
-                                'Driver received order,he is on his way')
+                                'Driver received order,he is on his way'),
                       ] else if (states.orderStatus == 4) ...[
                         const OrderStatusInfoWidget(
                             image: 'assets/vectors/step4.png',
@@ -203,7 +206,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: states.orderStatusList
                               .map((e) => (e.status == 1 || e.status == 2)
-                                  ? SizedBox()
+                                  ? const SizedBox()
                                   : InkWell(
                                       onTap: () {
                                         ref
@@ -439,6 +442,19 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                         textColor: Colors.amber,
                       ),
                     ),
+                    5.ph,
+                    states.orderStatus == 2
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: MyButton(
+                              color: ColorManager.amber,
+                              name: 'Confirm Pickup',
+                              onPressed: () {
+                                _showMyDialog();
+                              },
+                            ),
+                          )
+                        : const SizedBox(),
                     5.ph,
                     states.orderStatus != 1 && states.orderStatus != 0
                         ? Padding(
@@ -838,5 +854,72 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
     setState(() {
       fourDigitcode = code.toString().padLeft(4, '0');
     });
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Availability'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                    "If you are present at your location, press the 'I'm Available' button. Otherwise, select your availability time. This way, your order will be delivered at your chosen time."),
+                Text('Would you like to approve of this message?'),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton.icon(
+              icon: const Icon(
+                Icons.schedule,
+                color: Colors.grey,
+              ),
+              label: Text(
+                'Set availability',
+                style: GoogleFonts.poppins(color: ColorManager.amber),
+              ),
+              onPressed: () {
+                _selectTime(context);
+              },
+            ),
+            TextButton(
+              child: Text(
+                "I'm available",
+                style: GoogleFonts.poppins(color: ColorManager.primaryColor),
+              ),
+              onPressed: () {
+                context.pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay currentTime = TimeOfDay.now();
+
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialEntryMode: TimePickerEntryMode.dialOnly,
+      initialTime: currentTime,
+    );
+    const TimeOfDay nineAm = TimeOfDay(hour: 9, minute: 00);
+    const TimeOfDay tweleveAm = TimeOfDay(hour: 00, minute: 00);
+
+    if (picked != null) {
+      if (picked.hour > nineAm.hour && picked.hour > tweleveAm.hour) {
+        selectedTime = picked;
+        context.pop();
+      } else {
+        Utils.showToast(msg: 'The Availbilty Time Must between 9 AM to  12 AM');
+      }
+      setState(() {});
+    }
   }
 }

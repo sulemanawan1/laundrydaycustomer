@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:laundryday/screens/add_new_card.dart/add_new_card.dart';
 
 class CardUtils {
   static String? validateCVV(String? value) {

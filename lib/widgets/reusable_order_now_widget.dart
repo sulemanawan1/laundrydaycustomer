@@ -1,27 +1,58 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/font_manager.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/value_manager.dart';
 
-class ReusableOrderNowCard extends StatelessWidget {
+final reusableOrderNowCardProvider =
+    StateNotifierProvider<ReusableOrderNowCardNotifier, Color>(
+        (ref) => ReusableOrderNowCardNotifier());
+
+class ReusableOrderNowCardNotifier extends StateNotifier<Color> {
+  ReusableOrderNowCardNotifier() : super(ColorManager.primaryColor);
+
+  changeColor() {
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      state = state == ColorManager.primaryColor
+          ? Colors.green
+          : ColorManager.primaryColor;
+    });
+  }
+}
+
+class ReusableOrderNowCard extends ConsumerStatefulWidget {
   final void Function()? onPressed;
 
   const ReusableOrderNowCard({super.key, this.onPressed});
 
   @override
+  ConsumerState<ReusableOrderNowCard> createState() =>
+      _ReusableOrderNowCardState();
+}
+
+class _ReusableOrderNowCardState extends ConsumerState<ReusableOrderNowCard> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(reusableOrderNowCardProvider.notifier).changeColor();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
-      
-      color: ColorManager.lightPurple,
+      margin: EdgeInsets.zero,
+      color: ColorManager.purpleColor,
       shadowColor: ColorManager.mediumWhiteColor,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-        
+          5.ph,
           IntrinsicHeight(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -36,14 +67,14 @@ class ReusableOrderNowCard extends StatelessWidget {
                         Text(
                           'Order from the Nearest',
                           style: GoogleFonts.poppins(
-                              color: ColorManager.purpleColor,
+                              color: ColorManager.whiteColor,
                               fontWeight: FontWeightManager.bold,
                               fontSize: FontSize.s18),
                         ),
                         Text(
                           'Laundry',
                           style: GoogleFonts.poppins(
-                              color: ColorManager.greyColor,
+                              color: ColorManager.mediumWhiteColor,
                               fontWeight: FontWeightManager.medium,
                               fontSize: FontSize.s14),
                         ),
@@ -68,60 +99,68 @@ class ReusableOrderNowCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
-                  onTap: onPressed,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.35,
-                    height: AppSize.s40,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(AppSize.s40),
-                        color: ColorManager.primaryColor),
-                    child: Center(
-                      child: Text(
-                        'Order Now',
-                        style: GoogleFonts.poppins(
-                          color: ColorManager.whiteColor,
-                          fontSize: FontSize.s16,
-                          fontWeight: FontWeightManager.semiBold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/delivery_agent_vector.png',
-                      height: 40,
-                    ),
-                    Text(
-                      textAlign: TextAlign.start,
-                      'Remaining\nVisits',
-                      style: GoogleFonts.poppins(
-                          color: ColorManager.blackColor,
-                          fontSize: FontSize.s12,
-                          fontWeight: FontWeightManager.semiBold),
-                    ),
-                    10.pw,
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(AppSize.s8),
-                          color: ColorManager.mediumWhiteColor,
-                        ),
-                        child: Center(
-                            child: Text(
-                          '4',
+                  borderRadius: BorderRadius.circular(AppSize.s40),
+                  onTap: widget.onPressed,
+                  child: Consumer(builder: (context, ref, child) {
+                    final color = ref.watch(reusableOrderNowCardProvider);
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      width: MediaQuery.of(context).size.width * 0.35,
+                      height: AppSize.s40,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(AppSize.s40),
+                          color: color),
+                      child: Center(
+                        child: Text(
+                          'Order Now',
                           style: GoogleFonts.poppins(
-                              color: ColorManager.purpleColor,
-                              fontSize: FontSize.s20,
-                              fontWeight: FontWeightManager.heavyBold),
-                        )),
+                            color: ColorManager.whiteColor,
+                            fontSize: FontSize.s16,
+                            fontWeight: FontWeightManager.semiBold,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    );
+                  }),
+                ),
+                Card(
+                  color: ColorManager.whiteColor,
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/delivery_agent_vector.png',
+                        height: 40,
+                      ),
+                      Text(
+                        textAlign: TextAlign.start,
+                        'Remaining\nVisits',
+                        style: GoogleFonts.poppins(
+                            color: ColorManager.blackColor,
+                            fontSize: FontSize.s12,
+                            fontWeight: FontWeightManager.semiBold),
+                      ),
+                      10.pw,
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(AppSize.s8),
+                            color: ColorManager.mediumWhiteColor,
+                          ),
+                          child: Center(
+                              child: Text(
+                            '4',
+                            style: GoogleFonts.poppins(
+                                color: ColorManager.primaryColor,
+                                fontSize: FontSize.s20,
+                                fontWeight: FontWeightManager.heavyBold),
+                          )),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
