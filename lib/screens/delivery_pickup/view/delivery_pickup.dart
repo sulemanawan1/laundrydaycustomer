@@ -11,7 +11,6 @@ import 'package:laundryday/models/services_model.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/delivery_pickup/components/add_new_item_widget.dart';
 import 'package:laundryday/screens/delivery_pickup/components/extra_quantity_charges_widget.dart';
-import 'package:laundryday/screens/delivery_pickup/components/recieving_method_widget.dart';
 import 'package:laundryday/screens/delivery_pickup/components/scan_receipt_widget.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_notifier.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_states.dart';
@@ -83,7 +82,7 @@ class _DeliveryPickupState extends ConsumerState<DeliveryPickup> {
                         servicesModel: widget.arguments!.laundryModel!.service!,
                       ),
                       10.ph,
-                      RecievingMethod(),
+                      // RecievingMethod(),
                       DeliveryFeeWidget(
                           servicesModel:
                               widget.arguments!.laundryModel!.service)
@@ -127,8 +126,6 @@ class NextWiget extends ConsumerWidget {
         ],
       ),
     );
-
-    ;
   }
 }
 

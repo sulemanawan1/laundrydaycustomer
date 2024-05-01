@@ -3,20 +3,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
+import 'package:laundryday/screens/laundry_items/view/laundry_items.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/heading_small.dart';
 import 'package:laundryday/widgets/my_button.dart';
 
-class CarpetMeasurementWidget extends ConsumerWidget {
+class CarpetMeasurementWidget extends StatelessWidget {
   ItemModel itemModel;
   CarpetMeasurementWidget({super.key, required this.itemModel});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     print(itemModel.prefixLength);
-        print(itemModel.postfixLength);
+    print(itemModel.postfixLength);
 
     return Consumer(builder: (context, ref, child) {
       return SizedBox(
@@ -36,6 +37,10 @@ class CarpetMeasurementWidget extends ConsumerWidget {
 
                         itemModel.length = double.parse(
                             "${itemModel.prefixLength}.${itemModel.postfixLength}");
+
+                        // ref
+                        //     .read(blanketAndLinenProvider.notifier)
+                        //     .changeLength(Id: itemModel.id!, v: v);
                       },
                       postfixSelectedItemChanged: (v) {
                         String formattedNumber = v.toString().padLeft(2, '0');

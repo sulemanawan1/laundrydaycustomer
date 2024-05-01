@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/models/laundry_model.dart';
@@ -12,7 +11,7 @@ class ResuableLaundryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var types = laundry!.seviceTypes?.map((e) => e.type).toList();
+    var types = laundry!.seviceTypes.map((e) => e.type).toList();
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -137,7 +136,7 @@ class ResuableLaundryTile extends StatelessWidget {
                   ),
                   5.pw,
                   Text(
-                    laundry!.status??'',
+                    laundry!.status ?? '',
                     style: GoogleFonts.poppins(
                         color: laundry!.status == 'closed'
                             ? Colors.red

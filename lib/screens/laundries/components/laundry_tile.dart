@@ -1,12 +1,18 @@
+import 'dart:developer';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/models/laundry_model.dart';
+import 'package:laundryday/screens/laundries/components/delivery_pickup_heading.dart';
+import 'package:laundryday/screens/laundries/model/services_timings_model.dart';
+import 'package:laundryday/screens/laundries/provider/laundries_notifier.dart';
 import 'package:laundryday/screens/laundries/view/laundries.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/font_manager.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/value_manager.dart';
@@ -40,29 +46,7 @@ class LaundryTile extends ConsumerWidget {
                   children: [
                     10.ph,
                     category == 'deliverypickup'
-                        ? Center(
-                            child: Container(
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(AppSize.s8)),
-                                color: ColorManager.purpleColor,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: AppPadding.p10,
-                                ),
-                                child: Center(
-                                    child: Padding(
-                                  padding: const EdgeInsets.all(AppPadding.p4),
-                                  child: Heading(
-                                    text: 'Recieving from the Laundry',
-                                    color: ColorManager.whiteColor,
-                                  ),
-                                )),
-                              ),
-                            ),
-                          )
+                        ? DelieveryPickupHeading()
                         : const SizedBox(),
                     10.ph,
                     ListView.builder(
@@ -106,6 +90,7 @@ class LaundryTile extends ConsumerWidget {
                                   ),
                                   title: 'Closed');
                             } else {
+                              // Delivery Pickup Laundries
                               if (itemsInCategory[index].type ==
                                   'deliverypickup') {
                                 GoRouter.of(context)
@@ -114,9 +99,130 @@ class LaundryTile extends ConsumerWidget {
                                           laundryModel: itemsInCategory[index],
                                         ));
                               } else {
-                                GoRouter.of(context).pushNamed(
-                                    RouteNames().blanketsCategory,
-                                    extra: itemsInCategory[index]);
+                                // Normal Laundries
+
+                                if (itemsInCategory[index].service.name ==
+                                    'Clothes') {
+                                  showDialog<void>(
+                                    useSafeArea: true,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                          insetPadding:
+                                              const EdgeInsets.all(10),
+                                          clipBehavior:
+                                              Clip.antiAliasWithSaveLayer,
+                                          title: Center(
+                                            child: Heading(
+                                              text: 'Select Service Type',
+                                            ),
+                                          ),
+                                          content: Consumer(
+                                              builder: (context, reff, child) {
+                                            List<ServicesTimingModel> li = ref
+                                                .watch(laundriessProvider)
+                                                .serviceTypesList;
+
+                                            int? selected = ref
+                                                .watch(laundriessProvider)
+                                                .index;
+
+                                            log(li.length.toString());
+                                            return Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: List.generate(
+                                                  li.length,
+                                                  (indexx) => GestureDetector(
+                                                        onTap: () {
+                                                          log(indexx
+                                                              .toString());
+                                                          ref
+                                                              .read(
+                                                                  laundriessProvider
+                                                                      .notifier)
+                                                              .selectServiceTime(
+                                                                  index:
+                                                                      indexx);
+
+                                                          GoRouter.of(context).pushNamed(
+                                                              RouteNames()
+                                                                  .blanketsCategory,
+                                                              extra:
+                                                                  itemsInCategory[
+                                                                      index]);
+                                                          context.pop();
+                                                        },
+                                                        child: Column(
+                                                          children: [
+                                                            20.ph,
+                                                            SizedBox(
+                                                              width: 200,
+                                                              child: Card(
+                                                                color: selected ==
+                                                                        indexx
+                                                                    ? ColorManager
+                                                                        .purpleColorOpacity10
+                                                                    : ColorManager
+                                                                        .mediumWhiteColor,
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          8.0),
+                                                                  child: Center(
+                                                                    child:
+                                                                        Column(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .center,
+                                                                      children: [
+                                                                        10.ph,
+                                                                        Image.asset(
+                                                                            color:
+                                                                                ColorManager.purpleColor,
+                                                                            height: 60,
+                                                                            li[indexx].img),
+                                                                        10.ph,
+                                                                        Text(
+                                                                          li[indexx]
+                                                                              .name,
+                                                                          style: GoogleFonts.poppins(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: FontSize.s16),
+                                                                        ),
+                                                                        10.ph,
+                                                                        Text(
+                                                                          textAlign:
+                                                                              TextAlign.center,
+                                                                          li[indexx]
+                                                                              .description,
+                                                                          style: GoogleFonts.poppins(
+                                                                              color: ColorManager.greyColor,
+                                                                              fontWeight: FontWeight.w600,
+                                                                              fontSize: FontSize.s12),
+                                                                        ),
+                                                                        10.ph,
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      )),
+                                            );
+                                          }));
+                                    },
+                                  );
+                                } else {
+                                  GoRouter.of(context).pushNamed(
+                                      RouteNames().blanketsCategory,
+                                      extra: itemsInCategory[index]);
+                                }
                               }
                             }
                           },

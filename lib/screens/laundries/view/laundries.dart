@@ -49,7 +49,7 @@ class _BlanketAndLinenServiceDetailState extends ConsumerState<Laundries> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: widget.services!.id == 3
+      appBar: widget.services!.name == 'Carpets'
           ? null
           : MyAppBar(
               title: null,
@@ -57,7 +57,7 @@ class _BlanketAndLinenServiceDetailState extends ConsumerState<Laundries> {
               backgroundColor: ColorManager.purpleColor,
             ),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        if (widget.services!.id == 3) ...[
+        if (widget.services!.name == 'Carpets') ...[
           Stack(
             children: [
               widget.services!.images.isEmpty
@@ -133,26 +133,20 @@ class _BlanketAndLinenServiceDetailState extends ConsumerState<Laundries> {
                     banner: 'assets/category_banner/clothes_banner.jpg',
                     seviceTypes: [
                       ServiceTypesModel(
-                          id: 1,
-                          serviceId: 1,
-                          type: 'laundry',
-                          startingTime: 1,
-                          endingTime: 2,
-                          unit: 'Hr'),
+                        id: 1,
+                        serviceId: 1,
+                        type: 'laundry',
+                      ),
                       ServiceTypesModel(
-                          id: 2,
-                          serviceId: 1,
-                          type: 'drycleaning',
-                          startingTime: 30,
-                          endingTime: 50,
-                          unit: 'Min'),
+                        id: 2,
+                        serviceId: 1,
+                        type: 'drycleaning',
+                      ),
                       ServiceTypesModel(
-                          id: 3,
-                          serviceId: 1,
-                          type: 'pressing',
-                          startingTime: 1,
-                          endingTime: 2,
-                          unit: 'Hr'),
+                        id: 3,
+                        serviceId: 1,
+                        type: 'pressing',
+                      ),
                     ],
                     timeslot: [
                       TimeSlot(
@@ -189,7 +183,7 @@ class _BlanketAndLinenServiceDetailState extends ConsumerState<Laundries> {
             },
           ),
         ],
-        if (widget.services!.id == 3) ...[
+        if (widget.services!.name == 'Carpets') ...[
           CarpetLaundryTile(
             services: widget.services,
           )

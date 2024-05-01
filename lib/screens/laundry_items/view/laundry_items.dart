@@ -75,14 +75,14 @@ class _BlanketsCategoryState extends ConsumerState<BlanketsCategory>
               ? const AttentionWidget()
               : const SizedBox(),
           10.ph,
-          widget.laundry!.seviceTypes.length > 2
+          widget.laundry!.seviceTypes.length > 1
               ? ReusableServiceCategoryTabBar(
                   onTap: (v) {
                     ref.read(indexProvider.notifier).state = v;
                   },
                   list: widget.laundry!.seviceTypes,
                   tabController: tabController)
-              : const SizedBox(),
+              : SizedBox(),
           Expanded(
             child: FutureBuilder(
                 future: ref

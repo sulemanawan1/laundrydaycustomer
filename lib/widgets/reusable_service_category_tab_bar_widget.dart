@@ -1,10 +1,10 @@
 // ignore_for_file: must_be_immutable
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/models/service_types_model.dart';
+import 'package:laundryday/screens/laundries/provider/laundries_notifier.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
 
@@ -13,7 +13,7 @@ final indexProvider = StateProvider.autoDispose<int>((ref) {
 });
 
 class ReusableServiceCategoryTabBar extends ConsumerWidget {
-   List<ServiceTypesModel>? list;
+  List<ServiceTypesModel>? list;
   TabController? tabController;
   void Function(int)? onTap;
   ReusableServiceCategoryTabBar(
@@ -23,6 +23,7 @@ class ReusableServiceCategoryTabBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Consumer(builder: (context, ref, child) {
       final index = ref.watch(indexProvider);
+      final selection = ref.watch(laundriessProvider).index;
 
       return Container(
         height: 40,
@@ -92,7 +93,7 @@ class ReusableServiceCategoryTabBar extends ConsumerWidget {
                               ),
                               5.pw,
                               Text(
-                                "${category.startingTime.toString()}-${category.endingTime.toString()} ${category.unit.toString()}",
+                                getIndex(selectedServictype: selection ?? 3),
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
                                     fontSize: 12,
@@ -109,5 +110,16 @@ class ReusableServiceCategoryTabBar extends ConsumerWidget {
             })),
       );
     });
+  }
+
+  String getIndex({required int selectedServictype}) {
+    switch (selectedServictype) {
+      case 0:
+        return "24 hour";
+      case 1:
+        return "1 hour";
+      default:
+        return "";
+    }
   }
 }

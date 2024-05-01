@@ -60,7 +60,7 @@ class _OffersState extends State<Offers> {
                     height: 200,
                   ),
                 ),
-20.ph,
+                20.ph,
                 Expanded(
                   child: ListView.separated(
                     separatorBuilder: (context, index) => 10.ph,
@@ -95,7 +95,7 @@ class _OffersState extends State<Offers> {
                                         style: GoogleFonts.poppins(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold,
-                                            color: ColorManager. whiteColor),
+                                            color: ColorManager.whiteColor),
                                       ),
                                     )),
                                   ),
@@ -119,7 +119,7 @@ class _OffersState extends State<Offers> {
                                           child: Text(
                                             'Subscribe',
                                             style: GoogleFonts.poppins(
-                                                color: ColorManager. whiteColor,
+                                                color: ColorManager.whiteColor,
                                                 fontWeight: FontWeight.w600),
                                           ))
                                     ],
@@ -133,13 +133,10 @@ class _OffersState extends State<Offers> {
                                 children: [
                                   Row(
                                     children: [
-                                      SvgPicture.asset(
-                                        theme: SvgTheme(currentColor: ColorManager.greyColor),
-                                        
-                                        
-                                        'assets/delivery_agent.svg',
-                                        
-                                        width: 20,
+                                      Image.asset(
+                                        'assets/icons/delivery_agent.png',
+
+                                        width: 40,
                                         // ignore: deprecated_member_use
                                       ),
                                       5.pw,
@@ -155,9 +152,9 @@ class _OffersState extends State<Offers> {
                                   ),
                                   Row(
                                     children: [
-                                       Icon(
+                                      Icon(
                                         Icons.calendar_month,
-                                        color: ColorManager. greyColor,
+                                        color: ColorManager.greyColor,
                                         size: 12,
                                       ),
                                       5.pw,
@@ -180,13 +177,7 @@ class _OffersState extends State<Offers> {
                     },
                   ),
                 ),
-          
-          
-          
-          
               ]),
         ));
   }
 }
-
-

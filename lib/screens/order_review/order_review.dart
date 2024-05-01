@@ -96,7 +96,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
   void dispose() {
     super.dispose();
     record.dispose();
-    timer!.cancel();
+    timer?.cancel();
     voiceController.dispose();
   }
 

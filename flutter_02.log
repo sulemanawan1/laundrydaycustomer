@@ -1,0 +1,66 @@
+Flutter crash report.
+Please report a bug at https://github.com/flutter/flutter/issues.
+
+## command
+
+flutter run --machine --start-paused -d adb-R9JNC02YFPJ-2KgmBr._adb-tls-connect._tcp. --devtools-server-address http://127.0.0.1:9100/ --target /Users/sulemanabrar/AndroidStudioProjects/laundrydaycustomer/lib/main.dart
+
+## exception
+
+HttpException: HttpException: Connection closed before full header was received, uri = http://127.0.0.1:61237/ObCJLqvyECE=/ws
+
+```
+```
+
+## flutter doctor
+
+```
+[!] Flutter (Channel stable, 3.19.5, on macOS 13.5 22G74 darwin-arm64, locale en-SA)
+    • Flutter version 3.19.5 on channel stable at /Users/sulemanabrar/Desktop/flutter
+    ! Warning: `dart` on your path resolves to /opt/homebrew/Cellar/dart/3.2.6/libexec/bin/dart, which is not inside your current Flutter SDK checkout at /Users/sulemanabrar/Desktop/flutter. Consider adding /Users/sulemanabrar/Desktop/flutter/bin to the front of your path.
+    • Upstream repository https://github.com/flutter/flutter.git
+    • Framework revision 300451adae (4 weeks ago), 2024-03-27 21:54:07 -0500
+    • Engine revision e76c956498
+    • Dart version 3.3.3
+    • DevTools version 2.31.1
+    • If those were intentional, you can disregard the above warnings; however it is recommended to use "git" directly to perform update checks and upgrades.
+
+[✓] Android toolchain - develop for Android devices (Android SDK version 34.0.0)
+    • Android SDK at /Users/sulemanabrar/Library/Android/sdk
+    • Platform android-34-ext8, build-tools 34.0.0
+    • Java binary at: /Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java
+    • Java version OpenJDK Runtime Environment (build 17.0.7+0-17.0.7b1000.6-10550314)
+    • All Android licenses accepted.
+
+[✓] Xcode - develop for iOS and macOS (Xcode 15.1)
+    • Xcode at /Applications/Xcode.app/Contents/Developer
+    • Build 15C65
+    • CocoaPods version 1.14.3
+
+[✓] Chrome - develop for the web
+    • Chrome at /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+
+[✓] Android Studio (version 2023.1)
+    • Android Studio at /Applications/Android Studio.app/Contents
+    • Flutter plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/9212-flutter
+    • Dart plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/6351-dart
+    • android-studio-dir = /Applications/Android Studio.app
+    • Java version OpenJDK Runtime Environment (build 17.0.7+0-17.0.7b1000.6-10550314)
+
+[✓] VS Code (version 1.88.1)
+    • VS Code at /Applications/Visual Studio Code.app/Contents
+    • Flutter extension version 3.87.20240402
+
+[✓] Connected device (4 available)
+    • SM A025F (mobile)       • adb-R9JNC02YFPJ-2KgmBr._adb-tls-connect._tcp. • android-arm    • Android 12 (API 31)
+    • iPhone 15 Plus (mobile) • 73929AEE-6627-4DC1-87EF-48C8AFA9393E          • ios            • com.apple.CoreSimulator.SimRuntime.iOS-17-2 (simulator)
+    • macOS (desktop)         • macos                                         • darwin-arm64   • macOS 13.5 22G74 darwin-arm64
+    • Chrome (web)            • chrome                                        • web-javascript • Google Chrome 124.0.6367.91
+
+[✓] Network resources
+    • All expected network resources are available.
+
+! Doctor found issues in 1 category.
+```

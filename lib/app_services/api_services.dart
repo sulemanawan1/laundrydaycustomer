@@ -41,23 +41,17 @@ class ApiServices {
                 id: 1,
                 serviceId: 1,
                 type: 'laundry',
-                startingTime: 1,
-                endingTime: 2,
-                unit: 'Hr'),
+              ),
             ServiceTypesModel(
                 id: 2,
                 serviceId: 1,
                 type: 'drycleaning',
-                startingTime: 30,
-                endingTime: 50,
-                unit: 'Min'),
+            ),
             ServiceTypesModel(
                 id: 3,
                 serviceId: 1,
                 type: 'pressing',
-                startingTime: 1,
-                endingTime: 2,
-                unit: 'Hr'),
+             ),
           ],
           timeslot: [
             TimeSlot(

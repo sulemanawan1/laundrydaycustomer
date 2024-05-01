@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:laundryday/app_services/api_services.dart';
 import 'package:laundryday/models/item_model.dart';
@@ -259,4 +261,15 @@ class LaundryItemsNotifier extends StateNotifier<List<ItemModel>> {
     print(items.toString());
     return items;
   }
+
+  // changeLength({required int Id, required int v}) {
+  //   ItemModel itemModel = state.firstWhere((element) => element.id == Id);
+
+  //   itemModel.prefixLength = v;
+
+  //   itemModel.length =
+  //       double.parse("${itemModel.prefixLength}.${itemModel.postfixLength}");
+
+  //   state = [...state];
+  // }
 }
