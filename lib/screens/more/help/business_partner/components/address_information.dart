@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
@@ -10,7 +9,6 @@ import 'package:laundryday/app_services/location_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:laundryday/models/regions.dart';
 import 'package:laundryday/screens/more/help/business_partner/components/selected_businesses.dart';
 import 'package:laundryday/screens/more/help/business_partner/models/bussiness_partner_model.dart';
 import 'package:laundryday/screens/more/help/business_partner/notifier/business_partner_notifier.dart';
@@ -115,83 +113,102 @@ class _AddressInformationState extends ConsumerState<AddressInformation> {
             const Heading(text: 'Address'),
             8.ph,
 
-            FutureBuilder<Regions?>(
-              future: ref.read(businessPartnerProvider.notifier).fetchRegions(),
-              builder:
-                  (BuildContext context, AsyncSnapshot<Regions?> snapshot) {
-                return DropdownMenu(
-                    inputDecorationTheme: InputDecorationTheme(
-                      errorStyle: GoogleFonts.poppins(
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 10,
-                      ),
-                      labelStyle: GoogleFonts.poppins(
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 15,
-                          color: const Color(0xff555555)),
-                      hintStyle: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xff555555),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(
-                            color: ColorManager.primaryColor, width: 1.5),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(
-                            color: Color(0xffEEEEEE), width: 1.5),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide:
-                            const BorderSide(color: Colors.red, width: 1.5),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(
-                            color: ColorManager.primaryColor, width: 1.0),
-                      ),
-                      fillColor: ColorManager.whiteColor,
-                      filled: true,
-                      isDense: true,
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 16),
-                      constraints:
-                          const BoxConstraints(maxHeight: 44, minHeight: 44),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    hintText: 'Select the Regions',
-                    label: const Text('Regions'),
-                    textStyle: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15,
-                    ),
-                    menuStyle: MenuStyle(
-                        backgroundColor: MaterialStateColor.resolveWith(
-                            (states) => ColorManager.whiteColor)),
-                    onSelected: (val) {
-                      log(val.toString());
-
-                      ref
-                          .read(businessPartnerProvider.notifier)
-                          .setRegionId(regionId: val!);
-                    },
-                    dropdownMenuEntries: List.generate(
-                      snapshot.data!.regions!.length,
-                      (index) => DropdownMenuEntry(
-                          value: snapshot.data!.regions![index].id,
-                          label:
-                              snapshot.data!.regions![index].name.toString()),
-                    ));
+            DropdownMenu(
+              inputDecorationTheme: InputDecorationTheme(
+                errorStyle: GoogleFonts.poppins(
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 10,
+                ),
+                labelStyle: GoogleFonts.poppins(
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 15,
+                    color: const Color(0xff555555)),
+                hintStyle: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xff555555),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide:
+                      BorderSide(color: ColorManager.primaryColor, width: 1.5),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide:
+                      const BorderSide(color: Color(0xffEEEEEE), width: 1.5),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(color: Colors.red, width: 1.5),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide:
+                      BorderSide(color: ColorManager.primaryColor, width: 1.0),
+                ),
+                fillColor: ColorManager.whiteColor,
+                filled: true,
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                constraints: const BoxConstraints(maxHeight: 44, minHeight: 44),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              width: MediaQuery.of(context).size.width * 0.9,
+              hintText: 'Select the Region',
+              label: const Text('Region'),
+              textStyle: GoogleFonts.poppins(
+                fontWeight: FontWeight.w500,
+                fontSize: 15,
+              ),
+              menuStyle: MenuStyle(
+                  backgroundColor: MaterialStateColor.resolveWith(
+                      (states) => ColorManager.whiteColor)),
+              onSelected: (val) {
+                log(val.toString());
               },
+              dropdownMenuEntries: [
+                "Riyadh (Capital)",
+                "Al Kharj",
+                "Al Majma'ah",
+                "Thadiq",
+                "Durma",
+                "Hawtat Bani Tamim",
+                "Huraymila",
+                "Rimah",
+                "Rumah",
+                "Zulfi",
+                "Afif",
+                "Dharma",
+                "Ghat",
+                "Hotat Bani Tamim",
+                "Meymneh",
+                "Shaqraa",
+                "Al Duwadimi",
+                "Al Ghat",
+                "Al Hanakiyah",
+                "Al Kharj Rural",
+                "Al Majma'ah Rural",
+                "Al Remah",
+                "Al Sodah",
+                "Al Zulfi",
+                "As Saffaniyah",
+                "Dhurma",
+                "Ghat Rural",
+                "Haraj",
+                "Hawtat Sudayr",
+                "Huraymila",
+                "Jilh",
+                "Muzahmiah",
+                "Shaqraa",
+                "Thadig",
+                "Wadi ad-Dawasir"
+              ].map((e) => DropdownMenuEntry(value: e, label: e)).toList(),
             ),
+
             8.ph,
 
             DropdownMenu(

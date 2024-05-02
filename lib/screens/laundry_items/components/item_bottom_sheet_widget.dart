@@ -18,8 +18,7 @@ class ItemBottomSheet extends ConsumerWidget {
   ItemBottomSheet({super.key, required this.itemModel});
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
-  
+  Widget build(BuildContext context, WidgetRef ref) {
     final blankets = ref.watch(blanketAndLinenProvider);
     final loader = ref.watch(isLoadingProductsProvider);
     return loader == false && blankets.isNotEmpty
@@ -73,13 +72,13 @@ class ItemBottomSheet extends ConsumerWidget {
                                   },
                                 );
                               },
-                              child: Card(
-                                  color: ColorManager.primaryColorOpacity10,
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.all(AppPadding.p10),
-                                    child: blankets[index].category == 'carpets'
-                                        ? Row(
+                              child: blankets[index].category == 'carpets'
+                                  ? Card(
+                                      color: ColorManager.primaryColorOpacity10,
+                                      child: Padding(
+                                          padding: const EdgeInsets.all(
+                                              AppPadding.p10),
+                                          child: Row(
                                             children: [
                                               10.pw,
                                               const Icon(Icons.edit),
@@ -92,9 +91,8 @@ class ItemBottomSheet extends ConsumerWidget {
                                                         FontWeight.w500),
                                               )
                                             ],
-                                          )
-                                        :SizedBox() ,
-                                  )),
+                                          )))
+                                  : SizedBox(),
                             ),
                             ListTile(
                               trailing: quantityAddRemoveCard(

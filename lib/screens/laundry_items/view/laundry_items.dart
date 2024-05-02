@@ -90,6 +90,7 @@ class _BlanketsCategoryState extends ConsumerState<BlanketsCategory>
                     .getAllLaundryItemCategory(
                         serviceId: widget.laundry!.service!.id,
                         categoryId: widget.laundry!.seviceTypes[index].id!),
+                        
                 builder: (BuildContext context,
                     AsyncSnapshot<List<ItemModel>> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {

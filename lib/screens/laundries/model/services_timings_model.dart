@@ -4,13 +4,15 @@ class ServicesTimingModel {
   int id;
   String name;
   String description;
-  String duration;
+  int duration;
+  String type;
   String img;
   ServicesTimingModel({
     required this.id,
     required this.name,
     required this.description,
     required this.duration,
+    required this.type,
     required this.img,
   });
 
@@ -18,7 +20,8 @@ class ServicesTimingModel {
     int? id,
     String? name,
     String? description,
-    String? duration,
+    int? duration,
+    String? type,
     String? img,
   }) {
     return ServicesTimingModel(
@@ -26,6 +29,7 @@ class ServicesTimingModel {
       name: name ?? this.name,
       description: description ?? this.description,
       duration: duration ?? this.duration,
+      type: type ?? this.type,
       img: img ?? this.img,
     );
   }
@@ -36,6 +40,7 @@ class ServicesTimingModel {
       'name': name,
       'description': description,
       'duration': duration,
+      'type': type,
       'img': img,
     };
   }
@@ -45,7 +50,8 @@ class ServicesTimingModel {
       id: map['id']?.toInt() ?? 0,
       name: map['name'] ?? '',
       description: map['description'] ?? '',
-      duration: map['duration'] ?? '',
+      duration: map['duration']?.toInt() ?? 0,
+      type: map['type'] ?? '',
       img: map['img'] ?? '',
     );
   }
@@ -57,7 +63,7 @@ class ServicesTimingModel {
 
   @override
   String toString() {
-    return 'ServiceTypeTime(id: $id, name: $name, description: $description, duration: $duration, img: $img)';
+    return 'ServicesTimingModel(id: $id, name: $name, description: $description, duration: $duration, type: $type, img: $img)';
   }
 
   @override
@@ -69,6 +75,7 @@ class ServicesTimingModel {
         other.name == name &&
         other.description == description &&
         other.duration == duration &&
+        other.type == type &&
         other.img == img;
   }
 
@@ -78,6 +85,7 @@ class ServicesTimingModel {
         name.hashCode ^
         description.hashCode ^
         duration.hashCode ^
+        type.hashCode ^
         img.hashCode;
   }
 }

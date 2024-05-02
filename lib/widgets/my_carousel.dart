@@ -23,7 +23,8 @@ class MyCarousel extends StatefulWidget {
 class _MyCarouselState extends State<MyCarousel> {
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return 
+    Card(
       color: Colors.transparent,
       elevation: 0,
       child: CarouselSlider(

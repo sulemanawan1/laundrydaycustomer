@@ -252,7 +252,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                                           e.isActive
                                               ? Text(
                                                   DateFormat("jm")
-                                                      .format(e.createdAt)
+                                                      .format(e.createdAt!)
                                                       .toString(),
                                                   style: GoogleFonts.poppins(
                                                       fontWeight:
@@ -359,7 +359,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                                         e.isActive
                                             ? Text(
                                                 DateFormat("jm")
-                                                    .format(e.createdAt)
+                                                    .format(e.createdAt!)
                                                     .toString(),
                                                 style: GoogleFonts.poppins(
                                                     fontWeight: FontWeight.w600,
@@ -484,7 +484,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                                   ),
                                   onMapCreated:
                                       (GoogleMapController controller) {
-                                    _googleMapcontroller.complete(controller);
+                                    // _googleMapcontroller.complete(controller);
                                   },
                                   markers: {
                                     Marker(

@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_controller.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +13,8 @@ import 'package:laundryday/screens/services/provider/services_states.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/value_manager.dart';
+import 'package:laundryday/widgets/my_carousel.dart';
+import 'package:laundryday/widgets/my_carousel_indicator.dart';
 
 final serviceProvider = StateNotifierProvider<ServicesNotifier, ServicesStates>(
     (ref) => ServicesNotifier());
@@ -25,7 +28,7 @@ class Services extends ConsumerStatefulWidget {
 
 class _ServicesState extends ConsumerState<Services> {
   List<ServicesModel> services = [];
-  final int _currentIndex = 0;
+  int _currentIndex = 0;
   final CarouselController _carouselController = CarouselController();
 
   List images = [
@@ -179,48 +182,68 @@ class _ServicesState extends ConsumerState<Services> {
           10.pw,
         ],
       ),
-      body: LayoutBuilder(builder: (context, constraints) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
-          child: SizedBox(
-            height: constraints.maxHeight,
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              SizedBox(
-                height: constraints.maxHeight * 0.3,
-                child: const OnGoingOrderListWidget(),
-              ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
+        child: SingleChildScrollView(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            const OnGoingOrderListWidget(),
 
-              // MyCarousel(
-              //   images: images,
-              //   index: _currentIndex,
-              //   carouselController: _carouselController,
-              //   onPageChanged: (index, reason) {
-              //     setState(() {
-              //       _currentIndex = index;
-              //     });
-              //   },
-              // ),
-              // 10.ph,
-              // MyCarouselIndicator(
-              //   dotCount: images.length,
-              //   position: _currentIndex,
-              //   onTap: (int index) {
+            // Column(
+            //   children: [
+            //     10.ph,
+            //     Card(
+            //       color: Colors.transparent,
+            //       elevation: 0,
+            //       child: CarouselSlider(
+            //         carouselController: _carouselController,
+            //         items: images
+            //             .map((e) => ClipRRect(
+            //                   borderRadius: BorderRadius.circular(8),
+            //                   child: Image.asset(
+            //                     e.toString(),
+            //                     fit: BoxFit.cover,
+            //                     width: double.infinity,
+            //                   ),
+            //                 ))
+            //             .toList(),
+            //         options: CarouselOptions(
+            //           padEnds: true,
+            //           viewportFraction: 1,
+            //           aspectRatio: 16 / 6,
+            //           enableInfiniteScroll: true,
+            //           autoPlay: true,
+            //           animateToClosest: true,
+            //           autoPlayInterval: const Duration(seconds: 2),
 
-              //     // _carouselController.animateToPage(index);
+            //           // autoPlayAnimationDuration: const Duration(milliseconds: 50),
+            //           autoPlayCurve: Curves.linear,
+            //           enlargeCenterPage: true,
+            //           onPageChanged: (index, reason) {
+            //             setState(() {
+            //               _currentIndex = index;
+            //             });
+            //           },
+            //         ),
+            //       ),
+            //     ),
+            //     10.ph,
+            //     MyCarouselIndicator(
+            //       dotCount: images.length,
+            //       position: _currentIndex,
+            //       onTap: (int index) {
+            //         // _carouselController.animateToPage(index);
+            //       },
+            //     ),
+            //   ],
+            // ),
 
-              //   },
-              // ),
-              SizedBox(
-                height: constraints.maxHeight * 0.7,
-                child: ServicesGrid(
-                  services: services,
-                ),
-              ),
-            ]),
-          ),
-        );
-      }),
+            ServicesGrid(
+              services: services,
+            ),
+          ]),
+        ),
+      ),
     );
   }
 }

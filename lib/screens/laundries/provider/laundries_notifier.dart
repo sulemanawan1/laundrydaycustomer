@@ -10,13 +10,15 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
   LaundriesNotifier()
       : super(LaundriesStates(index: 0, serviceTypesList: [
           ServicesTimingModel(
-              duration: '24 hour',
+              duration: 1,
+              type: 'day',
               description: '24-hours Service',
               id: 1,
               name: 'Normal',
               img: 'assets/icons/24-hour-service.png'),
           ServicesTimingModel(
-              duration: '1 hour',
+              duration: 1,
+              type: 'hour',
               description: '1 hour Service',
               id: 2,
               name: 'Quick',

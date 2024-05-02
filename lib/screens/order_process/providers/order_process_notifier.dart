@@ -11,7 +11,7 @@ class OrderProcessNotifier extends StateNotifier<OrderProcessStates> {
       : super(OrderProcessStates(
             currentLocation: null,
             orderStatusList: [
-              OrderStatus(
+              OrderStatusModel(
                 isActive: true,
                 id: 1,
                 orderId: 1,
@@ -19,14 +19,14 @@ class OrderProcessNotifier extends StateNotifier<OrderProcessStates> {
                 description: 'Accepted\nOrder',
                 createdAt: DateTime.now(),
               ),
-              OrderStatus(
+              OrderStatusModel(
                   description: 'Approach\nYou',
                   isActive: false,
                   id: 2,
                   orderId: 1,
                   status: 1,
                   createdAt: DateTime.now().add(const Duration(minutes: 5))),
-              OrderStatus(
+              OrderStatusModel(
                 description: 'Invoice\nCreated',
                 isActive: false,
                 id: 3,
@@ -34,7 +34,7 @@ class OrderProcessNotifier extends StateNotifier<OrderProcessStates> {
                 status: 2,
                 createdAt: DateTime.now().add(const Duration(minutes: 10)),
               ),
-              OrderStatus(
+              OrderStatusModel(
                 description: 'Order\nPickup',
                 id: 4,
                 isActive: false,
@@ -42,7 +42,7 @@ class OrderProcessNotifier extends StateNotifier<OrderProcessStates> {
                 status: 3,
                 createdAt: DateTime.now().add(const Duration(minutes: 20)),
               ),
-              OrderStatus(
+              OrderStatusModel(
                 description: 'Approach\nYou',
                 isActive: false,
                 id: 5,
@@ -50,7 +50,7 @@ class OrderProcessNotifier extends StateNotifier<OrderProcessStates> {
                 status: 4,
                 createdAt: DateTime.now().add(const Duration(minutes: 30)),
               ),
-              OrderStatus(
+              OrderStatusModel(
                 description: 'Order\nDelivered',
                 isActive: false,
                 id: 6,
@@ -66,7 +66,7 @@ class OrderProcessNotifier extends StateNotifier<OrderProcessStates> {
   }
 
   updateIsActive({required id}) {
-    OrderStatus orderStatus =
+    OrderStatusModel orderStatus =
         state.orderStatusList.firstWhere((element) => element.id == id);
     orderStatus.isActive = !orderStatus.isActive;
 

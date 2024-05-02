@@ -49,6 +49,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
   bool isRecording = false;
   Timer? timer;
   late VoiceController voiceController;
+
   void stopRecording() async {
     await record.stop();
     timer!.cancel();
@@ -102,6 +103,13 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
 
   @override
   void initState() {
+    voiceController = VoiceController(
+        audioSrc: '',
+        maxDuration: Duration(),
+        isFile: false,
+        onComplete: () {},
+        onPause: () {},
+        onPlaying: () {});
     super.initState();
 
     var subtotal =
@@ -110,6 +118,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
 
     widget.orderDatailsArguments.laundryModel!.service!.vat =
         (subtotal * 15) / 100;
+
     ref.read(orderReviewProvider.notifier).state.total =
         subtotal + widget.orderDatailsArguments.laundryModel!.service!.vat;
   }
@@ -141,6 +150,12 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: itemsList.length,
                       itemBuilder: (BuildContext context, int index) {
+                        double total = 0.0;
+                        for (int i = 0; i < itemsList.length; i++) {
+                          total = total + itemsList[i].charges!;
+                        }
+
+                        log('The Total is $total');
                         return groupItemCard(
                             textColor: ColorManager.blackColor,
                             color: Colors.white,
@@ -172,6 +187,11 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                                     itemCount: orderItem.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
+                                      double totalPrice = orderItem
+                                          .map((order) => order.charges!)
+                                          .reduce((value, element) =>
+                                              value + element);
+
                                       return ListTile(
                                         tileColor:
                                             ColorManager.mediumWhiteColor,
