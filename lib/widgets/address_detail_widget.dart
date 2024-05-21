@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/utils/sized_box.dart';
-import 'package:laundryday/widgets/heading_small.dart';
 
 class AddressDetailWidget extends StatelessWidget {
   const AddressDetailWidget({
@@ -23,7 +22,7 @@ class AddressDetailWidget extends StatelessWidget {
                 size: 14,
               ),
               10.pw,
-              const HeadingSmall(title: 'Pickup From'),
+               HeadingMedium(title: 'Pickup From'),
               4.pw,
               const Text('Al Mashtal ,Riyadh')
             ],
@@ -33,7 +32,7 @@ class AddressDetailWidget extends StatelessWidget {
             children: [
               const Icon(Icons.inventory, size: 14),
               10.pw,
-              const HeadingSmall(title: 'Delivered To'),
+               HeadingMedium(title: 'Delivered To'),
               4.pw,
               const Expanded(
                   child: Text(

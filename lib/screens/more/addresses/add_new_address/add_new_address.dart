@@ -11,7 +11,6 @@ import 'package:laundryday/screens/more/addresses/add_new_address/add_address_st
 import 'package:laundryday/screens/more/addresses/add_new_address/notifiers/add_new_address_notifier.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
-import 'package:laundryday/widgets/heading_small.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/my_textform_field.dart';
@@ -140,16 +139,16 @@ class _AddNewAddressState extends ConsumerState<AddNewAddress> {
                             ],
                           ),
                           10.ph,
-                          const HeadingSmall(title: 'Address Name'),
+                          HeadingMedium(title: 'Address Name'),
                           10.ph,
                           MyTextFormField(hintText: 'Ex: Home', labelText: ''),
                           10.ph,
-                          const HeadingSmall(title: 'Address Details'),
+                          HeadingMedium(title: 'Address Details'),
                           10.ph,
                           MyTextFormField(
                               hintText: 'Ex: Building no', labelText: ''),
                           10.ph,
-                          const HeadingSmall(title: 'Address Photo'),
+                          HeadingMedium(title: 'Address Photo'),
                           10.ph,
                           GestureDetector(
                             onTap: () {

@@ -19,7 +19,6 @@ import 'package:laundryday/utils/sized_box.dart';
 
 import 'package:laundryday/app_services/date_picker_handler.dart';
 import 'package:laundryday/utils/value_manager.dart';
-import 'package:laundryday/widgets/heading_small.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/my_textform_field.dart';
@@ -203,7 +202,7 @@ class _AgentRegistrationState extends ConsumerState<AgentRegistration> {
                         10.ph,
                          Align(
                           alignment: Alignment.center,
-                          child: HeadingSmall(
+                          child: HeadingMedium(
                             title: 'Tap to add Profile Picture',
                             color: ColorManager.greyColor,
                           ),

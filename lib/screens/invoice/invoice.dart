@@ -25,7 +25,8 @@ class Invoice extends StatelessWidget {
                   5.pw,
                   Text(
                     'Tax\nInvoice',
-                    style: GoogleFonts.poppins(color: ColorManager. primaryColor),
+                    style:
+                        GoogleFonts.poppins(color: ColorManager.primaryColor),
                     textAlign: TextAlign.center,
                   )
                 ],
@@ -34,11 +35,24 @@ class Invoice extends StatelessWidget {
             10.pw,
           ],
         ),
-        body: Center(
-            child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.8,
-                child: Image.asset(
-                  'assets/invoice.png',
-                ))));
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Center(
+                  child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      child: Image.asset(
+                        'assets/invoice.png',
+                      ))),
+              20.ph,
+              Center(
+                  child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      child: Image.asset(
+                        'assets/pickup_invoice.jpeg',
+                      ))),
+            ],
+          ),
+        ));
   }
 }

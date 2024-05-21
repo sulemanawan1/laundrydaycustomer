@@ -6,7 +6,6 @@ import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/value_manager.dart';
-import 'package:laundryday/widgets/heading_small.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/heading.dart';
@@ -40,7 +39,7 @@ class _ProfileState extends State<Profile> {
                   color: ColorManager.greyColor,
                 ),
                 10.pw,
-                const HeadingSmall(title: "Full Name"),
+                 HeadingMedium(title: "Full Name"),
               ],
             ),
             10.ph,
@@ -57,7 +56,7 @@ class _ProfileState extends State<Profile> {
                   color: ColorManager. greyColor,
                 ),
                 10.pw,
-                const HeadingSmall(title: "Mobile Number"),
+                 HeadingMedium(title: "Mobile Number"),
               ],
             ),
             10.ph,

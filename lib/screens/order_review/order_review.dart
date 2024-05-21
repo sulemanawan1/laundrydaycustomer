@@ -23,7 +23,7 @@ import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/payment_method_widget.dart';
 import 'package:laundryday/widgets/payment_summary_widget.dart';
 import 'package:collection/collection.dart';
-import 'package:moyasar/moyasar.dart';
+// import 'package:moyasar/moyasar.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
@@ -116,11 +116,10 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
         widget.orderDatailsArguments.laundryModel!.service!.deliveryFee +
             widget.orderDatailsArguments.laundryModel!.service!.operationFee;
 
-    widget.orderDatailsArguments.laundryModel!.service!.vat =
-        (subtotal * 15) / 100;
+    // widget.orderDatailsArguments.laundryModel!.service!.vat =
+    //     (subtotal * 15) / 100;
 
-    ref.read(orderReviewProvider.notifier).state.total =
-        subtotal + widget.orderDatailsArguments.laundryModel!.service!.vat;
+    ref.read(orderReviewProvider.notifier).state.total = subtotal;
   }
 
   Map<int?, List<ItemModel>> groupItemsByCategory(List<ItemModel> items) {
@@ -427,45 +426,45 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                       ? MyButton(
                           name: 'Pay $finalAmount',
                           onPressed: () async {
-                            final paymentConfig = PaymentConfig(
-                              publishableApiKey:
-                                  'pk_test_zUoi76uHXmEvwcBNCqWMtdENCtTZeUZKRQM39qBT',
-                              amount: finalAmount.ceil().toInt(), // SAR 257.58
-                              description: 'order #1324',
-                              metadata: {'size': '250g'},
-                              creditCard: CreditCardConfig(
-                                  saveCard: true, manual: false),
-                              applePay: ApplePayConfig(
-                                  merchantId: 'YOUR_MERCHANT_ID',
-                                  label: 'YOUR_STORE_NAME',
-                                  manual: false),
-                            );
+                            // final paymentConfig = PaymentConfig(
+                            //   publishableApiKey:
+                            //       'pk_test_zUoi76uHXmEvwcBNCqWMtdENCtTZeUZKRQM39qBT',
+                            //   amount: finalAmount.ceil().toInt(), // SAR 257.58
+                            //   description: 'order #1324',
+                            //   metadata: {'size': '250g'},
+                            //   creditCard: CreditCardConfig(
+                            //       saveCard: true, manual: false),
+                            //   applePay: ApplePayConfig(
+                            //       merchantId: 'YOUR_MERCHANT_ID',
+                            //       label: 'YOUR_STORE_NAME',
+                            //       manual: false),
+                            // );
 
-                            log(paymentConfig.toString());
-                            final source = CardPaymentRequestSource(
-                                creditCardData: CardFormModel(
-                                    name: 'Suleman Abrar',
-                                    number: '4847831061063886',
-                                    month: '03',
-                                    cvc: '123',
-                                    year: '29'),
-                                tokenizeCard: (paymentConfig.creditCard
-                                        as CreditCardConfig)
-                                    .saveCard,
-                                manualPayment: (paymentConfig.creditCard
-                                        as CreditCardConfig)
-                                    .manual);
+                            // log(paymentConfig.toString());
+                            // final source = CardPaymentRequestSource(
+                            //     creditCardData: CardFormModel(
+                            //         name: 'Suleman Abrar',
+                            //         number: '4847831061063886',
+                            //         month: '03',
+                            //         cvc: '123',
+                            //         year: '29'),
+                            //     tokenizeCard: (paymentConfig.creditCard
+                            //             as CreditCardConfig)
+                            //         .saveCard,
+                            //     manualPayment: (paymentConfig.creditCard
+                            //             as CreditCardConfig)
+                            //         .manual);
 
-                            final paymentRequest =
-                                PaymentRequest(paymentConfig, source);
+                            // final paymentRequest =
+                            //     PaymentRequest(paymentConfig, source);
 
-                            final result = await Moyasar.pay(
-                                apiKey: paymentConfig.publishableApiKey,
-                                paymentRequest: paymentRequest);
+                            // final result = await Moyasar.pay(
+                            //     apiKey: paymentConfig.publishableApiKey,
+                            //     paymentRequest: paymentRequest);
 
-                            var t = result as ValidationError;
+                            // var t = result as ValidationError;
 
-                            log(t.errors.toString());
+                            // log(t.errors.toString());
 
                             context.pushNamed(RouteNames().findCourier,
                                 extra: widget.orderDatailsArguments);
@@ -621,58 +620,58 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
   }
 }
 
-PaymentConfiguration({required double amount}) {
-  var finalAmount = amount * 100;
+// PaymentConfiguration({required double amount}) {
+//   var finalAmount = amount * 100;
 
-  final paymentConfig = PaymentConfig(
-    publishableApiKey: 'pk_test_zUoi76uHXmEvwcBNCqWMtdENCtTZeUZKRQM39qBT',
-    amount: finalAmount.ceil().toInt(), // SAR 257.58
-    description: 'order #1324',
-    metadata: {'size': '250g'},
-    creditCard: CreditCardConfig(saveCard: true, manual: false),
-    // applePay: ApplePayConfig(
-    //     merchantId: 'YOUR_MERCHANT_ID',
-    //     label: 'YOUR_STORE_NAME',
-    //     manual: false),
-  );
-  return paymentConfig;
-}
+//   final paymentConfig = PaymentConfig(
+//     publishableApiKey: 'pk_test_zUoi76uHXmEvwcBNCqWMtdENCtTZeUZKRQM39qBT',
+//     amount: finalAmount.ceil().toInt(), // SAR 257.58
+//     description: 'order #1324',
+//     metadata: {'size': '250g'},
+//     creditCard: CreditCardConfig(saveCard: true, manual: false),
+//     // applePay: ApplePayConfig(
+//     //     merchantId: 'YOUR_MERCHANT_ID',
+//     //     label: 'YOUR_STORE_NAME',
+//     //     manual: false),
+//   );
+//   return paymentConfig;
+// }
 
-void onPaymentResult(
-    {result, required WidgetRef ref, required BuildContext context}) {
-  if (result is PaymentResponse) {
-    switch (result.status) {
-      case PaymentStatus.initiated:
-        // handle 3DS redirection.
+// void onPaymentResult(
+//     {result, required WidgetRef ref, required BuildContext context}) {
+//   if (result is PaymentResponse) {
+//     switch (result.status) {
+//       case PaymentStatus.initiated:
+//         // handle 3DS redirection.
 
-        log(result.status.toString());
-        break;
-      case PaymentStatus.paid:
-        // handle success.
-        // states.isPaid = true;
-        context.pushNamed(RouteNames().findCourier);
+//         log(result.status.toString());
+//         break;
+//       case PaymentStatus.paid:
+//         // handle success.
+//         // states.isPaid = true;
+//         context.pushNamed(RouteNames().findCourier);
 
-        log(result.status.toString());
+//         log(result.status.toString());
 
-        break;
-      case PaymentStatus.failed:
-        // handle failure.
-        log(result.status.toString());
+//         break;
+//       case PaymentStatus.failed:
+//         // handle failure.
+//         log(result.status.toString());
 
-        break;
-      case PaymentStatus.authorized:
-        // TODO: Handle this case.
-        log(result.status.toString());
-        break;
+//         break;
+//       case PaymentStatus.authorized:
+//         // TODO: Handle this case.
+//         log(result.status.toString());
+//         break;
 
-      case PaymentStatus.captured:
-        log(result.status.toString());
-        break;
+//       case PaymentStatus.captured:
+//         log(result.status.toString());
+//         break;
 
-      // TODO: Handle this case.
-    }
-  }
-}
+//       // TODO: Handle this case.
+//     }
+//   }
+// }
 
 class GroupHeaderCard extends StatelessWidget {
   final Color? color;

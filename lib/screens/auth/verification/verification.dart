@@ -8,7 +8,6 @@ import 'package:laundryday/utils/utils.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/value_manager.dart';
-import 'package:laundryday/widgets/heading_small.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:pinput/pinput.dart';
@@ -45,7 +44,7 @@ class Verification extends StatelessWidget {
                     10.ph,
                     const Heading(text: 'Verification'),
                     10.ph,
-                    const HeadingSmall(
+                     HeadingMedium(
                         title: "Enter your 4 digits\nVerification Code."),
                     10.ph,
                     SizedBox(
@@ -84,7 +83,7 @@ class Verification extends StatelessWidget {
               12.ph,
               Wrap(
                 children: [
-                  const HeadingSmall(
+                   HeadingMedium(
                       title: "Didn't receive a verification code?"),
                   5.pw,
                   GestureDetector(

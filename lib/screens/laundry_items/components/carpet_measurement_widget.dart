@@ -3,11 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
-import 'package:laundryday/screens/laundry_items/view/laundry_items.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/widgets/heading.dart';
-import 'package:laundryday/widgets/heading_small.dart';
 import 'package:laundryday/widgets/my_button.dart';
 
 class CarpetMeasurementWidget extends StatelessWidget {
@@ -153,7 +151,7 @@ Widget myWheelListScroller({
                                   color: ColorManager.primaryColor
                                       .withOpacity(0.1)),
                               child: Center(
-                                child: HeadingSmall(
+                                child: HeadingMedium(
                                   title: index.toString(),
                                   color: ColorManager.primaryColor,
                                 ),
@@ -187,7 +185,7 @@ Widget myWheelListScroller({
                                   color: ColorManager.primaryColor
                                       .withOpacity(0.1)),
                               child: Center(
-                                child: HeadingSmall(
+                                child: HeadingMedium(
                                   title: index.toString().padLeft(2, '0'),
                                   color: ColorManager.primaryColor,
                                 ),

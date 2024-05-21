@@ -123,43 +123,25 @@ class _ReusableOrderNowCardState extends ConsumerState<ReusableOrderNowCard> {
                     );
                   }),
                 ),
-                Card(
-                  color: ColorManager.whiteColor,
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/delivery_agent_vector.png',
-                        height: 40,
-                      ),
-                      Text(
-                        textAlign: TextAlign.start,
-                        'Remaining\nVisits',
-                        style: GoogleFonts.poppins(
-                            color: ColorManager.blackColor,
-                            fontSize: FontSize.s12,
-                            fontWeight: FontWeightManager.semiBold),
-                      ),
-                      10.pw,
-                      Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Container(
-                          width: 40,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Card(
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/delivery_agent_vector.png',
                           height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(AppSize.s8),
-                            color: ColorManager.mediumWhiteColor,
-                          ),
-                          child: Center(
-                              child: Text(
-                            '4',
-                            style: GoogleFonts.poppins(
-                                color: ColorManager.primaryColor,
-                                fontSize: FontSize.s20,
-                                fontWeight: FontWeightManager.heavyBold),
-                          )),
                         ),
-                      ),
-                    ],
+                        Text(
+                          '4',
+                          style: GoogleFonts.poppins(
+                              color: ColorManager.primaryColor,
+                              fontSize: FontSize.s20,
+                              fontWeight: FontWeightManager.heavyBold),
+                        ),
+                        10.pw
+                      ],
+                    ),
                   ),
                 ),
               ],

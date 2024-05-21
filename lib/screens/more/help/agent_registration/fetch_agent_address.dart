@@ -14,7 +14,6 @@ import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/app_services/location_handler.dart';
 import 'package:laundryday/utils/value_manager.dart';
-import 'package:laundryday/widgets/heading_small.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
 
@@ -120,7 +119,7 @@ class _FetchAgentAddressState extends State<FetchAgentAddress> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     10.ph,
-                     HeadingSmall(
+                     HeadingMedium(
                       title: 'Address',
                       color: ColorManager. primaryColor,
                     ),

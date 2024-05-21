@@ -15,7 +15,7 @@ class PaymentSummaryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final states = ref.watch(orderReviewProvider);
-    
+
     return Card(
       elevation: 0,
       child: Padding(
@@ -27,16 +27,17 @@ class PaymentSummaryWidget extends StatelessWidget {
               text: 'Payment Summary',
             ),
             10.ph,
+            Divider(),
+            const PaymentSummaryText(text1: 'Items cost', text2: '40 SAR'),
+            Divider(),
             PaymentSummaryText(
                 text1: 'Delievery Fees',
                 text2: "${service!.deliveryFee.toString()} SAR"),
             PaymentSummaryText(
                 text1: 'Operation Fees',
                 text2: "${service!.operationFee.toString()} SAR"),
-            PaymentSummaryText(
-                text1: 'VAT inclusive', text2: "${service!.vat} SAR"),
-            const PaymentSummaryText(
-                text1: 'Order cost', text2: 'will be calculated'),
+            // PaymentSummaryText(
+            //     text1: 'VAT inclusive', text2: "${service!.vat} SAR"),
             10.ph,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

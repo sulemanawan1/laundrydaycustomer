@@ -5,7 +5,6 @@ import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/value_manager.dart';
-import 'package:laundryday/widgets/heading_small.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 
 class Help extends StatefulWidget {
@@ -41,7 +40,7 @@ class _HelpState extends State<Help> {
                     10.ph,
                      Align(
                         alignment: Alignment.centerLeft,
-                        child: HeadingSmall(
+                        child: HeadingMedium(
                           title: 'Want to join as Agent?',
                           color: ColorManager.primaryColor,
                         )),

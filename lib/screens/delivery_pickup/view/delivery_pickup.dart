@@ -20,7 +20,6 @@ import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/value_manager.dart';
 import 'package:laundryday/widgets/address_detail_widget.dart';
 import 'package:laundryday/widgets/heading.dart';
-import 'package:laundryday/widgets/heading_small.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/reusable_laundry_detail_card.dart';
@@ -180,7 +179,7 @@ class ItemListWidget extends ConsumerWidget {
           children: [
             const Heading(text: 'Item Details'),
             10.ph,
-            HeadingSmall(
+            HeadingMedium(
               title: 'Describe your courier what do you need',
               color: ColorManager.greyColor,
             ),

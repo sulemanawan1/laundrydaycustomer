@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/models/service_images.dart';
 import 'package:laundryday/models/services_model.dart';
+import 'package:laundryday/screens/home/provider/home_notifier.dart';
 import 'package:laundryday/screens/services/components/address_bottom_sheet_widget.dart';
 import 'package:laundryday/screens/services/components/on_going_order_list_widget.dart';
 import 'package:laundryday/screens/services/components/services_grid_widget.dart';
@@ -13,8 +14,6 @@ import 'package:laundryday/screens/services/provider/services_states.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/value_manager.dart';
-import 'package:laundryday/widgets/my_carousel.dart';
-import 'package:laundryday/widgets/my_carousel_indicator.dart';
 
 final serviceProvider = StateNotifierProvider<ServicesNotifier, ServicesStates>(
     (ref) => ServicesNotifier());
@@ -40,7 +39,10 @@ class _ServicesState extends ConsumerState<Services> {
 
   @override
   void initState() {
+        ref.read(homeProvider.notifier).startOnGoingOrderTimer();
+
     super.initState();
+
 
     services.add(ServicesModel(
         vat: 0.00,

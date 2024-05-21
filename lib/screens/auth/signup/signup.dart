@@ -5,9 +5,7 @@ import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/value_manager.dart';
-import 'package:laundryday/widgets/heading_small.dart';
 import 'package:laundryday/widgets/my_button.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_textform_field.dart';
 
@@ -27,7 +25,7 @@ class Signup extends StatelessWidget {
             text: "What's your Full Name?",
           ),
           20.ph,
-          const HeadingSmall(title: 'Name'),
+          HeadingMedium(title: 'Name'),
           10.ph,
           MyTextFormField(
             hintText: 'Enter your Full Name.',
@@ -39,7 +37,7 @@ class Signup extends StatelessWidget {
             onPressed: () {
               GoRouter.of(context).pushNamed(RouteNames().home);
             },
-            name: AppLocalizations.of(context)!.login,
+            name: 'login',
           ),
           40.ph,
         ],

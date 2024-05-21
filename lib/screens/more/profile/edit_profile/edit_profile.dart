@@ -3,7 +3,6 @@ import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/utils/utils.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/value_manager.dart';
-import 'package:laundryday/widgets/heading_small.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/heading.dart';
@@ -30,7 +29,7 @@ class _EditProfileState extends State<EditProfile> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const Heading(text: 'Profile Information'),
               10.ph,
-              const HeadingSmall(title: 'Full Name'),
+              HeadingMedium(title: 'Full Name'),
               10.ph,
               MyTextFormField(hintText: 'Full Name', labelText: ''),
               10.ph,

@@ -7,7 +7,6 @@ import 'package:laundryday/screens/more/help/business_partner/components/type_wi
 import 'package:laundryday/screens/more/help/business_partner/notifier/business_partner_textformfields.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/widgets/heading.dart';
-import 'package:laundryday/widgets/heading_small.dart';
 
 import '../../../../../widgets/my_textform_field.dart';
 
@@ -34,12 +33,11 @@ class BusinessInformation extends ConsumerWidget {
             labelText: 'Store Name in Arabic',
             controller: BusinessPartnerTextFormFields.storeNameArabic,
           ),
-          8.ph,
-          const HeadingSmall(title: 'Select the Type'),
+          HeadingMedium(title: 'Select the Type'),
           8.ph,
           const TypeWidget(),
-        10.ph,
-           const HeadingSmall(title: 'Select the Service'),
+          10.ph,
+          HeadingMedium(title: 'Select the Service'),
           8.ph,
           const ServiceWidget(),
           8.ph,

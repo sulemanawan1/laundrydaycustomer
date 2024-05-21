@@ -5,7 +5,6 @@ import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/widgets/address_detail_widget.dart';
-import 'package:laundryday/widgets/heading_small.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/heading.dart';
@@ -47,7 +46,7 @@ class OrderSummary extends StatelessWidget {
             10.ph,
             HeadingMedium(title: 'Order Details'),
             10.ph,
-             const OrderDetailAddressWidget(),
+            const OrderDetailAddressWidget(),
             10.ph,
             HeadingMedium(title: 'Delivery Status'),
             10.ph,
@@ -61,7 +60,7 @@ class OrderSummary extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         10.ph,
-                        const HeadingSmall(
+                        HeadingMedium(
                           title: 'Cancel',
                           color: Colors.red,
                         ),
@@ -78,7 +77,6 @@ class OrderSummary extends StatelessWidget {
                 context.pushNamed(RouteNames().orderChat);
               },
             ),
-           
           ]),
         ),
       ),
@@ -90,19 +88,16 @@ class OrderDetailAddressWidget extends StatelessWidget {
   const OrderDetailAddressWidget({
     super.key,
   });
-      
-
 
   @override
   Widget build(BuildContext context) {
-    return  ListTile(
-     tileColor:  ColorManager.whiteColor,
-     title: const Text('Al Rahden'),
-     leading: const CircleAvatar(
-       backgroundColor: Colors.transparent,
-       backgroundImage: AssetImage('assets/al_rahden.png'),
-     ),
-                );
+    return ListTile(
+      tileColor: ColorManager.whiteColor,
+      title: const Text('Al Rahden'),
+      leading: const CircleAvatar(
+        backgroundColor: Colors.transparent,
+        backgroundImage: AssetImage('assets/al_rahden.png'),
+      ),
+    );
   }
 }
-
