@@ -53,8 +53,8 @@ class _BlanketAndLinenServiceDetailState extends ConsumerState<Laundries> {
           ? null
           : MyAppBar(
               title: null,
-              iconColor: ColorManager.whiteColor,
-              backgroundColor: ColorManager.purpleColor,
+              iconColor: ColorManager.blackColor,
+              backgroundColor: ColorManager.backgroundColor,
             ),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         if (widget.services!.name == 'Carpets') ...[
@@ -100,86 +100,91 @@ class _BlanketAndLinenServiceDetailState extends ConsumerState<Laundries> {
           )
         ] else ...[
           ReusableOrderNowCard(
+            image: widget.services!.name == 'Clothes'
+                ? "assets/order_now_clothes.jpeg"
+                : "assets/order_now_blankets.jpeg",
             onPressed: () {
-              GoRouter.of(context).pushNamed(
-                RouteNames().blanketsCategory,
-                extra: LaundryModel(
-                    service: ServicesModel(
-                        vat: 15.0,
-                        id: 1,
-                        name: 'Clothes',
-                        deliveryFee: 14.0,
-                        operationFee: 2.0,
-                        image: 'assets/services_clothing.jpg',
-                        images: [
-                          ServiceImage(image: 'assets/clothes_1.jpg'),
-                          ServiceImage(image: 'assets/clothes_2.jpg'),
-                          ServiceImage(image: 'assets/clothes_3.jpg'),
-                          ServiceImage(image: 'assets/clothes_4.jpg'),
-                          ServiceImage(image: 'assets/clothes_5.jpg'),
-                        ]),
-                    lat: 24.2,
-                    lng: 44.5,
-                    rating: 3.0,
-                    address:
-                        "MPR5+M2J, Abu Bakr Alrazi St, As Sulimaniyah, Riyadh 12232",
-                    userRatingTotal: 25,
-                    id: 1,
-                    name: 'Al Nayab',
-                    placeId: "#place1",
-                    logo: 'assets/clothing_services_icons.png',
-                    distance: 2.7,
-                    type: 'register',
-                    banner: 'assets/category_banner/clothes_banner.jpg',
-                    seviceTypes: [
-                      ServiceTypesModel(
-                        id: 1,
-                        serviceId: 1,
-                        type: 'laundry',
-                      ),
-                      ServiceTypesModel(
-                        id: 2,
-                        serviceId: 1,
-                        type: 'drycleaning',
-                      ),
-                      ServiceTypesModel(
-                        id: 3,
-                        serviceId: 1,
-                        type: 'pressing',
-                      ),
-                    ],
-                    timeslot: [
-                      TimeSlot(
-                          openTime: const TimeOfDay(hour: 7, minute: 0),
-                          closeTime: const TimeOfDay(hour: 12, minute: 0),
-                          weekNumber: 1),
-                      TimeSlot(
-                          openTime: const TimeOfDay(hour: 7, minute: 0),
-                          closeTime: const TimeOfDay(hour: 00, minute: 00),
-                          weekNumber: 2),
-                      TimeSlot(
-                          openTime: const TimeOfDay(hour: 7, minute: 0),
-                          closeTime: const TimeOfDay(hour: 0, minute: 0),
-                          weekNumber: 3),
-                      TimeSlot(
-                          openTime: const TimeOfDay(hour: 7, minute: 0),
-                          closeTime: const TimeOfDay(hour: 0, minute: 0),
-                          weekNumber: 4),
-                      TimeSlot(
-                          openTime: const TimeOfDay(hour: 7, minute: 0),
-                          closeTime: const TimeOfDay(hour: 0, minute: 0),
-                          weekNumber: 5),
-                      TimeSlot(
-                          openTime: const TimeOfDay(hour: 7, minute: 0),
-                          closeTime: const TimeOfDay(hour: 0, minute: 0),
-                          weekNumber: 6),
-                      TimeSlot(
-                          openTime: const TimeOfDay(hour: 7, minute: 0),
-                          closeTime: const TimeOfDay(hour: 0, minute: 0),
-                          weekNumber: 7),
-                    ],
-                    status: 'opened'),
-              );
+              if (widget.services!.name == 'Clothes') {
+                GoRouter.of(context).pushNamed(
+                  RouteNames().blanketsCategory,
+                  extra: LaundryModel(
+                      service: ServicesModel(
+                          vat: 15.0,
+                          id: 1,
+                          name: 'Clothes',
+                          deliveryFee: 14.0,
+                          operationFee: 2.0,
+                          image: 'assets/services_clothing.jpg',
+                          images: [
+                            ServiceImage(image: 'assets/clothes_1.jpg'),
+                            ServiceImage(image: 'assets/clothes_2.jpg'),
+                            ServiceImage(image: 'assets/clothes_3.jpg'),
+                            ServiceImage(image: 'assets/clothes_4.jpg'),
+                            ServiceImage(image: 'assets/clothes_5.jpg'),
+                          ]),
+                      lat: 24.2,
+                      lng: 44.5,
+                      rating: 3.0,
+                      address:
+                          "MPR5+M2J, Abu Bakr Alrazi St, As Sulimaniyah, Riyadh 12232",
+                      userRatingTotal: 25,
+                      id: 1,
+                      name: 'Al Nayab',
+                      logo: 'assets/clothing_services_icons.png',
+                      distance: 2.7,
+                      type: 'register',
+                      banner: 'assets/category_banner/clothes_banner.jpg',
+                      seviceTypes: [
+                        ServiceTypesModel(
+                          id: 1,
+                          serviceId: 1,
+                          type: 'laundry',
+                        ),
+                        ServiceTypesModel(
+                          id: 2,
+                          serviceId: 1,
+                          type: 'drycleaning',
+                        ),
+                        ServiceTypesModel(
+                          id: 3,
+                          serviceId: 1,
+                          type: 'pressing',
+                        ),
+                      ],
+                      status: 'opened'),
+                );
+              } else {
+                context.pushNamed(
+                  RouteNames().blanketsCategory,
+                  extra: LaundryModel(
+                      service: ServicesModel(
+                          operationFee: 2.0,
+                          vat: 15.0,
+                          id: 2,
+                          deliveryFee: 18.0,
+                          name: 'Blankets',
+                          image: 'assets/services_blankets.jpg',
+                          images: [
+                            ServiceImage(image: 'assets/blankets_1.jpg'),
+                            ServiceImage(image: 'assets/blankets_2.jpg'),
+                          ]),
+                      lat: 24.2,
+                      lng: 44.5,
+                      rating: 3.0,
+                      address: "Alhazm, Riyadh 14964",
+                      userRatingTotal: 25,
+                      id: 1,
+                      name: 'Fakhir Laundry',
+                      logo: 'assets/laundry_shop.jpg',
+                      banner: 'assets/blanket_and_linen_banner.jpg',
+                      distance: 1.6,
+                      type: 'register',
+                      seviceTypes: [
+                        ServiceTypesModel(id: 1, serviceId: 1, type: 'laundry'),
+                      ],
+                      status: 'opened'),
+                );
+              }
             },
           ),
         ],

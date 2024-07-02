@@ -63,7 +63,6 @@ class _OrdersState extends State<Orders> {
                       userRatingTotal: 25,
                       id: 2,
                       name: 'Abdullah Haleem Laundrys',
-                      placeId: "#place1",
                       logo: 'assets/clothing_services_icons.png',
                       distance: 2.1,
                       type: 'register',
@@ -74,36 +73,7 @@ class _OrdersState extends State<Orders> {
                         ServiceTypesModel(
                             id: 3, serviceId: 1, type: 'pressing'),
                       ],
-                      timeslot: [
-                        TimeSlot(
-                            openTime: TimeOfDay(hour: 7, minute: 0),
-                            closeTime: TimeOfDay(hour: 0, minute: 0),
-                            weekNumber: 1),
-                        TimeSlot(
-                            openTime: TimeOfDay(hour: 7, minute: 0),
-                            closeTime: TimeOfDay(hour: 0, minute: 0),
-                            weekNumber: 2),
-                        TimeSlot(
-                            openTime: TimeOfDay(hour: 7, minute: 0),
-                            closeTime: TimeOfDay(hour: 0, minute: 0),
-                            weekNumber: 3),
-                        TimeSlot(
-                            openTime: TimeOfDay(hour: 7, minute: 0),
-                            closeTime: TimeOfDay(hour: 0, minute: 0),
-                            weekNumber: 4),
-                        TimeSlot(
-                            openTime: TimeOfDay(hour: 7, minute: 0),
-                            closeTime: TimeOfDay(hour: 0, minute: 0),
-                            weekNumber: 5),
-                        TimeSlot(
-                            openTime: TimeOfDay(hour: 7, minute: 0),
-                            closeTime: TimeOfDay(hour: 0, minute: 0),
-                            weekNumber: 6),
-                        TimeSlot(
-                            openTime: TimeOfDay(hour: 7, minute: 0),
-                            closeTime: TimeOfDay(hour: 0, minute: 0),
-                            weekNumber: 7),
-                      ],
+                      
                       status: 'closed');
 
                   Arguments arguments = Arguments(laundryModel: laundryModel);

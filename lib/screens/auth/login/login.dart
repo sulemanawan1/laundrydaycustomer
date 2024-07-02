@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -11,14 +12,52 @@ import 'package:laundryday/utils/value_manager.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/my_textform_field.dart';
+final FirebaseAuth auth = FirebaseAuth.instance;
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   const Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     final key = GlobalKey<FormState>();
 
-    final phoneNumberController = TextEditingController();
+    final TextEditingController _phoneController = TextEditingController();
+    final TextEditingController _codeController = TextEditingController();
+
+    String? _verificationId;
+
+    void _verifyPhoneNumber() async {
+      await auth.verifyPhoneNumber(
+        phoneNumber: "+966${_phoneController.text}",
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await auth.signInWithCredential(credential);
+          // Handle successful login
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          // Handle error
+          print(e.message);
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          setState(() {
+            _verificationId = verificationId;
+          });
+          GoRouter.of(context)
+              .pushNamed(RouteNames().verification, extra: _verificationId);
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          setState(() {
+            _verificationId = verificationId;
+          });
+        },
+      );
+    }
+
+  
     return Container(
       decoration: const BoxDecoration(
           image: DecorationImage(
@@ -63,7 +102,7 @@ class Login extends StatelessWidget {
                         hintTextColor: ColorManager.whiteColor,
                         labelTextColor: ColorManager.whiteColor,
                         maxLength: 9,
-                        controller: phoneNumberController,
+                        controller: _phoneController,
                         validator: ValidationHelper().validatePhoneNumber,
                         autofillHints: const [
                           AutofillHints.telephoneNumberLocalSuffix
@@ -96,9 +135,7 @@ class Login extends StatelessWidget {
                       MyButton(
                         name: 'Continue',
                         onPressed: () async {
-                          GoRouter.of(context).pushNamed(
-                            RouteNames().verification,
-                          );
+                          _verifyPhoneNumber();
                         },
                       ),
                       40.ph,

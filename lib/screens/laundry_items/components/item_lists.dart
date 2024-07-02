@@ -27,7 +27,7 @@ class ItemLists extends ConsumerWidget {
         mainAxisSpacing: 10,
       ),
       itemBuilder: (BuildContext context, int index) {
-        return _blanketCard(
+        return _itemCard(
             blanketItem: item[index],
             onTap: () {
               showModalBottomSheet(
@@ -48,7 +48,7 @@ class ItemLists extends ConsumerWidget {
     );
   }
 
-  Widget _blanketCard(
+  Widget _itemCard(
       {void Function()? onTap, required ItemModel blanketItem}) {
     return badges.Badge(
       position: badges.BadgePosition.topEnd(top: 8, end: 8),

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,6 +38,8 @@ class LaundryTile extends ConsumerWidget {
               itemCount: groupedItems.length,
               itemBuilder: (BuildContext context, int index) {
                 String category = groupedItems.keys.elementAt(index);
+
+                
                 List itemsInCategory = groupedItems[category]!;
 
                 return Column(

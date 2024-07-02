@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:laundryday/firebase_options.dart';
 import 'package:laundryday/utils/theme_manager.dart';
 import 'utils/routes/app_routes.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const ProviderScope(child: MyApp()));
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor:
@@ -26,18 +29,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      // locale: const Locale('en'),
-      // localizationsDelegates: const [
-      //   AppLocalizations.delegate, // Add this line
-      //   GlobalMaterialLocalizations.delegate,
-      //   GlobalWidgetsLocalizations.delegate,
-      //   GlobalCupertinoLocalizations.delegate,
-      // ],
-      supportedLocales: const [
-        Locale('en'), // English
-        Locale('ar'), // Arabic
-        // Add more locales if needed
-      ],
       debugShowCheckedModeBanner: false,
       routerConfig: AppRoutes().routes,
       theme: getApplicatonTheme(),

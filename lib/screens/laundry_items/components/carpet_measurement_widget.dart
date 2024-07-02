@@ -36,9 +36,7 @@ class CarpetMeasurementWidget extends StatelessWidget {
                         itemModel.length = double.parse(
                             "${itemModel.prefixLength}.${itemModel.postfixLength}");
 
-                        // ref
-                        //     .read(blanketAndLinenProvider.notifier)
-                        //     .changeLength(Id: itemModel.id!, v: v);
+                       
                       },
                       postfixSelectedItemChanged: (v) {
                         String formattedNumber = v.toString().padLeft(2, '0');

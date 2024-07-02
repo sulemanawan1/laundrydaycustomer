@@ -1,6 +1,6 @@
 {
-    "name": "laundryday",
-    "short_name": "laundryday",
+    "name": "laundrydaycustomer",
+    "short_name": "laundrydaycustomer",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

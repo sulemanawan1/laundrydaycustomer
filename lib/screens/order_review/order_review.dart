@@ -186,10 +186,10 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                                     itemCount: orderItem.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
-                                      double totalPrice = orderItem
-                                          .map((order) => order.charges!)
-                                          .reduce((value, element) =>
-                                              value + element);
+                                      // double totalPrice = orderItem
+                                      //     .map((order) => order.charges!)
+                                      //     .reduce((value, element) =>
+                                      //         value + element);
 
                                       return ListTile(
                                         tileColor:
@@ -363,19 +363,18 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                                   child: OutlinedButton(
                                       style: ButtonStyle(
                                           overlayColor:
-                                              MaterialStateColor.resolveWith(
-                                                  (states) =>
-                                                      ColorManager
-                                                          .redColor
-                                                          .withOpacity(0.1)),
-                                          textStyle: MaterialStateProperty
-                                              .resolveWith(
+                                              WidgetStateColor.resolveWith(
+                                                  (states) => ColorManager
+                                                      .redColor
+                                                      .withOpacity(0.1)),
+                                          textStyle:
+                                              WidgetStateProperty.resolveWith(
                                             (states) => GoogleFonts.poppins(
                                                 fontWeight: FontWeight.w600),
                                           ),
-                                          side: MaterialStateBorderSide
-                                              .resolveWith((states) =>
-                                                  BorderSide(
+                                          side:
+                                              WidgetStateBorderSide.resolveWith(
+                                                  (states) => BorderSide(
                                                       color: ColorManager
                                                           .redColor))),
                                       onPressed: () {
@@ -426,52 +425,11 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                       ? MyButton(
                           name: 'Pay $finalAmount',
                           onPressed: () async {
-                            // final paymentConfig = PaymentConfig(
-                            //   publishableApiKey:
-                            //       'pk_test_zUoi76uHXmEvwcBNCqWMtdENCtTZeUZKRQM39qBT',
-                            //   amount: finalAmount.ceil().toInt(), // SAR 257.58
-                            //   description: 'order #1324',
-                            //   metadata: {'size': '250g'},
-                            //   creditCard: CreditCardConfig(
-                            //       saveCard: true, manual: false),
-                            //   applePay: ApplePayConfig(
-                            //       merchantId: 'YOUR_MERCHANT_ID',
-                            //       label: 'YOUR_STORE_NAME',
-                            //       manual: false),
-                            // );
-
-                            // log(paymentConfig.toString());
-                            // final source = CardPaymentRequestSource(
-                            //     creditCardData: CardFormModel(
-                            //         name: 'Suleman Abrar',
-                            //         number: '4847831061063886',
-                            //         month: '03',
-                            //         cvc: '123',
-                            //         year: '29'),
-                            //     tokenizeCard: (paymentConfig.creditCard
-                            //             as CreditCardConfig)
-                            //         .saveCard,
-                            //     manualPayment: (paymentConfig.creditCard
-                            //             as CreditCardConfig)
-                            //         .manual);
-
-                            // final paymentRequest =
-                            //     PaymentRequest(paymentConfig, source);
-
-                            // final result = await Moyasar.pay(
-                            //     apiKey: paymentConfig.publishableApiKey,
-                            //     paymentRequest: paymentRequest);
-
-                            // var t = result as ValidationError;
-
-                            // log(t.errors.toString());
+                            
 
                             context.pushNamed(RouteNames().findCourier,
                                 extra: widget.orderDatailsArguments);
 
-                            // ignore: use_build_context_synchronously
-                            // onPaymentResult(
-                            //     ref: ref, context: context, result: result);
                           },
                         )
                       : MyButton(
@@ -620,58 +578,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
   }
 }
 
-// PaymentConfiguration({required double amount}) {
-//   var finalAmount = amount * 100;
 
-//   final paymentConfig = PaymentConfig(
-//     publishableApiKey: 'pk_test_zUoi76uHXmEvwcBNCqWMtdENCtTZeUZKRQM39qBT',
-//     amount: finalAmount.ceil().toInt(), // SAR 257.58
-//     description: 'order #1324',
-//     metadata: {'size': '250g'},
-//     creditCard: CreditCardConfig(saveCard: true, manual: false),
-//     // applePay: ApplePayConfig(
-//     //     merchantId: 'YOUR_MERCHANT_ID',
-//     //     label: 'YOUR_STORE_NAME',
-//     //     manual: false),
-//   );
-//   return paymentConfig;
-// }
-
-// void onPaymentResult(
-//     {result, required WidgetRef ref, required BuildContext context}) {
-//   if (result is PaymentResponse) {
-//     switch (result.status) {
-//       case PaymentStatus.initiated:
-//         // handle 3DS redirection.
-
-//         log(result.status.toString());
-//         break;
-//       case PaymentStatus.paid:
-//         // handle success.
-//         // states.isPaid = true;
-//         context.pushNamed(RouteNames().findCourier);
-
-//         log(result.status.toString());
-
-//         break;
-//       case PaymentStatus.failed:
-//         // handle failure.
-//         log(result.status.toString());
-
-//         break;
-//       case PaymentStatus.authorized:
-//         // TODO: Handle this case.
-//         log(result.status.toString());
-//         break;
-
-//       case PaymentStatus.captured:
-//         log(result.status.toString());
-//         break;
-
-//       // TODO: Handle this case.
-//     }
-//   }
-// }
 
 class GroupHeaderCard extends StatelessWidget {
   final Color? color;

@@ -61,7 +61,7 @@ class AppRoutes {
           GoRoute(
               name: RouteNames().verification,
               path: "verification",
-              builder: (context, state) => const Verification()),
+              builder: (context, state) =>  Verification(verificationId: state.extra as String,)),
 
           GoRoute(
             name: RouteNames().profile,

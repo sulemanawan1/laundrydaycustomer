@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/font_manager.dart';
-import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/value_manager.dart';
 
 final reusableOrderNowCardProvider =
@@ -17,17 +16,18 @@ class ReusableOrderNowCardNotifier extends StateNotifier<Color> {
 
   changeColor() {
     Timer.periodic(const Duration(seconds: 1), (timer) {
-      state = state == ColorManager.primaryColor
-          ? Colors.green
-          : ColorManager.primaryColor;
+      state = state == ColorManager.purpleColor
+          ? Colors.purple
+          : ColorManager.purpleColor;
     });
   }
 }
 
 class ReusableOrderNowCard extends ConsumerStatefulWidget {
   final void Function()? onPressed;
+  final String image;
 
-  const ReusableOrderNowCard({super.key, this.onPressed});
+  const ReusableOrderNowCard({super.key, this.onPressed,required this.image});
 
   @override
   ConsumerState<ReusableOrderNowCard> createState() =>
@@ -43,113 +43,69 @@ class _ReusableOrderNowCardState extends ConsumerState<ReusableOrderNowCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 0,
-      margin: EdgeInsets.zero,
-      color: ColorManager.purpleColor,
-      shadowColor: ColorManager.mediumWhiteColor,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          5.ph,
-          IntrinsicHeight(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  flex: 4,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: AppPadding.p12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Order from the Nearest',
-                          style: GoogleFonts.poppins(
-                              color: ColorManager.whiteColor,
-                              fontWeight: FontWeightManager.bold,
-                              fontSize: FontSize.s18),
-                        ),
-                        Text(
-                          'Laundry',
-                          style: GoogleFonts.poppins(
-                              color: ColorManager.mediumWhiteColor,
-                              fontWeight: FontWeightManager.medium,
-                              fontSize: FontSize.s14),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Image.asset(
-                    height: 80,
-                    'assets/order_now.png',
-                  ),
-                )
-              ],
-            ),
-          ),
-          10.ph,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  borderRadius: BorderRadius.circular(AppSize.s40),
-                  onTap: widget.onPressed,
-                  child: Consumer(builder: (context, ref, child) {
-                    final color = ref.watch(reusableOrderNowCardProvider);
-                    return AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      width: MediaQuery.of(context).size.width * 0.35,
-                      height: AppSize.s40,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(AppSize.s40),
-                          color: color),
-                      child: Center(
-                        child: Text(
-                          'Order Now',
-                          style: GoogleFonts.poppins(
-                            color: ColorManager.whiteColor,
-                            fontSize: FontSize.s16,
-                            fontWeight: FontWeightManager.semiBold,
-                          ),
-                        ),
+    return Stack(
+      clipBehavior: Clip.none,
+      alignment: Alignment.bottomLeft,
+      children: [
+        Image.asset(
+          width: MediaQuery.of(context).size.width,
+          widget.image!,
+        ),
+        Positioned(
+          right: 60,
+          bottom: 10,
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(AppSize.s40),
+              onTap: widget.onPressed,
+              child: Consumer(builder: (context, ref, child) {
+                final color = ref.watch(reusableOrderNowCardProvider);
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  height: AppSize.s40,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(AppSize.s40),
+                      color: color),
+                  child: Center(
+                    child: Text(
+                      'Order Now',
+                      style: GoogleFonts.poppins(
+                        color: ColorManager.whiteColor,
+                        fontSize: FontSize.s16,
+                        fontWeight: FontWeightManager.semiBold,
                       ),
-                    );
-                  }),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Card(
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/delivery_agent_vector.png',
-                          height: 40,
-                        ),
-                        Text(
-                          '4',
-                          style: GoogleFonts.poppins(
-                              color: ColorManager.primaryColor,
-                              fontSize: FontSize.s20,
-                              fontWeight: FontWeightManager.heavyBold),
-                        ),
-                        10.pw
-                      ],
                     ),
                   ),
-                ),
-              ],
+                );
+              }),
             ),
           ),
-          10.ph
-        ],
-      ),
+        ),
+        Positioned(
+          right: 5,
+          bottom: 10,
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8), color: Colors.purple),
+              width: 40,
+              height: 40,
+              child: Center(
+                child: Text(
+                  '4',
+                  style: GoogleFonts.poppins(
+                      color: ColorManager.primaryColor,
+                      fontSize: FontSize.s20,
+                      fontWeight: FontWeightManager.semiBold),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -60,13 +60,13 @@ class _BlanketsCategoryState extends ConsumerState<BlanketsCategory>
   Widget build(BuildContext context) {
     final count = ref.watch(selectedItemsCountNotifier);
     final index = ref.watch(indexProvider);
-    log('build');
 
     return Scaffold(
         appBar: widget.laundry!.service!.name == 'Carpets'
             ? MyAppBar(title: '')
             : null,
         body: Column(children: [
+          
           widget.laundry!.service!.name == 'Carpets'
               ? CarpetLaundryDetailWidget(laundryModel: widget.laundry!)
               : ReusabelLaundryDetailBannerCard(laundryModel: widget.laundry!),

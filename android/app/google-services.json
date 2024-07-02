@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "709376690173",
+    "project_id": "laundryday-ef178",
+    "storage_bucket": "laundryday-ef178.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:709376690173:android:a49c9d3f6515989173fb94",
+        "android_client_info": {
+          "package_name": "com.example.laundryday"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "709376690173-3opd0j4hg2nfbd53r92oabug48im5bh8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.laundryday",
+            "certificate_hash": "e47783f337b1c94edae653e0d386e3a8d3459b82"
+          }
+        },
+        {
+          "client_id": "709376690173-h2926tud2c46fj8t6p1d27ago8kuflk6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoCg0upiKZBuUv6NysavvBZGydqls5_Fo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "709376690173-h2926tud2c46fj8t6p1d27ago8kuflk6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "709376690173-crnk5iofs54vi04br41r2rtf3u0ianrc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.laundryday"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -128,7 +128,7 @@ class ResuableLaundryTile extends StatelessWidget {
                   ),
                   5.pw,
                   Text(
-                    "${laundry!.timeslot!.first.openTime.hour} ${laundry!.timeslot!.first.openTime.period.name}-${laundry!.timeslot!.first.closeTime.hourOfPeriod}${laundry!.timeslot!.first.closeTime.period.name}",
+                    "7am-12am",
                     style: GoogleFonts.poppins(
                         color: ColorManager.greyColor,
                         fontWeight: FontWeight.w400),
