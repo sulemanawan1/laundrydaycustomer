@@ -1,22 +1,20 @@
-import 'package:carousel_slider/carousel_controller.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/models/service_images.dart';
-import 'package:laundryday/models/services_model.dart';
+import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/screens/home/provider/home_notifier.dart';
+import 'package:laundryday/screens/home/provider/home_states.dart';
 import 'package:laundryday/screens/services/components/address_bottom_sheet_widget.dart';
 import 'package:laundryday/screens/services/components/on_going_order_list_widget.dart';
-import 'package:laundryday/screens/services/components/services_grid_widget.dart';
+import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
-import 'package:laundryday/screens/services/provider/services_states.dart';
+import 'package:laundryday/utils/api_routes.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/value_manager.dart';
-
-final serviceProvider = StateNotifierProvider<ServicesNotifier, ServicesStates>(
-    (ref) => ServicesNotifier());
+import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
+    as myaddressmodel;
 
 class Services extends ConsumerStatefulWidget {
   const Services({super.key});
@@ -26,10 +24,6 @@ class Services extends ConsumerStatefulWidget {
 }
 
 class _ServicesState extends ConsumerState<Services> {
-  List<ServicesModel> services = [];
-  int _currentIndex = 0;
-  final CarouselController _carouselController = CarouselController();
-
   List images = [
     'assets/carousel-1.jpg',
     'assets/carousel-2.jpg',
@@ -39,62 +33,24 @@ class _ServicesState extends ConsumerState<Services> {
 
   @override
   void initState() {
-        ref.read(homeProvider.notifier).startOnGoingOrderTimer();
+    ref.read(homeProvider.notifier).startOnGoingOrderTimer();
 
     super.initState();
-
-
-    services.add(ServicesModel(
-        vat: 0.00,
-        id: 1,
-        name: 'Clothes',
-        deliveryFee: 14.00,
-        operationFee: 2.00,
-        image: 'assets/services_clothing.jpg',
-        images: [
-          ServiceImage(image: 'assets/clothes_1.jpg'),
-          ServiceImage(image: 'assets/clothes_2.jpg'),
-          ServiceImage(image: 'assets/clothes_3.jpg'),
-          ServiceImage(image: 'assets/clothes_4.jpg'),
-          ServiceImage(image: 'assets/clothes_5.jpg'),
-        ]));
-    services.add(ServicesModel(
-        vat: 0.00,
-        id: 2,
-        deliveryFee: 18.00,
-        operationFee: 2.00,
-        name: 'Blankets',
-        image: 'assets/services_blankets.jpg',
-        images: [
-          ServiceImage(image: 'assets/blankets_1.jpg'),
-          ServiceImage(image: 'assets/blankets_2.jpg'),
-        ]));
-    services.add(ServicesModel(
-        vat: 0.00,
-        id: 3,
-        deliveryFee: 11.50,
-        operationFee: 2.00,
-        name: "Carpets",
-        image: 'assets/services_carpets.jpeg',
-        images: [
-          ServiceImage(image: 'assets/carpets_1.jpg'),
-          ServiceImage(image: 'assets/carpets_2.jpg'),
-        ]));
-    services.add(ServicesModel(
-        vat: 0.0,
-        id: 4,
-        deliveryFee: 14.00,
-        operationFee: 2.00,
-        name: "Furniture",
-        image: 'assets/services_furniture.jpeg',
-        images: [
-          ServiceImage(image: 'assets/furniture_1.jpg'),
-          ServiceImage(image: 'assets/furniture_2.jpg'),
-        ]));
   }
 
   @override
   Widget build(BuildContext context) {
+    final services = ref.watch(serviceProvider).services;
+    final customerId = ref.read(userProvider).userModel!.user!.id;
+
+    final appstates = ref.watch(serviceProvider).appstates;
+    myaddressmodel.Address? selectedAddress =
+        ref.watch(selectedAddressProvider);
+
+    final serviceAddress = ref.read(serviceAddressesProvider.notifier);
+
+    log("User Id $customerId");
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: ColorManager.primaryColor, size: 24),
@@ -103,16 +59,17 @@ class _ServicesState extends ConsumerState<Services> {
         leadingWidth: MediaQuery.of(context).size.width * .8,
         leading: GestureDetector(
           onTap: () {
+            serviceAddress.allAddresses(customerId: customerId!);
             showModalBottomSheet<void>(
+              useSafeArea: true,
+              isScrollControlled: true,
               context: context,
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8),
                       topRight: Radius.circular(8))),
               builder: (BuildContext context) {
-                return Consumer(builder: (context, reff, child) {
-                  return const AddressBottomSheetWidget();
-                });
+                return const AddressBottomSheetWidget();
               },
             );
           },
@@ -151,7 +108,8 @@ class _ServicesState extends ConsumerState<Services> {
                       ),
                       Expanded(
                         child: Text(
-                          "Riyah,Alhazm",
+                          selectedAddress?.googleMapAddress ??
+                              "Current Location",
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 13,
@@ -187,64 +145,127 @@ class _ServicesState extends ConsumerState<Services> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
         child: SingleChildScrollView(
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const OnGoingOrderListWidget(),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+              const OnGoingOrderListWidget(),
+              // Column(
+              //   children: [
+              //     10.ph,
+              //     Card(
+              //       color: Colors.transparent,
+              //       elevation: 0,
+              //       child: CarouselSlider(
+              //         carouselController: _carouselController,
+              //         items: images
+              //             .map((e) => ClipRRect(
+              //                   borderRadius: BorderRadius.circular(8),
+              //                   child: Image.asset(
+              //                     e.toString(),
+              //                     fit: BoxFit.cover,
+              //                     width: double.infinity,
+              //                   ),
+              //                 ))
+              //             .toList(),
+              //         options: CarouselOptions(
+              //           padEnds: true,
+              //           viewportFraction: 1,
+              //           aspectRatio: 16 / 6,
+              //           enableInfiniteScroll: true,
+              //           autoPlay: true,
+              //           animateToClosest: true,
+              //           autoPlayInterval: const Duration(seconds: 2),
 
-            // Column(
-            //   children: [
-            //     10.ph,
-            //     Card(
-            //       color: Colors.transparent,
-            //       elevation: 0,
-            //       child: CarouselSlider(
-            //         carouselController: _carouselController,
-            //         items: images
-            //             .map((e) => ClipRRect(
-            //                   borderRadius: BorderRadius.circular(8),
-            //                   child: Image.asset(
-            //                     e.toString(),
-            //                     fit: BoxFit.cover,
-            //                     width: double.infinity,
-            //                   ),
-            //                 ))
-            //             .toList(),
-            //         options: CarouselOptions(
-            //           padEnds: true,
-            //           viewportFraction: 1,
-            //           aspectRatio: 16 / 6,
-            //           enableInfiniteScroll: true,
-            //           autoPlay: true,
-            //           animateToClosest: true,
-            //           autoPlayInterval: const Duration(seconds: 2),
+              //           // autoPlayAnimationDuration: const Duration(milliseconds: 50),
+              //           autoPlayCurve: Curves.linear,
+              //           enlargeCenterPage: true,
+              //           onPageChanged: (index, reason) {
+              //             setState(() {
+              //               _currentIndex = index;
+              //             });
+              //           },
+              //         ),
+              //       ),
+              //     ),
+              //     10.ph,
+              //     MyCarouselIndicator(
+              //       dotCount: images.length,
+              //       position: _currentIndex,
+              //       onTap: (int index) {
+              //         // _carouselController.animateToPage(index);
+              //       },
+              //     ),
+              //   ],
+              // ),
 
-            //           // autoPlayAnimationDuration: const Duration(milliseconds: 50),
-            //           autoPlayCurve: Curves.linear,
-            //           enlargeCenterPage: true,
-            //           onPageChanged: (index, reason) {
-            //             setState(() {
-            //               _currentIndex = index;
-            //             });
-            //           },
-            //         ),
-            //       ),
-            //     ),
-            //     10.ph,
-            //     MyCarouselIndicator(
-            //       dotCount: images.length,
-            //       position: _currentIndex,
-            //       onTap: (int index) {
-            //         // _carouselController.animateToPage(index);
-            //       },
-            //     ),
-            //   ],
-            // ),
-
-            ServicesGrid(
-              services: services,
-            ),
-          ]),
-        ),
+              appstates == AppStates.loaded
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 15.0,
+                                mainAxisSpacing: 15.0,
+                                mainAxisExtent: 220),
+                        itemCount: services!.data!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            onTap: () {
+                              showModalBottomSheet<void>(
+                                context: context,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(8),
+                                        topRight: Radius.circular(8))),
+                                builder: (BuildContext context) {
+                                  return AddressBottomSheetWidget(
+                                    servicesModel: services.data![index],
+                                  );
+                                },
+                              );
+                            },
+                            child: Card(
+                              elevation: 5,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Column(
+                                children: [
+                                  GridTile(
+                                    child: ClipRRect(
+                                        borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(12),
+                                            topRight: Radius.circular(12)),
+                                        child: Image.network(
+                                          width: double.infinity,
+                                          height: 155,
+                                          "${Api.imageUrl}${services.data![index].serviceImage.toString()}"
+                                              .toString(),
+                                          fit: BoxFit.cover,
+                                        )),
+                                  ),
+                                  14.ph,
+                                  Text(
+                                    services.data![index].serviceName
+                                        .toString(),
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 18),
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  : Center(child: CircularProgressIndicator())
+            ])),
       ),
     );
   }

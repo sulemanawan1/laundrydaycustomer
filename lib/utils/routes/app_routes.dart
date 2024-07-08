@@ -1,10 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/models/laundry_model.dart';
-import 'package:laundryday/models/services_model.dart';
 import 'package:laundryday/screens/add_new_card.dart/add_new_card.dart';
-import 'package:laundryday/screens/auth/login/login.dart';
+import 'package:laundryday/screens/auth/login/view/login.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
-import 'package:laundryday/screens/auth/verification/verification.dart';
+import 'package:laundryday/screens/auth/verification/view/verification.dart';
+import 'package:laundryday/screens/services/model/services_model.dart' as s;
 import 'package:laundryday/screens/laundries/view/laundries.dart';
 import 'package:laundryday/screens/laundry_items/view/laundry_items.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
@@ -22,7 +22,7 @@ import 'package:laundryday/screens/rate_courier/rate_courier.dart';
 import 'package:laundryday/screens/splash/splash.dart';
 import 'package:laundryday/screens/tax_invoice/view/tax_invoice.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
-import 'package:laundryday/screens/more/addresses/add_new_address/add_new_address.dart';
+import 'package:laundryday/screens/more/addresses/add_new_address/view/add_new_address.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/my_addresses.dart';
 import 'package:laundryday/screens/more/help/agent_registration/agent_registration.dart';
 import 'package:laundryday/screens/more/help/agent_registration/fetch_agent_address.dart';
@@ -53,15 +53,19 @@ class AppRoutes {
           GoRoute(
               name: RouteNames().home,
               path: 'home',
-              builder: (context, state) => const Home()),
+              builder: (context, state) => Home()),
           GoRoute(
               name: RouteNames().signUp,
               path: "signup",
-              builder: (context, state) => const Signup()),
+              builder: (context, state) => SignUp(
+                    mobileNumber: state.extra as String,
+                  )),
           GoRoute(
               name: RouteNames().verification,
               path: "verification",
-              builder: (context, state) =>  Verification(verificationId: state.extra as String,)),
+              builder: (context, state) => Verification(
+                    verificationId: state.extra as String,
+                  )),
 
           GoRoute(
             name: RouteNames().profile,
@@ -69,7 +73,6 @@ class AppRoutes {
             builder: (context, state) => const Profile(),
           ),
 
-          
           GoRoute(
             name: RouteNames().furnitureScreen,
             path: "furniture",
@@ -84,7 +87,7 @@ class AppRoutes {
           GoRoute(
             name: RouteNames().services,
             path: "services",
-            builder: (context, state) => const Services(),
+            builder: (context, state) => Services(),
           ),
           // GoRoute(
           //   name: RouteNames().serviceDetail,
@@ -97,7 +100,7 @@ class AppRoutes {
           GoRoute(
             name: RouteNames().addNewAddress,
             path: "add_new_address",
-            builder: (context, state) => const AddNewAddress(),
+            builder: (context, state) => AddNewAddress(),
           ),
           GoRoute(
             name: RouteNames().myAddresses,
@@ -133,13 +136,11 @@ class AppRoutes {
             builder: (context, state) => const FetchAgentAddress(),
           ),
 
-         
-
           GoRoute(
             name: RouteNames().orderReview,
             path: "order_review",
-            builder: (context, state) => OrderReview(
-                orderDatailsArguments: state.extra as Arguments),
+            builder: (context, state) =>
+                OrderReview(orderDatailsArguments: state.extra as Arguments),
           ),
 
           GoRoute(
@@ -157,8 +158,8 @@ class AppRoutes {
           GoRoute(
             name: RouteNames().laundries,
             path: "blanket_and_linen_service_detail",
-            builder: (context, state) => Laundries(
-                services: state.extra as ServicesModel?),
+            builder: (context, state) =>
+                Laundries(services: state.extra as s.Datum?),
           ),
 
           GoRoute(
@@ -189,13 +190,17 @@ class AppRoutes {
           GoRoute(
             name: RouteNames().findCourier,
             path: "find_courier",
-            builder: (context, state) =>  FindCourier(orderDatailsArguments: state.extra as Arguments?,),
+            builder: (context, state) => FindCourier(
+              orderDatailsArguments: state.extra as Arguments?,
+            ),
           ),
 
           GoRoute(
             name: RouteNames().orderProcess,
             path: "order_process",
-            builder: (context, state) =>  OrderProcess(orderDatailsArguments: state.extra as Arguments? ,),
+            builder: (context, state) => OrderProcess(
+              orderDatailsArguments: state.extra as Arguments?,
+            ),
           ),
 
           GoRoute(
@@ -232,7 +237,6 @@ class AppRoutes {
             builder: (context, state) => ViewImage(
               image: state.extra as String?,
             ),
-            
           ),
 
           GoRoute(
@@ -241,7 +245,7 @@ class AppRoutes {
             builder: (context, state) => LaundryCareGuilde(),
           ),
 
-           GoRoute(
+          GoRoute(
             name: RouteNames().paymentOptions,
             path: "payment_options",
             builder: (context, state) => PaymentOptions(),

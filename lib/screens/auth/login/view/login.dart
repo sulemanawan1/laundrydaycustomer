@@ -1,63 +1,28 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/helpers/validation_helper/validation_helper.dart';
+import 'package:laundryday/screens/auth/login/provider/login_notifier.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
+import 'package:laundryday/screens/auth/verification/provider/verification_notifier.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/sized_box.dart';
-import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/value_manager.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/my_textform_field.dart';
-final FirebaseAuth auth = FirebaseAuth.instance;
-
-class Login extends StatefulWidget {
-  const Login({super.key});
-
+class Login extends ConsumerWidget {
   @override
-  State<Login> createState() => _LoginState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.read(loginProvider.notifier);
+    final isLoading = ref.watch(loginProvider).isLoading;
 
-class _LoginState extends State<Login> {
-  @override
-  Widget build(BuildContext context) {
+    final codeController =
+        ref.read(verificationProvider.notifier).codeController;
+
     final key = GlobalKey<FormState>();
 
-    final TextEditingController _phoneController = TextEditingController();
-    final TextEditingController _codeController = TextEditingController();
-
-    String? _verificationId;
-
-    void _verifyPhoneNumber() async {
-      await auth.verifyPhoneNumber(
-        phoneNumber: "+966${_phoneController.text}",
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth.signInWithCredential(credential);
-          // Handle successful login
-        },
-        verificationFailed: (FirebaseAuthException e) {
-          // Handle error
-          print(e.message);
-        },
-        codeSent: (String verificationId, int? resendToken) {
-          setState(() {
-            _verificationId = verificationId;
-          });
-          GoRouter.of(context)
-              .pushNamed(RouteNames().verification, extra: _verificationId);
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {
-          setState(() {
-            _verificationId = verificationId;
-          });
-        },
-      );
-    }
-
-  
     return Container(
       decoration: const BoxDecoration(
           image: DecorationImage(
@@ -87,6 +52,7 @@ class _LoginState extends State<Login> {
                       ),
                       14.ph,
                       HeadingMedium(
+                        textAlign: TextAlign.center,
                         title:
                             "Add your Mobile number. We'll send you a \n verification code",
                         color: ColorManager.whiteColor,
@@ -102,7 +68,7 @@ class _LoginState extends State<Login> {
                         hintTextColor: ColorManager.whiteColor,
                         labelTextColor: ColorManager.whiteColor,
                         maxLength: 9,
-                        controller: _phoneController,
+                        controller: controller.phoneController,
                         validator: ValidationHelper().validatePhoneNumber,
                         autofillHints: const [
                           AutofillHints.telephoneNumberLocalSuffix
@@ -132,12 +98,18 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       10.ph,
-                      MyButton(
-                        name: 'Continue',
-                        onPressed: () async {
-                          _verifyPhoneNumber();
-                        },
-                      ),
+                      isLoading
+                          ? CircularProgressIndicator()
+                          : MyButton(
+                              name: 'Continue',
+                              onPressed: () {
+                                if (key.currentState!.validate()) {
+                                  controller.verifyPhoneNumber(
+                                      codeController: codeController,
+                                      context: context);
+                                }
+                              },
+                            ),
                       40.ph,
                     ]),
               )),

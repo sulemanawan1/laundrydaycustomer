@@ -1,49 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:laundryday/screens/home/provider/home_notifier.dart';
 import 'package:laundryday/screens/more/more.dart';
 import 'package:laundryday/screens/offers/view/offers.dart';
 import 'package:laundryday/screens/orders/orders.dart';
 import 'package:laundryday/screens/services/view/services.dart';
 import 'package:laundryday/utils/colors.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class Home extends ConsumerWidget {
+  Home({super.key});
 
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-
-  int _selectedIndex = 0;
-
-  List<Widget> screens = [
-    const Services(),
-    const Orders(),
-    const Offers(),
-    const More()
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final index = ref.watch(homeProvider).index;
     return Scaffold(
         key: _scaffoldKey,
-        backgroundColor: ColorManager. whiteColor,
-        bottomNavigationBar: Card(elevation: 0,
-           color: ColorManager.whiteColor,
+        backgroundColor: ColorManager.whiteColor,
+        bottomNavigationBar: Card(
+          elevation: 0,
+          color: ColorManager.whiteColor,
           child: BottomNavigationBar(
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
+            currentIndex: index,
+            onTap: (inded) {
+              ref
+                  .read(homeProvider.notifier)
+                  .changeIndex(index: inded, ref: ref);
+            },
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
@@ -63,7 +48,7 @@ class _HomeState extends State<Home> {
               ),
             ],
             type: BottomNavigationBarType.fixed,
-            selectedItemColor: ColorManager. primaryColor,
+            selectedItemColor: ColorManager.primaryColor,
             backgroundColor: ColorManager.whiteColor,
             unselectedItemColor: Colors.grey,
             showUnselectedLabels: true,
@@ -74,8 +59,8 @@ class _HomeState extends State<Home> {
           ),
         ),
         body: IndexedStack(
-          index: _selectedIndex,
-          children: const [Services(), Orders(), Offers(), More()],
+          index: index,
+          children: [Services(), Orders(), Offers(), More()],
         ));
   }
 }

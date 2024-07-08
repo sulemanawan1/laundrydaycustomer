@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/session.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/widgets/heading.dart';
@@ -14,6 +15,7 @@ class More extends StatefulWidget {
 }
 
 class _MoreState extends State<More> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +41,7 @@ class _MoreState extends State<More> {
                       leading: const Icon(Icons.person),
                       title: const Text('Profile'),
                       onTap: () {
-                      context.pushNamed(RouteNames().profile);
+                        context.pushNamed(RouteNames().profile);
                       },
                     ),
                     ListTile(
@@ -52,7 +54,6 @@ class _MoreState extends State<More> {
                             .pushNamed(RouteNames().myAddresses);
                       },
                     ),
-
                     ListTile(
                       trailing: const Icon(Icons.navigate_next),
                       leading: const Icon(Icons.credit_card),
@@ -76,8 +77,7 @@ class _MoreState extends State<More> {
                       leading: const Icon(Icons.help),
                       title: const Text('Help'),
                       onTap: () {
-                      GoRouter.of(context).pushNamed(RouteNames().help);
-
+                        GoRouter.of(context).pushNamed(RouteNames().help);
                       },
                     ),
                     ListTile(
@@ -85,12 +85,11 @@ class _MoreState extends State<More> {
                       leading: const Icon(Icons.logout),
                       title: const Text('Logout'),
                       onTap: () {
-                        // Navigate to the about screen
+                        MySharedPreferences.deleterUserSession();
                         GoRouter.of(context)
-                            .pushNamed(RouteNames().login);
+                            .pushReplacementNamed(RouteNames().login);
                       },
                     ),
-                    
                   ],
                 ),
               ),

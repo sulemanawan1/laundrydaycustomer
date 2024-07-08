@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/models/order_invoice_model.dart';
@@ -10,8 +8,9 @@ import 'package:laundryday/screens/home/model/timer_model.dart';
 import 'package:laundryday/screens/home/provider/home_states.dart';
 import 'package:laundryday/screens/laundries/model/services_timings_model.dart';
 
+
 final homeProvider =
-    StateNotifierProvider<HomeNotifier, HomeStates>((ref) => HomeNotifier());
+    StateNotifierProvider.autoDispose<HomeNotifier, HomeStates>((ref) => HomeNotifier());
 
 class HomeNotifier extends StateNotifier<HomeStates> {
   HomeNotifier()
@@ -658,7 +657,7 @@ class HomeNotifier extends StateNotifier<HomeStates> {
     state.timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (mounted) {
         for (int i = 0; i < state.onGoingOrderTimerList!.length; i++) {
-          log(state.onGoingOrderTimerList![i].remainingTime.toString());
+          // log(state.onGoingOrderTimerList![i].remainingTime.toString());
 
           state.onGoingOrderTimerList![i].remainingTime = state
               .onGoingOrderTimerList![i].endTime!
@@ -683,5 +682,9 @@ class HomeNotifier extends StateNotifier<HomeStates> {
         }
       }
     });
+  }
+
+  changeIndex({required int index, required WidgetRef ref}) {
+    state = state.copyWith(index: index);
   }
 }

@@ -395,7 +395,9 @@ class _AddressInformationState extends ConsumerState<AddressInformation> {
             8.ph,
             SizedBox(
               height: 300,
-              child: Stack(alignment: Alignment.center, children: [
+              child: Stack(
+                alignment: Alignment.center,
+                 children: [
                 GoogleMap(
                   initialCameraPosition: CameraPosition(
                     zoom: 14,

@@ -17,6 +17,7 @@ import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_carousel.dart';
 import 'package:laundryday/widgets/reusable_order_now_widget.dart';
+import 'package:laundryday/screens/services/model/services_model.dart' as s;
 
 final laundriesApiProvider = Provider<ApiServices>((ref) => ApiServices());
 
@@ -26,7 +27,7 @@ final laundriesProvider =
 });
 
 class Laundries extends ConsumerStatefulWidget {
-  ServicesModel? services;
+  s.Datum? services;
 
   Laundries({super.key, required this.services});
 
@@ -43,13 +44,13 @@ class _BlanketAndLinenServiceDetailState extends ConsumerState<Laundries> {
     super.initState();
     controller = CarouselController();
 
-    log(widget.services!.images.map((e) => e.image).toList().toString());
+    // log(widget.services!.images.map((e) => e.image).toList().toString());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: widget.services!.name == 'Carpets'
+      appBar: widget.services!.serviceName == 'Carpets'
           ? null
           : MyAppBar(
               title: null,
@@ -57,25 +58,25 @@ class _BlanketAndLinenServiceDetailState extends ConsumerState<Laundries> {
               backgroundColor: ColorManager.backgroundColor,
             ),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        if (widget.services!.name == 'Carpets') ...[
+        if (widget.services!.serviceName == 'Carpets') ...[
           Stack(
             children: [
-              widget.services!.images.isEmpty
-                  ? AspectRatio(
-                      aspectRatio: 5 / 4,
-                      child: Image.asset(widget.services!.image.toString()),
-                    )
-                  : MyCarousel(
-                      aspectRatio: 5 / 4,
-                      images: widget.services!.images,
-                      index: _currentIndex,
-                      carouselController: controller,
-                      onPageChanged: (index, reason) {
-                        setState(() {
-                          _currentIndex = index;
-                        });
-                      },
-                    ),
+              // widget.services!.images.isEmpty
+              //     ? AspectRatio(
+              //         aspectRatio: 5 / 4,
+              //         child: Image.asset(widget.services!.image.toString()),
+              //       )
+              //     : MyCarousel(
+              //         aspectRatio: 5 / 4,
+              //         images: widget.services!.images,
+              //         index: _currentIndex,
+              //         carouselController: controller,
+              //         onPageChanged: (index, reason) {
+              //           setState(() {
+              //             _currentIndex = index;
+              //           });
+              //         },
+              //       ),
               Positioned(
                 top: 40,
                 left: 20,
@@ -100,11 +101,11 @@ class _BlanketAndLinenServiceDetailState extends ConsumerState<Laundries> {
           )
         ] else ...[
           ReusableOrderNowCard(
-            image: widget.services!.name == 'Clothes'
+            image: widget.services!.serviceName == 'Clothes'
                 ? "assets/order_now_clothes.jpeg"
                 : "assets/order_now_blankets.jpeg",
             onPressed: () {
-              if (widget.services!.name == 'Clothes') {
+              if (widget.services!.serviceName == 'Clothes') {
                 GoRouter.of(context).pushNamed(
                   RouteNames().blanketsCategory,
                   extra: LaundryModel(
@@ -188,13 +189,13 @@ class _BlanketAndLinenServiceDetailState extends ConsumerState<Laundries> {
             },
           ),
         ],
-        if (widget.services!.name == 'Carpets') ...[
-          CarpetLaundryTile(
-            services: widget.services,
-          )
+        if (widget.services!.serviceName == 'Carpets') ...[
+          // CarpetLaundryTile(
+          //   services: widget.services,
+          // )
         ] else ...[
           LaundryTile(
-            serviceId: widget.services!.id,
+            serviceId: widget.services!.id!,
           )
         ]
       ]),

@@ -1,46 +1,83 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:laundryday/helpers/validation_helper/validation_helper.dart';
+import 'package:laundryday/screens/auth/signup/provider/signup_notifier.dart';
 import 'package:laundryday/utils/colors.dart';
-import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/value_manager.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_textform_field.dart';
 
-class Signup extends StatelessWidget {
-  const Signup({super.key});
+// ignore: must_be_immutable
+class SignUp extends ConsumerWidget {
+  String mobileNumber;
+  final formKey = GlobalKey<FormState>();
+
+  SignUp({super.key, required this.mobileNumber});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.read(signupProvider.notifier);
+    final states = ref.watch(signupProvider);
+
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Heading(
-            text: "What's your Full Name?",
-          ),
-          20.ph,
-          HeadingMedium(title: 'Name'),
-          10.ph,
-          MyTextFormField(
-            hintText: 'Enter your Full Name.',
-            labelText: '',
-            autofillHints: const [AutofillHints.name],
-          ),
-          20.ph,
-          MyButton(
-            onPressed: () {
-              GoRouter.of(context).pushNamed(RouteNames().home);
-            },
-            name: 'login',
-          ),
-          40.ph,
-        ],
+      child: Form(
+        key: formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(mobileNumber),
+            const Heading(
+              text: "Enter your Full Name?",
+            ),
+            SizedBox(
+              height: 100,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: MyTextFormField(
+                      controller: controller.firstNameController,
+                      validator: ValidationHelper().emptyStringValidator,
+                      hintText: 'First Name.',
+                      labelText: 'First Name.',
+                      autofillHints: const [AutofillHints.name],
+                    ),
+                  ),
+                  5.pw,
+                  Expanded(
+                    child: MyTextFormField(
+                      controller: controller.lastNameController,
+                      validator: ValidationHelper().emptyStringValidator,
+                      hintText: 'Last Name.',
+                      labelText: 'Last Name',
+                      autofillHints: const [AutofillHints.name],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            states.isLoading
+                ? Center(child: CircularProgressIndicator())
+                : MyButton(
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        controller.registerCustomer(
+                            context: context,
+                            mobileNumber: mobileNumber,
+                            firstName: controller.firstNameController.text,
+                            lastName: controller.lastNameController.text);
+                      }
+                    },
+                    name: 'Continue',
+                  ),
+            40.ph,
+          ],
+        ),
       ),
     ));
   }

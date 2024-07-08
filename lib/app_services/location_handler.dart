@@ -45,6 +45,7 @@ class LocationHandler {
 
   static Future<void> goToTheCurrentLoaction(
       {required Completer<GoogleMapController> googleMapcontroller}) async {
+        
     final GoogleMapController controller = await googleMapcontroller.future;
 
     double selectedLat = 0.0;
