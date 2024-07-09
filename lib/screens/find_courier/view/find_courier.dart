@@ -162,7 +162,7 @@ class _FindCourierState extends ConsumerState<FindCourier> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     10.ph,
-                    const Heading(text: 'Find Courier'),
+                    const Heading(title: 'Find Courier'),
                     10.ph,
                     HeadingMedium(
                       title:
@@ -171,7 +171,7 @@ class _FindCourierState extends ConsumerState<FindCourier> {
                     ),
                     20.ph,
                     MyButton(
-                      name: 'Cancel Request',
+                      title: 'Cancel Request',
                       borderColor: Colors.red,
                       isBorderButton: true,
                       textColor: Colors.red,

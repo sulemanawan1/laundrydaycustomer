@@ -97,7 +97,7 @@ class _BlanketAndLinenServiceDetailState extends ConsumerState<Laundries> {
           ),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Heading(text: 'All Laundries'),
+            child: Heading(title: 'All Laundries'),
           )
         ] else ...[
           ReusableOrderNowCard(

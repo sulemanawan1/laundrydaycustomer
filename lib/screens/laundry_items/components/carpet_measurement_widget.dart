@@ -35,8 +35,6 @@ class CarpetMeasurementWidget extends StatelessWidget {
 
                         itemModel.length = double.parse(
                             "${itemModel.prefixLength}.${itemModel.postfixLength}");
-
-                       
                       },
                       postfixSelectedItemChanged: (v) {
                         String formattedNumber = v.toString().padLeft(2, '0');
@@ -75,12 +73,12 @@ class CarpetMeasurementWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Heading(
-                    text:
+                    title:
                         "(${itemModel.prefixLength}.${itemModel.postfixLength.toString().padLeft(2, '0')})m",
                     color: ColorManager.primaryColor,
                   ),
                   Heading(
-                    text:
+                    title:
                         "(${itemModel.prefixWidth}.${itemModel.postfixWidth.toString().padLeft(2, '0')})m",
                     color: ColorManager.primaryColor,
                   ),
@@ -88,14 +86,14 @@ class CarpetMeasurementWidget extends StatelessWidget {
               ),
               20.ph,
               MyButton(
-                name: 'Ok',
+                title: 'Ok',
                 onPressed: () {
                   GoRouter.of(context).pop();
                 },
               ),
               10.ph,
               MyButton(
-                name: 'Cancel',
+                title: 'Cancel',
                 onPressed: () {
                   GoRouter.of(context).pop();
                 },
@@ -121,7 +119,7 @@ Widget myWheelListScroller({
   return Column(
     children: [
       10.ph,
-      Heading(text: title),
+      Heading(title: title),
       20.ph,
       Row(
         children: [

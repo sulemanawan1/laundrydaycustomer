@@ -17,7 +17,7 @@ class OrderItemWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             5.ph,
-            const Heading(text: 'Order Details'),
+            const Heading(title: 'Order Details'),
             5.ph,
             ConstrainedBox(
               constraints: const BoxConstraints(maxHeight: double.infinity),

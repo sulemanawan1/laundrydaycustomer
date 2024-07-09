@@ -46,13 +46,11 @@ class ScanReceiptWidget extends ConsumerWidget {
                           icon: const Icon(
                             Icons.camera,
                           ),
-                          onPressed: ()  {
-                             ref
-                                .read(deliverPickupProvider.notifier)
-                                .pickImage(
-                                    imageSource: ImageSource.camera,
-                                    context: context,
-                                    ref: ref);
+                          onPressed: () {
+                            ref.read(deliverPickupProvider.notifier).pickImage(
+                                imageSource: ImageSource.camera,
+                                context: context,
+                                ref: ref);
                             // ignore: use_build_context_synchronously
                             context.pop();
                           },
@@ -110,7 +108,7 @@ class ScanReceiptWidget extends ConsumerWidget {
                           ),
                           10.ph,
                           const Heading(
-                            text: 'Scan Recipt',
+                            title: 'Scan Recipt',
                           )
                         ],
                       )

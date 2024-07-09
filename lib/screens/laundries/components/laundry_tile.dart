@@ -39,7 +39,6 @@ class LaundryTile extends ConsumerWidget {
               itemBuilder: (BuildContext context, int index) {
                 String category = groupedItems.keys.elementAt(index);
 
-                
                 List itemsInCategory = groupedItems[category]!;
 
                 return Column(
@@ -81,7 +80,7 @@ class LaundryTile extends ConsumerWidget {
                                       ),
                                       10.ph,
                                       MyButton(
-                                        name: 'Find another Laundry',
+                                        title: 'Find another Laundry',
                                         onPressed: () {
                                           context.pop();
                                         },
@@ -115,7 +114,7 @@ class LaundryTile extends ConsumerWidget {
                                               Clip.antiAliasWithSaveLayer,
                                           title: Center(
                                             child: Heading(
-                                              text: 'Select Service Type',
+                                              title: 'Select Service Type',
                                             ),
                                           ),
                                           content: Consumer(

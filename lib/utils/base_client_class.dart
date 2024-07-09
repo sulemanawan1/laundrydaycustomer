@@ -41,7 +41,7 @@ class BaseClientClass {
     }
   }
 
-  static Future<dynamic> postFormReq(String url, Map data, File? file) async {
+  static Future<dynamic> postFormReq(String url, Map data, String? file) async {
     if (kDebugMode) {
       print('url: $url');
       print('data: $data');
@@ -62,7 +62,7 @@ class BaseClientClass {
       // Adding the file if it exists
       if (file != null) {
         request.files
-            .add(await http.MultipartFile.fromPath('image', file.path));
+            .add(await http.MultipartFile.fromPath('image', file));
       }
 
       // Adding form fields

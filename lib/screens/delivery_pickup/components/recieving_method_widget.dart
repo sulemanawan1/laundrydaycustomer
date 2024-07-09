@@ -20,7 +20,7 @@ class RecievingMethod extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Heading(text: "Method of Recieving"),
+            const Heading(title: "Method of Recieving"),
             ListTile(
               contentPadding: EdgeInsets.zero,
               title: Text(
@@ -55,7 +55,8 @@ class RecievingMethod extends ConsumerWidget {
 
                       ref
                           .read(deliverPickupProvider.notifier)
-                          .selectRecievingMethod(recievingMethodTypes: value!);                    },
+                          .selectRecievingMethod(recievingMethodTypes: value!);
+                    },
                   ),
                 ),
                 states.recievingMethod!.index == 1

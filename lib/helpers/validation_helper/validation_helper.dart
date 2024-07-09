@@ -1,5 +1,5 @@
-class ValidationHelper {
- static String? validateMobileNumber(String? value) {
+class AppValidator {
+  static String? validateMobileNumber(String? value) {
 // Check if the value is empty
     if (value!.isEmpty) {
       return 'Mobile number is required';
@@ -30,7 +30,7 @@ class ValidationHelper {
     int phoneNumberLength = cleanedPhoneNumber.length;
     if (phoneNumberLength == 0) {
       return 'Please Enter Phone Number';
-    } else if (phoneNumberLength <9) {
+    } else if (phoneNumberLength < 9) {
       return 'Invalid Phone Number !';
     }
 

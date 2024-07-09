@@ -23,7 +23,7 @@ class OrderSummary extends StatelessWidget {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const Center(
                 child:
-                    Heading(text: '''You've request order from anywhere ''')),
+                    Heading(title: '''You've request order from anywhere ''')),
             10.ph,
             SizedBox(
               width: double.infinity,
@@ -38,7 +38,7 @@ class OrderSummary extends StatelessWidget {
               ),
             ),
             10.ph,
-            const Heading(text: 'Order Details'),
+            const Heading(title: 'Order Details'),
             20.ph,
             HeadingMedium(title: 'Address Details'),
             10.ph,
@@ -71,7 +71,7 @@ class OrderSummary extends StatelessWidget {
             ),
             20.ph,
             MyButton(
-              name: 'Order Chat',
+              title: 'Order Chat',
               isBorderButton: true,
               onPressed: () {
                 context.pushNamed(RouteNames().orderChat);

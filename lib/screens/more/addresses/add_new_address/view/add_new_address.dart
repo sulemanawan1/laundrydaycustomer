@@ -120,19 +120,19 @@ class AddNewAddress extends ConsumerWidget {
                       20.ph,
                       MyTextFormField(
                         controller: controller.addressNameController,
-                        validator: ValidationHelper().emptyStringValidator,
+                        validator: AppValidator().emptyStringValidator,
                         hintText: 'Ex: Home',
                         labelText: 'Address Name',
                       ),
                       10.ph,
                       MyTextFormField(
                         controller: controller.addressDetailController,
-                        validator: ValidationHelper().emptyStringValidator,
+                        validator: AppValidator().emptyStringValidator,
                         hintText: 'Ex: Building no',
                         labelText: 'Address Details',
                       ),
                       10.ph,
-                      Heading(text: 'Address Photo'),
+                      Heading(title: 'Address Photo'),
                       10.ph,
                       GestureDetector(
                         onTap: () {
@@ -242,7 +242,7 @@ class AddNewAddress extends ConsumerWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: MyButton(
-                          name: 'Save',
+                          title: 'Save',
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               log(customerId.toString());
@@ -252,6 +252,7 @@ class AddNewAddress extends ConsumerWidget {
                               log(states.selectedCameraPos.target.longitude
                                   .toString());
                               controller.addAddress(
+                                file: states.imagePath,
                                 ref: ref,
                                 customerId: customerId!,
                                 googleAddress: states.address!,

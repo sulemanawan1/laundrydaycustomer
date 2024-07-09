@@ -15,7 +15,6 @@ class More extends StatefulWidget {
 }
 
 class _MoreState extends State<More> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +27,7 @@ class _MoreState extends State<More> {
           child: SingleChildScrollView(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Heading(text: ' My Account'),
+              const Heading(title: ' My Account'),
               20.ph,
               Container(
                 decoration: BoxDecoration(

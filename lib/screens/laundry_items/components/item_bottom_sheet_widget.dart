@@ -63,7 +63,7 @@ class ItemBottomSheet extends ConsumerWidget {
                                             Clip.antiAliasWithSaveLayer,
                                         title: Center(
                                           child: Heading(
-                                              text:
+                                              title:
                                                   "${itemModel.name.toString()} Size"),
                                         ),
                                         content: CarpetMeasurementWidget(
@@ -161,11 +161,11 @@ class ItemBottomSheet extends ConsumerWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Heading(
-                                  text: "SAR 0.0",
+                                  title: "SAR 0.0",
                                   color: ColorManager.whiteColor,
                                 ),
                                 Heading(
-                                  text: 'Add',
+                                  title: 'Add',
                                   color: ColorManager.whiteColor,
                                 )
                               ]),

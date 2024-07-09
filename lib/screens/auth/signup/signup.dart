@@ -33,7 +33,7 @@ class SignUp extends ConsumerWidget {
           children: [
             Text(mobileNumber),
             const Heading(
-              text: "Enter your Full Name?",
+              title: "Enter your Full Name?",
             ),
             SizedBox(
               height: 100,
@@ -42,7 +42,7 @@ class SignUp extends ConsumerWidget {
                   Expanded(
                     child: MyTextFormField(
                       controller: controller.firstNameController,
-                      validator: ValidationHelper().emptyStringValidator,
+                      validator: AppValidator().emptyStringValidator,
                       hintText: 'First Name.',
                       labelText: 'First Name.',
                       autofillHints: const [AutofillHints.name],
@@ -52,7 +52,7 @@ class SignUp extends ConsumerWidget {
                   Expanded(
                     child: MyTextFormField(
                       controller: controller.lastNameController,
-                      validator: ValidationHelper().emptyStringValidator,
+                      validator: AppValidator().emptyStringValidator,
                       hintText: 'Last Name.',
                       labelText: 'Last Name',
                       autofillHints: const [AutofillHints.name],
@@ -73,7 +73,7 @@ class SignUp extends ConsumerWidget {
                             lastName: controller.lastNameController.text);
                       }
                     },
-                    name: 'Continue',
+                    title: 'Continue',
                   ),
             40.ph,
           ],

@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 class AddAddressService {
   static Future<dynamic> addAddress({
     required int customerId,
-    File? file,
+    String? file,
     required String googleAddress,
     required String addressName,
     required String addressDetail,

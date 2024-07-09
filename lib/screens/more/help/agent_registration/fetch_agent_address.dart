@@ -90,7 +90,7 @@ class _FetchAgentAddressState extends State<FetchAgentAddress> {
                     }
                   },
                 ),
-                 Icon(
+                Icon(
                   Icons.location_on,
                   color: ColorManager.primaryColor,
                 ),
@@ -104,8 +104,9 @@ class _FetchAgentAddressState extends State<FetchAgentAddress> {
                       child: Container(
                         width: 50,
                         height: 50,
-                        decoration:  BoxDecoration(
-                            shape: BoxShape.circle, color: ColorManager. whiteColor),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: ColorManager.whiteColor),
                         child: const Center(child: Icon(Icons.my_location)),
                       ),
                     ),
@@ -119,9 +120,9 @@ class _FetchAgentAddressState extends State<FetchAgentAddress> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     10.ph,
-                     HeadingMedium(
+                    HeadingMedium(
                       title: 'Address',
-                      color: ColorManager. primaryColor,
+                      color: ColorManager.primaryColor,
                     ),
                     10.ph,
                     Text(
@@ -138,7 +139,7 @@ class _FetchAgentAddressState extends State<FetchAgentAddress> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
               child: MyButton(
-                name: 'Pick Address',
+                title: 'Pick Address',
                 onPressed: () {
                   // GoRouter.of(context)
                   //     .go('/agent_registration?address=$address&city=$city');

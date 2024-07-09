@@ -7,10 +7,11 @@ import 'package:laundryday/screens/home/model/order_model.dart';
 import 'package:laundryday/screens/home/model/timer_model.dart';
 import 'package:laundryday/screens/home/provider/home_states.dart';
 import 'package:laundryday/screens/laundries/model/services_timings_model.dart';
-
+import 'package:laundryday/screens/services/provider/services_notifier.dart';
 
 final homeProvider =
-    StateNotifierProvider.autoDispose<HomeNotifier, HomeStates>((ref) => HomeNotifier());
+    StateNotifierProvider.autoDispose<HomeNotifier, HomeStates>(
+        (ref) => HomeNotifier());
 
 class HomeNotifier extends StateNotifier<HomeStates> {
   HomeNotifier()
@@ -685,6 +686,9 @@ class HomeNotifier extends StateNotifier<HomeStates> {
   }
 
   changeIndex({required int index, required WidgetRef ref}) {
+    if (index == 0) {
+      ref.invalidate(serviceProvider);
+    }
     state = state.copyWith(index: index);
   }
 }

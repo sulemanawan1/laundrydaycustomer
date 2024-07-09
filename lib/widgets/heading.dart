@@ -4,17 +4,17 @@ import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/font_manager.dart';
 
 class Heading extends StatelessWidget {
-  final String text;
+  final String title;
 
-  final  Color? color;
-  const Heading({super.key, required this.text, this.color});
+  final Color? color;
+  const Heading({super.key, required this.title, this.color});
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      text,
+      title,
       style: GoogleFonts.poppins(
-          color: color ??ColorManager. blackColor,
+          color: color ?? ColorManager.blackColor,
           fontSize: 16,
           fontWeight: FontWeightManager.semiBold),
     );

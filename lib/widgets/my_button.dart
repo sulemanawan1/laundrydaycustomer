@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/utils/colors.dart';
 
 class MyButton extends StatelessWidget {
-  final String? name;
+  final String? title;
   final bool isBorderButton;
   final void Function()? onPressed;
   final Color? borderColor;
@@ -14,7 +14,7 @@ class MyButton extends StatelessWidget {
   EdgeInsetsGeometry? padding;
   MyButton(
       {super.key,
-      required this.name,
+      required this.title,
       this.borderColor,
       this.color,
       this.onPressed,
@@ -27,7 +27,7 @@ class MyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:padding?? EdgeInsets.zero,
+      padding: padding ?? EdgeInsets.zero,
       child: InkWell(
         onTap: isLoading == false ? null : onPressed,
         borderRadius: BorderRadius.circular(40),
@@ -47,7 +47,7 @@ class MyButton extends StatelessWidget {
           child: widget ??
               Center(
                 child: Text(
-                  name!,
+                  title!,
                   style: GoogleFonts.poppins(
                     color: isBorderButton
                         ? textColor ?? ColorManager.primaryColor

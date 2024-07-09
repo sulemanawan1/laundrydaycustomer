@@ -49,9 +49,6 @@ class _AddNewCardState extends ConsumerState<AddNewCard> {
     final formKey = GlobalKey<FormState>();
 
     return Scaffold(
-      
-     
-      
       appBar: MyAppBar(
         title: 'Add new Card',
       ),
@@ -63,15 +60,18 @@ class _AddNewCardState extends ConsumerState<AddNewCard> {
             child: Column(
               children: [
                 Expanded(
-                  child: SizedBox(height: constraints.maxHeight*0.9,
+                  child: SizedBox(
+                    height: constraints.maxHeight * 0.9,
                     child: SingleChildScrollView(
-                      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Center(
                             child: SizedBox(
                               width: MediaQuery.of(context).size.width * 0.6,
                               child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   CardTypeIcon(image: 'assets/mada.jpg'),
                                   CardTypeIcon(image: 'assets/visa.png'),
@@ -102,20 +102,25 @@ class _AddNewCardState extends ConsumerState<AddNewCard> {
                                   letterSpacing: 0.0),
                               contentPadding: const EdgeInsets.only(left: 20),
                               // suffix: CardUtils.getCardIcon(cardType),
-                                            
+
                               errorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.redAccent)),
+                                  borderSide:
+                                      BorderSide(color: Colors.redAccent)),
                               focusedErrorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.redAccent)),
+                                  borderSide:
+                                      BorderSide(color: Colors.redAccent)),
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      width: 0.2, color: ColorManager.greyColor)),
+                                      width: 0.2,
+                                      color: ColorManager.greyColor)),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      width: 0.2, color: ColorManager.greyColor)),
+                                      width: 0.2,
+                                      color: ColorManager.greyColor)),
                               focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      width: 0.2, color: ColorManager.greyColor)),
+                                      width: 0.2,
+                                      color: ColorManager.greyColor)),
                               hintText: '0000 0000 0000 0000',
                             ),
                             validator: CardUtils.validateCardNum,
@@ -133,21 +138,26 @@ class _AddNewCardState extends ConsumerState<AddNewCard> {
                                   letterSpacing: 0.0),
                               contentPadding: const EdgeInsets.only(left: 20),
                               // suffix: CardUtils.getCardIcon(cardType),
-                                            
+
                               errorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.redAccent)),
+                                  borderSide:
+                                      BorderSide(color: Colors.redAccent)),
                               focusedErrorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.redAccent)),
+                                  borderSide:
+                                      BorderSide(color: Colors.redAccent)),
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      width: 0.2, color: ColorManager.greyColor)),
+                                      width: 0.2,
+                                      color: ColorManager.greyColor)),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      width: 0.2, color: ColorManager.greyColor)),
+                                      width: 0.2,
+                                      color: ColorManager.greyColor)),
                               focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      width: 0.2, color: ColorManager.greyColor)),
-                                            
+                                      width: 0.2,
+                                      color: ColorManager.greyColor)),
+
                               hintText: 'ex: Mada card',
                             ),
                             validator: (value) {
@@ -191,11 +201,12 @@ class _AddNewCardState extends ConsumerState<AddNewCard> {
                                         color: ColorManager.greyColor,
                                         letterSpacing: 0.0),
                                     errorBorder: const OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.redAccent)),
-                                    focusedErrorBorder: const OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.redAccent)),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent)),
+                                    focusedErrorBorder:
+                                        const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.redAccent)),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
                                             width: 0.2,
@@ -233,11 +244,12 @@ class _AddNewCardState extends ConsumerState<AddNewCard> {
                                         color: ColorManager.greyColor,
                                         letterSpacing: 0.0),
                                     errorBorder: const OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.redAccent)),
-                                    focusedErrorBorder: const OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.redAccent)),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent)),
+                                    focusedErrorBorder:
+                                        const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.redAccent)),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
                                             width: 0.2,
@@ -291,14 +303,15 @@ class _AddNewCardState extends ConsumerState<AddNewCard> {
                               ),
                             ),
                           ),
-                        10.ph,],
+                          10.ph,
+                        ],
                       ),
                     ),
                   ),
                 ),
                 MyButton(
                   color: Colors.blue,
-                  name: 'Add',
+                  title: 'Add',
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       ref
@@ -306,9 +319,8 @@ class _AddNewCardState extends ConsumerState<AddNewCard> {
                           .isCardValidate(isValidate: true);
                     }
                   },
-                ),30.ph
-               
-              
+                ),
+                30.ph
               ],
             ),
           ),

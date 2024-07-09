@@ -27,14 +27,14 @@ class _EditProfileState extends State<EditProfile> {
             padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Heading(text: 'Profile Information'),
+              const Heading(title: 'Profile Information'),
               10.ph,
               HeadingMedium(title: 'Full Name'),
               10.ph,
               MyTextFormField(hintText: 'Full Name', labelText: ''),
               10.ph,
               MyButton(
-                name: 'Update Profile',
+                title: 'Update Profile',
                 onPressed: () {
                   Utils.showToast(msg: 'Profile Updaed');
                 },

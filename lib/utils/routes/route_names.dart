@@ -11,6 +11,8 @@ class RouteNames {
   final String more = "more";
   final String services = "services";
   final String addNewAddress = "add_new_address";
+      final String updateAddress = "update_address";
+
   final String myAddresses = "my_addresses";
   final String settings = "settings";
   final String editProfile = "edit_profile";
@@ -39,4 +41,6 @@ class RouteNames {
   final String addNewCard = "add_new_card";
   final String laundryCareGuide = "laundry_care_guide";
   final String paymentOptions = "payment_options";
+    final String addLaundry = "add_laundry";
+
 }

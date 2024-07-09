@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/provider/my_addresses_notifier.dart';
+import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
 import 'package:laundryday/utils/colors.dart';
 import 'package:laundryday/utils/font_manager.dart';
 import 'package:laundryday/utils/sized_box.dart';
@@ -10,6 +11,8 @@ import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
+import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
+    as myaddressmodel;
 
 class MyAddresses extends ConsumerWidget {
   const MyAddresses({super.key});
@@ -17,7 +20,8 @@ class MyAddresses extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(myAddresesProvider).addressModel;
-
+    myaddressmodel.Address? selectedAddress =
+        ref.watch(selectedAddressProvider);
     return Scaffold(
       appBar: MyAppBar(title: 'My Addresses'),
       body: Padding(
@@ -26,7 +30,7 @@ class MyAddresses extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Heading(text: "My addresses"),
+              const Heading(title: "My addresses"),
               data == null
                   ? SizedBox()
                   : (data.addresses!.length == 0)
@@ -95,6 +99,15 @@ class MyAddresses extends ConsumerWidget {
                                 border: Border.all(
                                     color: ColorManager.primaryColor)),
                             child: ListTile(
+                              onTap: () {
+                                ref
+                                    .read(selectedAddressProvider.notifier)
+                                    .onAddressTap(data.addresses![index]);
+                              },
+                              tileColor:
+                                  selectedAddress == data.addresses![index]
+                                      ? ColorManager.primaryColorOpacity10
+                                      : null,
                               isThreeLine: false,
                               leading: Padding(
                                 padding: EdgeInsets.symmetric(vertical: 10),
@@ -117,13 +130,23 @@ class MyAddresses extends ConsumerWidget {
                               ),
                               trailing: Wrap(children: [
                                 IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      context.pushNamed(
+                                          RouteNames().updateAddress,
+                                          extra: data.addresses![index]);
+                                    },
                                     icon: Icon(
                                       Icons.edit,
                                       color: ColorManager.primaryColor,
                                     )),
                                 IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      showDeleteAddressDialog(
+                                          context: context,
+                                          ref: ref,
+                                          addressId:
+                                              data.addresses![index].id!);
+                                    },
                                     icon: const Icon(
                                       Icons.delete,
                                       color: Colors.red,
@@ -139,19 +162,69 @@ class MyAddresses extends ConsumerWidget {
               ? SizedBox()
               : (data.addresses!.length == 0)
                   ? MyButton(
-                      name: "Add Address",
+                      title: "Add Address",
                       onPressed: () {
                         GoRouter.of(context)
                             .pushNamed(RouteNames().addNewAddress);
                       },
                     )
                   : MyButton(
-                      name: 'Select',
+                      title: 'Select',
                       onPressed: () {},
                     ),
           30.ph
         ]),
       ),
+    );
+  }
+
+  void showDeleteAddressDialog(
+      {required BuildContext context,
+      required WidgetRef ref,
+      required int addressId}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog.adaptive(
+          title: Row(
+            children: [
+              Text(
+                'Delete Address',
+                style: GoogleFonts.poppins(),
+              ),
+            ],
+          ),
+          content: Text(
+            'Are you sure you want to delete the address?',
+            style: GoogleFonts.poppins(color: ColorManager.greyColor),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'Cancel',
+                style: GoogleFonts.poppins(color: ColorManager.greyColor),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+            TextButton(
+              child: Text(
+                'Delete',
+                style: GoogleFonts.poppins(color: ColorManager.redColor),
+              ),
+              onPressed: () {
+                ref
+                    .read(myAddresesProvider.notifier)
+                    .deleteAddress(addressId: addressId,ref: ref);
+
+                // Add your delete functionality here
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

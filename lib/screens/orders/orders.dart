@@ -20,7 +20,6 @@ class Orders extends StatefulWidget {
 }
 
 class _OrdersState extends State<Orders> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +31,7 @@ class _OrdersState extends State<Orders> {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Heading(text: 'Ongoing Orders'),
+            const Heading(title: 'Ongoing Orders'),
             10.ph,
             ListView.separated(
               separatorBuilder: (context, index) => 10.ph,
@@ -73,7 +72,6 @@ class _OrdersState extends State<Orders> {
                         ServiceTypesModel(
                             id: 3, serviceId: 1, type: 'pressing'),
                       ],
-                      
                       status: 'closed');
 
                   Arguments arguments = Arguments(laundryModel: laundryModel);
@@ -84,7 +82,7 @@ class _OrdersState extends State<Orders> {
               },
             ),
             10.ph,
-            const Heading(text: 'Order Again'),
+            const Heading(title: 'Order Again'),
             10.ph,
             Expanded(
               child: ListView.separated(

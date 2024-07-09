@@ -65,7 +65,6 @@ class _AgentRegistrationState extends ConsumerState<AgentRegistration> {
     return Scaffold(
         appBar: MyAppBar(
           title: 'Agent Registration',
-          
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
@@ -87,7 +86,8 @@ class _AgentRegistrationState extends ConsumerState<AgentRegistration> {
                                   shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(AppSize.s12),
-                                          topRight: Radius.circular(AppSize.s12))),
+                                          topRight:
+                                              Radius.circular(AppSize.s12))),
                                   context: context,
                                   builder: (context) {
                                     return SizedBox(
@@ -111,8 +111,8 @@ class _AgentRegistrationState extends ConsumerState<AgentRegistration> {
                                               ElevatedButton.icon(
                                                 style: ElevatedButton.styleFrom(
                                                     backgroundColor:
-                                                      ColorManager
-                                                            .  primaryColor),
+                                                        ColorManager
+                                                            .primaryColor),
                                                 icon: const Icon(
                                                   Icons.camera,
                                                 ),
@@ -133,8 +133,8 @@ class _AgentRegistrationState extends ConsumerState<AgentRegistration> {
                                               ElevatedButton.icon(
                                                 style: ElevatedButton.styleFrom(
                                                     backgroundColor:
-                                                       ColorManager
-                                                            . primaryColor),
+                                                        ColorManager
+                                                            .primaryColor),
                                                 icon: const Icon(Icons.image),
                                                 onPressed: () async {
                                                   await ref
@@ -157,9 +157,6 @@ class _AgentRegistrationState extends ConsumerState<AgentRegistration> {
                                       ),
                                     );
                                   });
-                            
-                            
-                            
                             },
                             child: Stack(
                               clipBehavior: Clip.none,
@@ -175,7 +172,7 @@ class _AgentRegistrationState extends ConsumerState<AgentRegistration> {
                                             image: FileImage(File(profileImage!
                                                 .path
                                                 .toString()))),
-                                    color: ColorManager. mediumWhiteColor,
+                                    color: ColorManager.mediumWhiteColor,
                                     shape: BoxShape.circle,
                                   ),
                                 ),
@@ -186,13 +183,13 @@ class _AgentRegistrationState extends ConsumerState<AgentRegistration> {
                                     child: Container(
                                       width: 30,
                                       height: 30,
-                                      decoration:  BoxDecoration(
+                                      decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: ColorManager. primaryColor),
-                                      child:  Center(
+                                          color: ColorManager.primaryColor),
+                                      child: Center(
                                           child: Icon(
                                         Icons.camera_alt,
-                                        color: ColorManager. whiteColor,
+                                        color: ColorManager.whiteColor,
                                         size: 16,
                                       )),
                                     ),
@@ -203,7 +200,7 @@ class _AgentRegistrationState extends ConsumerState<AgentRegistration> {
                           ),
                         ),
                         10.ph,
-                         Align(
+                        Align(
                           alignment: Alignment.center,
                           child: HeadingMedium(
                             title: 'Tap to add Profile Picture',
@@ -247,7 +244,7 @@ class _AgentRegistrationState extends ConsumerState<AgentRegistration> {
                         10.ph,
                         HeadingMedium(
                           title: "Your Identity",
-                          color: ColorManager. primaryColor,
+                          color: ColorManager.primaryColor,
                         ),
                         DropdownButton<IDType?>(
                             isExpanded: true,
@@ -279,7 +276,7 @@ class _AgentRegistrationState extends ConsumerState<AgentRegistration> {
                         10.ph,
                         HeadingMedium(
                           title: "Select your preferred  area for work.",
-                          color: ColorManager. primaryColor,
+                          color: ColorManager.primaryColor,
                         ),
                         10.ph,
                         MyTextFormField(
@@ -372,7 +369,7 @@ class _AgentRegistrationState extends ConsumerState<AgentRegistration> {
                   children: [
                     10.ph,
                     MyButton(
-                      name: 'Submit',
+                      title: 'Submit',
                       onPressed: () {
                         log("....................................................\n");
                         log("Profile Image :$profileImage");
@@ -403,17 +400,18 @@ class _AgentRegistrationState extends ConsumerState<AgentRegistration> {
             style: GoogleFonts.poppins(
                 fontWeight: FontWeight.w600,
                 fontSize: 14,
-                color: imageFile?.path == null ? ColorManager. blackColor : ColorManager.primaryColor),
+                color: imageFile?.path == null
+                    ? ColorManager.blackColor
+                    : ColorManager.primaryColor),
           ),
           Icon(
             imageFile?.path == null ? Icons.upload : Icons.check,
-            color: imageFile?.path == null ? ColorManager. greyColor : ColorManager.primaryColor,
+            color: imageFile?.path == null
+                ? ColorManager.greyColor
+                : ColorManager.primaryColor,
           )
         ],
       ),
     );
   }
-
-
 }
-

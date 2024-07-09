@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/provider/user_notifier.dart';
-import 'package:laundryday/screens/home/provider/home_notifier.dart';
 import 'package:laundryday/screens/home/provider/home_states.dart';
 import 'package:laundryday/screens/services/components/address_bottom_sheet_widget.dart';
-import 'package:laundryday/screens/services/components/on_going_order_list_widget.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
 import 'package:laundryday/utils/api_routes.dart';
@@ -33,7 +31,7 @@ class _ServicesState extends ConsumerState<Services> {
 
   @override
   void initState() {
-    ref.read(homeProvider.notifier).startOnGoingOrderTimer();
+    // ref.read(homeProvider.notifier).startOnGoingOrderTimer();
 
     super.initState();
   }
@@ -148,7 +146,7 @@ class _ServicesState extends ConsumerState<Services> {
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-              const OnGoingOrderListWidget(),
+              // const OnGoingOrderListWidget(),
               // Column(
               //   children: [
               //     10.ph,
@@ -215,6 +213,8 @@ class _ServicesState extends ConsumerState<Services> {
                           return GestureDetector(
                             onTap: () {
                               showModalBottomSheet<void>(
+                                useSafeArea: true,
+                                isScrollControlled: true,
                                 context: context,
                                 shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(

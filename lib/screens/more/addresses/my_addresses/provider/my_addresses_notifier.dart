@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart';
@@ -27,7 +28,7 @@ class MyAddressesNotifier extends StateNotifier<MyAddressesStates> {
     var data = await MyAdderessesService.allAddresses(customerId: customerId);
 
     if (data is MyAddressModel) {
-      log("Succcrss");
+      log("Success");
       state = state.copyWith(addressModel: data);
     } else {
       Utils.showToast(msg: '$data');
@@ -35,5 +36,15 @@ class MyAddressesNotifier extends StateNotifier<MyAddressesStates> {
     }
   }
 
-  
+  Future<dynamic> deleteAddress(
+      {required int addressId, required WidgetRef ref}) async {
+    var data = await MyAdderessesService.deleteAddress(addressId: addressId);
+
+    if (data == true) {
+      ref.invalidate(myAddresesProvider);
+    } else {
+      Utils.showToast(msg: '$data');
+      throw Exception(data);
+    }
+  }
 }

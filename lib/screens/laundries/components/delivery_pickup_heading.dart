@@ -23,9 +23,9 @@ class DelieveryPickupHeading extends StatelessWidget {
           ),
           child: Center(
               child: Padding(
-            padding: const EdgeInsets.all(AppPadding.p4),
+            padding: const EdgeInsets.all(4),
             child: Heading(
-              text: 'Recieving from the Laundry',
+              title: 'Recieving from the Laundry',
               color: ColorManager.whiteColor,
             ),
           )),

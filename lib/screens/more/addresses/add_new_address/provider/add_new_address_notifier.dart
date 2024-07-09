@@ -149,7 +149,7 @@ class AddAddressNotifier extends StateNotifier<AddAddressState> {
   void addAddress(
       {required int customerId,
       required WidgetRef ref,
-      File? file,
+      String? file,
       required String googleAddress,
       required String addressName,
       required String addressDetail,

@@ -1,9 +1,11 @@
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/models/laundry_model.dart';
+import 'package:laundryday/screens/add_laundry/view/add_laundry.dart';
 import 'package:laundryday/screens/add_new_card.dart/add_new_card.dart';
 import 'package:laundryday/screens/auth/login/view/login.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/auth/verification/view/verification.dart';
+import 'package:laundryday/screens/more/addresses/update_addresses/view/update_address.dart';
 import 'package:laundryday/screens/services/model/services_model.dart' as s;
 import 'package:laundryday/screens/laundries/view/laundries.dart';
 import 'package:laundryday/screens/laundry_items/view/laundry_items.dart';
@@ -26,7 +28,6 @@ import 'package:laundryday/screens/more/addresses/add_new_address/view/add_new_a
 import 'package:laundryday/screens/more/addresses/my_addresses/my_addresses.dart';
 import 'package:laundryday/screens/more/help/agent_registration/agent_registration.dart';
 import 'package:laundryday/screens/more/help/agent_registration/fetch_agent_address.dart';
-import 'package:laundryday/screens/more/help/business_partner/view/business_partner.dart';
 import 'package:laundryday/screens/more/profile/edit_profile/edit_profile.dart';
 import 'package:laundryday/screens/more/help/help.dart';
 import 'package:laundryday/screens/home/home.dart';
@@ -34,6 +35,8 @@ import 'package:laundryday/screens/more/more.dart';
 import 'package:laundryday/screens/more/profile/profile.dart';
 import 'package:laundryday/screens/services/view/services.dart';
 import 'package:laundryday/screens/more/settings/settings.dart';
+import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
+    as myaddressesmodel;
 
 class AppRoutes {
   final GoRouter routes = GoRouter(routes: [
@@ -89,18 +92,17 @@ class AppRoutes {
             path: "services",
             builder: (context, state) => Services(),
           ),
-          // GoRoute(
-          //   name: RouteNames().serviceDetail,
-          //   path: "service_detail",
-          //   builder: (context, state) {
-          //     return CarpetServiceDetail(
-          //         services: state.extra as ServicesModel?);
-          //   },
-          // ),
+
           GoRoute(
             name: RouteNames().addNewAddress,
             path: "add_new_address",
             builder: (context, state) => AddNewAddress(),
+          ),
+          GoRoute(
+            name: RouteNames().updateAddress,
+            path: "update_address",
+            builder: (context, state) =>
+                UpdateAddress(address: state.extra as myaddressesmodel.Address),
           ),
           GoRoute(
             name: RouteNames().myAddresses,
@@ -150,9 +152,9 @@ class AppRoutes {
           ),
 
           GoRoute(
-            name: RouteNames().businessPartner,
-            path: "business_partner",
-            builder: (context, state) => const BusinessPartner(),
+            name: RouteNames().addLaundry,
+            path: "add_laundry",
+            builder: (context, state) => const AddLaundry(),
           ),
 
           GoRoute(

@@ -12,6 +12,7 @@ class ColorManager {
   static Color amber = Colors.amber;
   static Color purpleColor = const Color(0xFF60157d);
   static Color purpleColorOpacity10 = const Color(0xFF60157d).withOpacity(0.1);
+  static Color silverWhite = const Color.fromRGBO(245, 247, 250, 1);
 
   // static Color darkPurpleColor = const Color(0xFF563696);
   static Color greyColor = const Color(0xff828282);

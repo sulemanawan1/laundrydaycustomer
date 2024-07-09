@@ -23,30 +23,28 @@ class ReusableCheckOutCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
           15.ph,
-           Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Heading(
-                  text: "Total",
-                  color: ColorManager.greyColor,
-                ),
-                Heading(
-                  text: "Qty",
-                  color: ColorManager. greyColor,
-                )
-              ]),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Heading(
+              title: "Total",
+              color: ColorManager.greyColor,
+            ),
+            Heading(
+              title: "Qty",
+              color: ColorManager.greyColor,
+            )
+          ]),
           8.ph,
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Heading(
-              text: "$total SAR",
+              title: "$total SAR",
             ),
             Heading(
-              text: "$quantity Items",
+              title: "$quantity Items",
             )
           ]),
           8.ph,
           MyButton(
-            name: 'Complete Order',
+            title: 'Complete Order',
             onPressed: onPressed,
           ),
           15.ph,

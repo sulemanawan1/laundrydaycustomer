@@ -30,16 +30,16 @@ class _ProfileState extends State<Profile> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             30.ph,
-            const Heading(text: 'Personal Information'),
+            const Heading(title: 'Personal Information'),
             30.ph,
             Row(
               children: [
-                 Icon(
+                Icon(
                   Icons.person_2,
                   color: ColorManager.greyColor,
                 ),
                 10.pw,
-                 HeadingMedium(title: "Full Name"),
+                HeadingMedium(title: "Full Name"),
               ],
             ),
             10.ph,
@@ -51,12 +51,12 @@ class _ProfileState extends State<Profile> {
             10.ph,
             Row(
               children: [
-                 Icon(
+                Icon(
                   Icons.phone_android,
-                  color: ColorManager. greyColor,
+                  color: ColorManager.greyColor,
                 ),
                 10.pw,
-                 HeadingMedium(title: "Mobile Number"),
+                HeadingMedium(title: "Mobile Number"),
               ],
             ),
             10.ph,
@@ -67,7 +67,7 @@ class _ProfileState extends State<Profile> {
             const Divider(),
             const Spacer(),
             MyButton(
-              name: 'Edit Profile',
+              title: 'Edit Profile',
               onPressed: () {
                 GoRouter.of(context).pushNamed(RouteNames().editProfile);
               },

@@ -25,12 +25,13 @@ class OnGoingOrderListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
       final onGoingOrderList = ref.watch(homeProvider).onGoingOrderList;
-      final onGoingOrderTimerList = ref.watch(homeProvider).onGoingOrderTimerList;
+      final onGoingOrderTimerList =
+          ref.watch(homeProvider).onGoingOrderTimerList;
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           20.ph,
-          const Heading(text: 'On going order'),
+          const Heading(title: 'On going order'),
           10.ph,
           ListView.builder(
             physics: NeverScrollableScrollPhysics(),
@@ -72,7 +73,6 @@ class OnGoingOrderListWidget extends StatelessWidget {
                         ServiceTypesModel(
                             id: 3, serviceId: 1, type: 'pressing'),
                       ],
-                      
                       status: 'closed');
 
                   Arguments arguments = Arguments(laundryModel: laundryModel);
@@ -107,7 +107,8 @@ class OnGoingOrderListWidget extends StatelessWidget {
                                   5.pw,
                                   // Text('Preparing'),
 
-                                   if (onGoingOrderList[index].type == 'pickup') ...[
+                                  if (onGoingOrderList[index].type ==
+                                      'pickup') ...[
                                     const SizedBox()
                                   ] else ...[
                                     10.pw,

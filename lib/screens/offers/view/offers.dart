@@ -52,7 +52,7 @@ class _OffersState extends State<Offers> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Heading(text: 'Select Your Plan'),
+                const Heading(title: 'Select Your Plan'),
                 10.ph,
                 Center(
                   child: Image.asset(

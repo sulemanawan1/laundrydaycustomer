@@ -19,7 +19,7 @@ class Settings extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           10.ph,
-          const Heading(text: 'Languages'),
+          const Heading(title: 'Languages'),
           10.ph,
           Consumer(builder: (context, ref, child) {
             var lng = ref.watch(lanugaeProvider);
@@ -31,27 +31,27 @@ class Settings extends StatelessWidget {
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
-                    onTap: () {
-                      
-                    },
+                    onTap: () {},
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(6),
-                          border: Border.all(color: lng[index].isSelected == true
-                                  ? ColorManager. primaryColor
+                          border: Border.all(
+                              color: lng[index].isSelected == true
+                                  ? ColorManager.primaryColor
                                   : Colors.transparent)),
                       child: ListTile(
-                        onTap: () {
-                          
-                        },
-                        leading:  Padding(
+                        onTap: () {},
+                        leading: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Icon(Icons.radio_button_checked,
-                              color:lng[index].isSelected==true? ColorManager.primaryColor: ColorManager.  greyColor),
+                              color: lng[index].isSelected == true
+                                  ? ColorManager.primaryColor
+                                  : ColorManager.greyColor),
                         ),
                         title: Text(
                           lng[index].name.toString(),
-                          style: GoogleFonts.poppins(color: ColorManager. blackColor),
+                          style: GoogleFonts.poppins(
+                              color: ColorManager.blackColor),
                         ),
                       ),
                     ),

@@ -23,7 +23,7 @@ class PaymentMethodWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             5.ph,
-            const Heading(text: "Payment Method"),
+            const Heading(title: "Payment Method"),
             5.ph,
             InkWell(
               onTap: () {
@@ -89,7 +89,7 @@ class PaymentMethodWidget extends StatelessWidget {
                                             : const Icon(Icons.circle_outlined),
                                         10.pw,
                                         Heading(
-                                            text: states
+                                            title: states
                                                 .paymentMethods[index].name
                                                 .toString())
                                       ]),
@@ -118,14 +118,14 @@ class PaymentMethodWidget extends StatelessWidget {
                                   ),
                                 ],
                               )),
-                              name: '',
+                              title: '',
                               onPressed: () {
                                 context.pushNamed(RouteNames().addNewCard);
                               },
                             ),
                             10.ph,
                             MyButton(
-                              name: 'Select Method',
+                              title: 'Select Method',
                               onPressed: () {
                                 context.pop();
                               },
@@ -154,7 +154,7 @@ class PaymentMethodWidget extends StatelessWidget {
                   const Spacer(),
                   Heading(
                     color: ColorManager.primaryColor,
-                    text: 'Change',
+                    title: 'Change',
                   )
                 ],
               ),

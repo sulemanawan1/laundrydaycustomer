@@ -22,7 +22,7 @@ class AddressBottomSheetWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     AddressesState addressesState = ref.watch(serviceAddressesProvider);
-    
+
     myaddressmodel.Address? selectedAddress =
         ref.watch(selectedAddressProvider);
 
@@ -54,7 +54,7 @@ class AddressBottomSheetWidget extends ConsumerWidget {
 
   Widget buildButton(BuildContext context) {
     return MyButton(
-      name: 'Add Address',
+      title: 'Add Address',
       isBorderButton: true,
       onPressed: () {
         context.pushNamed(RouteNames().addNewAddress);
@@ -68,7 +68,7 @@ class AddressBottomSheetWidget extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Heading(text: 'Choose from saved addresses'),
+        const Heading(title: 'Choose from saved addresses'),
         IconButton(
             onPressed: () {
               GoRouter.of(context).pop();
@@ -96,9 +96,13 @@ class AddressBottomSheetWidget extends ConsumerWidget {
               borderRadius: BorderRadius.circular(6),
               border: Border.all(color: ColorManager.greyColor)),
           child: ListTile(
-              isThreeLine: false,
+              isThreeLine: true,
               trailing: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.pop();
+                  context.pushNamed(RouteNames().updateAddress,
+                      extra: adddress);
+                },
                 icon: Icon(
                   Icons.edit,
                   color: ColorManager.purpleColor,
@@ -108,7 +112,10 @@ class AddressBottomSheetWidget extends ConsumerWidget {
                   ? ColorManager.primaryColorOpacity10
                   : null,
               title: Text(adddress.addressName.toString()),
-              subtitle: Text(adddress.googleMapAddress.toString()),
+              subtitle: Text(
+                adddress.googleMapAddress.toString(),
+                maxLines: 2,
+              ),
               onTap: () {
                 ref
                     .read(selectedAddressProvider.notifier)

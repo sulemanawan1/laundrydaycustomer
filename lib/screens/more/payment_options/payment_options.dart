@@ -14,33 +14,36 @@ class PaymentOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: MyAppBar(title: 'Payment Options',),
-    body: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-      10.ph,
-      const Heading(text: 'My Cards'),
-      20.ph,
-      ListView.builder(
-        shrinkWrap: true,
-        itemCount: 4,
-        itemBuilder: (BuildContext context, int index) {
-          return Card(color: ColorManager.whiteColor,
-            child: ListTile(leading: Image.asset('assets/visa.png',height: 20,),
-            title: Text('Suleman Abrar'),
-            subtitle: Text('Ending with ${3886}'),
-            
-            
-            
-            
-            ),
-          ) ;
-        },
+    return Scaffold(
+      appBar: MyAppBar(
+        title: 'Payment Options',
       ),
-      
-
-      MyButton(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            10.ph,
+            const Heading(title: 'My Cards'),
+            20.ph,
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: 4,
+              itemBuilder: (BuildContext context, int index) {
+                return Card(
+                  color: ColorManager.whiteColor,
+                  child: ListTile(
+                    leading: Image.asset(
+                      'assets/visa.png',
+                      height: 20,
+                    ),
+                    title: Text('Suleman Abrar'),
+                    subtitle: Text('Ending with ${3886}'),
+                  ),
+                );
+              },
+            ),
+            MyButton(
               isBorderButton: true,
               widget: Center(
                   child: Row(
@@ -59,20 +62,14 @@ class PaymentOptions extends StatelessWidget {
                   ),
                 ],
               )),
-              name: '',
+              title: '',
               onPressed: () {
                 context.pushNamed(RouteNames().addNewCard);
               },
             )
-      
-      
-      
-      ],),
-    ),
-
-    
-    
-    
+          ],
+        ),
+      ),
     );
   }
 }

@@ -44,7 +44,7 @@ class Verification extends ConsumerWidget {
                       color: ColorManager.primaryColor,
                     ),
                     10.ph,
-                    const Heading(text: 'Verification'),
+                    const Heading(title: 'Verification'),
                     10.ph,
                     HeadingMedium(
                         title: "Enter your 6 digits\nVerification Code."),
@@ -62,7 +62,7 @@ class Verification extends ConsumerWidget {
                         errorTextStyle: GoogleFonts.poppins(color: Colors.red),
                         androidSmsAutofillMethod:
                             AndroidSmsAutofillMethod.smsUserConsentApi,
-                        validator: ValidationHelper().otpValidator,
+                        validator: AppValidator().otpValidator,
                         length: 6,
                         onCompleted: (val) {
                           // controller.signInWithPhoneNumber(
@@ -80,7 +80,7 @@ class Verification extends ConsumerWidget {
               isLoading
                   ? CircularProgressIndicator()
                   : MyButton(
-                      name: 'Verify',
+                      title: 'Verify',
                       onPressed: () {
                         if (key.currentState!.validate()) {
                           controller.signInWithPhoneNumber(

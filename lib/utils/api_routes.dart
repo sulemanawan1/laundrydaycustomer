@@ -11,6 +11,26 @@ class Api {
 
   //Addresses
   static const String addAddress = "${baseUrl}addresses/add";
+    static const String updateAddress = "${baseUrl}addresses/update";
+
     static const String allAddresses = "${baseUrl}addresses/all/";
+    static const String deleteAddress = "${baseUrl}addresses/delete/";
+
+  //Countries
+  static const String countries = "${baseUrl}countries";
+
+  //Regions
+  static const String regions = "${baseUrl}regions";
+
+  //Cities
+  static const String cities = "${baseUrl}cities";
+
+  //Districts
+  static const String districts = "${baseUrl}districts";
+
+  //Branches
+
+  static const String registerBranch = "${baseUrl}branches/register";
+  static const String registerLaundry = "${baseUrl}laundries/register";
 
 }

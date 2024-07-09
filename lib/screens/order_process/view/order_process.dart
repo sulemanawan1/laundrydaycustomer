@@ -378,7 +378,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: MyButton(
-                        name: 'Request Details',
+                        title: 'Request Details',
                         onPressed: () {
                           Utils.showResuableBottomSheet(
                               context: context,
@@ -448,7 +448,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: MyButton(
                               color: ColorManager.amber,
-                              name: 'Confirm Pickup',
+                              title: 'Confirm Pickup',
                               onPressed: () {
                                 _showMyDialog();
                               },
@@ -460,7 +460,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                         ? Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: MyButton(
-                              name: 'View Invoice and Payment',
+                              title: 'View Invoice and Payment',
                               onPressed: () {
                                 context.pushNamed(RouteNames().orderCheckout);
                               },
@@ -542,7 +542,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                                                             .spaceBetween,
                                                     children: [
                                                       const Heading(
-                                                          text:
+                                                          title:
                                                               'Track your Courier.'),
                                                       IconButton(
                                                           onPressed: () {

@@ -24,7 +24,7 @@ class PaymentSummaryWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Heading(
-              text: 'Payment Summary',
+              title: 'Payment Summary',
             ),
             10.ph,
             Divider(),

@@ -33,7 +33,7 @@ class _RateCourierState extends State<RateCourier> {
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Heading(text: 'What about your Courier'),
+                      Heading(title: 'What about your Courier'),
                       CircleAvatar(
                         radius: 24,
                         backgroundImage: AssetImage('assets/icons/user.png'),
@@ -92,7 +92,7 @@ class _RateCourierState extends State<RateCourier> {
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Heading(text: 'Rate Laundry'),
+                      Heading(title: 'Rate Laundry'),
                       CircleAvatar(
                         backgroundColor: Colors.white,
                         radius: 24,
@@ -148,7 +148,7 @@ class _RateCourierState extends State<RateCourier> {
               ),
               20.ph,
               MyButton(
-                name: 'Rate',
+                title: 'Rate',
                 onPressed: () {
                   context.pop();
                 },

@@ -12,6 +12,7 @@ import 'package:laundryday/utils/value_manager.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/my_textform_field.dart';
+
 class Login extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,7 +48,7 @@ class Login extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Heading(
-                        text: 'Laundry DAY',
+                        title: 'Laundry DAY',
                         color: ColorManager.whiteColor,
                       ),
                       14.ph,
@@ -69,7 +70,7 @@ class Login extends ConsumerWidget {
                         labelTextColor: ColorManager.whiteColor,
                         maxLength: 9,
                         controller: controller.phoneController,
-                        validator: ValidationHelper().validatePhoneNumber,
+                        validator: AppValidator().validatePhoneNumber,
                         autofillHints: const [
                           AutofillHints.telephoneNumberLocalSuffix
                         ],
@@ -101,7 +102,7 @@ class Login extends ConsumerWidget {
                       isLoading
                           ? CircularProgressIndicator()
                           : MyButton(
-                              name: 'Continue',
+                              title: 'Continue',
                               onPressed: () {
                                 if (key.currentState!.validate()) {
                                   controller.verifyPhoneNumber(

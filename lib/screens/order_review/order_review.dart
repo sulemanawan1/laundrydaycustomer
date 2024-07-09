@@ -176,7 +176,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                                 children: [
                                   5.ph,
                                   const Heading(
-                                    text: 'Order Details',
+                                    title: 'Order Details',
                                   ),
                                   10.ph,
                                   ListView.builder(
@@ -423,17 +423,14 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                   widget.orderDatailsArguments.laundryModel!.type ==
                           'deliverypickup'
                       ? MyButton(
-                          name: 'Pay $finalAmount',
+                          title: 'Pay $finalAmount',
                           onPressed: () async {
-                            
-
                             context.pushNamed(RouteNames().findCourier,
                                 extra: widget.orderDatailsArguments);
-
                           },
                         )
                       : MyButton(
-                          name: 'Place Order',
+                          title: 'Place Order',
                           onPressed: () {
                             context.pushNamed(RouteNames().findCourier,
                                 extra: widget.orderDatailsArguments);
@@ -577,8 +574,6 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
     );
   }
 }
-
-
 
 class GroupHeaderCard extends StatelessWidget {
   final Color? color;

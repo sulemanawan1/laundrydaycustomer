@@ -38,7 +38,7 @@ class _HelpState extends State<Help> {
                       onTap: () {},
                     ),
                     10.ph,
-                     Align(
+                    Align(
                         alignment: Alignment.centerLeft,
                         child: HeadingMedium(
                           title: 'Want to join as Agent?',
@@ -58,12 +58,10 @@ class _HelpState extends State<Help> {
                       leading: const Icon(Icons.verified_user),
                       title: const Text('Service Provider'),
                       onTap: () {
-                        GoRouter.of(context)
-                            .pushNamed(RouteNames().businessPartner);
+                        GoRouter.of(context).pushNamed(RouteNames().addLaundry);
                       },
                     ),
-
-                     ListTile(
+                    ListTile(
                       trailing: const Icon(Icons.navigate_next),
                       leading: const Icon(Icons.warning),
                       title: const Text('Laundry Care Guide'),

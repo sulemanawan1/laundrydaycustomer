@@ -115,7 +115,7 @@ class NextWiget extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           MyButton(
-            name: 'Next',
+            title: 'Next',
             onPressed: () {
               ref.read(deliverPickupProvider.notifier).goToOrderReview(
                   context: context, laundryModel: laundryModel);
@@ -177,7 +177,7 @@ class ItemListWidget extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Heading(text: 'Item Details'),
+            const Heading(title: 'Item Details'),
             10.ph,
             HeadingMedium(
               title: 'Describe your courier what do you need',
@@ -289,7 +289,7 @@ class ItemListWidget extends ConsumerWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Heading(text: 'Order Items'),
+                const Heading(title: 'Order Items'),
                 10.ph,
                 ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
