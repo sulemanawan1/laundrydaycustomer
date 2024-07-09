@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/provider/user_notifier.dart';
-import 'package:laundryday/screens/home/provider/home_states.dart';
 import 'package:laundryday/screens/services/components/address_bottom_sheet_widget.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
+import 'package:laundryday/screens/services/provider/services_states.dart';
 import 'package:laundryday/utils/api_routes.dart';
 import 'package:laundryday/utils/colors.dart';
-import 'package:laundryday/utils/sized_box.dart';
-import 'package:laundryday/utils/value_manager.dart';
+import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
     as myaddressmodel;
+import 'package:laundryday/utils/constants/value_manager.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Services extends ConsumerStatefulWidget {
   const Services({super.key});
@@ -38,10 +39,10 @@ class _ServicesState extends ConsumerState<Services> {
 
   @override
   Widget build(BuildContext context) {
-    final services = ref.watch(serviceProvider).services;
+    AllServicesState? services = ref.watch(serviceProvider).allServicesState;
+
     final customerId = ref.read(userProvider).userModel!.user!.id;
 
-    final appstates = ref.watch(serviceProvider).appstates;
     myaddressmodel.Address? selectedAddress =
         ref.watch(selectedAddressProvider);
 
@@ -196,76 +197,130 @@ class _ServicesState extends ConsumerState<Services> {
               //   ],
               // ),
 
-              appstates == AppStates.loaded
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 15.0,
-                                mainAxisSpacing: 15.0,
-                                mainAxisExtent: 220),
-                        itemCount: services!.data!.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: () {
-                              showModalBottomSheet<void>(
-                                useSafeArea: true,
-                                isScrollControlled: true,
-                                context: context,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(8),
-                                        topRight: Radius.circular(8))),
-                                builder: (BuildContext context) {
-                                  return AddressBottomSheetWidget(
-                                    servicesModel: services.data![index],
-                                  );
-                                },
+              if (services is AllServicesInitialState) ...[
+                ServiceShimmerEffect()
+              ] else if (services is AllServicesLoadingState) ...[
+                ServiceShimmerEffect()
+              ] else if (services is AllServicesErrorState) ...[
+                ServiceShimmerEffect()
+              ] else if (services is AllServicesLoadedState) ...[
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 15.0,
+                            mainAxisSpacing: 15.0,
+                            mainAxisExtent: 220),
+                    itemCount: services.serviceModel.data!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        onTap: () {
+                          showModalBottomSheet<void>(
+                            useSafeArea: true,
+                            isScrollControlled: true,
+                            context: context,
+                            shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(8),
+                                    topRight: Radius.circular(8))),
+                            builder: (BuildContext context) {
+                              return AddressBottomSheetWidget(
+                                servicesModel:
+                                    services.serviceModel.data![index],
                               );
                             },
-                            child: Card(
-                              elevation: 5,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12)),
-                              child: Column(
-                                children: [
-                                  GridTile(
-                                    child: ClipRRect(
-                                        borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(12),
-                                            topRight: Radius.circular(12)),
-                                        child: Image.network(
-                                          width: double.infinity,
-                                          height: 155,
-                                          "${Api.imageUrl}${services.data![index].serviceImage.toString()}"
-                                              .toString(),
-                                          fit: BoxFit.cover,
-                                        )),
-                                  ),
-                                  14.ph,
-                                  Text(
-                                    services.data![index].serviceName
-                                        .toString(),
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18),
-                                    textAlign: TextAlign.center,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                  )
-                                ],
-                              ),
-                            ),
                           );
                         },
-                      ),
-                    )
-                  : Center(child: CircularProgressIndicator())
+                        child: Card(
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                          child: Column(
+                            children: [
+                              GridTile(
+                                child: ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(12),
+                                        topRight: Radius.circular(12)),
+                                    child: Image.network(
+                                      width: double.infinity,
+                                      height: 155,
+                                      "${Api.imageUrl}${services.serviceModel.data![index].serviceImage.toString()}"
+                                          .toString(),
+                                      fit: BoxFit.cover,
+                                    )),
+                              ),
+                              14.ph,
+                              Text(
+                                services.serviceModel.data![index].serviceName
+                                    .toString(),
+                                style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w600, fontSize: 18),
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                )
+              ] else ...[
+                ServiceShimmerEffect()
+              ]
             ])),
+      ),
+    );
+  }
+}
+
+class ServiceShimmerEffect extends StatelessWidget {
+  const ServiceShimmerEffect({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 15.0,
+            mainAxisSpacing: 15.0,
+            mainAxisExtent: 220),
+        itemCount: 4,
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: () {},
+            child: Card(
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              child: Column(
+                children: [
+                  GridTile(
+                      child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12)),
+                          child: SizedBox())),
+                  14.ph,
+                  SizedBox()
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }

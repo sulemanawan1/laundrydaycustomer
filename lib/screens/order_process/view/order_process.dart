@@ -19,8 +19,8 @@ import 'package:laundryday/screens/order_process/providers/order_process_notifie
 import 'package:laundryday/screens/order_process/providers/order_process_states.dart';
 import 'package:laundryday/screens/order_summary/order_summary.dart';
 import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
-import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/utils/utils.dart';
 import 'package:laundryday/widgets/address_detail_widget.dart';
 import 'package:laundryday/widgets/map_icon_widget.dart';
@@ -628,6 +628,9 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                               )
                             ],
                           ),
+                  
+                  
+                  
                   ])),
             );
           }),

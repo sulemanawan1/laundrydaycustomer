@@ -11,10 +11,10 @@ class Api {
 
   //Addresses
   static const String addAddress = "${baseUrl}addresses/add";
-    static const String updateAddress = "${baseUrl}addresses/update";
+  static const String updateAddress = "${baseUrl}addresses/update";
 
-    static const String allAddresses = "${baseUrl}addresses/all/";
-    static const String deleteAddress = "${baseUrl}addresses/delete/";
+  static const String allAddresses = "${baseUrl}addresses/all/";
+  static const String deleteAddress = "${baseUrl}addresses/delete/";
 
   //Countries
   static const String countries = "${baseUrl}countries";
@@ -32,5 +32,4 @@ class Api {
 
   static const String registerBranch = "${baseUrl}branches/register";
   static const String registerLaundry = "${baseUrl}laundries/register";
-
 }

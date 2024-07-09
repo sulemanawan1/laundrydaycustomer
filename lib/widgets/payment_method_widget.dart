@@ -5,8 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/order_review/order_review.dart';
 import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
-import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/heading.dart';
 

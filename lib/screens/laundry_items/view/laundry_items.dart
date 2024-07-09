@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,8 +11,8 @@ import 'package:laundryday/screens/laundry_items/provider/laundry_items.notifier
 import 'package:laundryday/screens/laundry_items/provider/selected_item_count_notifier.dart';
 import 'package:laundryday/screens/laundry_items/provider/selected_items_notifier.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
+import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
-import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_loader.dart';
 import 'package:laundryday/widgets/reusable_checkout_card.dart';

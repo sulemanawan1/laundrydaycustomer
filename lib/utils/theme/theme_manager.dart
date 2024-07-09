@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:laundryday/utils/colors.dart';
-import 'package:laundryday/utils/font_manager.dart';
-import 'package:laundryday/utils/value_manager.dart';
-
+import 'package:laundryday/utils/constants/font_manager.dart';
+import 'package:laundryday/utils/constants/value_manager.dart';
 import 'styles_manager.dart';
 
 getApplicatonTheme() {

@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/models/laundry_model.dart';
 import 'package:laundryday/utils/colors.dart';
-import 'package:laundryday/utils/sized_box.dart';
+import 'package:laundryday/utils/constants/sized_box.dart';
 
 class ReusabelLaundryDetailBannerCard extends StatelessWidget {
   final LaundryModel laundryModel;

@@ -6,8 +6,8 @@ import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresse
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
 import 'package:laundryday/screens/services/provider/addresses_state.dart';
 import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
-import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/screens/services/model/services_model.dart'
@@ -37,8 +37,11 @@ class AddressBottomSheetWidget extends ConsumerWidget {
             if (addressesState is AddressesInitialState) ...[
               CircularProgressIndicator()
             ] else if (addressesState is AddressesLoadingState) ...[
+              
               CircularProgressIndicator()
             ] else if (addressesState is AddressesLoadedState) ...[
+              
+              
               buildAddressList(addressesState, selectedAddress, ref),
             ] else if (addressesState is AddressesErrorState) ...[
               Text('Something Went Wrong')

@@ -4,7 +4,6 @@ import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresse
 import 'package:laundryday/screens/more/addresses/my_addresses/service/my_adderesses_service.dart';
 import 'package:laundryday/screens/services/provider/addresses_state.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'  as myaddressmodel;
-
 final serviceAddressesProvider =
     StateNotifierProvider<AddressesNotifier, AddressesState>(
         (ref) => AddressesNotifier());

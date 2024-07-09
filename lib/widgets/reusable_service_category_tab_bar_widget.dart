@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/models/service_types_model.dart';
 import 'package:laundryday/screens/laundries/provider/laundries_notifier.dart';
 import 'package:laundryday/utils/colors.dart';
-import 'package:laundryday/utils/sized_box.dart';
+import 'package:laundryday/utils/constants/sized_box.dart';
 
 final indexProvider = StateProvider.autoDispose<int>((ref) {
   return 0;

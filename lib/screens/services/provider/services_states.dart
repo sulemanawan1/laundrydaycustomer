@@ -1,36 +1,32 @@
-import 'package:laundryday/models/address_model.dart';
-import 'package:laundryday/screens/home/provider/home_states.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart';
-import 'package:laundryday/screens/services/model/services_model.dart' as s;
+import 'package:laundryday/screens/services/model/services_model.dart'as servicemodel;
 
 class ServicesStates {
-  List<AddressModel> address;
-  int addressSelectedIndex;
-    MyAddressModel? addressModel;
+  AllServicesState? allServicesState;
 
-s.  ServiceModel? services;
-  AppStates? appstates;
-  ServicesStates({
-    this.addressModel,
-    required this.address,
-    required this.addressSelectedIndex,
-    this.appstates,
-    this.services
-  });
+  ServicesStates({this.allServicesState});
 
-  ServicesStates copyWith({ s.ServiceModel ? services,
-  AppStates? appstates,
-    List<AddressModel>? address,
-    int? addressSelectedIndex,
-        MyAddressModel? addressModel
-
-  }) {
+  ServicesStates copyWith(
+      {AllServicesState? allServicesState, MyAddressModel? addressModel}) {
     return ServicesStates(
-      addressModel: addressModel??this.addressModel,
-      appstates: appstates??this.appstates,
-      services: services??this.services,
-      address: address ?? this.address,
-      addressSelectedIndex: addressSelectedIndex ?? this.addressSelectedIndex,
+      allServicesState: allServicesState ?? this.allServicesState,
     );
   }
+}
+
+abstract class AllServicesState {}
+
+class AllServicesInitialState extends AllServicesState {}
+
+class AllServicesLoadingState extends AllServicesState {}
+
+class AllServicesLoadedState extends AllServicesState {
+  servicemodel.ServiceModel serviceModel;
+
+  AllServicesLoadedState({required this.serviceModel});
+}
+
+class AllServicesErrorState extends AllServicesState {
+  final String errorMessage;
+  AllServicesErrorState({required this.errorMessage});
 }

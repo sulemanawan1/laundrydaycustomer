@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:laundryday/screens/tax_invoice/components/invoice_text_widget.dart';
 import 'package:laundryday/utils/colors.dart';
-import 'package:laundryday/utils/sized_box.dart';
+import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 
 class TaxInvoice extends StatefulWidget {

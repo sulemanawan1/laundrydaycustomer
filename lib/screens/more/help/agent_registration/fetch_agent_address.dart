@@ -6,14 +6,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/utils/colors.dart';
-import 'package:laundryday/utils/sized_box.dart';
-import 'package:laundryday/app_services/location_handler.dart';
-import 'package:laundryday/utils/value_manager.dart';
+import 'package:laundryday/utils/constants/sized_box.dart';
+import 'package:laundryday/utils/constants/value_manager.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
 
@@ -156,9 +154,9 @@ class _FetchAgentAddressState extends State<FetchAgentAddress> {
   Future<void> _goToTheCurrentLoaction() async {
     final GoogleMapController controller = await _controller.future;
 
-    Position pos = await LocationHandler.getLocationPermission();
-    _selectedLat = pos.latitude;
-    _selectedLng = pos.longitude;
+    // Position pos = await LocationHandler.getLocationPermission();
+    // _selectedLat = pos.latitude;
+    // _selectedLng = pos.longitude;
 
     await controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(

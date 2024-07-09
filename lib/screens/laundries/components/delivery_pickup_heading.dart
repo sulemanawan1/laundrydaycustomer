@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:laundryday/utils/colors.dart';
-import 'package:laundryday/utils/value_manager.dart';
+import 'package:laundryday/utils/constants/value_manager.dart';
 import 'package:laundryday/widgets/heading.dart';
 
 class DelieveryPickupHeading extends StatelessWidget {

@@ -1,18 +1,16 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:laundryday/app_services/location_handler.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/find_courier/provider/find_courier_notifier.dart';
 import 'package:laundryday/screens/find_courier/provider/find_courier_states.dart';
 import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
-import 'package:laundryday/utils/sized_box.dart';
 import 'package:laundryday/widgets/map_icon_widget.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
@@ -43,54 +41,38 @@ class _FindCourierState extends ConsumerState<FindCourier> {
   @override
   void initState() {
     super.initState();
+    // BitmapDescriptor.asset(const ImageConfiguration(size: Size(32, 32)),
+    //         'assets/icons/car.png')
+    //     .then((onValue) {
+    //   customIcon = onValue;
 
-    BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(size: Size(32, 32)),
-            'assets/icons/car.png')
-        .then((onValue) {
-      customIcon = onValue;
+    //   courierMarkers = [
+    //     Marker(
+    //       icon: customIcon!,
+    //       markerId: const MarkerId('courier1'),
+    //       position: const LatLng(24.542401221727932, 46.65266108194772),
+    //       infoWindow: const InfoWindow(title: 'Courier 1'),
+    //     ),
 
-      courierMarkers = [
-        Marker(
-          icon: customIcon!,
-          markerId: const MarkerId('courier1'),
-          position: const LatLng(24.542401221727932, 46.65266108194772),
-          infoWindow: const InfoWindow(title: 'Courier 1'),
-        ),
+    //     Marker(
+    //       icon: customIcon!,
+    //       markerId: const MarkerId('courier2'),
+    //       position: const LatLng(24.537055308085204, 46.647226462391004),
+    //       infoWindow: const InfoWindow(title: 'Courier 2'),
+    //     ),
 
-        Marker(
-          icon: customIcon!,
-          markerId: const MarkerId('courier2'),
-          position: const LatLng(24.537055308085204, 46.647226462391004),
-          infoWindow: const InfoWindow(title: 'Courier 2'),
-        ),
-
-        Marker(
-          icon: customIcon!,
-          markerId: const MarkerId('courier3'),
-          position: const LatLng(24.547472660637418, 46.648258219680784),
-          infoWindow: const InfoWindow(title: 'Courier 3'),
-        ),
-        // Add more courier markers here
-      ];
-    });
-
-    LocationHandler.goToTheCurrentLoaction(
-        googleMapcontroller: _googleMapcontroller);
-
-    log(widget.orderDatailsArguments!.laundryModel!.id.toString());
-
-    Future.delayed(const Duration(seconds: 0), () {
-      ref
-          .read(findCourierNotifier.notifier)
-          .addMarkers(markers: courierMarkers);
-    });
-
-    Timer(const Duration(seconds: 7), () {
-      if (mounted) {
-        context.pushNamed(RouteNames().orderProcess,
-            extra: widget.orderDatailsArguments);
-      }
+    //     Marker(
+    //       icon: customIcon!,
+    //       markerId: const MarkerId('courier3'),
+    //       position: const LatLng(24.547472660637418, 46.648258219680784),
+    //       infoWindow: const InfoWindow(title: 'Courier 3'),
+    //     ),
+    //     // Add more courier markers here
+    //   ];
+    // });
+    Future.delayed(Duration(seconds: 7), () {
+      context.pushNamed(RouteNames().orderProcess,
+          extra: widget.orderDatailsArguments);
     });
   }
 
@@ -113,6 +95,7 @@ class _FindCourierState extends ConsumerState<FindCourier> {
               children: <Widget>[
                 Stack(alignment: Alignment.center, children: [
                   GoogleMap(
+                    
                     initialCameraPosition: CameraPosition(
                       zoom: 25,
                       target: LatLng(states.selectedLat, states.selectedLng),
@@ -144,8 +127,8 @@ class _FindCourierState extends ConsumerState<FindCourier> {
                       alignment: Alignment.bottomRight,
                       child: MapIconWidget(
                         onTap: () {
-                          LocationHandler.goToTheCurrentLoaction(
-                              googleMapcontroller: _googleMapcontroller);
+                          // LocationHandler.goToTheCurrentLoaction(
+                          //     googleMapcontroller: _googleMapcontroller);
                         },
                       ),
                     ),

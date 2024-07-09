@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:laundryday/utils/colors.dart';
-import 'package:laundryday/utils/sized_box.dart';
+import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/heading.dart';
 

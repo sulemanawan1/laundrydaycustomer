@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/utils/colors.dart';
-import 'package:laundryday/utils/sized_box.dart';
+import 'package:laundryday/utils/constants/sized_box.dart';
 
 class AddNewItemWidget extends ConsumerWidget {
   const AddNewItemWidget({

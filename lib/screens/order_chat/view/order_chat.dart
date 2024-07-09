@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/screens/order_chat/provider/order_chat_notifier.dart';
 import 'package:laundryday/screens/order_chat/provider/order_chat_states.dart';
-import 'package:laundryday/utils/sized_box.dart';
+import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_loader.dart';
 import 'package:path/path.dart';
