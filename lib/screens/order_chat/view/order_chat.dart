@@ -17,7 +17,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import 'package:voice_message_package/voice_message_package.dart';
 
-import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/colors.dart';
 
 final orderStateProvider =
     StateNotifierProvider.autoDispose<OrderChatNotifier, OrderChatStates?>(

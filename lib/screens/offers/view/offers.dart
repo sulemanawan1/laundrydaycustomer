@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/screens/offers/models/subsription_plan_model.dart';
-import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/colors.dart';
 import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/heading.dart';

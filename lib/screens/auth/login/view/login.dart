@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/helpers/validation_helper/validation_helper.dart';
 import 'package:laundryday/screens/auth/login/provider/login_notifier.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/auth/verification/provider/verification_notifier.dart';
-import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/colors.dart';
+import 'package:laundryday/utils/constants/font_manager.dart';
 import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/utils/constants/value_manager.dart';
+import 'package:laundryday/utils/theme/styles_manager.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/my_textform_field.dart';
@@ -61,14 +62,14 @@ class Login extends ConsumerWidget {
                       10.ph,
                       MyTextFormField(
                         textInputType: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[
+                        inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(9),
                         ],
                         textColor: ColorManager.whiteColor,
                         fillColor: ColorManager.tranparentColor,
                         hintTextColor: ColorManager.whiteColor,
                         labelTextColor: ColorManager.whiteColor,
-                        maxLength: 9,
                         controller: controller.phoneController,
                         validator: AppValidator().validatePhoneNumber,
                         autofillHints: const [
@@ -76,26 +77,25 @@ class Login extends ConsumerWidget {
                         ],
                         hintText: '5xxxxxxxx',
                         labelText: 'Mobile Number',
-                        contentPadding:
-                            const EdgeInsets.only(top: AppPadding.p20),
-                        prefixIcon: Padding(
-                          padding: const EdgeInsetsDirectional.only(
-                              end: AppPadding.p12,
-                              top: AppPadding.p14,
-                              start: AppPadding.p10),
-                          child: Text(
-                            '+966',
-                            style: GoogleFonts.poppins(
-                              fontSize: 15,
-                              color: ColorManager.whiteColor,
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w400,
+                        prefixIcon: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxHeight: 40,
+                            minHeight: 40,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 10, top: 15),
+                            child: Text(
+                              '+966',
+                              style: getMediumStyle(
+                                  color: ColorManager.whiteColor,
+                                  fontSize: FontSize.s12),
                             ),
                           ),
                         ),
                         suffixIcon: Icon(
                           Icons.phone_android,
                           color: ColorManager.whiteColor,
+                          size: AppSize.s14,
                         ),
                       ),
                       10.ph,

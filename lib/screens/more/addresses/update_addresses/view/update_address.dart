@@ -14,7 +14,7 @@ import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
     as myaddressesmodel;
 import 'package:laundryday/screens/more/addresses/update_addresses/provider/update_address_notifier.dart';
-import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/colors.dart';
 import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/utils/constants/value_manager.dart';
 import 'package:laundryday/widgets/heading.dart';

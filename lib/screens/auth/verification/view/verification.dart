@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/helpers/validation_helper/validation_helper.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/auth/verification/provider/verification_notifier.dart';
-import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/colors.dart';
 import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/utils/constants/value_manager.dart';
 import 'package:laundryday/widgets/my_button.dart';

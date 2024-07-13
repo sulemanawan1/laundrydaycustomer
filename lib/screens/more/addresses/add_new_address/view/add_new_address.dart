@@ -10,7 +10,7 @@ import 'package:laundryday/helpers/validation_helper/validation_helper.dart';
 import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/more/addresses/add_new_address/provider/add_new_address_notifier.dart';
-import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/colors.dart';
 import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/utils/constants/value_manager.dart';
 import 'package:laundryday/widgets/heading.dart';
@@ -136,68 +136,21 @@ class AddNewAddress extends ConsumerWidget {
                       10.ph,
                       GestureDetector(
                         onTap: () {
-                          showModalBottomSheet(
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(AppSize.s12),
-                                topRight: Radius.circular(AppSize.s12),
-                              ),
-                            ),
-                            context: context,
-                            builder: (context) {
-                              return SizedBox(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    10.ph,
-                                    const Text(
-                                      'Choose Photo',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    10.ph,
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: <Widget>[
-                                        ElevatedButton.icon(
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor:
-                                                ColorManager.primaryColor,
-                                          ),
-                                          icon: const Icon(Icons.camera),
-                                          onPressed: () {
-                                            controller.pickImage(
-                                              imageSource: ImageSource.camera,
-                                            );
-                                            context.pop();
-                                          },
-                                          label: const Text('Camera'),
-                                        ),
-                                        ElevatedButton.icon(
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor:
-                                                ColorManager.primaryColor,
-                                          ),
-                                          icon: const Icon(Icons.image),
-                                          onPressed: () {
-                                            controller.pickImage(
-                                              imageSource: ImageSource.gallery,
-                                            );
-                                            context.pop();
-                                          },
-                                          label: const Text('Gallery'),
-                                        ),
-                                      ],
-                                    ),
-                                    10.ph,
-                                  ],
-                                ),
-                              );
-                            },
-                          );
+                          resuableCameraGalleryBottomSheet(
+                              context: context,
+                              onCamerButtonPressed: () {
+                                controller.pickImage(
+                                  imageSource: ImageSource.camera,
+                                );
+                                context.pop();
+                              },
+                              onGalleryButtonPressed: () {
+
+                                controller.pickImage(
+                                  imageSource: ImageSource.camera,
+                                );
+                                context.pop();
+                              });
                         },
                         child: Stack(
                           clipBehavior: Clip.none,
@@ -277,6 +230,62 @@ class AddNewAddress extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Future<dynamic> resuableCameraGalleryBottomSheet(
+
+      {required BuildContext context,
+      required void Function()? onCamerButtonPressed,
+      required void Function()? onGalleryButtonPressed}) {
+    return showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(AppSize.s12),
+          topRight: Radius.circular(AppSize.s12),
+        ),
+      ),
+      context: context,
+      builder: (context) {
+        return SizedBox(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              10.ph,
+              const Text(
+                'Choose Photo',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              10.ph,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorManager.primaryColor,
+                    ),
+                    icon: const Icon(Icons.camera),
+                    onPressed: onCamerButtonPressed,
+                    label: const Text('Camera'),
+                  ),
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorManager.primaryColor,
+                    ),
+                    icon: const Icon(Icons.image),
+                    onPressed: onGalleryButtonPressed,
+                    label: const Text('Gallery'),
+                  ),
+                ],
+              ),
+              10.ph,
+            ],
+          ),
+        );
+      },
     );
   }
 }

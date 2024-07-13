@@ -18,7 +18,7 @@ import 'package:laundryday/screens/order_process/components/order_status_info_wi
 import 'package:laundryday/screens/order_process/providers/order_process_notifier.dart';
 import 'package:laundryday/screens/order_process/providers/order_process_states.dart';
 import 'package:laundryday/screens/order_summary/order_summary.dart';
-import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/colors.dart';
 import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/utils/utils.dart';

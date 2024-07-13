@@ -26,8 +26,7 @@ import 'package:laundryday/screens/tax_invoice/view/tax_invoice.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/screens/more/addresses/add_new_address/view/add_new_address.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/my_addresses.dart';
-import 'package:laundryday/screens/more/help/agent_registration/agent_registration.dart';
-import 'package:laundryday/screens/more/help/agent_registration/fetch_agent_address.dart';
+import 'package:laundryday/screens/more/help/agent_registration/view/agent_registration.dart';
 import 'package:laundryday/screens/more/profile/edit_profile/edit_profile.dart';
 import 'package:laundryday/screens/more/help/help.dart';
 import 'package:laundryday/screens/home/home.dart';
@@ -127,16 +126,11 @@ class AppRoutes {
               path: "agent_registration",
               builder: (context, state) {
                 return AgentRegistration(
-                  area: state.uri.queryParameters['area'].toString(),
-                  city: state.uri.queryParameters['city'].toString(),
+                  
                 );
               }),
 
-          GoRoute(
-            name: RouteNames().fetchAgentAddress,
-            path: "fetch_agent_address",
-            builder: (context, state) => const FetchAgentAddress(),
-          ),
+          
 
           GoRoute(
             name: RouteNames().orderReview,

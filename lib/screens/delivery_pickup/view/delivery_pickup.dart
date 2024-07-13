@@ -14,7 +14,7 @@ import 'package:laundryday/screens/delivery_pickup/components/extra_quantity_cha
 import 'package:laundryday/screens/delivery_pickup/components/scan_receipt_widget.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_notifier.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_states.dart';
-import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/colors.dart';
 import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/utils/constants/value_manager.dart';
 import 'package:laundryday/utils/routes/route_names.dart';

@@ -11,7 +11,7 @@ import 'package:laundryday/models/service_types_model.dart';
 import 'package:laundryday/models/services_model.dart';
 import 'package:laundryday/screens/laundries/components/carpet_laundry_tile.dart';
 import 'package:laundryday/screens/laundries/components/laundry_tile.dart';
-import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/colors.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';

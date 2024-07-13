@@ -7,8 +7,8 @@ import 'package:laundryday/screens/services/components/address_bottom_sheet_widg
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
 import 'package:laundryday/screens/services/provider/services_states.dart';
-import 'package:laundryday/utils/api_routes.dart';
-import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/api_routes.dart';
+import 'package:laundryday/utils/constants/colors.dart';
 import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
     as myaddressmodel;
@@ -61,6 +61,7 @@ class _ServicesState extends ConsumerState<Services> {
             serviceAddress.allAddresses(customerId: customerId!);
             showModalBottomSheet<void>(
               useSafeArea: true,
+              isDismissible: false,
               isScrollControlled: true,
               context: context,
               shape: const RoundedRectangleBorder(
@@ -219,7 +220,10 @@ class _ServicesState extends ConsumerState<Services> {
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
                         onTap: () {
+                          serviceAddress.allAddresses(customerId: customerId!);
+
                           showModalBottomSheet<void>(
+                            isDismissible: false,
                             useSafeArea: true,
                             isScrollControlled: true,
                             context: context,

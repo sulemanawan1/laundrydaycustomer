@@ -6,7 +6,7 @@ import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/laundry_items/components/carpet_measurement_widget.dart';
 import 'package:laundryday/screens/laundry_items/view/laundry_items.dart';
-import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/colors.dart';
 import 'package:laundryday/utils/constants/font_manager.dart';
 import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/utils/constants/value_manager.dart';

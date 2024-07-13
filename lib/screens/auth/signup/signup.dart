@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/helpers/validation_helper/validation_helper.dart';
 import 'package:laundryday/screens/auth/signup/provider/signup_notifier.dart';
-import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/colors.dart';
 import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/utils/constants/value_manager.dart';
+import 'package:laundryday/utils/theme/styles_manager.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_textform_field.dart';
 
-// ignore: must_be_immutable
 class SignUp extends ConsumerWidget {
   String mobileNumber;
   final formKey = GlobalKey<FormState>();
@@ -95,10 +94,8 @@ class HeadingMedium extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: GoogleFonts.poppins(
-          fontWeight: FontWeight.w400,
-          fontSize: 15,
-          color: color ?? ColorManager.blackColor),
+      style:
+          getMediumStyle(color: color ?? ColorManager.blackColor, fontSize: 14),
       textAlign: textAlign,
     );
   }

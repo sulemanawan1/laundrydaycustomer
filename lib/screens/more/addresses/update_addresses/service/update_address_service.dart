@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:laundryday/screens/more/addresses/update_addresses/model/update_address_model.dart';
-import 'package:laundryday/utils/api_routes.dart';
+import 'package:laundryday/utils/constants/api_routes.dart';
 import 'package:laundryday/utils/base_client_class.dart';
 import 'package:http/http.dart' as http;
 

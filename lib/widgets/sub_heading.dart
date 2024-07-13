@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/colors.dart';
 import 'package:laundryday/utils/constants/font_manager.dart';
 import 'package:laundryday/utils/theme/styles_manager.dart';
 

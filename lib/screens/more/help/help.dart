@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
-import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/colors.dart';
 import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/utils/constants/value_manager.dart';
 import 'package:laundryday/utils/routes/route_names.dart';
@@ -49,8 +49,8 @@ class _HelpState extends State<Help> {
                       leading: const Icon(Icons.verified_user),
                       title: const Text('Agent Registration'),
                       onTap: () {
-                        GoRouter.of(context)
-                            .pushNamed(RouteNames().agentRegistration);
+                        GoRouter.of(context).pushReplacementNamed(
+                            RouteNames().agentRegistration);
                       },
                     ),
                     ListTile(

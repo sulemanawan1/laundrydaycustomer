@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/colors.dart';
 import 'package:laundryday/utils/constants/font_manager.dart';
 import 'package:laundryday/utils/theme/styles_manager.dart';
 
@@ -22,17 +22,18 @@ class ReusableDropMenu<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownMenu<T>(
+        expandedInsets: EdgeInsets.symmetric(horizontal: 20),
         initialSelection: initialSelection,
         controller: controller,
-        width: 300,
+        width: MediaQuery.of(context).size.width,
         leadingIcon: leadingIcon,
         inputDecorationTheme: InputDecorationTheme(
-          errorStyle: getSemiBoldStyle(
-              color: ColorManager.redColor, fontSize: FontSize.s10),
-          labelStyle: getSemiBoldStyle(
-              color: ColorManager.blackColor, fontSize: FontSize.s10),
+          errorStyle: getMediumStyle(
+              color: ColorManager.redColor, fontSize: FontSize.s8),
+          labelStyle: getMediumStyle(
+              color: ColorManager.blackColor, fontSize: FontSize.s11),
           hintStyle: getSemiBoldStyle(
-              color: ColorManager.blackColor, fontSize: FontSize.s10),
+              color: ColorManager.blackColor, fontSize: FontSize.s11),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
             borderSide:
@@ -60,8 +61,7 @@ class ReusableDropMenu<T> extends StatelessWidget {
         ),
         label: Text(label),
         textStyle: getMediumStyle(
-          color: ColorManager.blackColor,
-        ),
+            color: ColorManager.blackColor, fontSize: FontSize.s11),
         menuStyle: MenuStyle(
             backgroundColor: WidgetStateColor.resolveWith(
                 (states) => ColorManager.whiteColor)),

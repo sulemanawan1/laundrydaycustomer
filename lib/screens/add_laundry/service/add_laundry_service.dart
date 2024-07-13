@@ -5,7 +5,7 @@ import 'package:laundryday/models/country_model.dart';
 import 'package:laundryday/models/district_model.dart';
 import 'package:laundryday/models/region_model.dart';
 import 'package:laundryday/screens/add_laundry/models/add_laundry_model.dart';
-import 'package:laundryday/utils/api_routes.dart';
+import 'package:laundryday/utils/constants/api_routes.dart';
 import 'package:laundryday/utils/base_client_class.dart';
 
 class AddLaundryService {

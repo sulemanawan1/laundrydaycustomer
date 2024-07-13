@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/screens/laundry_items/components/item_bottom_sheet_widget.dart';
 import 'package:laundryday/screens/laundry_items/view/laundry_items.dart';
-import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/colors.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/utils/constants/value_manager.dart';

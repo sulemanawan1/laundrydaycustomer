@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/colors.dart';
+import 'package:laundryday/utils/constants/font_manager.dart';
+import 'package:laundryday/utils/constants/value_manager.dart';
+import 'package:laundryday/utils/theme/styles_manager.dart';
 
 // ignore: must_be_immutable
 class MyTextFormField extends StatelessWidget {
@@ -19,12 +21,15 @@ class MyTextFormField extends StatelessWidget {
   final TextAlign? textAlign;
   final EdgeInsetsGeometry? contentPadding;
   final double? fontSize;
+  FocusNode? focusNode;
   final String? labelText;
   final int? maxLines;
   final Color? labelTextColor;
   final Color? hintTextColor;
   final Color? textColor;
   final Color? fillColor;
+  final Color? counterTextColor;
+
   final Iterable<String>? autofillHints;
   final TextInputType? textInputType;
   List<TextInputFormatter>? inputFormatters;
@@ -36,7 +41,9 @@ class MyTextFormField extends StatelessWidget {
       this.maxLines,
       this.textAlign,
       this.onChange,
+      this.counterTextColor,
       this.padding,
+      this.focusNode,
       this.readOnly,
       this.textColor,
       this.textInputType,
@@ -63,11 +70,11 @@ class MyTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+      // height: height ?? 40,
       width: width ?? double.infinity,
       child: TextFormField(
+        focusNode: focusNode,
         onChanged: onChange,
-        style: GoogleFonts.poppins(
-            fontWeight: FontWeight.w500, fontSize: 15, color: textColor),
         keyboardType: textInputType,
         textAlign: textAlign ?? TextAlign.start,
         onTap: onTap,
@@ -75,52 +82,52 @@ class MyTextFormField extends StatelessWidget {
         validator: validator,
         maxLines: maxLines ?? 1,
         controller: controller,
-        maxLength: maxLength,
+        maxLength: maxLength ?? null,
         cursorColor: ColorManager.primaryColor,
         readOnly: readOnly ?? false,
         inputFormatters: inputFormatters,
+        style: getMediumStyle(
+            color: textColor ?? ColorManager.blackColor,
+            fontSize: FontSize.s11),
         decoration: InputDecoration(
-          counterStyle: GoogleFonts.poppins(color: ColorManager.whiteColor),
-          errorStyle: GoogleFonts.poppins(
-            fontStyle: FontStyle.normal,
-            fontWeight: FontWeight.w400,
-            fontSize: 10,
+          contentPadding: EdgeInsets.only(top: 14, left: 14),
+          counterStyle: getMediumStyle(
+            color: counterTextColor ?? ColorManager.whiteColor,
+            fontSize: FontSize.s10,
           ),
-          
+          errorStyle: getMediumStyle(
+              color: ColorManager.redColor, fontSize: FontSize.s8),
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
-          contentPadding:
-              contentPadding ?? const EdgeInsets.fromLTRB(25, 13, 0, 13),
           filled: fill ?? true,
-          labelStyle: GoogleFonts.poppins(
-              fontStyle: FontStyle.normal,
-              fontWeight: FontWeight.w400,
-              fontSize: 15,
-              color: labelTextColor ?? const Color(0xff555555)),
-          hintStyle: TextStyle(
-            fontWeight: FontWeight.w400,
-            color: hintTextColor ?? const Color(0xff555555),
-          ),
+          labelStyle: getMediumStyle(
+              color: labelTextColor ?? ColorManager.blackColor,
+              fontSize: FontSize.s11),
+          hintStyle: getMediumStyle(
+              color: hintTextColor ?? ColorManager.greyColor,
+              fontSize: FontSize.s11),
           hintText: hintText,
           labelText: labelText,
           fillColor: fillColor ?? ColorManager.whiteColor,
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide:
-                BorderSide(color: ColorManager.primaryColor, width: 1.5),
+            borderRadius: BorderRadius.circular(AppSize.s10),
+            borderSide: BorderSide(
+                color: ColorManager.primaryColor, width: AppSize.s1_5),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: const BorderSide(color: Color(0xffEEEEEE), width: 1.5),
+            borderRadius: BorderRadius.circular(AppSize.s10),
+            borderSide:
+                BorderSide(color: ColorManager.whiteColor, width: AppSize.s1_5),
           ),
           errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: const BorderSide(color: Colors.red, width: 1.5),
+            borderRadius: BorderRadius.circular(AppSize.s10),
+            borderSide:
+                BorderSide(color: ColorManager.redColor, width: AppSize.s1_5),
           ),
           focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide:
-                BorderSide(color: ColorManager.primaryColor, width: 1.0),
+            borderRadius: BorderRadius.circular(AppSize.s10),
+            borderSide: BorderSide(
+                color: ColorManager.primaryColor, width: AppSize.s1_5),
           ),
         ),
       ),

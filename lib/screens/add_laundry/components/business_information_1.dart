@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:laundryday/helpers/validation_helper/validation_helper.dart';
 import 'package:laundryday/screens/add_laundry/provider/add_laundry_notifier.dart';
 import 'package:laundryday/screens/add_laundry/provider/add_laundry_states.dart';
-import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/colors.dart';
 import 'package:laundryday/utils/constants/font_manager.dart';
 import 'package:laundryday/utils/constants/sized_box.dart';
 import 'package:laundryday/utils/constants/value_manager.dart';

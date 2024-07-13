@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:laundryday/utils/colors.dart';
+import 'package:laundryday/utils/constants/colors.dart';
 
 class DatePickerHandler {
   static Future<DateTime?> datePicker(context) async {
