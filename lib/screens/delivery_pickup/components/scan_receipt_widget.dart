@@ -6,9 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
-import 'package:laundryday/utils/constants/colors.dart';
-import 'package:laundryday/utils/constants/sized_box.dart';
-import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/core/widgets/heading.dart';
 
 class ScanReceiptWidget extends ConsumerWidget {
   const ScanReceiptWidget({super.key});

@@ -14,13 +14,13 @@ import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
     as myaddressesmodel;
 import 'package:laundryday/screens/more/addresses/update_addresses/provider/update_address_notifier.dart';
-import 'package:laundryday/utils/constants/colors.dart';
-import 'package:laundryday/utils/constants/sized_box.dart';
-import 'package:laundryday/utils/constants/value_manager.dart';
-import 'package:laundryday/widgets/heading.dart';
-import 'package:laundryday/widgets/my_app_bar.dart';
-import 'package:laundryday/widgets/my_button.dart';
-import 'package:laundryday/widgets/my_textform_field.dart';
+import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/core/constants/value_manager.dart';
+import 'package:laundryday/core/widgets/heading.dart';
+import 'package:laundryday/core/widgets/my_app_bar.dart';
+import 'package:laundryday/core/widgets/my_button.dart';
+import 'package:laundryday/core/widgets/my_textform_field.dart';
 
 class UpdateAddress extends ConsumerStatefulWidget {
   myaddressesmodel.Address address;
@@ -142,14 +142,14 @@ class _UpdateAddressState extends ConsumerState<UpdateAddress> {
                       20.ph,
                       MyTextFormField(
                         controller: controller.addressNameController,
-                        validator: AppValidator().emptyStringValidator,
+                        validator: AppValidator.emptyStringValidator,
                         hintText: 'Ex: Home',
                         labelText: 'Address Name',
                       ),
                       10.ph,
                       MyTextFormField(
                         controller: controller.addressDetailController,
-                        validator: AppValidator().emptyStringValidator,
+                        validator: AppValidator.emptyStringValidator,
                         hintText: 'Ex: Building no',
                         labelText: 'Address Details',
                       ),

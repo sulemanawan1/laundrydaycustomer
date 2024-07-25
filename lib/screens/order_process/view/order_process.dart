@@ -18,16 +18,16 @@ import 'package:laundryday/screens/order_process/components/order_status_info_wi
 import 'package:laundryday/screens/order_process/providers/order_process_notifier.dart';
 import 'package:laundryday/screens/order_process/providers/order_process_states.dart';
 import 'package:laundryday/screens/order_summary/order_summary.dart';
-import 'package:laundryday/utils/constants/colors.dart';
-import 'package:laundryday/utils/constants/sized_box.dart';
-import 'package:laundryday/utils/routes/route_names.dart';
-import 'package:laundryday/utils/utils.dart';
-import 'package:laundryday/widgets/address_detail_widget.dart';
-import 'package:laundryday/widgets/map_icon_widget.dart';
-import 'package:laundryday/widgets/my_app_bar.dart';
-import 'package:laundryday/widgets/my_button.dart';
-import 'package:laundryday/widgets/heading.dart';
-import 'package:laundryday/widgets/my_loader.dart';
+import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/core/routes/route_names.dart';
+import 'package:laundryday/core/utils.dart';
+import 'package:laundryday/core/widgets/address_detail_widget.dart';
+import 'package:laundryday/core/widgets/map_icon_widget.dart';
+import 'package:laundryday/core/widgets/my_app_bar.dart';
+import 'package:laundryday/core/widgets/my_button.dart';
+import 'package:laundryday/core/widgets/heading.dart';
+import 'package:laundryday/core/widgets/my_loader.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final orderProcessProvider =
@@ -96,7 +96,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
   Widget build(BuildContext context) {
     var states = ref.watch(orderProcessProvider);
     final currentLocation = ref.watch(orderProcessProvider).currentLocation;
-    final selectedItems = ref.watch(selectedItemNotifier);
+    // final selectedItems = ref.watch(selectedItemNotifier);
 
     return Scaffold(
         appBar: MyAppBar(
@@ -387,51 +387,55 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                                 children: [
                                   HeadingMedium(title: 'Address Details'),
                                   10.ph,
-                                  const AddressDetailWidget(),
+                                  AddressDetailCard(
+                                    origin: '',
+                                    destination: '',
+                                  ),
                                   10.ph,
                                   HeadingMedium(title: 'Order Details'),
                                   10.ph,
                                   const OrderDetailAddressWidget(),
                                   10.ph,
-                                  Container(
-                                    constraints: const BoxConstraints(
-                                        maxHeight: double.infinity),
-                                    child: Card(
-                                      elevation: 0,
-                                      child: ListView.separated(
-                                        separatorBuilder: (context, index) =>
-                                            5.ph,
-                                        itemCount: selectedItems.length,
-                                        shrinkWrap: true,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          return Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            child: SizedBox(
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                        selectedItems[index]
-                                                            .name
-                                                            .toString()),
-                                                  ),
-                                                  Expanded(
-                                                    child: Text(
-                                                        "x${selectedItems[index].quantity.toString()}"),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ),
+                                  // Container(
+                                  //   constraints: const BoxConstraints(
+                                  //       maxHeight: double.infinity),
+                                  //   child: Card(
+                                  //     elevation: 0,
+                                  //     child: ListView.separated(
+                                  //       separatorBuilder: (context, index) =>
+                                  //           5.ph,
+                                  //       itemCount: selectedItems.length,
+                                  //       shrinkWrap: true,
+                                  //       itemBuilder:
+                                  //           (BuildContext context, int index) {
+                                  //         return Padding(
+                                  //           padding: const EdgeInsets.symmetric(
+                                  //               horizontal: 10),
+                                  //           child: SizedBox(
+                                  //             child: Row(
+                                  //               mainAxisAlignment:
+                                  //                   MainAxisAlignment
+                                  //                       .spaceBetween,
+                                  //               children: [
+                                  //                 Expanded(
+                                  //                   child: Text(
+                                  //                       selectedItems[index]
+                                  //                           .name
+                                  //                           .toString()),
+                                  //                 ),
+                                  //                 Expanded(
+                                  //                   child: Text(
+                                  //                       "x${selectedItems[index].quantity.toString()}"),
+                                  //                 ),
+                                  //               ],
+                                  //             ),
+                                  //           ),
+                                  //         );
+                                  //       },
+                                  //     ),
+                                  //   ),
+                                  // ),
+
                                   30.ph,
                                 ],
                               ),
@@ -628,9 +632,6 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                               )
                             ],
                           ),
-                  
-                  
-                  
                   ])),
             );
           }),
@@ -812,7 +813,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                         ),
                         TextButton(
                             style: ButtonStyle(
-                                backgroundColor: MaterialStateColor.resolveWith(
+                                backgroundColor: WidgetStateColor.resolveWith(
                                     (states) => Colors.transparent)),
                             onPressed: () {},
                             child: Text(

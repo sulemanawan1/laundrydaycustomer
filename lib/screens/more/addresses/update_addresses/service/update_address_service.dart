@@ -1,8 +1,6 @@
-import 'dart:io';
-
 import 'package:laundryday/screens/more/addresses/update_addresses/model/update_address_model.dart';
-import 'package:laundryday/utils/constants/api_routes.dart';
-import 'package:laundryday/utils/base_client_class.dart';
+import 'package:laundryday/core/constants/api_routes.dart';
+import 'package:laundryday/core/base_client_class.dart';
 import 'package:http/http.dart' as http;
 
 class UpdateAddressService {
@@ -30,7 +28,7 @@ class UpdateAddressService {
 
       var url = Api.updateAddress;
 
-      var response = await BaseClientClass.postFormReq(url, data, file);
+      var response = await BaseClientClass.postFormReq(url, data,file:  file);
 
       if (response is http.Response) {
         return updateAddressModelFromJson(response.body);

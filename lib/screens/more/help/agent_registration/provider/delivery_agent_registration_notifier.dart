@@ -14,8 +14,8 @@ import 'package:laundryday/models/country_model.dart' as countrymodel;
 import 'package:laundryday/models/district_model.dart' as districtmodel;
 import 'package:laundryday/models/region_model.dart' as regionmodel;
 import 'package:http/http.dart' as http;
-import 'package:laundryday/utils/routes/route_names.dart';
-import 'package:laundryday/utils/utils.dart';
+import 'package:laundryday/core/routes/route_names.dart';
+import 'package:laundryday/core/utils.dart';
 
 class DeliveryAgentRegistrationNotifier
     extends StateNotifier<DeliveryAgentStates> {
@@ -35,6 +35,8 @@ class DeliveryAgentRegistrationNotifier
   TextEditingController dobController = TextEditingController();
   TextEditingController identityTypeController = TextEditingController();
   TextEditingController identityNumberController = TextEditingController();
+  TextEditingController brandController = TextEditingController();
+
 
   TextEditingController countryController = TextEditingController();
   TextEditingController regionController = TextEditingController();
@@ -194,7 +196,7 @@ class DeliveryAgentRegistrationNotifier
       var request = http.MultipartRequest(
           'POST',
           Uri.parse(
-              'http://192.168.1.2:8000/api/delivery_agents/register?first_name=Fuzail&last_name=Rajput&delivery_agents_date_of_birth=1998-08-21&delivery_agents_identity_type=National Id&delivery_agents_identity_image='));
+              'http://192.168.1.3:8000/api/delivery_agents/register?first_name=Fuzail&last_name=Rajput&delivery_agents_date_of_birth=1998-08-21&delivery_agents_identity_type=National Id&delivery_agents_identity_image='));
       request.fields.addAll(data);
 
       request.headers.addAll(headers);

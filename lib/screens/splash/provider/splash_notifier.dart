@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/provider/user_states.dart';
 import 'package:laundryday/screens/splash/provider/splash_states.dart';
-import 'package:laundryday/utils/routes/route_names.dart';
-import 'package:laundryday/utils/session.dart';
+import 'package:laundryday/core/routes/route_names.dart';
+import 'package:laundryday/core/session.dart';
 
 final splashProvider =
     StateNotifierProvider<SplashNotifier, SplashStates>((ref) {

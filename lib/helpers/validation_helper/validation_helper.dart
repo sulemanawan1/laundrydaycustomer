@@ -1,4 +1,5 @@
 class AppValidator {
+  AppValidator._();
   static String? validateMobileNumber(String? value) {
 // Check if the value is empty
     if (value!.isEmpty) {
@@ -22,7 +23,7 @@ class AppValidator {
     return null;
   }
 
-  String? validatePhoneNumber(String? phoneNumber) {
+ static String? validatePhoneNumber(String? phoneNumber) {
     // Remove any non-digit characters from the phone number
     String cleanedPhoneNumber = phoneNumber!.replaceAll(RegExp(r'\D'), '');
 
@@ -37,7 +38,7 @@ class AppValidator {
     return null; // Return null if the phone number is valid
   }
 
-  String? otpValidator(String? value) {
+static  String? otpValidator(String? value) {
     if (value!.isEmpty) {
       return 'Please enter the OTP';
     }
@@ -52,7 +53,7 @@ class AppValidator {
     return null; // Return null if the value is valid
   }
 
-  String? emptyStringValidator(String? val) {
+ static  String? emptyStringValidator(String? val) {
     String string = val!.trim();
 
     if (string.isEmpty) {
@@ -62,7 +63,7 @@ class AppValidator {
     }
   }
 
-  String? passwordValidator(String? v) {
+ static String? passwordValidator(String? v) {
     RegExp smallAlphabets = RegExp("(?=.*?[a-z])");
     RegExp capitalAlphabets = RegExp("(?=.*?[A-Z])");
     RegExp specialCharacter = RegExp("(?=.*?[#?!@\$%^&*-])");
@@ -82,7 +83,7 @@ class AppValidator {
     }
   }
 
-  String? emailValidator(String? v) {
+static  String? emailValidator(String? v) {
     String string = v!.trim();
     bool emailValid = RegExp(
             r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")

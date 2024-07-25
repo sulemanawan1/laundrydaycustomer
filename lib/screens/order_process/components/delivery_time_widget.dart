@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/utils/constants/sized_box.dart';
+import 'package:laundryday/core/constants/sized_box.dart';
 
 class DeliveryTimeWidget extends StatelessWidget {
   const DeliveryTimeWidget({super.key});

@@ -1,5 +1,4 @@
-import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
-    as myaddressmodel;
+import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'  as myaddressmodel;
 
 abstract class AddressesState {}
 

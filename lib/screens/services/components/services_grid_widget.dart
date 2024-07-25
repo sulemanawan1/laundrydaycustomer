@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/screens/services/model/services_model.dart' as s;
-import 'package:laundryday/utils/constants/sized_box.dart';
+import 'package:laundryday/core/constants/sized_box.dart';
 
 class ServicesGrid extends ConsumerWidget {
   final s.ServiceModel services;

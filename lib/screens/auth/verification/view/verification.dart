@@ -4,11 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/helpers/validation_helper/validation_helper.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/auth/verification/provider/verification_notifier.dart';
-import 'package:laundryday/utils/constants/colors.dart';
-import 'package:laundryday/utils/constants/sized_box.dart';
-import 'package:laundryday/utils/constants/value_manager.dart';
-import 'package:laundryday/widgets/my_button.dart';
-import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/core/constants/value_manager.dart';
+import 'package:laundryday/core/widgets/my_button.dart';
+import 'package:laundryday/core/widgets/heading.dart';
 import 'package:pinput/pinput.dart';
 
 class Verification extends ConsumerWidget {
@@ -29,6 +29,8 @@ class Verification extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+
+
               Card(
                 elevation: 0,
                 shape: RoundedRectangleBorder(
@@ -62,7 +64,7 @@ class Verification extends ConsumerWidget {
                         errorTextStyle: GoogleFonts.poppins(color: Colors.red),
                         androidSmsAutofillMethod:
                             AndroidSmsAutofillMethod.smsUserConsentApi,
-                        validator: AppValidator().otpValidator,
+                        validator: AppValidator.otpValidator,
                         length: 6,
                         onCompleted: (val) {
                           // controller.signInWithPhoneNumber(

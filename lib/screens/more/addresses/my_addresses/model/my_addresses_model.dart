@@ -58,6 +58,7 @@ class Address {
   String? addressPhoto;
   double? lat;
   double? lng;
+  String? district;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -70,6 +71,7 @@ class Address {
     this.addressPhoto,
     this.lat,
     this.lng,
+    this.district,
     this.createdAt,
     this.updatedAt,
   });
@@ -83,6 +85,7 @@ class Address {
     String? addressPhoto,
     double? lat,
     double? lng,
+    String? district,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) =>
@@ -95,6 +98,7 @@ class Address {
         addressPhoto: addressPhoto ?? this.addressPhoto,
         lat: lat ?? this.lat,
         lng: lng ?? this.lng,
+        district: district ?? this.district,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
@@ -108,6 +112,7 @@ class Address {
         addressPhoto: json["address_photo"],
         lat: json["lat"]?.toDouble(),
         lng: json["lng"]?.toDouble(),
+        district: json["district"],
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
@@ -125,6 +130,7 @@ class Address {
         "address_photo": addressPhoto,
         "lat": lat,
         "lng": lng,
+        "district": district,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };

@@ -3,12 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:laundryday/helpers/validation_helper/validation_helper.dart';
 import 'package:laundryday/screens/add_laundry/provider/add_laundry_notifier.dart';
 import 'package:laundryday/screens/add_laundry/provider/add_laundry_states.dart';
-import 'package:laundryday/utils/constants/colors.dart';
-import 'package:laundryday/utils/constants/sized_box.dart';
-import 'package:laundryday/utils/constants/value_manager.dart';
-import 'package:laundryday/utils/theme/styles_manager.dart';
-import 'package:laundryday/widgets/heading.dart';
-import 'package:laundryday/widgets/my_textform_field.dart';
+import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/core/constants/value_manager.dart';
+import 'package:laundryday/core/theme/styles_manager.dart';
+import 'package:laundryday/core/widgets/heading.dart';
+import 'package:laundryday/core/widgets/my_textform_field.dart';
 
 final contactInformationFormKey = GlobalKey<FormState>();
 
@@ -24,28 +24,28 @@ Widget contactInformation(BuildContext context,
         ),
         8.ph,
         MyTextFormField(
-          validator: AppValidator().emptyStringValidator,
+          validator: AppValidator.emptyStringValidator,
           hintText: 'Ex : Ali',
           labelText: 'First Name',
           controller: laundryNotifier.firstNameController,
         ),
         8.ph,
         MyTextFormField(
-          validator: AppValidator().emptyStringValidator,
+          validator: AppValidator.emptyStringValidator,
           hintText: 'Ex : Ahmed',
           labelText: 'Last Name',
           controller: laundryNotifier.lastNameController,
         ),
         8.ph,
         MyTextFormField(
-          validator: AppValidator().emailValidator,
+          validator: AppValidator.emailValidator,
           hintText: 'Ex : person@gmail.com',
           labelText: 'Email',
           controller: laundryNotifier.emailController,
         ),
         8.ph,
         MyTextFormField(
-          validator: AppValidator().passwordValidator,
+          validator: AppValidator.passwordValidator,
           hintText: 'Enter your password',
           labelText: 'Password',
           controller: laundryNotifier.passwordController,
@@ -56,7 +56,7 @@ Widget contactInformation(BuildContext context,
           inputFormatters: <TextInputFormatter>[
             FilteringTextInputFormatter.digitsOnly,
           ],
-          validator: AppValidator().validatePhoneNumber,
+          validator: AppValidator.validatePhoneNumber,
           controller: laundryNotifier.mobileNumberController,
           maxLength: 10,
           hintText: '5xxxxxxxx',

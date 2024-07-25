@@ -9,15 +9,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/screens/order_chat/provider/order_chat_notifier.dart';
 import 'package:laundryday/screens/order_chat/provider/order_chat_states.dart';
-import 'package:laundryday/utils/constants/sized_box.dart';
-import 'package:laundryday/widgets/my_app_bar.dart';
-import 'package:laundryday/widgets/my_loader.dart';
+import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/core/widgets/my_app_bar.dart';
+import 'package:laundryday/core/widgets/my_loader.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import 'package:voice_message_package/voice_message_package.dart';
 
-import 'package:laundryday/utils/constants/colors.dart';
+import 'package:laundryday/core/constants/colors.dart';
 
 final orderStateProvider =
     StateNotifierProvider.autoDispose<OrderChatNotifier, OrderChatStates?>(

@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/models/order_invoice_model.dart';
 import 'package:laundryday/models/order_status.dart';
-import 'package:laundryday/screens/laundries/model/services_timings_model.dart';
 
 class OrderModell {
   int orderId;
@@ -18,7 +17,6 @@ class OrderModell {
   List<ItemModel> items;
   List<OrderStatusModel> orderStatus;
   OrderInvoiceModel invoice;
-  ServicesTimingModel? servicesTimingModel;
   DateTime? startTime;
   DateTime? endTime;
   OrderModell({
@@ -34,7 +32,6 @@ class OrderModell {
     required this.items,
     required this.orderStatus,
     required this.invoice,
-    this.servicesTimingModel,
     this.startTime,
     this.endTime,
   });
@@ -52,7 +49,6 @@ class OrderModell {
     List<ItemModel>? items,
     List<OrderStatusModel>? orderStatus,
     OrderInvoiceModel? invoice,
-    ValueGetter<ServicesTimingModel?>? servicesTimingModel,
     ValueGetter<DateTime?>? startTime,
     ValueGetter<DateTime?>? endTime,
   }) {
@@ -69,9 +65,7 @@ class OrderModell {
       items: items ?? this.items,
       orderStatus: orderStatus ?? this.orderStatus,
       invoice: invoice ?? this.invoice,
-      servicesTimingModel: servicesTimingModel != null
-          ? servicesTimingModel()
-          : this.servicesTimingModel,
+     
       startTime: startTime != null ? startTime() : this.startTime,
       endTime: endTime != null ? endTime() : this.endTime,
     );
@@ -91,7 +85,6 @@ class OrderModell {
       'items': items.map((x) => x.toMap()).toList(),
       'orderStatus': orderStatus.map((x) => x.toMap()).toList(),
       'invoice': invoice.toMap(),
-      'servicesTimingModel': servicesTimingModel?.toMap(),
       'startTime': startTime?.millisecondsSinceEpoch,
       'endTime': endTime?.millisecondsSinceEpoch,
     };
@@ -113,9 +106,7 @@ class OrderModell {
       orderStatus: List<OrderStatusModel>.from(
           map['orderStatus']?.map((x) => OrderStatusModel.fromMap(x))),
       invoice: OrderInvoiceModel.fromMap(map['invoice']),
-      servicesTimingModel: map['servicesTimingModel'] != null
-          ? ServicesTimingModel.fromMap(map['servicesTimingModel'])
-          : null,
+    
       startTime: map['startTime'] != null
           ? DateTime.fromMillisecondsSinceEpoch(map['startTime'])
           : null,
@@ -132,7 +123,7 @@ class OrderModell {
 
   @override
   String toString() {
-    return 'OrderModel(orderId: $orderId, paymentMethod: $paymentMethod, profit: $profit, total: $total, itemTotalCharges: $itemTotalCharges, status: $status, type: $type, recording: $recording, pickupRecipt: $pickupRecipt, items: $items, orderStatus: $orderStatus, invoice: $invoice, servicesTimingModel: $servicesTimingModel, startTime: $startTime, endTime: $endTime)';
+    return 'OrderModel(orderId: $orderId, paymentMethod: $paymentMethod, profit: $profit, total: $total, itemTotalCharges: $itemTotalCharges, status: $status, type: $type, recording: $recording, pickupRecipt: $pickupRecipt, items: $items, orderStatus: $orderStatus, invoice: $invoice, startTime: $startTime, endTime: $endTime)';
   }
 
   @override
@@ -152,7 +143,6 @@ class OrderModell {
         listEquals(other.items, items) &&
         listEquals(other.orderStatus, orderStatus) &&
         other.invoice == invoice &&
-        other.servicesTimingModel == servicesTimingModel &&
         other.startTime == startTime &&
         other.endTime == endTime;
   }
@@ -171,7 +161,6 @@ class OrderModell {
         items.hashCode ^
         orderStatus.hashCode ^
         invoice.hashCode ^
-        servicesTimingModel.hashCode ^
         startTime.hashCode ^
         endTime.hashCode;
   }

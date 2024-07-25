@@ -1,14 +1,22 @@
-import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart';
-import 'package:laundryday/screens/services/model/services_model.dart'as servicemodel;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:laundryday/screens/services/model/services_model.dart'
+    as servicemodel;
 
 class ServicesStates {
   AllServicesState? allServicesState;
+  String? district;
+  LatLng? latLng;
 
-  ServicesStates({this.allServicesState});
+  ServicesStates({this.allServicesState,this.district,this.latLng});
 
   ServicesStates copyWith(
-      {AllServicesState? allServicesState, MyAddressModel? addressModel}) {
+      {
+  String? district,
+  LatLng? latLng,
+  AllServicesState? allServicesState}) {
     return ServicesStates(
+      district: district??this.district,
+      latLng: latLng??this.latLng,
       allServicesState: allServicesState ?? this.allServicesState,
     );
   }

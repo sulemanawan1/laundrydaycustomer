@@ -8,13 +8,13 @@ import 'package:laundryday/models/service_types_model.dart';
 import 'package:laundryday/models/services_model.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/home/provider/home_notifier.dart';
-import 'package:laundryday/utils/constants/colors.dart';
-import 'package:laundryday/utils/constants/font_manager.dart';
-import 'package:laundryday/utils/constants/sized_box.dart';
-import 'package:laundryday/utils/constants/value_manager.dart';
-import 'package:laundryday/utils/routes/route_names.dart';
-import 'package:laundryday/widgets/circular_timer_widget.dart';
-import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/core/constants/font_manager.dart';
+import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/core/constants/value_manager.dart';
+import 'package:laundryday/core/routes/route_names.dart';
+import 'package:laundryday/core/widgets/circular_timer_widget.dart';
+import 'package:laundryday/core/widgets/heading.dart';
 
 class OnGoingOrderListWidget extends StatelessWidget {
   const OnGoingOrderListWidget({

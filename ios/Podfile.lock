@@ -1,6 +1,4 @@
 PODS:
-  - app_settings (5.1.1):
-    - Flutter
   - audio_session (0.0.1):
     - Flutter
   - audioplayers_darwin (0.0.1):
@@ -105,7 +103,6 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
-  - app_settings (from `.symlinks/plugins/app_settings/ios`)
   - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - audioplayers_darwin (from `.symlinks/plugins/audioplayers_darwin/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
@@ -144,8 +141,6 @@ SPEC REPOS:
     - TOCropViewController
 
 EXTERNAL SOURCES:
-  app_settings:
-    :path: ".symlinks/plugins/app_settings/ios"
   audio_session:
     :path: ".symlinks/plugins/audio_session/ios"
   audioplayers_darwin:
@@ -190,7 +185,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
-  app_settings: 017320c6a680cdc94c799949d95b84cb69389ebc
   audio_session: 088d2483ebd1dc43f51d253d4a1c517d9a2e7207
   audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
   Firebase: 0312a2352584f782ea56f66d91606891d4607f06

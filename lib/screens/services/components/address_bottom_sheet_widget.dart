@@ -5,11 +5,12 @@ import 'package:go_router/go_router.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
 import 'package:laundryday/screens/services/provider/addresses_state.dart';
-import 'package:laundryday/utils/constants/colors.dart';
-import 'package:laundryday/utils/constants/sized_box.dart';
-import 'package:laundryday/utils/routes/route_names.dart';
-import 'package:laundryday/widgets/my_button.dart';
-import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/core/routes/route_names.dart';
+import 'package:laundryday/core/theme/styles_manager.dart';
+import 'package:laundryday/core/widgets/my_button.dart';
+import 'package:laundryday/core/widgets/heading.dart';
 import 'package:laundryday/screens/services/model/services_model.dart'
     as servicemodel;
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
@@ -37,11 +38,8 @@ class AddressBottomSheetWidget extends ConsumerWidget {
             if (addressesState is AddressesInitialState) ...[
               CircularProgressIndicator()
             ] else if (addressesState is AddressesLoadingState) ...[
-              
               CircularProgressIndicator()
             ] else if (addressesState is AddressesLoadedState) ...[
-              
-              
               buildAddressList(addressesState, selectedAddress, ref),
             ] else if (addressesState is AddressesErrorState) ...[
               Text('Something Went Wrong')
@@ -88,6 +86,7 @@ class AddressBottomSheetWidget extends ConsumerWidget {
       Address? selectedAddress, WidgetRef ref) {
     return ListView.separated(
       shrinkWrap: true,
+      reverse: true,
       physics: NeverScrollableScrollPhysics(),
       separatorBuilder: ((context, index) => 18.ph),
       itemCount: addressesState.addressModel.addresses!.length,
@@ -100,21 +99,27 @@ class AddressBottomSheetWidget extends ConsumerWidget {
               border: Border.all(color: ColorManager.greyColor)),
           child: ListTile(
               isThreeLine: true,
-              trailing: IconButton(
-                onPressed: () {
-                  context.pop();
-                  context.pushNamed(RouteNames().updateAddress,
-                      extra: adddress);
-                },
-                icon: Icon(
-                  Icons.edit,
-                  color: ColorManager.purpleColor,
-                ),
-              ),
+              trailing:
+                  adddress.addressName!.toLowerCase() == 'my-current-address'
+                      ? null
+                      : IconButton(
+                          onPressed: () {
+                            context.pop();
+                            context.pushNamed(RouteNames().updateAddress,
+                                extra: adddress);
+                          },
+                          icon: Icon(
+                            Icons.edit,
+                            color: ColorManager.purpleColor,
+                          ),
+                        ),
               tileColor: selectedAddress == adddress
                   ? ColorManager.primaryColorOpacity10
                   : null,
-              title: Text(adddress.addressName.toString()),
+              title: Text(
+                adddress.addressName.toString(),
+                style: getMediumStyle(color: Colors.black, fontSize: 14),
+              ),
               subtitle: Text(
                 adddress.googleMapAddress.toString(),
                 maxLines: 2,
@@ -123,7 +128,7 @@ class AddressBottomSheetWidget extends ConsumerWidget {
                 ref
                     .read(selectedAddressProvider.notifier)
                     .onAddressTap(adddress);
-                context.pop();
+                // context.pop();
 
                 if (servicesModel?.serviceName.toString() == 'Blankets') {
                   log(servicesModel!.deliveryFee.toString());

@@ -14,7 +14,7 @@ import 'package:laundryday/screens/more/addresses/my_addresses/provider/my_addre
 import 'package:laundryday/screens/more/addresses/update_addresses/model/update_address_model.dart';
 import 'package:laundryday/screens/more/addresses/update_addresses/provider/update_address_state.dart';
 import 'package:laundryday/screens/more/addresses/update_addresses/service/update_address_service.dart';
-import 'package:laundryday/utils/utils.dart';
+import 'package:laundryday/core/utils.dart';
 import 'package:location/location.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
     as myaddressesmodel;
@@ -41,22 +41,6 @@ class UpdateAddressNotifier extends StateNotifier<UpdateAddressState> {
         )) {
     // checkLocationPermission();
     // getCurrent();
-  }
-
-  getCurrent() async {
-    Position position = await determinePosition();
-
-    final newCameraPosition = CameraPosition(
-      target: LatLng(position.latitude, position.longitude),
-      zoom: 14,
-    );
-    state.initialCameraPos = newCameraPosition;
-    state.googleMapController!.animateCamera(
-      CameraUpdate.newCameraPosition(state.initialCameraPos),
-    );
-    state = state.copyWith(initialCameraPos: state.initialCameraPos);
-
-    coordinateToAddress(taget: newCameraPosition.target);
   }
 
   pickImage({required ImageSource imageSource}) {
@@ -188,17 +172,6 @@ class UpdateAddressNotifier extends StateNotifier<UpdateAddressState> {
     );
     state.initialCameraPos = newCameraPosition;
 
-    state.googleMapController?.animateCamera(
-      CameraUpdate.newCameraPosition(state.initialCameraPos),
-    );
-
-    // state = state.copyWith(initialCameraPos: state.initialCameraPos);
-
     coordinateToAddress(taget: newCameraPosition.target);
-    // state.initialCameraPos = newCameraPosition;
-    // state.googleMapController!.animateCamera(
-    //   CameraUpdate.newCameraPosition(state.initialCameraPos),
-    // );
-    // state.initialCameraPos = state.initialCameraPos;
   }
 }

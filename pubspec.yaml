@@ -57,6 +57,7 @@ dependencies:
   firebase_core: ^2.27.2
   firebase_auth: ^4.18.0
   shimmer: ^3.0.0
+  lottie: ^3.1.2
 
 
 dev_dependencies:
@@ -85,10 +86,7 @@ flutter:
     - assets/
     - assets/icons/
     - assets/vectors/
-    - assets/carpets/
     - assets/category_banner/
-    - assets/clothes/laundry/
-    - assets/blankets_and_linen/
 
   fonts:
     - family: Poppins

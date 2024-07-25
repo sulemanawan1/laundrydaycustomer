@@ -6,37 +6,49 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:laundryday/core/constants/font_manager.dart';
+import 'package:laundryday/core/theme/styles_manager.dart';
 import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/models/laundry_model.dart';
 import 'package:laundryday/models/services_model.dart';
-import 'package:laundryday/screens/laundry_items/view/laundry_items.dart';
+import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
+import 'package:laundryday/screens/laundries/model/delivery_pickup_laundry_model.dart';
 import 'package:laundryday/screens/order_review/order_review_notifier.dart';
 import 'package:laundryday/screens/order_review/order_review_states.dart';
-import 'package:laundryday/utils/constants/colors.dart';
-import 'package:laundryday/utils/constants/sized_box.dart';
-import 'package:laundryday/utils/constants/value_manager.dart';
-import 'package:laundryday/utils/routes/route_names.dart';
-import 'package:laundryday/widgets/my_app_bar.dart';
-import 'package:laundryday/widgets/my_button.dart';
-import 'package:laundryday/widgets/heading.dart';
-import 'package:laundryday/widgets/payment_method_widget.dart';
-import 'package:laundryday/widgets/payment_summary_widget.dart';
+import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/core/constants/value_manager.dart';
+import 'package:laundryday/core/routes/route_names.dart';
+import 'package:laundryday/core/widgets/my_app_bar.dart';
+import 'package:laundryday/core/widgets/my_button.dart';
+import 'package:laundryday/core/widgets/heading.dart';
+import 'package:laundryday/core/widgets/payment_method_widget.dart';
+import 'package:laundryday/core/widgets/payment_summary_widget.dart';
 import 'package:collection/collection.dart';
 // import 'package:moyasar/moyasar.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import 'package:voice_message_package/voice_message_package.dart';
+import 'package:laundryday/screens/services/model/services_model.dart' as s;
 
 final orderReviewProvider =
     StateNotifierProvider<OrderReviewNotifier, OrderReviewStates>(
         (ref) => OrderReviewNotifier());
 
 class OrderReview extends ConsumerStatefulWidget {
-  final Arguments orderDatailsArguments;
+  OrderType orderType;
+  s.Datum service;
+  DeliveryPickupLaundryModel? laundry;
 
-  const OrderReview({super.key, required this.orderDatailsArguments});
+  OrderReview({
+    required this.orderType,
+    required this.service,
+    this.laundry,
+    
+    super.key,
+  });
 
   @override
   ConsumerState<OrderReview> createState() => _OrderCheckoutState();
@@ -112,14 +124,8 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
         onPlaying: () {});
     super.initState();
 
-    var subtotal =
-        widget.orderDatailsArguments.laundryModel!.service!.deliveryFee +
-            widget.orderDatailsArguments.laundryModel!.service!.operationFee;
-
     // widget.orderDatailsArguments.laundryModel!.service!.vat =
     //     (subtotal * 15) / 100;
-
-    ref.read(orderReviewProvider.notifier).state.total = subtotal;
   }
 
   Map<int?, List<ItemModel>> groupItemsByCategory(List<ItemModel> items) {
@@ -128,12 +134,9 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
 
   @override
   Widget build(BuildContext context) {
-    final itemsList = ref.watch(selectedItemNotifier);
-    final orderItem = ref.watch(deliverPickupProvider).selectedItems;
-    Map<int?, List<ItemModel>> li = groupItemsByCategory(itemsList);
-    var finalAmount = ref.watch(orderReviewProvider.notifier).state.total;
-
-    log("Order Item Length :${orderItem!.length}");
+    // final itemsList = ref.watch(selectedItemNotifier);
+    final deliveryPickupReceipt = ref.watch(deliverPickupProvider).image;
+    // Map<int?, List<ItemModel>> li = groupItemsByCategory(itemsList);
 
     return Scaffold(
       appBar: MyAppBar(title: 'Review Order'),
@@ -143,157 +146,134 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
           return SingleChildScrollView(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              widget.orderDatailsArguments.laundryModel!.service!.id == 3
-                  ? ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: itemsList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        double total = 0.0;
-                        for (int i = 0; i < itemsList.length; i++) {
-                          total = total + itemsList[i].charges!;
-                        }
+              // widget.orderDatailsArguments.laundryModel!.service!.id == 3
+              //     ? ListView.builder(
+              //         shrinkWrap: true,
+              //         physics: const NeverScrollableScrollPhysics(),
+              //         itemCount: itemsList.length,
+              //         itemBuilder: (BuildContext context, int index) {
+              //           double total = 0.0;
+              //           for (int i = 0; i < itemsList.length; i++) {
+              //             total = total + itemsList[i].charges!;
+              //           }
 
-                        log('The Total is $total');
-                        return groupItemCard(
-                            textColor: ColorManager.blackColor,
-                            color: Colors.white,
-                            quantityCardColor:
-                                ColorManager.primaryColorOpacity10,
-                            element: itemsList[index],
-                            buttonColor: ColorManager.blackColor);
-                      },
-                    )
-                  : widget.orderDatailsArguments.laundryModel!.type ==
-                          'deliverypickup'
-                      ? Card(
-                          elevation: 0,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  5.ph,
-                                  const Heading(
-                                    title: 'Order Details',
-                                  ),
-                                  10.ph,
-                                  ListView.builder(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: orderItem.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      // double totalPrice = orderItem
-                                      //     .map((order) => order.charges!)
-                                      //     .reduce((value, element) =>
-                                      //         value + element);
+              //           log('The Total is $total');
+              //           return groupItemCard(
+              //               textColor: ColorManager.blackColor,
+              //               color: Colors.white,
+              //               quantityCardColor:
+              //                   ColorManager.primaryColorOpacity10,
+              //               element: itemsList[index],
+              //               buttonColor: ColorManager.blackColor);
+              //         },
+              //       )
+              //     : widget.orderDatailsArguments.laundryModel!.type ==
+              //             'deliverypickup'
+              //         ?
 
-                                      return ListTile(
-                                        tileColor:
-                                            ColorManager.mediumWhiteColor,
-                                        trailing: orderItem[index].image != null
-                                            ? GestureDetector(
-                                                onTap: () {
-                                                  context.pushNamed(
-                                                      RouteNames().viewImage,
-                                                      extra: orderItem[index]
-                                                          .image
-                                                          .toString());
-                                                },
-                                                child: Hero(
-                                                  tag: 'reciept',
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Image.file(File(
-                                                        orderItem[index]
-                                                            .image
-                                                            .toString())),
-                                                  ),
-                                                ))
-                                            : Text(
-                                                '${orderItem[index].quantity.toString()} x'),
-                                        title: Text(
-                                            orderItem[index].name.toString()),
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                      : ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: li.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            int? category = li.keys.elementAt(index);
-
-                            List<ItemModel> itemsInCategory = li[category]!;
-
-                            return Column(
-                              children: [
-                                if (category == 1) ...[
-                                  GroupHeaderCard(
-                                    color: Colors.blue.withOpacity(0.7),
-                                    text: 'Laundry',
-                                    image: 'assets/icons/laundry.png',
-                                  ),
-                                ] else if (category == 2) ...[
-                                  GroupHeaderCard(
-                                    color: Colors.red.withOpacity(0.7),
-                                    text: 'Dry Cleaning',
-                                    image: 'assets/icons/dry_cleaning.png',
-                                  ),
-                                ] else if (category == 3) ...[
-                                  GroupHeaderCard(
-                                    color: Colors.green.withOpacity(0.7),
-                                    text: 'Pressing',
-                                    image: 'assets/icons/pressing.png',
-                                  ),
-                                ],
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: itemsInCategory.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return Column(
-                                      children: [
-                                        if (category == 1) ...[
-                                          groupItemCard(
-                                              color:
-                                                  Colors.blue.withOpacity(0.7),
-                                              element: itemsInCategory[index],
-                                              buttonColor: Colors.blue),
-                                        ] else if (category == 2) ...[
-                                          groupItemCard(
-                                              color:
-                                                  Colors.red.withOpacity(0.7),
-                                              buttonColor: Colors.red,
-                                              element: itemsInCategory[index])
-                                        ] else if (category == 3) ...[
-                                          groupItemCard(
-                                            color:
-                                                Colors.green.withOpacity(0.7),
-                                            element: itemsInCategory[index],
-                                            buttonColor: Colors.green,
-                                          )
-                                        ]
-                                      ],
-                                    );
-                                  },
-                                ),
-                                10.ph,
-                              ],
-                            );
-                          },
+              Card(
+                elevation: 0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        5.ph,
+                        const Heading(
+                          title: 'Order Details',
                         ),
+                        10.ph,
+                        Text(
+                          'Pickup Recipt',
+                          style: getMediumStyle(
+                              color: ColorManager.greyColor,
+                              fontSize: FontSize.s10),
+                        ),
+                        10.ph,
+                        SizedBox(
+                          height: 200,
+                          width: MediaQuery.of(context).size.width,
+                          child: Image.file(
+                              height: 100,
+                              File(
+                                deliveryPickupReceipt!.path.toString(),
+                              )),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              // ListView.builder(
+              //     physics: const NeverScrollableScrollPhysics(),
+              //     shrinkWrap: true,
+              //     itemCount: li.length,
+              //     itemBuilder: (BuildContext context, int index) {
+              //       int? category = li.keys.elementAt(index);
+
+              //       List<ItemModel> itemsInCategory = li[category]!;
+
+              //       return Column(
+              //         children: [
+              //           if (category == 1) ...[
+              //             GroupHeaderCard(
+              //               color: Colors.blue.withOpacity(0.7),
+              //               text: 'Laundry',
+              //               image: 'assets/icons/laundry.png',
+              //             ),
+              //           ] else if (category == 2) ...[
+              //             GroupHeaderCard(
+              //               color: Colors.red.withOpacity(0.7),
+              //               text: 'Dry Cleaning',
+              //               image: 'assets/icons/dry_cleaning.png',
+              //             ),
+              //           ] else if (category == 3) ...[
+              //             GroupHeaderCard(
+              //               color: Colors.green.withOpacity(0.7),
+              //               text: 'Pressing',
+              //               image: 'assets/icons/pressing.png',
+              //             ),
+              //           ],
+              //           ListView.builder(
+              //             shrinkWrap: true,
+              //             physics: const NeverScrollableScrollPhysics(),
+              //             itemCount: itemsInCategory.length,
+              //             itemBuilder:
+              //                 (BuildContext context, int index) {
+              //               return Column(
+              //                 children: [
+              //                   if (category == 1) ...[
+              //                     groupItemCard(
+              //                         color:
+              //                             Colors.blue.withOpacity(0.7),
+              //                         element: itemsInCategory[index],
+              //                         buttonColor: Colors.blue),
+              //                   ] else if (category == 2) ...[
+              //                     groupItemCard(
+              //                         color:
+              //                             Colors.red.withOpacity(0.7),
+              //                         buttonColor: Colors.red,
+              //                         element: itemsInCategory[index])
+              //                   ] else if (category == 3) ...[
+              //                     groupItemCard(
+              //                       color:
+              //                           Colors.green.withOpacity(0.7),
+              //                       element: itemsInCategory[index],
+              //                       buttonColor: Colors.green,
+              //                     )
+              //                   ]
+              //                 ],
+              //               );
+              //             },
+              //           ),
+              //           10.ph,
+              //         ],
+              //       );
+              //     },
+              //   ),
+
               Card(
                 child: Column(
                   children: [
@@ -409,36 +389,43 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                   ],
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  10.ph,
-                  const PaymentMethodWidget(),
-                  15.ph,
-                  PaymentSummaryWidget(
-                    service: widget.orderDatailsArguments.laundryModel!.service,
-                    ref: ref,
-                  ),
-                  15.ph,
-                  widget.orderDatailsArguments.laundryModel!.type ==
-                          'deliverypickup'
-                      ? MyButton(
-                          title: 'Pay $finalAmount',
-                          onPressed: () async {
-                            context.pushNamed(RouteNames().findCourier,
-                                extra: widget.orderDatailsArguments);
-                          },
-                        )
-                      : MyButton(
-                          title: 'Place Order',
-                          onPressed: () {
-                            context.pushNamed(RouteNames().findCourier,
-                                extra: widget.orderDatailsArguments);
-                          },
-                        ),
-                  30.ph,
-                ],
-              )
+              10.ph,
+              const PaymentMethodWidget(),
+              10.ph,
+              PaymentSummaryWidget(
+                service: widget.service,
+
+              ),
+              // Column(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     10.ph,
+
+              //     15.ph,
+              //     PaymentSummaryWidget(
+              //       service: widget.orderDatailsArguments.laundryModel!.service,
+              //       ref: ref,
+              //     ),
+              //     15.ph,
+              //     widget.orderDatailsArguments.laundryModel!.type ==
+              //             'deliverypickup'
+              //         ? MyButton(
+              //             title: 'Pay $finalAmount',
+              //             onPressed: () async {
+              //               context.pushNamed(RouteNames().findCourier,
+              //                   extra: widget.orderDatailsArguments);
+              //             },
+              //           )
+              //         : MyButton(
+              //             title: 'Place Order',
+              //             onPressed: () {
+              //               context.pushNamed(RouteNames().findCourier,
+              //                   extra: widget.orderDatailsArguments);
+              //             },
+              //           ),
+              //     30.ph,
+              //   ],
+              // )
             ]),
           );
         }),
@@ -493,9 +480,9 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                             constraints: const BoxConstraints(
                                 minWidth: 30, maxWidth: 30),
                             onPressed: () {
-                              ref
-                                  .read(selectedItemNotifier.notifier)
-                                  .deleteQuantity(id: element.id);
+                              // ref
+                              //     .read(selectedItemNotifier.notifier)
+                              //     .deleteQuantity(id: element.id);
                             },
                             icon: SvgPicture.asset(
                               'assets/icons/delete.svg',
@@ -508,9 +495,9 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                             constraints: const BoxConstraints(
                                 minWidth: 30, maxWidth: 30),
                             onPressed: () {
-                              ref
-                                  .read(selectedItemNotifier.notifier)
-                                  .removeQuantity(id: element.id);
+                              // ref
+                              //     .read(selectedItemNotifier.notifier)
+                              //     .removeQuantity(id: element.id);
                             },
                             icon: Icon(
                               Icons.remove,
@@ -534,9 +521,9 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                         constraints:
                             const BoxConstraints(minWidth: 30, maxWidth: 30),
                         onPressed: () {
-                          ref
-                              .read(selectedItemNotifier.notifier)
-                              .addQuantity(id: element.id);
+                          // ref
+                          //     .read(selectedItemNotifier.notifier)
+                          //     .addQuantity(id: element.id);
                         },
                         icon: Icon(
                           Icons.add,

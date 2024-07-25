@@ -1,4 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:laundryday/helpers/google_helper.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart';
 import 'package:laundryday/screens/services/provider/services_states.dart';
 import 'package:laundryday/screens/services/service/services_service.dart';
@@ -15,7 +18,17 @@ class ServicesNotifier extends StateNotifier<ServicesStates> {
 
   ServicesNotifier()
       : super(ServicesStates(allServicesState: AllServicesInitialState())) {
+    rqPermision();
+    getAddress();
     allServices();
+  }
+
+  rqPermision() async {
+    bool pe = await GoogleServices().requestLocationPermission();
+
+    if (pe == false) {
+      await Geolocator.openLocationSettings();
+    }
   }
 
   void allServices() async {
@@ -38,5 +51,15 @@ class ServicesNotifier extends StateNotifier<ServicesStates> {
       state = state.copyWith(
           allServicesState: AllServicesErrorState(errorMessage: e.toString()));
     }
+  }
+
+  getAddress() async {
+    Position position = await GoogleServices().currentLocation();
+    String? district = await GoogleServices()
+        .getDistrict(position.latitude, position.longitude);
+
+    state.district = district;
+    state.latLng = LatLng(position.latitude, position.longitude);
+    state = state.copyWith(district: state.district, latLng: state.latLng);
   }
 }

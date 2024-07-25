@@ -1,91 +1,138 @@
+// To parse this JSON data, do
+//
+//     final serviceTimingModel = serviceTimingModelFromJson(jsonString);
+
 import 'dart:convert';
 
-class ServicesTimingModel {
-  int id;
-  String name;
-  String description;
-  int duration;
-  String type;
-  String img;
-  ServicesTimingModel({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.duration,
-    required this.type,
-    required this.img,
+ServiceTimingModel serviceTimingModelFromJson(String str) =>
+    ServiceTimingModel.fromJson(json.decode(str));
+
+String serviceTimingModelToJson(ServiceTimingModel data) =>
+    json.encode(data.toJson());
+
+class ServiceTimingModel {
+  String? message;
+  List<Datum>? data;
+
+  ServiceTimingModel({
+    this.message,
+    this.data,
   });
 
-  ServicesTimingModel copyWith({
+  ServiceTimingModel copyWith({
+    String? message,
+    List<Datum>? data,
+  }) =>
+      ServiceTimingModel(
+        message: message ?? this.message,
+        data: data ?? this.data,
+      );
+
+  factory ServiceTimingModel.fromJson(Map<String, dynamic> json) =>
+      ServiceTimingModel(
+        message: json["message"],
+        data: json["data"] == null
+            ? []
+            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "message": message,
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
+      };
+}
+
+class Datum {
+  int? id;
+  String? name;
+  String? arabicName;
+  String? description;
+  String? arabicDescription;
+  int? duration;
+  String? type;
+  String? arabicType;
+  String? image;
+  int? serviceId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+
+  Datum({
+    this.id,
+    this.name,
+    this.arabicName,
+    this.description,
+    this.arabicDescription,
+    this.duration,
+    this.type,
+    this.arabicType,
+    this.image,
+    this.serviceId,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  Datum copyWith({
     int? id,
     String? name,
+    String? arabicName,
     String? description,
+    String? arabicDescription,
     int? duration,
     String? type,
-    String? img,
-  }) {
-    return ServicesTimingModel(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      description: description ?? this.description,
-      duration: duration ?? this.duration,
-      type: type ?? this.type,
-      img: img ?? this.img,
-    );
-  }
+    String? arabicType,
+    String? image,
+    int? serviceId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) =>
+      Datum(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        arabicName: arabicName ?? this.arabicName,
+        description: description ?? this.description,
+        arabicDescription: arabicDescription ?? this.arabicDescription,
+        duration: duration ?? this.duration,
+        type: type ?? this.type,
+        arabicType: arabicType ?? this.arabicType,
+        image: image ?? this.image,
+        serviceId: serviceId ?? this.serviceId,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'description': description,
-      'duration': duration,
-      'type': type,
-      'img': img,
-    };
-  }
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        id: json["id"],
+        name: json["name"],
+        arabicName: json["arabic_name"],
+        description: json["description"],
+        arabicDescription: json["arabic_description"],
+        duration: json["duration"],
+        type: json["type"],
+        arabicType: json["arabic_type"],
+        image: json["image"],
+        serviceId: json["service_id"],
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
+      );
 
-  factory ServicesTimingModel.fromMap(Map<String, dynamic> map) {
-    return ServicesTimingModel(
-      id: map['id']?.toInt() ?? 0,
-      name: map['name'] ?? '',
-      description: map['description'] ?? '',
-      duration: map['duration']?.toInt() ?? 0,
-      type: map['type'] ?? '',
-      img: map['img'] ?? '',
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory ServicesTimingModel.fromJson(String source) =>
-      ServicesTimingModel.fromMap(json.decode(source));
-
-  @override
-  String toString() {
-    return 'ServicesTimingModel(id: $id, name: $name, description: $description, duration: $duration, type: $type, img: $img)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is ServicesTimingModel &&
-        other.id == id &&
-        other.name == name &&
-        other.description == description &&
-        other.duration == duration &&
-        other.type == type &&
-        other.img == img;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        name.hashCode ^
-        description.hashCode ^
-        duration.hashCode ^
-        type.hashCode ^
-        img.hashCode;
-  }
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "arabic_name": arabicName,
+        "description": description,
+        "arabic_description": arabicDescription,
+        "duration": duration,
+        "type": type,
+        "arabic_type": arabicType,
+        "image": image,
+        "service_id": serviceId,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+      };
 }

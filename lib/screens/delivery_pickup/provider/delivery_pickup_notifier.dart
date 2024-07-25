@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,14 +8,15 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/app_services/image_picker_handler.dart';
 import 'package:laundryday/models/item_model.dart';
-import 'package:laundryday/models/laundry_model.dart';
-import 'package:laundryday/models/services_model.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_states.dart';
 import 'package:laundryday/screens/delivery_pickup/services/delivery_pickup_services.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
-import 'package:laundryday/utils/constants/colors.dart';
-import 'package:laundryday/utils/routes/route_names.dart';
-import 'package:path/path.dart';
+import 'package:laundryday/screens/laundries/model/delivery_pickup_laundry_model.dart';
+import 'package:laundryday/screens/laundries/model/google_distance_matrix_model.dart';
+import 'package:laundryday/core/constants/api_routes.dart';
+import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/core/routes/route_names.dart';
+import 'package:laundryday/screens/services/model/services_model.dart' as s;
 
 class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {
   final deliveryPickupRepositoryProvider =
@@ -27,10 +28,10 @@ class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {
   DeliveryPickupNotifier({
     required this.ref,
   }) : super(DeliveryPickupStates(
-            quanitiy: 0,
-            selectedItems: [],
-            laundryItemList: [],
-            recievingMethod: RecievingMethodTypes.outsidedoor));
+          quanitiy: 0,
+          selectedItems: [],
+          laundryItemList: [],
+        ));
 
   fetchAllItems({required int? serviceId}) {
     ref
@@ -88,12 +89,6 @@ class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {
         ).then((value) {
           if (value != null) {
             state = state.copyWith(image: state.image = XFile(value.path));
-
-            final iD = DateTime.now().millisecondsSinceEpoch;
-
-            addItem(
-                item: ItemModel(
-                    name: 'receipt', id: iD, image: state.image!.path));
           }
         }).onError((error, stackTrace) {
           log(error.toString());
@@ -104,57 +99,22 @@ class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {
     });
   }
 
-  removeImage() {
-    state = state.copyWith(image: null);
-  }
-
-  addItem({required ItemModel item}) {
-    state.selectedItems!.add(item);
-    state = state.copyWith(laundryItemList: state.laundryItemList);
-  }
-
-  deleteItem({required id}) {
-    state.selectedItems!.removeWhere((element) => element.id == id);
-    state = state.copyWith(laundryItemList: state.laundryItemList);
-  }
-
-  addQuantitiy({required ServicesModel servicesModel}) {
-    if (servicesModel.id == 2) {
-      if (state.quanitiy! >= 5) {
-        state = state.copyWith(quanitiy: state.quanitiy = 5);
-      } else {
-        state = state.copyWith(quanitiy: state.quanitiy! + 1);
-      }
-    } else {
-      if (state.quanitiy! >= 10) {
-        state = state.copyWith(quanitiy: state.quanitiy = 10);
-      } else {
-        state = state.copyWith(quanitiy: state.quanitiy! + 1);
-      }
-    }
-  }
-
-  removeQuantitiy() {
-    if (state.quanitiy! <= 0) {
-      state = state.copyWith(quanitiy: state.quanitiy);
-    } else {
-      state = state.copyWith(quanitiy: state.quanitiy! - 1);
-    }
-  }
-
-  selectRecievingMethod({required RecievingMethodTypes recievingMethodTypes}) {
-    state = state.copyWith(recievingMethod: recievingMethodTypes);
-  }
-
-  goToOrderReview(
-      {required LaundryModel? laundryModel, required BuildContext context}) {
+  goToOrderReview({required BuildContext context,required s.Datum service,required DeliveryPickupLaundryModel laundry}) {
     if (state.image == null) {
       Fluttertoast.showToast(msg: 'Please select Receipt.');
     } else {
+
+      {}
       context.pushNamed(RouteNames().orderReview,
-          extra: Arguments(
-            laundryModel: laundryModel,
-          ));
+          extra: {
+'order_type':OrderType.delivery_pickup,
+'laundry':laundry,
+'service':service
+
+          });
     }
   }
+
+ 
+
 }

@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:laundryday/helpers/validation_helper/validation_helper.dart';
 import 'package:laundryday/screens/add_laundry/provider/add_laundry_notifier.dart';
 import 'package:laundryday/screens/add_laundry/provider/add_laundry_states.dart';
-import 'package:laundryday/utils/constants/colors.dart';
-import 'package:laundryday/utils/constants/font_manager.dart';
-import 'package:laundryday/utils/constants/sized_box.dart';
-import 'package:laundryday/utils/constants/value_manager.dart';
-import 'package:laundryday/utils/theme/styles_manager.dart';
-import 'package:laundryday/widgets/heading.dart';
-import 'package:laundryday/widgets/resuable_dropdown.dart';
+import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/core/constants/font_manager.dart';
+import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/core/constants/value_manager.dart';
+import 'package:laundryday/core/theme/styles_manager.dart';
+import 'package:laundryday/core/widgets/heading.dart';
+import 'package:laundryday/core/widgets/resuable_dropdown.dart';
 
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:multi_select_flutter/util/multi_select_list_type.dart';
-import '../../../../../widgets/my_textform_field.dart';
+import '../../../core/widgets/my_textform_field.dart';
 
 final businessInformationFormKey = GlobalKey<FormState>();
 
@@ -28,14 +28,14 @@ Widget bussinessInformation(BuildContext context,
         Heading(title: 'Store Info'),
         8.ph,
         MyTextFormField(
-          validator: AppValidator().emptyStringValidator,
+          validator: AppValidator.emptyStringValidator,
           hintText: 'Ex : Aljabr',
           labelText: 'Store Name in English',
           controller: laundryNotifier.nameController,
         ),
         8.ph,
         MyTextFormField(
-          validator: AppValidator().emptyStringValidator,
+          validator: AppValidator.emptyStringValidator,
           hintText: 'Ex : الجبر',
           labelText: 'Store Name in Arabic',
           controller: laundryNotifier.arabicNameController,

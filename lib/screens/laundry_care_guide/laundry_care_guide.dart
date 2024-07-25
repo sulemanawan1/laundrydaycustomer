@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:laundryday/utils/constants/sized_box.dart';
-import 'package:laundryday/utils/constants/value_manager.dart';
-import 'package:laundryday/widgets/my_app_bar.dart';
+import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/core/constants/value_manager.dart';
+import 'package:laundryday/core/widgets/my_app_bar.dart';
 
 class LaundryCareGuilde extends StatelessWidget {
   const LaundryCareGuilde({super.key});

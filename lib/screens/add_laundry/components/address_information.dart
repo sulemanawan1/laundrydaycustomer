@@ -11,15 +11,15 @@ import 'package:laundryday/models/region_model.dart' as regionmodel;
 import 'package:laundryday/screens/add_laundry/models/selected_branch_model.dart';
 import 'package:laundryday/screens/add_laundry/provider/add_laundry_notifier.dart';
 import 'package:laundryday/screens/add_laundry/provider/add_laundry_states.dart';
-import 'package:laundryday/utils/constants/colors.dart';
-import 'package:laundryday/utils/constants/sized_box.dart';
-import 'package:laundryday/utils/constants/value_manager.dart';
-import 'package:laundryday/utils/theme/styles_manager.dart';
-import 'package:laundryday/utils/utils.dart';
-import 'package:laundryday/widgets/heading.dart';
-import 'package:laundryday/widgets/sub_heading.dart';
-import '../../../widgets/my_button.dart';
-import '../../../widgets/resuable_dropdown.dart';
+import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/core/constants/value_manager.dart';
+import 'package:laundryday/core/theme/styles_manager.dart';
+import 'package:laundryday/core/utils.dart';
+import 'package:laundryday/core/widgets/heading.dart';
+import 'package:laundryday/core/widgets/sub_heading.dart';
+import '../../../core/widgets/my_button.dart';
+import '../../../core/widgets/resuable_dropdown.dart';
 
 final addressInformationFormKey = GlobalKey<FormState>();
 
@@ -103,7 +103,7 @@ Widget addressInformation(BuildContext context,
                                 value: states.districtModel!.data![index]))),
                     8.ph,
                     TextFormField(
-                      validator: AppValidator().emptyStringValidator,
+                      validator: AppValidator.emptyStringValidator,
                       onChanged: (val) {
                         if (laundryNotifier.deounce?.isActive ?? false) {
                           laundryNotifier.deounce?.cancel();

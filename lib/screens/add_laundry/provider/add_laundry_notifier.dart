@@ -15,15 +15,14 @@ import 'package:laundryday/screens/add_laundry/provider/add_laundry_states.dart'
 import 'package:laundryday/screens/add_laundry/service/add_laundry_service.dart';
 import 'package:laundryday/screens/services/model/services_model.dart';
 import 'package:laundryday/screens/services/service/services_service.dart';
-import 'package:laundryday/utils/constants/colors.dart';
-import 'package:laundryday/utils/utils.dart';
+import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/core/utils.dart';
 import 'package:laundryday/models/city_model.dart' as citymodel;
 import 'package:laundryday/models/country_model.dart' as countrymodel;
 import 'package:laundryday/models/district_model.dart' as districtmodel;
 import 'package:laundryday/models/region_model.dart' as regionmodel;
 import 'package:http/http.dart' as http;
 
-import '../../laundries/view/laundries.dart';
 
 final addLaundryProvider =
     StateNotifierProvider.autoDispose<AddLaundryNotifier, AddLaundryStates>(
@@ -38,11 +37,11 @@ class AddLaundryNotifier extends StateNotifier<AddLaundryStates> {
   citymodel.CityModel? cityModel;
   districtmodel.DistrictModel? districtModel;
   final Completer<GoogleMapController> mapController =
-  Completer<GoogleMapController>();
+      Completer<GoogleMapController>();
   TextEditingController textController = TextEditingController();
   Timer? deounce;
   CameraPosition kGooglePlex =
- const CameraPosition(target: LatLng(0, 0), zoom: 6);
+      const CameraPosition(target: LatLng(0, 0), zoom: 6);
 
   TextEditingController nameController = TextEditingController();
   TextEditingController arabicNameController = TextEditingController();
@@ -422,7 +421,7 @@ class AddLaundryNotifier extends StateNotifier<AddLaundryStates> {
             context: context,
             message: data.message.toString(),
             color: Colors.green);
-        ref.invalidate(laundriesProvider);
+        // ref.invalidate(laundriesProvider);
         context.pop();
       }
     } else {

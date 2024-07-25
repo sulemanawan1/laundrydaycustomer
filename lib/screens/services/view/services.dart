@@ -7,12 +7,13 @@ import 'package:laundryday/screens/services/components/address_bottom_sheet_widg
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
 import 'package:laundryday/screens/services/provider/services_states.dart';
-import 'package:laundryday/utils/constants/api_routes.dart';
-import 'package:laundryday/utils/constants/colors.dart';
-import 'package:laundryday/utils/constants/sized_box.dart';
+import 'package:laundryday/core/constants/api_routes.dart';
+import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/core/constants/sized_box.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
     as myaddressmodel;
-import 'package:laundryday/utils/constants/value_manager.dart';
+import 'package:laundryday/core/constants/value_manager.dart';
+import 'package:laundryday/core/theme/styles_manager.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Services extends ConsumerStatefulWidget {
@@ -40,7 +41,7 @@ class _ServicesState extends ConsumerState<Services> {
   @override
   Widget build(BuildContext context) {
     AllServicesState? services = ref.watch(serviceProvider).allServicesState;
-
+    final controller = ref.read(serviceProvider.notifier);
     final customerId = ref.read(userProvider).userModel!.user!.id;
 
     myaddressmodel.Address? selectedAddress =
@@ -58,7 +59,8 @@ class _ServicesState extends ConsumerState<Services> {
         leadingWidth: MediaQuery.of(context).size.width * .8,
         leading: GestureDetector(
           onTap: () {
-            serviceAddress.allAddresses(customerId: customerId!);
+            serviceAddress.allAddresses(customerId: customerId!, ref: ref);
+
             showModalBottomSheet<void>(
               useSafeArea: true,
               isDismissible: false,
@@ -92,14 +94,9 @@ class _ServicesState extends ConsumerState<Services> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "Pickup from",
-                              style: GoogleFonts.poppins(
-                                color: ColorManager.blackColor,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 10,
-                              ),
-                            ),
+                            Text("Pickup from",
+                                style: getMediumStyle(
+                                    color: ColorManager.blackColor)),
                             const Icon(
                               Icons.keyboard_arrow_down,
                             )
@@ -108,12 +105,17 @@ class _ServicesState extends ConsumerState<Services> {
                       ),
                       Expanded(
                         child: Text(
-                          selectedAddress?.googleMapAddress ??
-                              "Current Location",
+                          selectedAddress?.addressName == 'my-current-address'
+                              ? 'Current Location'
+                              : selectedAddress?.googleMapAddress ??
+                                  "Current Location",
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                             fontSize: 13,
-                            color: ColorManager.blackColor,
+                            color: selectedAddress?.addressName ==
+                                    'my-current-address'
+                                ? ColorManager.amber
+                                : ColorManager.blackColor,
                           ),
                         ),
                       ),
@@ -220,7 +222,8 @@ class _ServicesState extends ConsumerState<Services> {
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
                         onTap: () {
-                          serviceAddress.allAddresses(customerId: customerId!);
+                          serviceAddress.allAddresses(
+                              customerId: customerId!, ref: ref);
 
                           showModalBottomSheet<void>(
                             isDismissible: false,

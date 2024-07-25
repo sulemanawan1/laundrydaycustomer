@@ -1,12 +1,9 @@
-import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/models/order_invoice_model.dart';
 import 'package:laundryday/models/order_status.dart';
 import 'package:laundryday/screens/home/model/order_model.dart';
-import 'package:laundryday/screens/home/model/timer_model.dart';
 import 'package:laundryday/screens/home/provider/home_states.dart';
-import 'package:laundryday/screens/laundries/model/services_timings_model.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
 
 final homeProvider =
@@ -14,6 +11,14 @@ final homeProvider =
         (ref) => HomeNotifier());
 
 class HomeNotifier extends StateNotifier<HomeStates> {
+  changeIndex({required int index, required WidgetRef ref}) {
+    state = state.copyWith(index: index);
+
+    if (index == 0) {
+      ref.invalidate(serviceProvider);
+    }
+  }
+
   HomeNotifier()
       : super(HomeStates(
             onGoingOrderTimerList: [],
@@ -23,13 +28,6 @@ class HomeNotifier extends StateNotifier<HomeStates> {
                   itemTotalCharges: 0.0,
                   profit: 14,
                   total: 50,
-                  servicesTimingModel: ServicesTimingModel(
-                      duration: 1,
-                      type: 'day',
-                      description: '24-hours Service',
-                      id: 1,
-                      name: 'Normal',
-                      img: 'assets/icons/24-hour-service.png'),
                   startTime: DateTime.now(),
                   endTime: DateTime.now().add(const Duration(hours: 1)),
                   orderId: 113344,
@@ -180,13 +178,6 @@ class HomeNotifier extends StateNotifier<HomeStates> {
                       id: 1, amount: 10.0, image: '', orderId: 113344)),
               OrderModell(
                   itemTotalCharges: 0.0,
-                  servicesTimingModel: ServicesTimingModel(
-                      duration: 1,
-                      type: 'hour',
-                      description: '1 hour Service',
-                      id: 2,
-                      name: 'Quick',
-                      img: 'assets/icons/rush.png'),
                   startTime: DateTime.now(),
                   endTime: DateTime.now().add(const Duration(hours: 1)),
                   orderId: 114444,
@@ -339,13 +330,6 @@ class HomeNotifier extends StateNotifier<HomeStates> {
                       id: 1, amount: 10.0, image: '', orderId: 114444)),
               OrderModell(
                   itemTotalCharges: 0.0,
-                  servicesTimingModel: ServicesTimingModel(
-                      duration: 5,
-                      type: 'day',
-                      description: '1 hour Service',
-                      id: 2,
-                      name: 'Quick',
-                      img: 'assets/icons/rush.png'),
                   startTime: DateTime.now(),
                   endTime: DateTime.now().add(const Duration(days: 5)),
                   orderId: 114488,
@@ -498,7 +482,6 @@ class HomeNotifier extends StateNotifier<HomeStates> {
                       id: 1, amount: 10.0, image: '', orderId: 114488)),
               OrderModell(
                   itemTotalCharges: 0.0,
-                  servicesTimingModel: null,
                   pickupRecipt: 'assets/images/invoice.png',
                   startTime: DateTime.now(),
                   endTime: DateTime.now().add(const Duration(hours: 1)),
@@ -624,71 +607,5 @@ class HomeNotifier extends StateNotifier<HomeStates> {
                   ],
                   invoice: OrderInvoiceModel(
                       id: 1, amount: 10.0, image: '', orderId: 112244))
-            ])) {
-    assigningOnGoingOrderTimerList();
-  }
-
-  assigningOnGoingOrderTimerList() {
-    for (int i = 0; i < state.onGoingOrderList.length; i++) {
-      if (state.onGoingOrderList[i].servicesTimingModel != null) {
-        if (state.onGoingOrderList[i].servicesTimingModel!.type == 'day') {
-          state.onGoingOrderTimerList!.add(TimerModel(
-              startTime: DateTime.now(),
-              endTime: DateTime.now().add(Duration(
-                  days:
-                      state.onGoingOrderList[i].servicesTimingModel!.duration)),
-              remainingTime: const Duration(),
-              progress: 0.0));
-        } else {
-          state.onGoingOrderTimerList!.add(TimerModel(
-              startTime: DateTime.now(),
-              endTime: DateTime.now().add(Duration(
-                  hours:
-                      state.onGoingOrderList[i].servicesTimingModel!.duration)),
-              remainingTime: const Duration(),
-              progress: 0.0));
-        }
-      }
-    }
-
-    state = state.copyWith(onGoingOrderTimerList: state.onGoingOrderTimerList);
-  }
-
-  void startOnGoingOrderTimer() {
-    state.timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (mounted) {
-        for (int i = 0; i < state.onGoingOrderTimerList!.length; i++) {
-          // log(state.onGoingOrderTimerList![i].remainingTime.toString());
-
-          state.onGoingOrderTimerList![i].remainingTime = state
-              .onGoingOrderTimerList![i].endTime!
-              .difference(DateTime.now());
-          if (state.onGoingOrderTimerList![i].remainingTime!.isNegative) {
-            timer.cancel();
-
-            state.onGoingOrderTimerList![i].remainingTime = const Duration();
-            state.onGoingOrderTimerList![i].progress = 1.0;
-            state = state.copyWith(
-                onGoingOrderTimerList: state.onGoingOrderTimerList);
-          } else {
-            state.onGoingOrderTimerList![i].progress = 1.0 -
-                (state.onGoingOrderTimerList![i].remainingTime!.inSeconds /
-                    (state.onGoingOrderTimerList![i].endTime!.difference(
-                            state.onGoingOrderTimerList![i].startTime!))
-                        .inSeconds);
-          }
-
-          state = state.copyWith(
-              onGoingOrderTimerList: state.onGoingOrderTimerList);
-        }
-      }
-    });
-  }
-
-  changeIndex({required int index, required WidgetRef ref}) {
-    if (index == 0) {
-      ref.invalidate(serviceProvider);
-    }
-    state = state.copyWith(index: index);
-  }
+            ])) {}
 }

@@ -5,12 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:laundryday/app_services/card_utils.dart';
 import 'package:laundryday/screens/add_new_card.dart/add_new_card_notifier.dart';
 import 'package:laundryday/screens/add_new_card.dart/add_new_card_states.dart';
-import 'package:laundryday/utils/constants/colors.dart';
-import 'package:laundryday/utils/constants/font_manager.dart';
-import 'package:laundryday/utils/constants/sized_box.dart';
-import 'package:laundryday/utils/constants/value_manager.dart';
-import 'package:laundryday/widgets/my_app_bar.dart';
-import 'package:laundryday/widgets/my_button.dart';
+import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/core/constants/font_manager.dart';
+import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/core/constants/value_manager.dart';
+import 'package:laundryday/core/widgets/my_app_bar.dart';
+import 'package:laundryday/core/widgets/my_button.dart';
 
 final addNewCardProvider =
     StateNotifierProvider<AddNewCardNotifier, AddNewCardStates>(

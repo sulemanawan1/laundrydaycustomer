@@ -15,19 +15,19 @@ import 'package:laundryday/models/city_model.dart' as citymodel;
 import 'package:laundryday/models/country_model.dart' as countrymodel;
 import 'package:laundryday/models/district_model.dart' as districtmodel;
 import 'package:laundryday/models/region_model.dart' as regionmodel;
-import 'package:laundryday/utils/constants/colors.dart';
-import 'package:laundryday/utils/constants/font_manager.dart';
-import 'package:laundryday/utils/constants/sized_box.dart';
-import 'package:laundryday/utils/constants/value_manager.dart';
-import 'package:laundryday/utils/routes/route_names.dart';
-import 'package:laundryday/utils/theme/styles_manager.dart';
-import 'package:laundryday/utils/utils.dart';
-import 'package:laundryday/widgets/heading.dart';
-import 'package:laundryday/widgets/my_app_bar.dart';
-import 'package:laundryday/widgets/my_button.dart';
-import 'package:laundryday/widgets/resuable_dropdown.dart';
+import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/core/constants/font_manager.dart';
+import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/core/constants/value_manager.dart';
+import 'package:laundryday/core/routes/route_names.dart';
+import 'package:laundryday/core/theme/styles_manager.dart';
+import 'package:laundryday/core/utils.dart';
+import 'package:laundryday/core/widgets/heading.dart';
+import 'package:laundryday/core/widgets/my_app_bar.dart';
+import 'package:laundryday/core/widgets/my_button.dart';
+import 'package:laundryday/core/widgets/resuable_dropdown.dart';
 
-import '../../../../../widgets/my_textform_field.dart';
+import '../../../../../core/widgets/my_textform_field.dart';
 
 final agentRegistrationNotifier = StateNotifierProvider.autoDispose<
     DeliveryAgentRegistrationNotifier,
@@ -135,7 +135,7 @@ class AgentRegistration extends ConsumerWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: MyTextFormField(
                         controller: controller.firstNameController,
-                        validator: AppValidator().emptyStringValidator,
+                        validator: AppValidator.emptyStringValidator,
                         textInputType: TextInputType.name,
                         hintText: 'First Name',
                         labelText: 'First Name'),
@@ -145,7 +145,7 @@ class AgentRegistration extends ConsumerWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: MyTextFormField(
                         controller: controller.lastNameController,
-                        validator: AppValidator().emptyStringValidator,
+                        validator: AppValidator.emptyStringValidator,
                         textInputType: TextInputType.name,
                         hintText: 'Last Name',
                         labelText: 'Last Name'),
@@ -154,7 +154,7 @@ class AgentRegistration extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: MyTextFormField(
-                        validator: AppValidator().emptyStringValidator,
+                        validator: AppValidator.emptyStringValidator,
                         controller: controller.dobController,
                         autofillHints: const [AutofillHints.birthday],
                         readOnly: true,
@@ -183,7 +183,7 @@ class AgentRegistration extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: MyTextFormField(
-                        validator: AppValidator().emptyStringValidator,
+                        validator: AppValidator.emptyStringValidator,
                         controller: controller.identityNumberController,
                         textInputType: TextInputType.number,
                         hintText: 'Identity or Iqama Number',
@@ -233,7 +233,7 @@ class AgentRegistration extends ConsumerWidget {
                       label: 'Select  City',
                       onSelected: (selectedCity) {
                         controller.selectedCity(selectedCity: selectedCity!);
-                        controller.districts(cityId: selectedCity.id!);
+                        // controller.districts(cityId: selectedCity.id!);
                       },
                       list: List.generate(
                           states.cityModel == null
@@ -243,21 +243,21 @@ class AgentRegistration extends ConsumerWidget {
                               label: states.cityModel!.data![index].name ?? "",
                               value: states.cityModel!.data![index]))),
                   8.ph,
-                  ReusableDropMenu<districtmodel.Datum?>(
-                      controller: controller.districtController,
-                      label: 'Select  District',
-                      onSelected: (selectedDistrict) {
-                        controller.selectedDistrict(
-                            selectedDistrict: selectedDistrict!);
-                      },
-                      list: List.generate(
-                          states.districtModel == null
-                              ? 0
-                              : states.districtModel!.data!.length,
-                          (index) => DropdownMenuEntry(
-                              label:
-                                  states.districtModel!.data![index].name ?? "",
-                              value: states.districtModel!.data![index]))),
+                  // ReusableDropMenu<districtmodel.Datum?>(
+                  //     controller: controller.districtController,
+                  //     label: 'Select  District',
+                  //     onSelected: (selectedDistrict) {
+                  //       controller.selectedDistrict(
+                  //           selectedDistrict: selectedDistrict!);
+                  //     },
+                  //     list: List.generate(
+                  //         states.districtModel == null
+                  //             ? 0
+                  //             : states.districtModel!.data!.length,
+                  //         (index) => DropdownMenuEntry(
+                  //             label:
+                  //                 states.districtModel!.data![index].name ?? "",
+                  //             value: states.districtModel!.data![index]))),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
@@ -268,13 +268,13 @@ class AgentRegistration extends ConsumerWidget {
                         20.ph,
                         MyTextFormField(
                             controller: controller.serialNumberController,
-                            validator: AppValidator().emptyStringValidator,
+                            validator: AppValidator.emptyStringValidator,
                             hintText: 'Serial Number',
                             labelText: 'Serial Number'),
                         10.ph,
                         MyTextFormField(
                             controller: controller.typeController,
-                            validator: AppValidator().emptyStringValidator,
+                            validator: AppValidator.emptyStringValidator,
                             hintText: 'Type',
                             labelText: 'Type'),
                         10.ph,
@@ -285,13 +285,19 @@ class AgentRegistration extends ConsumerWidget {
                               LengthLimitingTextInputFormatter(4),
                             ],
                             controller: controller.modelController,
-                            validator: AppValidator().emptyStringValidator,
+                            validator: AppValidator.emptyStringValidator,
                             hintText: 'ex : 2012',
                             labelText: 'Model'),
                         10.ph,
                         MyTextFormField(
+                            controller: controller.brandController,
+                            validator: AppValidator.emptyStringValidator,
+                            hintText: 'ex : Toyota',
+                            labelText: 'Brand'),
+                        10.ph,
+                        MyTextFormField(
                             controller: controller.classificationController,
-                            validator: AppValidator().emptyStringValidator,
+                            validator: AppValidator.emptyStringValidator,
                             hintText: 'ex: Car,Bike etc',
                             labelText: 'Classification'),
                         10.ph,
@@ -319,7 +325,7 @@ class AgentRegistration extends ConsumerWidget {
                                   controller:
                                       controller.plateNumberDigitsController,
                                   validator:
-                                      AppValidator().emptyStringValidator,
+                                      AppValidator.emptyStringValidator,
                                   hintText: '0000',
                                   labelText: 'Plate Number'),
                             ),
@@ -335,7 +341,7 @@ class AgentRegistration extends ConsumerWidget {
                                   controller:
                                       controller.plateNumberLettersController,
                                   validator:
-                                      AppValidator().emptyStringValidator,
+                                      AppValidator.emptyStringValidator,
                                   hintText: 'ABC',
                                   labelText: 'Plate Letters'),
                             ),
@@ -496,12 +502,16 @@ class AgentRegistration extends ConsumerWidget {
                                   color: ColorManager.redColor,
                                   context: context,
                                   message: 'City Required');
-                            } else if (states.selectedDistrict == null) {
-                              Utils.showSnackBar(
-                                  color: ColorManager.redColor,
-                                  context: context,
-                                  message: 'District Required');
-                            } else if (states.image == null) {
+                            }
+
+                            //  else if (states.selectedDistrict == null) {
+                            //   Utils.showSnackBar(
+                            //       color: ColorManager.redColor,
+                            //       context: context,
+                            //       message: 'District Required');
+                            // }
+
+                            else if (states.image == null) {
                               Utils.showSnackBar(
                                   color: ColorManager.redColor,
                                   context: context,
@@ -550,6 +560,8 @@ class AgentRegistration extends ConsumerWidget {
                               // log("Model : ${controller.modelController.text}");
                               // log("Plate Number : ${controller.plateNumberController.text}");
                               // log("....................................................\n");
+                              print(states.image!.readAsBytes());
+
                               Map<String, String> files = {
                                 'image': states.image!.path.toString(),
                                 'identity_image':
@@ -561,6 +573,16 @@ class AgentRegistration extends ConsumerWidget {
                                     states.drivingLicenseImage!.path.toString(),
                                 'registration_image':
                                     states.registrationImage!.path.toString(),
+                              };
+
+                              Map<String, XFile> filesBytes = {
+                                'image': states.image!,
+                                'identity_image': states.identityImage!,
+                                'front_image': states.frontImage!,
+                                'rear_image': states.rearImage!,
+                                'driving_license_image':
+                                    states.drivingLicenseImage!,
+                                'registration_image': states.registrationImage!,
                               };
 
                               Map<String, String> data = {
@@ -577,10 +599,11 @@ class AgentRegistration extends ConsumerWidget {
                                 'region_id':
                                     states.selectedRegion!.id.toString(),
                                 'city_id': states.selectedCity!.id.toString(),
-                                'district_id':
-                                    states.selectedDistrict!.id.toString(),
+                                // 'district_id':
+                                //     states.selectedDistrict!.id.toString(),
                                 'serial_number':
                                     controller.serialNumberController.text,
+                                'brand': controller.brandController.text,
                                 'type': controller.typeController.text,
                                 'classification':
                                     controller.classificationController.text,

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:laundryday/helpers/validation_helper/validation_helper.dart';
 import 'package:laundryday/screens/auth/signup/provider/signup_notifier.dart';
-import 'package:laundryday/utils/constants/colors.dart';
-import 'package:laundryday/utils/constants/sized_box.dart';
-import 'package:laundryday/utils/constants/value_manager.dart';
-import 'package:laundryday/utils/theme/styles_manager.dart';
-import 'package:laundryday/widgets/my_button.dart';
-import 'package:laundryday/widgets/heading.dart';
-import 'package:laundryday/widgets/my_textform_field.dart';
+import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/core/constants/value_manager.dart';
+import 'package:laundryday/core/theme/styles_manager.dart';
+import 'package:laundryday/core/widgets/my_button.dart';
+import 'package:laundryday/core/widgets/heading.dart';
+import 'package:laundryday/core/widgets/my_textform_field.dart';
 
 class SignUp extends ConsumerWidget {
   String mobileNumber;
@@ -41,7 +41,7 @@ class SignUp extends ConsumerWidget {
                   Expanded(
                     child: MyTextFormField(
                       controller: controller.firstNameController,
-                      validator: AppValidator().emptyStringValidator,
+                      validator: AppValidator.emptyStringValidator,
                       hintText: 'First Name.',
                       labelText: 'First Name.',
                       autofillHints: const [AutofillHints.name],
@@ -51,7 +51,7 @@ class SignUp extends ConsumerWidget {
                   Expanded(
                     child: MyTextFormField(
                       controller: controller.lastNameController,
-                      validator: AppValidator().emptyStringValidator,
+                      validator: AppValidator.emptyStringValidator,
                       hintText: 'Last Name.',
                       labelText: 'Last Name',
                       autofillHints: const [AutofillHints.name],

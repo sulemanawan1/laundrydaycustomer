@@ -6,7 +6,7 @@ import 'package:laundryday/screens/more/more.dart';
 import 'package:laundryday/screens/offers/view/offers.dart';
 import 'package:laundryday/screens/orders/orders.dart';
 import 'package:laundryday/screens/services/view/services.dart';
-import 'package:laundryday/utils/constants/colors.dart';
+import 'package:laundryday/core/constants/colors.dart';
 
 class Home extends ConsumerWidget {
   Home({super.key});

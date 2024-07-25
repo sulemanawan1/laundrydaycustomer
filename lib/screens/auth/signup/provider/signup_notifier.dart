@@ -7,9 +7,9 @@ import 'package:laundryday/provider/user_states.dart';
 import 'package:laundryday/screens/auth/signup/provider/signup_states.dart';
 import 'package:laundryday/screens/auth/verification/service/verification_service.dart';
 import 'package:laundryday/models/my_user_model.dart' as usermodel;
-import 'package:laundryday/utils/routes/route_names.dart';
-import 'package:laundryday/utils/session.dart';
-import 'package:laundryday/utils/utils.dart';
+import 'package:laundryday/core/routes/route_names.dart';
+import 'package:laundryday/core/session.dart';
+import 'package:laundryday/core/utils.dart';
 
 final signupProvider =
     StateNotifierProvider.autoDispose<SignupNotifier, SignupStates>((ref) {
@@ -66,3 +66,4 @@ class SignupNotifier extends StateNotifier<SignupStates> {
     state = state.copyWith(isLoading: state.isLoading);
   }
 }
+

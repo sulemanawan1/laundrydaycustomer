@@ -6,11 +6,11 @@ import 'package:laundryday/models/service_images.dart';
 import 'package:laundryday/models/service_types_model.dart';
 import 'package:laundryday/models/services_model.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
-import 'package:laundryday/utils/constants/colors.dart';
-import 'package:laundryday/utils/constants/sized_box.dart';
-import 'package:laundryday/utils/routes/route_names.dart';
-import 'package:laundryday/widgets/my_app_bar.dart';
-import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/core/routes/route_names.dart';
+import 'package:laundryday/core/widgets/my_app_bar.dart';
+import 'package:laundryday/core/widgets/heading.dart';
 
 class Orders extends StatefulWidget {
   const Orders({super.key});

@@ -1,6 +1,8 @@
 import 'package:intl/intl.dart';
 
 class DateHelper {
+
+  
   static String laravelDateToFormattedDate(String laravelDate) {
     // Parse the Laravel date string to a DateTime object
     DateTime date = DateTime.parse(laravelDate);
