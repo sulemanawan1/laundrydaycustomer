@@ -268,7 +268,7 @@ class ResuableDeliveryPickuPLaundryTile extends StatelessWidget {
                 ),
                 5.pw,
                 Text(
-                  'Opened' ?? '',
+                laundry.openingHours==true? 'Opened' :'',
                   style: GoogleFonts.poppins(
                       color: Colors.green, fontWeight: FontWeight.w500),
                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:laundryday/core/utils.dart';
 import 'package:laundryday/screens/laundries/components/delivery_pickup_heading.dart';
 import 'package:laundryday/screens/laundries/model/delivery_pickup_laundry_model.dart';
 import 'package:laundryday/screens/laundries/model/services_timings_model.dart';
@@ -93,9 +94,9 @@ class _LaundriesState extends ConsumerState<Laundries> {
               }),
 
           if (laundryByAreaState is LaundryByAreaIntitialState) ...[
-            // CircularProgressIndicator()
+            CircularProgressIndicator()
           ] else if (laundryByAreaState is LaundryByAreaLoadingState) ...[
-            // CircularProgressIndicator()
+            CircularProgressIndicator()
           ] else if (laundryByAreaState is LaundryByAreaErrorState) ...[
             Text(laundryByAreaState.errorMessage)
           ] else if (laundryByAreaState is LaundryByAreaLoadedState) ...[
@@ -158,16 +159,18 @@ class _LaundriesState extends ConsumerState<Laundries> {
                 return ResuableDeliveryPickuPLaundryTile(
                   laundry: laundry,
                   onTap: () {
-                    //     extra: {
-                    //   'vechile_info': agent.vechileInfo!.toJson(),
-                    //   'user_image': agent.user!.image.toString(),
-                    //   'identity_image': agent.identityImage.toString()
-                    // }
-                    GoRouter.of(context).pushNamed(RouteNames().deliveryPickup,
-                        extra: {
-                          'laundry': laundry,
-                          'service': widget.services
-                        });
+                    if (laundry.openingHours == false) {
+                      Utils.showSnackBar(
+                          context: context,
+                          message: 'Laundry Closed. Try Again later',
+                          color: ColorManager.blackColor);
+                    } else {
+                      GoRouter.of(context)
+                          .pushNamed(RouteNames().deliveryPickup, extra: {
+                        'laundry': laundry,
+                        'service': widget.services
+                      });
+                    }
                   },
                 );
               },

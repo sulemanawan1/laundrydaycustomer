@@ -195,17 +195,13 @@ class AppRoutes {
           GoRoute(
             name: RouteNames().findCourier,
             path: "find_courier",
-            builder: (context, state) => FindCourier(
-              
-            ),
+            builder: (context, state) => FindCourier(),
           ),
 
           GoRoute(
             name: RouteNames().orderProcess,
             path: "order_process",
-            builder: (context, state) => OrderProcess(
-              orderDatailsArguments: state.extra as Arguments?,
-            ),
+            builder: (context, state) => OrderProcess(),
           ),
 
           GoRoute(

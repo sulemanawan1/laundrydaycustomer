@@ -14,6 +14,8 @@ final laundryItemProver =
 class LaundryItemsNotifier extends StateNotifier<LaundryItemStates> {
   LaundryItemsNotifier()
       : super(LaundryItemStates(
+            selecteditemVariationList: [],
+            itemVariationList: [],
             itemVariationStates: ItemVariationIntitialState(),
             selectedCategory: null,
             categoryItemsStates: CategoryItemsIntitialState(),
@@ -82,9 +84,11 @@ class LaundryItemsNotifier extends StateNotifier<LaundryItemStates> {
 
       if (data is ItemVariationModel) {
         state = state.copyWith(
-          itemVariationStates:
-              ItemVariationLoadedState(itemVariationModel: data),
+          itemVariationStates: ItemVariationLoadedState(
+            itemVariationModel: data,
+          ),
         );
+        state = state.copyWith(itemVariationList: data.itemVariations);
       } else {
         state = state.copyWith(
             itemVariationStates:
@@ -101,15 +105,29 @@ class LaundryItemsNotifier extends StateNotifier<LaundryItemStates> {
     state = state.copyWith(selectedCategory: catregory);
   }
 
-
   addQuantity({required id}) {
+    ItemVariation itemVariation =
+        state.itemVariationList.firstWhere((item) => item.id == id);
 
+    if (itemVariation.quantity! <= 9) {
+      itemVariation.quantity = itemVariation.quantity! + 1;
+    }
 
-
-   
+    state = state.copyWith(itemVariationList: state.itemVariationList);
   }
 
   removeQuantity({required id}) {
-   
+    ItemVariation itemVariation =
+        state.itemVariationList.firstWhere((item) => item.id == id);
+
+    if (itemVariation.quantity! > 0) {
+      itemVariation.quantity = itemVariation.quantity! - 1;
+    }
+
+    state = state.copyWith(itemVariationList: state.itemVariationList);
+  }
+
+  setItemVariationLi({required List<ItemVariation> item}) {
+    state.itemVariationList = item;
   }
 }

@@ -23,7 +23,7 @@ final deliverPickupProvider = StateNotifierProvider.autoDispose<
     DeliveryPickupStates>((ref) => DeliveryPickupNotifier(ref: ref));
 
 class DeliveryPickup extends ConsumerStatefulWidget {
-  DeliveryPickupLaundryModel laundry;
+  final DeliveryPickupLaundryModel laundry;
   s.Datum services;
 
   DeliveryPickup({
@@ -37,56 +37,56 @@ class DeliveryPickup extends ConsumerStatefulWidget {
 }
 
 class _DeliveryPickupState extends ConsumerState<DeliveryPickup> {
-  final formkey = GlobalKey<FormState>();
-
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
 
-    print(widget.laundry.name);
+    Future.delayed(Duration(seconds: 0), () {
+      ref.read(deliverPickupProvider.notifier).setDeliveryFee(
+          distance: widget.laundry.distanceInKm,
+          deliveryfee: widget.services.deliveryFee!);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final deliveryfees = ref.watch(deliverPickupProvider).deliveryfees;
     return Scaffold(
       appBar: MyAppBar(
         title: 'Delivery Pickup',
       ),
       body: LayoutBuilder(builder: (context, constraints) {
-        return Form(
-          key: formkey,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppPadding.p20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                10.ph,
-                LaundryDetailCard(laundry: widget.laundry),
-                10.ph,
-                AddressDetailCard(
-                  origin: widget.laundry.originAddresses.toString(),
-                  destination: widget.laundry.destinationAddresses,
-                ),
-                10.ph,
-                const ScanReceiptWidget(),
-                10.ph,
-                PaymentSummaryText(
-                    text1: 'Delivery Fee',
-                    text2:
-                        "${widget.laundry.distanceInKm * widget.services.deliveryFee!} SAR"),
-                Spacer(),
-                MyButton(
-                  title: 'Next',
-                  onPressed: () {
-                    ref.read(deliverPickupProvider.notifier).goToOrderReview(
-                        laundry: widget.laundry,
-                        service: widget.services,
-                        context: context);
-                  },
-                ),
-                10.ph
-              ],
-            ),
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppPadding.p20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              10.ph,
+              LaundryDetailCard(laundry: widget.laundry),
+              10.ph,
+              AddressDetailCard(
+                origin: widget.laundry.originAddresses.toString(),
+                destination: widget.laundry.destinationAddresses,
+              ),
+              10.ph,
+              const ScanReceiptWidget(),
+              10.ph,
+              PaymentSummaryText(
+                  text1: 'Delivery Fee',
+                  text2: "${deliveryfees.toStringAsFixed(2)} SAR"),
+              Spacer(),
+              MyButton(
+                title: 'Next',
+                onPressed: () {
+                  ref.read(deliverPickupProvider.notifier).goToOrderReview(
+                      laundry: widget.laundry,
+                      service: widget.services,
+                      context: context);
+                },
+              ),
+              10.ph
+            ],
           ),
         );
       }),

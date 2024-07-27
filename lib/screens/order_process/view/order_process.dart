@@ -35,9 +35,9 @@ final orderProcessProvider =
         (ref) => OrderProcessNotifier());
 
 class OrderProcess extends ConsumerStatefulWidget {
-  final Arguments? orderDatailsArguments;
-
-  const OrderProcess({super.key, required this.orderDatailsArguments});
+  const OrderProcess({
+    super.key,
+  });
 
   @override
   ConsumerState<OrderProcess> createState() => _OrderProcessState();
@@ -154,8 +154,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                    if (widget.orderDatailsArguments!.laundryModel!.type ==
-                        'deliverypickup') ...[
+                    if ("deliverypickup" == 'deliverypickup') ...[
                       if (states.orderStatus == 0) ...[
                         const OrderStatusInfoWidget(
                             image: 'assets/vectors/step0.png',

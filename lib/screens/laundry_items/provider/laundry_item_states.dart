@@ -5,9 +5,15 @@ import 'package:laundryday/screens/laundry_items/model/laundry_model.dart';
 class LaundryItemStates {
   ItemVariationStates itemVariationStates;
   NearestLaundryStates nearestLaundryStates;
+
+  List<ItemVariation> itemVariationList;
+  List<ItemVariation> selecteditemVariationList;
+
   CategoryItemsStates categoryItemsStates;
   Datum? selectedCategory;
   LaundryItemStates({
+    required this.selecteditemVariationList,
+    required this.itemVariationList,
     required this.itemVariationStates,
     required this.selectedCategory,
     required this.categoryItemsStates,
@@ -15,14 +21,18 @@ class LaundryItemStates {
   });
 
   LaundryItemStates copyWith(
-      {  ItemVariationStates? itemVariationStates,
+      {List<ItemVariation>? itemVariationList,
+        List<ItemVariation>? selecteditemVariationList,
 
-        CategoryItemsStates? categoryItemsStates,
+      ItemVariationStates? itemVariationStates,
+      CategoryItemsStates? categoryItemsStates,
       NearestLaundryStates? nearestLaundryStates,
       Datum? selectedCategory,
       int? categoryIndex}) {
     return LaundryItemStates(
-      itemVariationStates: itemVariationStates??this.itemVariationStates,
+      selecteditemVariationList: selecteditemVariationList??this.selecteditemVariationList,
+      itemVariationList: itemVariationList ?? this.itemVariationList,
+      itemVariationStates: itemVariationStates ?? this.itemVariationStates,
       selectedCategory: selectedCategory ?? this.selectedCategory,
       categoryItemsStates: categoryItemsStates ?? this.categoryItemsStates,
       nearestLaundryStates: nearestLaundryStates ?? this.nearestLaundryStates,

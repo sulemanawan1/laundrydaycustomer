@@ -11,7 +11,6 @@ import 'package:laundryday/core/theme/styles_manager.dart';
 import 'package:laundryday/models/item_model.dart';
 import 'package:laundryday/models/laundry_model.dart';
 import 'package:laundryday/models/services_model.dart';
-import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/laundries/model/delivery_pickup_laundry_model.dart';
 import 'package:laundryday/screens/order_review/order_review_notifier.dart';
@@ -26,7 +25,6 @@ import 'package:laundryday/core/widgets/heading.dart';
 import 'package:laundryday/core/widgets/payment_method_widget.dart';
 import 'package:laundryday/core/widgets/payment_summary_widget.dart';
 import 'package:collection/collection.dart';
-// import 'package:moyasar/moyasar.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
@@ -46,7 +44,6 @@ class OrderReview extends ConsumerStatefulWidget {
     required this.orderType,
     required this.service,
     this.laundry,
-    
     super.key,
   });
 
@@ -101,7 +98,6 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
 
       setState(() {});
 
-      // ... or to stream
     }
   }
 
@@ -394,8 +390,17 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
               10.ph,
               PaymentSummaryWidget(
                 service: widget.service,
-
               ),
+              10.ph,
+
+              MyButton(
+                title: 'Order',
+                onPressed: () async {
+                  context.pushNamed(
+                    RouteNames().findCourier,
+                  );
+                },
+              )
               // Column(
               //   crossAxisAlignment: CrossAxisAlignment.start,
               //   children: [

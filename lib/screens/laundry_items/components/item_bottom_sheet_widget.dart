@@ -7,6 +7,7 @@ import 'package:laundryday/core/constants/colors.dart';
 import 'package:laundryday/core/constants/sized_box.dart';
 import 'package:laundryday/core/constants/value_manager.dart';
 import 'package:laundryday/core/widgets/heading.dart';
+import 'package:laundryday/helpers/db_helper.dart';
 import 'package:laundryday/screens/laundry_items/model/item_variation_model.dart';
 import 'package:laundryday/screens/laundry_items/provider/laundry_item_states.dart';
 import 'package:laundryday/screens/laundry_items/provider/laundry_items.notifier.dart';
@@ -18,6 +19,7 @@ class ItemBottomSheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final itemVariationStates =
         ref.watch(laundryItemProver).itemVariationStates;
+    final itemVariationList = ref.watch(laundryItemProver).itemVariationList;
 
     if (itemVariationStates is ItemVariationIntitialState) {
       return Loader();
@@ -49,11 +51,9 @@ class ItemBottomSheet extends ConsumerWidget {
                 child: ListView.separated(
                   separatorBuilder: (context, index) => 10.ph,
                   shrinkWrap: true,
-                  itemCount: itemVariationStates
-                      .itemVariationModel.itemVariations!.length,
+                  itemCount: itemVariationList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    ItemVariation itemVariation = itemVariationStates
-                        .itemVariationModel.itemVariations![index];
+                    ItemVariation itemVariation = itemVariationList[index];
 
                     return Card(
                       elevation: 6,
@@ -61,10 +61,26 @@ class ItemBottomSheet extends ConsumerWidget {
                         children: [
                           ListTile(
                             trailing: quantityAddRemoveCard(
-                                onTapAddQuantity: () {},
+                                onTapAddQuantity: () {
+                                  DatabaseHelper.instance
+                                      .insertItemVariation(itemVariation)
+                                      .then((v) {
+                                    print(v);
+                                  }).onError((e, r) {
+                                    print(e);
+                                  });
+
+                                  ref
+                                      .read(laundryItemProver.notifier)
+                                      .addQuantity(id: itemVariation.id);
+                                },
                                 context: context,
                                 blankets: itemVariation,
-                                onTapRemoveQuantity: () {}),
+                                onTapRemoveQuantity: () {
+                                  ref
+                                      .read(laundryItemProver.notifier)
+                                      .removeQuantity(id: itemVariation.id);
+                                }),
                             title: Text(
                               itemVariation.name.toString(),
                               maxLines: 2,
@@ -73,7 +89,7 @@ class ItemBottomSheet extends ConsumerWidget {
                               padding: const EdgeInsets.symmetric(
                                   vertical: AppPadding.p10),
                               child: Text(
-                                " ${itemVariation.price.toString()} SAR",
+                                "${itemVariation.price.toString()} SAR",
                                 maxLines: 2,
                                 style: GoogleFonts.poppins(
                                     color: ColorManager.blackColor),
@@ -88,7 +104,7 @@ class ItemBottomSheet extends ConsumerWidget {
               ),
               5.ph,
               GestureDetector(
-                onTap: () async {
+                onTap: () {
                   context.pop();
                 },
                 child: Padding(
