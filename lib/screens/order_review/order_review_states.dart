@@ -1,10 +1,14 @@
+import 'package:laundryday/screens/laundry_items/model/item_variation_model.dart';
+
 class OrderReviewStates {
   List<PaymentMethods> paymentMethods;
   int paymentSelectedIndex;
   double total;
   bool isPaid;
   bool isRecording;
+  List<ItemVariation> items;
   OrderReviewStates({
+    required this.items,
     required this.paymentMethods,
     required this.paymentSelectedIndex,
     required this.total,
@@ -13,6 +17,8 @@ class OrderReviewStates {
   });
 
   OrderReviewStates copyWith({
+      List<ItemVariation>? items,
+
     List<PaymentMethods>? paymentMethods,
     int? paymentSelectedIndex,
     double? total,
@@ -20,6 +26,7 @@ class OrderReviewStates {
     bool? isRecording,
   }) {
     return OrderReviewStates(
+      items: items??this.items,
       paymentMethods: paymentMethods ?? this.paymentMethods,
       paymentSelectedIndex: paymentSelectedIndex ?? this.paymentSelectedIndex,
       total: total ?? this.total,

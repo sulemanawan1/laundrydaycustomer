@@ -17,23 +17,7 @@ class AddressesNotifier extends StateNotifier<AddressessStates> {
   AddressesNotifier()
       : super(AddressessStates(addressState: AddressesInitialState())) {}
 
-  addCurrentAddress({required AddressState addressLoadedState}) {
-    if (addressLoadedState is AddressesLoadedState) {
-      addressLoadedState.addressModel.addresses!.add(Address(
-          addressName: 'my-current-address',
-          addressDetail: 'my-current-address',
-          googleMapAddress: "ksdk",
-          district: "Al",
-          lat: 5.5,
-          lng: 5.4));
-
-      state.addressState = AddressesLoadedState(
-          addressModel: MyAddressModel(
-              addresses: addressLoadedState.addressModel.addresses!));
-    }
-
-    // state = AddressesLoadedState(addressModel: MyAddressModel());
-  }
+ 
 
   Future getCurrentLocation() async {
     Position position = await GoogleServices().currentLocation();
@@ -64,17 +48,17 @@ class AddressesNotifier extends StateNotifier<AddressessStates> {
       var data = await MyAdderessesService.allAddresses(customerId: customerId);
 
       if (data is MyAddressModel) {
-        print("------");
-        print(state.latLng!.latitude);
-        print("------");
+        // print("------");
+        // print(state.latLng!.latitude);
+        // print("------");
 
-        data.addresses!.add(Address(
-            addressName: 'my-current-address',
-            addressDetail: 'my-current-address',
-            googleMapAddress: state.district,
-            district: state.district,
-            lat: state.latLng!.latitude,
-            lng: state.latLng!.longitude));
+        // data.addresses!.add(Address(
+        //     addressName: 'my-current-address',
+        //     addressDetail: 'my-current-address',
+        //     googleMapAddress: state.district,
+        //     district: state.district,
+        //     lat: state.latLng!.latitude,
+        //     lng: state.latLng!.longitude));
 
         state = state.copyWith(
             addressState: AddressesLoadedState(addressModel: data));

@@ -11,7 +11,8 @@ import 'package:laundryday/screens/services/provider/services_states.dart';
 import 'package:laundryday/core/constants/api_routes.dart';
 import 'package:laundryday/core/constants/colors.dart';
 import 'package:laundryday/core/constants/sized_box.dart';
-import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'  as myaddressmodel;
+import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
+    as myaddressmodel;
 import 'package:laundryday/core/constants/value_manager.dart';
 import 'package:laundryday/core/theme/styles_manager.dart';
 import 'package:shimmer/shimmer.dart';
@@ -61,7 +62,7 @@ class _ServicesState extends ConsumerState<Services> {
         leadingWidth: MediaQuery.of(context).size.width * .8,
         leading: GestureDetector(
           onTap: () {
-            serviceAddress.getAddress();
+            // serviceAddress.getAddress();
             serviceAddress.allAddresses(customerId: customerId!);
             showModalBottomSheet<void>(
               useSafeArea: true,
@@ -152,56 +153,6 @@ class _ServicesState extends ConsumerState<Services> {
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-              // const OnGoingOrderListWidget(),
-              // Column(
-              //   children: [
-              //     10.ph,
-              //     Card(
-              //       color: Colors.transparent,
-              //       elevation: 0,
-              //       child: CarouselSlider(
-              //         carouselController: _carouselController,
-              //         items: images
-              //             .map((e) => ClipRRect(
-              //                   borderRadius: BorderRadius.circular(8),
-              //                   child: Image.asset(
-              //                     e.toString(),
-              //                     fit: BoxFit.cover,
-              //                     width: double.infinity,
-              //                   ),
-              //                 ))
-              //             .toList(),
-              //         options: CarouselOptions(
-              //           padEnds: true,
-              //           viewportFraction: 1,
-              //           aspectRatio: 16 / 6,
-              //           enableInfiniteScroll: true,
-              //           autoPlay: true,
-              //           animateToClosest: true,
-              //           autoPlayInterval: const Duration(seconds: 2),
-
-              //           // autoPlayAnimationDuration: const Duration(milliseconds: 50),
-              //           autoPlayCurve: Curves.linear,
-              //           enlargeCenterPage: true,
-              //           onPageChanged: (index, reason) {
-              //             setState(() {
-              //               _currentIndex = index;
-              //             });
-              //           },
-              //         ),
-              //       ),
-              //     ),
-              //     10.ph,
-              //     MyCarouselIndicator(
-              //       dotCount: images.length,
-              //       position: _currentIndex,
-              //       onTap: (int index) {
-              //         // _carouselController.animateToPage(index);
-              //       },
-              //     ),
-              //   ],
-              // ),
-
               if (services is AllServicesInitialState) ...[
                 ServiceShimmerEffect()
               ] else if (services is AllServicesLoadingState) ...[
@@ -224,13 +175,13 @@ class _ServicesState extends ConsumerState<Services> {
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
                         onTap: () {
-                          serviceAddress.getAddress();
+                          // serviceAddress.getAddress();
 
                           serviceAddress.allAddresses(customerId: customerId!);
 
-                          log("Latitude ${latLng!.latitude.toString()}");
-                          log("Longitude ${latLng.longitude.toString()}");
-                          log("District ${district.toString()}");
+                          // log("Latitude ${latLng!.latitude.toString()}");
+                          // log("Longitude ${latLng.longitude.toString()}");
+                          // log("District ${district.toString()}");
 
                           showModalBottomSheet<void>(
                             isDismissible: false,

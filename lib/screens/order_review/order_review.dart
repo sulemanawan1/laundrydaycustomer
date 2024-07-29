@@ -13,6 +13,7 @@ import 'package:laundryday/models/laundry_model.dart';
 import 'package:laundryday/models/services_model.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/laundries/model/delivery_pickup_laundry_model.dart';
+import 'package:laundryday/screens/laundry_items/model/item_variation_model.dart';
 import 'package:laundryday/screens/order_review/order_review_notifier.dart';
 import 'package:laundryday/screens/order_review/order_review_states.dart';
 import 'package:laundryday/core/constants/colors.dart';
@@ -119,6 +120,10 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
         onPlaying: () {});
     super.initState();
 
+    if (widget.orderType == OrderType.normal) {
+      ref.read(orderReviewProvider.notifier).getAllItems();
+    }
+
     // widget.orderDatailsArguments.laundryModel!.service!.vat =
     //     (subtotal * 15) / 100;
   }
@@ -132,6 +137,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
     // final itemsList = ref.watch(selectedItemNotifier);
     final deliveryPickupReceipt = ref.watch(deliverPickupProvider).image;
     // Map<int?, List<ItemModel>> li = groupItemsByCategory(itemsList);
+    final items = ref.watch(orderReviewProvider).items;
 
     return Scaffold(
       appBar: MyAppBar(title: 'Review Order'),
@@ -144,23 +150,20 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // widget.orderDatailsArguments.laundryModel!.service!.id == 3
-                        //     ? ListView.builder(
+                        //     ?
+                        //
+                        // ListView.builder(
                         //         shrinkWrap: true,
                         //         physics: const NeverScrollableScrollPhysics(),
-                        //         itemCount: itemsList.length,
+                        //         itemCount: items.length,
                         //         itemBuilder: (BuildContext context, int index) {
-                        //           double total = 0.0;
-                        //           for (int i = 0; i < itemsList.length; i++) {
-                        //             total = total + itemsList[i].charges!;
-                        //           }
 
-                        //           log('The Total is $total');
                         //           return groupItemCard(
                         //               textColor: ColorManager.blackColor,
                         //               color: Colors.white,
                         //               quantityCardColor:
                         //                   ColorManager.primaryColorOpacity10,
-                        //               element: itemsList[index],
+                        //               element: items[index],
                         //               buttonColor: ColorManager.blackColor);
                         //         },
                         //       )
@@ -204,73 +207,41 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                           ),
                         ),
 
-                        // ListView.builder(
-                        //     physics: const NeverScrollableScrollPhysics(),
-                        //     shrinkWrap: true,
-                        //     itemCount: li.length,
-                        //     itemBuilder: (BuildContext context, int index) {
-                        //       int? category = li.keys.elementAt(index);
+                        ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: items.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            // int? category = li.keys.elementAt(index);
 
-                        //       List<ItemModel> itemsInCategory = li[category]!;
-
-                        //       return Column(
-                        //         children: [
-                        //           if (category == 1) ...[
-                        //             GroupHeaderCard(
-                        //               color: Colors.blue.withOpacity(0.7),
-                        //               text: 'Laundry',
-                        //               image: 'assets/icons/laundry.png',
-                        //             ),
-                        //           ] else if (category == 2) ...[
-                        //             GroupHeaderCard(
-                        //               color: Colors.red.withOpacity(0.7),
-                        //               text: 'Dry Cleaning',
-                        //               image: 'assets/icons/dry_cleaning.png',
-                        //             ),
-                        //           ] else if (category == 3) ...[
-                        //             GroupHeaderCard(
-                        //               color: Colors.green.withOpacity(0.7),
-                        //               text: 'Pressing',
-                        //               image: 'assets/icons/pressing.png',
-                        //             ),
-                        //           ],
-                        //           ListView.builder(
-                        //             shrinkWrap: true,
-                        //             physics: const NeverScrollableScrollPhysics(),
-                        //             itemCount: itemsInCategory.length,
-                        //             itemBuilder:
-                        //                 (BuildContext context, int index) {
-                        //               return Column(
-                        //                 children: [
-                        //                   if (category == 1) ...[
-                        //                     groupItemCard(
-                        //                         color:
-                        //                             Colors.blue.withOpacity(0.7),
-                        //                         element: itemsInCategory[index],
-                        //                         buttonColor: Colors.blue),
-                        //                   ] else if (category == 2) ...[
-                        //                     groupItemCard(
-                        //                         color:
-                        //                             Colors.red.withOpacity(0.7),
-                        //                         buttonColor: Colors.red,
-                        //                         element: itemsInCategory[index])
-                        //                   ] else if (category == 3) ...[
-                        //                     groupItemCard(
-                        //                       color:
-                        //                           Colors.green.withOpacity(0.7),
-                        //                       element: itemsInCategory[index],
-                        //                       buttonColor: Colors.green,
-                        //                     )
-                        //                   ]
-                        //                 ],
-                        //               );
-                        //             },
-                        //           ),
-                        //           10.ph,
-                        //         ],
-                        //       );
-                        //     },
-                        //   ),
+                            // List<ItemModel> itemsInCategory = li[category]!;
+                            ItemVariation item = items[index];
+                            return Column(
+                              children: [
+                                if (item.categoryId == 1) ...[
+                                  GroupHeaderCard(
+                                    color: Colors.blue.withOpacity(0.7),
+                                    text: 'Laundry',
+                                    image: 'assets/icons/laundry.png',
+                                  ),
+                                ] else if (item.categoryId == 2) ...[
+                                  GroupHeaderCard(
+                                    color: Colors.red.withOpacity(0.7),
+                                    text: 'Dry Cleaning',
+                                    image: 'assets/icons/dry_cleaning.png',
+                                  ),
+                                ] else if (item.categoryId == 3) ...[
+                                  GroupHeaderCard(
+                                    color: Colors.green.withOpacity(0.7),
+                                    text: 'Pressing',
+                                    image: 'assets/icons/pressing.png',
+                                  ),
+                                ],
+                                10.ph,
+                              ],
+                            );
+                          },
+                        ),
 
                         Card(
                           child: Column(
@@ -454,7 +425,51 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
               : SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [],
+                    children: [
+                      ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: items.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          // int? category = li.keys.elementAt(index);
+
+                          // List<ItemModel> itemsInCategory = li[category]!;
+                          ItemVariation item = items[index];
+                          return Container(
+                            decoration: BoxDecoration(
+                                color: ColorManager.blueColor.withOpacity(0.2)),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Column(
+                                children: [
+                                  10.ph,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "${item.name.toString()}(X${item.quantity})",
+                                        style: getMediumStyle(
+                                            color: ColorManager.blackColor,
+                                            fontSize: 14),
+                                      ),
+                                      Text(
+                                        "${item.price! * item.quantity!} SAR",
+                                        style: getMediumStyle(
+                                            color: ColorManager.blackColor,
+                                            fontSize: 14),
+                                      )
+                                    ],
+                                  ),
+                                  10.ph,
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 );
         }),

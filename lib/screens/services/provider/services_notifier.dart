@@ -51,6 +51,4 @@ class ServicesNotifier extends StateNotifier<ServicesStates> {
           allServicesState: AllServicesErrorState(errorMessage: e.toString()));
     }
   }
-
- 
 }

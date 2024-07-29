@@ -26,7 +26,7 @@ class LaundryItemsNotifier extends StateNotifier<LaundryItemStates> {
             categoryItemsStates: CategoryItemsIntitialState(),
             nearestLaundryStates: NearestLaundryIntitialState())) {}
 
-  void nearestLaundries(
+  Future nearestLaundries(
       {required int serviceId,
       required WidgetRef ref,
       required double userLat,
@@ -55,7 +55,7 @@ class LaundryItemsNotifier extends StateNotifier<LaundryItemStates> {
     }
   }
 
-  void categoriesWithItems({required int serviceId}) async {
+  Future categoriesWithItems({required int serviceId}) async {
     try {
       state = state.copyWith(categoryItemsStates: CategoryItemsLoadingState());
 
@@ -153,7 +153,7 @@ class LaundryItemsNotifier extends StateNotifier<LaundryItemStates> {
     state = state.copyWith(selectedCategory: catregory);
   }
 
-  addQuantity({required id}) {
+  quantityIncrement({required id}) {
     ItemVariation itemVariation =
         state.itemVariationList.firstWhere((item) => item.id == id);
 
@@ -164,7 +164,7 @@ class LaundryItemsNotifier extends StateNotifier<LaundryItemStates> {
     state = state.copyWith(itemVariationList: state.itemVariationList);
   }
 
-  removeQuantity({required id}) {
+  quanitiyDecrement({required id}) {
     ItemVariation itemVariation =
         state.itemVariationList.firstWhere((item) => item.id == id);
 
@@ -179,9 +179,9 @@ class LaundryItemsNotifier extends StateNotifier<LaundryItemStates> {
     state.itemVariationList = item;
   }
 
-  addTotalItemsCount({required Item selectedItem}) {
-    double value = state.itemVariationList.fold(0, (res, val) {
-      return res + (val.quantity! * val.price!);
+  totalItemPrice({required Item selectedItem}) {
+    double value = state.itemVariationList.fold(0.0, (res, val) {
+      return (res + (val.quantity! * val.price!));
     });
 
     selectedItem.total_price = value;
@@ -189,7 +189,7 @@ class LaundryItemsNotifier extends StateNotifier<LaundryItemStates> {
     state = state.copyWith(selectedItem: selectedItem);
   }
 
-  totalCount({required Item selectedItem}) {
+  totalItemCount({required Item selectedItem}) {
     int value = state.itemVariationList.fold(0, (res, val) {
       return res + (val.quantity!);
     });
@@ -199,27 +199,19 @@ class LaundryItemsNotifier extends StateNotifier<LaundryItemStates> {
     state = state.copyWith(selectedItem: selectedItem);
   }
 
-  removeTotalItemsVariationCount({required Item selectedItem}) {
-    double value = state.itemVariationList.fold(0, (res, val) {
-      return res - (val.quantity! * val.price!);
-    });
-    selectedItem.total_price = value;
+ 
 
-    state = state.copyWith(selectedItem: selectedItem);
-  }
-
-  getTotal() async {
+  Future getTotal() async {
     List<Item> item = await DatabaseHelper.instance.getAllItems();
 
     double total = item.fold(0.0, (res, val) {
-
       return res + val.total_price!;
     });
 
     state = state.copyWith(total: total);
   }
 
-  getCount() async {
+  Future getCount() async {
     List<Item> item = await DatabaseHelper.instance.getAllItems();
 
     int count = item.fold(0, (res, val) {

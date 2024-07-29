@@ -67,11 +67,11 @@ class ItemBottomSheet extends ConsumerWidget {
                                 onTapAddQuantity: () {
                                   ref
                                       .read(laundryItemProver.notifier)
-                                      .addQuantity(id: itemVariation.id);
+                                      .quantityIncrement(id: itemVariation.id);
 
                                   ref
                                       .read(laundryItemProver.notifier)
-                                      .addTotalItemsCount(
+                                      .totalItemPrice(
                                           selectedItem: selectedItem!);
                                 },
                                 context: context,
@@ -79,10 +79,11 @@ class ItemBottomSheet extends ConsumerWidget {
                                 onTapRemoveQuantity: () {
                                   ref
                                       .read(laundryItemProver.notifier)
-                                      .removeQuantity(id: itemVariation.id);
+                                      .quanitiyDecrement(id: itemVariation.id);
+
                                   ref
                                       .read(laundryItemProver.notifier)
-                                      .removeTotalItemsVariationCount(
+                                      .totalItemPrice(
                                           selectedItem: selectedItem!);
                                 }),
                             title: Text(
@@ -118,7 +119,7 @@ class ItemBottomSheet extends ConsumerWidget {
 
                               ref
                                   .read(laundryItemProver.notifier)
-                                  .totalCount(selectedItem: selectedItem!);
+                                  .totalItemCount(selectedItem: selectedItem!);
 
                               await DatabaseHelper.instance
                                   .insertItem(selectedItem!);
@@ -174,7 +175,7 @@ class ItemBottomSheet extends ConsumerWidget {
                             .updateItemVariations(itemVariationList);
                         ref
                             .read(laundryItemProver.notifier)
-                            .totalCount(selectedItem: selectedItem!);
+                            .totalItemCount(selectedItem: selectedItem!);
 
                         await DatabaseHelper.instance.updateItem(selectedItem!);
 
