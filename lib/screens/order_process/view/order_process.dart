@@ -61,7 +61,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
 
   @override
   void initState() {
-    ref.read(orderProcessProvider.notifier).getCurrentLocation();
+    // ref.read(orderProcessProvider.notifier).getCurrentLocation();
     selectedTime = TimeOfDay.now();
 
     super.initState();

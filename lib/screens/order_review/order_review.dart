@@ -97,7 +97,6 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
       audioFile = File(path);
 
       setState(() {});
-
     }
   }
 
@@ -139,300 +138,325 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: LayoutBuilder(builder: (context, cx) {
-          return SingleChildScrollView(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              // widget.orderDatailsArguments.laundryModel!.service!.id == 3
-              //     ? ListView.builder(
-              //         shrinkWrap: true,
-              //         physics: const NeverScrollableScrollPhysics(),
-              //         itemCount: itemsList.length,
-              //         itemBuilder: (BuildContext context, int index) {
-              //           double total = 0.0;
-              //           for (int i = 0; i < itemsList.length; i++) {
-              //             total = total + itemsList[i].charges!;
-              //           }
-
-              //           log('The Total is $total');
-              //           return groupItemCard(
-              //               textColor: ColorManager.blackColor,
-              //               color: Colors.white,
-              //               quantityCardColor:
-              //                   ColorManager.primaryColorOpacity10,
-              //               element: itemsList[index],
-              //               buttonColor: ColorManager.blackColor);
-              //         },
-              //       )
-              //     : widget.orderDatailsArguments.laundryModel!.type ==
-              //             'deliverypickup'
-              //         ?
-
-              Card(
-                elevation: 0,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: SingleChildScrollView(
-                    child: Column(
+          return widget.orderType == OrderType.delivery_pickup
+              ? SingleChildScrollView(
+                  child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        5.ph,
-                        const Heading(
-                          title: 'Order Details',
-                        ),
-                        10.ph,
-                        Text(
-                          'Pickup Recipt',
-                          style: getMediumStyle(
-                              color: ColorManager.greyColor,
-                              fontSize: FontSize.s10),
-                        ),
-                        10.ph,
-                        SizedBox(
-                          height: 200,
-                          width: MediaQuery.of(context).size.width,
-                          child: Image.file(
-                              height: 100,
-                              File(
-                                deliveryPickupReceipt!.path.toString(),
-                              )),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+                        // widget.orderDatailsArguments.laundryModel!.service!.id == 3
+                        //     ? ListView.builder(
+                        //         shrinkWrap: true,
+                        //         physics: const NeverScrollableScrollPhysics(),
+                        //         itemCount: itemsList.length,
+                        //         itemBuilder: (BuildContext context, int index) {
+                        //           double total = 0.0;
+                        //           for (int i = 0; i < itemsList.length; i++) {
+                        //             total = total + itemsList[i].charges!;
+                        //           }
 
-              // ListView.builder(
-              //     physics: const NeverScrollableScrollPhysics(),
-              //     shrinkWrap: true,
-              //     itemCount: li.length,
-              //     itemBuilder: (BuildContext context, int index) {
-              //       int? category = li.keys.elementAt(index);
+                        //           log('The Total is $total');
+                        //           return groupItemCard(
+                        //               textColor: ColorManager.blackColor,
+                        //               color: Colors.white,
+                        //               quantityCardColor:
+                        //                   ColorManager.primaryColorOpacity10,
+                        //               element: itemsList[index],
+                        //               buttonColor: ColorManager.blackColor);
+                        //         },
+                        //       )
+                        //     : widget.orderDatailsArguments.laundryModel!.type ==
+                        //             'deliverypickup'
+                        //         ?
 
-              //       List<ItemModel> itemsInCategory = li[category]!;
-
-              //       return Column(
-              //         children: [
-              //           if (category == 1) ...[
-              //             GroupHeaderCard(
-              //               color: Colors.blue.withOpacity(0.7),
-              //               text: 'Laundry',
-              //               image: 'assets/icons/laundry.png',
-              //             ),
-              //           ] else if (category == 2) ...[
-              //             GroupHeaderCard(
-              //               color: Colors.red.withOpacity(0.7),
-              //               text: 'Dry Cleaning',
-              //               image: 'assets/icons/dry_cleaning.png',
-              //             ),
-              //           ] else if (category == 3) ...[
-              //             GroupHeaderCard(
-              //               color: Colors.green.withOpacity(0.7),
-              //               text: 'Pressing',
-              //               image: 'assets/icons/pressing.png',
-              //             ),
-              //           ],
-              //           ListView.builder(
-              //             shrinkWrap: true,
-              //             physics: const NeverScrollableScrollPhysics(),
-              //             itemCount: itemsInCategory.length,
-              //             itemBuilder:
-              //                 (BuildContext context, int index) {
-              //               return Column(
-              //                 children: [
-              //                   if (category == 1) ...[
-              //                     groupItemCard(
-              //                         color:
-              //                             Colors.blue.withOpacity(0.7),
-              //                         element: itemsInCategory[index],
-              //                         buttonColor: Colors.blue),
-              //                   ] else if (category == 2) ...[
-              //                     groupItemCard(
-              //                         color:
-              //                             Colors.red.withOpacity(0.7),
-              //                         buttonColor: Colors.red,
-              //                         element: itemsInCategory[index])
-              //                   ] else if (category == 3) ...[
-              //                     groupItemCard(
-              //                       color:
-              //                           Colors.green.withOpacity(0.7),
-              //                       element: itemsInCategory[index],
-              //                       buttonColor: Colors.green,
-              //                     )
-              //                   ]
-              //                 ],
-              //               );
-              //             },
-              //           ),
-              //           10.ph,
-              //         ],
-              //       );
-              //     },
-              //   ),
-
-              Card(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        isRecording == false
-                            ? Row(
+                        Card(
+                          elevation: 0,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        startRecording();
-                                      },
-                                      icon: Icon(Icons.mic,
-                                          color: ColorManager.blueColor)),
-                                  5.pw,
+                                  5.ph,
+                                  const Heading(
+                                    title: 'Order Details',
+                                  ),
+                                  10.ph,
                                   Text(
-                                    'Record your Order instructions.',
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w600),
+                                    'Pickup Recipt',
+                                    style: getMediumStyle(
+                                        color: ColorManager.greyColor,
+                                        fontSize: FontSize.s10),
+                                  ),
+                                  10.ph,
+                                  SizedBox(
+                                    height: 200,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Image.file(
+                                        height: 100,
+                                        File(
+                                          deliveryPickupReceipt!.path
+                                              .toString(),
+                                        )),
                                   )
                                 ],
-                              )
-                            : Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        stopRecording();
-                                      },
-                                      icon: Icon(
-                                        Icons.stop,
-                                        color: ColorManager.redColor,
-                                      )),
-                                  5.pw,
-                                  Text(
-                                    'Stop Recording ${formatTime(totalSeconds)}',
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w600),
-                                  )
-                                ],
-                              )
-                      ],
-                    ),
-                    audioFile?.path != null
-                        ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        // ListView.builder(
+                        //     physics: const NeverScrollableScrollPhysics(),
+                        //     shrinkWrap: true,
+                        //     itemCount: li.length,
+                        //     itemBuilder: (BuildContext context, int index) {
+                        //       int? category = li.keys.elementAt(index);
+
+                        //       List<ItemModel> itemsInCategory = li[category]!;
+
+                        //       return Column(
+                        //         children: [
+                        //           if (category == 1) ...[
+                        //             GroupHeaderCard(
+                        //               color: Colors.blue.withOpacity(0.7),
+                        //               text: 'Laundry',
+                        //               image: 'assets/icons/laundry.png',
+                        //             ),
+                        //           ] else if (category == 2) ...[
+                        //             GroupHeaderCard(
+                        //               color: Colors.red.withOpacity(0.7),
+                        //               text: 'Dry Cleaning',
+                        //               image: 'assets/icons/dry_cleaning.png',
+                        //             ),
+                        //           ] else if (category == 3) ...[
+                        //             GroupHeaderCard(
+                        //               color: Colors.green.withOpacity(0.7),
+                        //               text: 'Pressing',
+                        //               image: 'assets/icons/pressing.png',
+                        //             ),
+                        //           ],
+                        //           ListView.builder(
+                        //             shrinkWrap: true,
+                        //             physics: const NeverScrollableScrollPhysics(),
+                        //             itemCount: itemsInCategory.length,
+                        //             itemBuilder:
+                        //                 (BuildContext context, int index) {
+                        //               return Column(
+                        //                 children: [
+                        //                   if (category == 1) ...[
+                        //                     groupItemCard(
+                        //                         color:
+                        //                             Colors.blue.withOpacity(0.7),
+                        //                         element: itemsInCategory[index],
+                        //                         buttonColor: Colors.blue),
+                        //                   ] else if (category == 2) ...[
+                        //                     groupItemCard(
+                        //                         color:
+                        //                             Colors.red.withOpacity(0.7),
+                        //                         buttonColor: Colors.red,
+                        //                         element: itemsInCategory[index])
+                        //                   ] else if (category == 3) ...[
+                        //                     groupItemCard(
+                        //                       color:
+                        //                           Colors.green.withOpacity(0.7),
+                        //                       element: itemsInCategory[index],
+                        //                       buttonColor: Colors.green,
+                        //                     )
+                        //                   ]
+                        //                 ],
+                        //               );
+                        //             },
+                        //           ),
+                        //           10.ph,
+                        //         ],
+                        //       );
+                        //     },
+                        //   ),
+
+                        Card(
+                          child: Column(
                             children: [
-                                10.ph,
-                                VoiceMessageView(
-                                  backgroundColor: ColorManager.whiteColor,
-                                  activeSliderColor: ColorManager.primaryColor,
-                                  circlesColor: ColorManager.primaryColor,
-                                  controller: voiceController = VoiceController(
-                                      audioSrc: audioFile!.path.toString(),
-                                      maxDuration: const Duration(seconds: 90),
-                                      isFile: true,
-                                      onComplete: () {},
-                                      onPause: () {},
-                                      onPlaying: () {}),
-                                  innerPadding: 12,
-                                  cornerRadius: 20,
-                                  size: 38,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: AppPadding.p10),
-                                  child: OutlinedButton(
-                                      style: ButtonStyle(
-                                          overlayColor:
-                                              WidgetStateColor.resolveWith(
-                                                  (states) => ColorManager
-                                                      .redColor
-                                                      .withOpacity(0.1)),
-                                          textStyle:
-                                              WidgetStateProperty.resolveWith(
-                                            (states) => GoogleFonts.poppins(
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          side:
-                                              WidgetStateBorderSide.resolveWith(
-                                                  (states) => BorderSide(
-                                                      color: ColorManager
-                                                          .redColor))),
-                                      onPressed: () {
-                                        audioFile = null;
-                                        stopRecording();
-
-                                        setState(() {});
-                                      },
-                                      child: Center(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                              Row(
+                                children: [
+                                  isRecording == false
+                                      ? Row(
                                           children: [
-                                            Icon(
-                                              Icons.delete,
-                                              color: ColorManager.redColor,
-                                            ),
+                                            IconButton(
+                                                onPressed: () {
+                                                  startRecording();
+                                                },
+                                                icon: Icon(Icons.mic,
+                                                    color: ColorManager
+                                                        .blueColor)),
+                                            5.pw,
                                             Text(
-                                              'Delete',
+                                              'Record your Order instructions.',
                                               style: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.w500,
-                                                  color:
-                                                      ColorManager.blackColor),
+                                                  fontWeight: FontWeight.w600),
                                             )
                                           ],
-                                        ),
-                                      )),
-                                ),
-                                10.ph,
-                              ])
-                        : const SizedBox(),
-                  ],
-                ),
-              ),
-              10.ph,
-              const PaymentMethodWidget(),
-              10.ph,
-              PaymentSummaryWidget(
-                service: widget.service,
-              ),
-              10.ph,
+                                        )
+                                      : Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            IconButton(
+                                                onPressed: () {
+                                                  stopRecording();
+                                                },
+                                                icon: Icon(
+                                                  Icons.stop,
+                                                  color: ColorManager.redColor,
+                                                )),
+                                            5.pw,
+                                            Text(
+                                              'Stop Recording ${formatTime(totalSeconds)}',
+                                              style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w600),
+                                            )
+                                          ],
+                                        )
+                                ],
+                              ),
+                              audioFile?.path != null
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                          10.ph,
+                                          VoiceMessageView(
+                                            backgroundColor:
+                                                ColorManager.whiteColor,
+                                            activeSliderColor:
+                                                ColorManager.primaryColor,
+                                            circlesColor:
+                                                ColorManager.primaryColor,
+                                            controller: voiceController =
+                                                VoiceController(
+                                                    audioSrc: audioFile!.path
+                                                        .toString(),
+                                                    maxDuration: const Duration(
+                                                        seconds: 90),
+                                                    isFile: true,
+                                                    onComplete: () {},
+                                                    onPause: () {},
+                                                    onPlaying: () {}),
+                                            innerPadding: 12,
+                                            cornerRadius: 20,
+                                            size: 38,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: AppPadding.p10),
+                                            child: OutlinedButton(
+                                                style: ButtonStyle(
+                                                    overlayColor: WidgetStateColor
+                                                        .resolveWith((states) =>
+                                                            ColorManager
+                                                                .redColor
+                                                                .withOpacity(
+                                                                    0.1)),
+                                                    textStyle:
+                                                        WidgetStateProperty
+                                                            .resolveWith(
+                                                      (states) =>
+                                                          GoogleFonts.poppins(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
+                                                    ),
+                                                    side: WidgetStateBorderSide
+                                                        .resolveWith((states) =>
+                                                            BorderSide(
+                                                                color: ColorManager
+                                                                    .redColor))),
+                                                onPressed: () {
+                                                  audioFile = null;
+                                                  stopRecording();
 
-              MyButton(
-                title: 'Order',
-                onPressed: () async {
-                  context.pushNamed(
-                    RouteNames().findCourier,
-                  );
-                },
-              )
-              // Column(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     10.ph,
+                                                  setState(() {});
+                                                },
+                                                child: Center(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.delete,
+                                                        color: ColorManager
+                                                            .redColor,
+                                                      ),
+                                                      Text(
+                                                        'Delete',
+                                                        style: GoogleFonts.poppins(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: ColorManager
+                                                                .blackColor),
+                                                      )
+                                                    ],
+                                                  ),
+                                                )),
+                                          ),
+                                          10.ph,
+                                        ])
+                                  : const SizedBox(),
+                            ],
+                          ),
+                        ),
+                        10.ph,
+                        const PaymentMethodWidget(),
+                        10.ph,
+                        PaymentSummaryWidget(
+                          service: widget.service,
+                        ),
+                        10.ph,
 
-              //     15.ph,
-              //     PaymentSummaryWidget(
-              //       service: widget.orderDatailsArguments.laundryModel!.service,
-              //       ref: ref,
-              //     ),
-              //     15.ph,
-              //     widget.orderDatailsArguments.laundryModel!.type ==
-              //             'deliverypickup'
-              //         ? MyButton(
-              //             title: 'Pay $finalAmount',
-              //             onPressed: () async {
-              //               context.pushNamed(RouteNames().findCourier,
-              //                   extra: widget.orderDatailsArguments);
-              //             },
-              //           )
-              //         : MyButton(
-              //             title: 'Place Order',
-              //             onPressed: () {
-              //               context.pushNamed(RouteNames().findCourier,
-              //                   extra: widget.orderDatailsArguments);
-              //             },
-              //           ),
-              //     30.ph,
-              //   ],
-              // )
-            ]),
-          );
+                        MyButton(
+                          title: 'Order',
+                          onPressed: () async {
+                            context.pushNamed(
+                              RouteNames().findCourier,
+                            );
+                          },
+                        )
+                        // Column(
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   children: [
+                        //     10.ph,
+
+                        //     15.ph,
+                        //     PaymentSummaryWidget(
+                        //       service: widget.orderDatailsArguments.laundryModel!.service,
+                        //       ref: ref,
+                        //     ),
+                        //     15.ph,
+                        //     widget.orderDatailsArguments.laundryModel!.type ==
+                        //             'deliverypickup'
+                        //         ? MyButton(
+                        //             title: 'Pay $finalAmount',
+                        //             onPressed: () async {
+                        //               context.pushNamed(RouteNames().findCourier,
+                        //                   extra: widget.orderDatailsArguments);
+                        //             },
+                        //           )
+                        //         : MyButton(
+                        //             title: 'Place Order',
+                        //             onPressed: () {
+                        //               context.pushNamed(RouteNames().findCourier,
+                        //                   extra: widget.orderDatailsArguments);
+                        //             },
+                        //           ),
+                        //     30.ph,
+                        //   ],
+                        // )
+                      ]),
+                )
+              : SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [],
+                  ),
+                );
         }),
       ),
     );

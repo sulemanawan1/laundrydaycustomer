@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/screens/services/components/address_bottom_sheet_widget.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
@@ -10,8 +11,7 @@ import 'package:laundryday/screens/services/provider/services_states.dart';
 import 'package:laundryday/core/constants/api_routes.dart';
 import 'package:laundryday/core/constants/colors.dart';
 import 'package:laundryday/core/constants/sized_box.dart';
-import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
-    as myaddressmodel;
+import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'  as myaddressmodel;
 import 'package:laundryday/core/constants/value_manager.dart';
 import 'package:laundryday/core/theme/styles_manager.dart';
 import 'package:shimmer/shimmer.dart';
@@ -41,13 +41,15 @@ class _ServicesState extends ConsumerState<Services> {
   @override
   Widget build(BuildContext context) {
     AllServicesState? services = ref.watch(serviceProvider).allServicesState;
-    final controller = ref.read(serviceProvider.notifier);
     final customerId = ref.read(userProvider).userModel!.user!.id;
+    LatLng? latLng = ref.watch(addressProvider).latLng;
+
+    String? district = ref.watch(addressProvider).district;
 
     myaddressmodel.Address? selectedAddress =
         ref.watch(selectedAddressProvider);
 
-    final serviceAddress = ref.read(serviceAddressesProvider.notifier);
+    final serviceAddress = ref.read(addressProvider.notifier);
 
     log("User Id $customerId");
 
@@ -59,8 +61,8 @@ class _ServicesState extends ConsumerState<Services> {
         leadingWidth: MediaQuery.of(context).size.width * .8,
         leading: GestureDetector(
           onTap: () {
-            serviceAddress.allAddresses(customerId: customerId!, ref: ref);
-
+            serviceAddress.getAddress();
+            serviceAddress.allAddresses(customerId: customerId!);
             showModalBottomSheet<void>(
               useSafeArea: true,
               isDismissible: false,
@@ -222,8 +224,13 @@ class _ServicesState extends ConsumerState<Services> {
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
                         onTap: () {
-                          serviceAddress.allAddresses(
-                              customerId: customerId!, ref: ref);
+                          serviceAddress.getAddress();
+
+                          serviceAddress.allAddresses(customerId: customerId!);
+
+                          log("Latitude ${latLng!.latitude.toString()}");
+                          log("Longitude ${latLng.longitude.toString()}");
+                          log("District ${district.toString()}");
 
                           showModalBottomSheet<void>(
                             isDismissible: false,

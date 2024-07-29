@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:laundryday/screens/laundry_items/model/category_item_model.dart';
 import 'package:laundryday/screens/laundry_items/model/item_variation_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -39,13 +40,61 @@ class DatabaseHelper {
       updated_at TEXT
     );
     ''';
+    const itemTable = '''
+  CREATE TABLE item (
+    id INTEGER PRIMARY KEY,
+    count INTEGER,
+    total_price REAL,
+    name TEXT,
+    arabic_name TEXT,
+    image TEXT,
+    service_id INTEGER,
+    items TEXT,
+    created_at TEXT,
+    updated_at TEXT,
+    category_id INTEGER
+  );
+  ''';
+
+
+
+  
 
     await db.execute(itemVariationTable);
+      await db.execute(itemTable);
+
+
   }
 
   Future<int> insertItemVariation(ItemVariation itemVariation) async {
     final db = await instance.database;
     return await db.insert('item_variations', itemVariation.toJson());
+  }
+
+
+
+  Future<void> updateItemVariations(List<ItemVariation> itemVariations) async {
+    final db = await database;
+    Batch batch = db.batch();
+    for (var itemVariation in itemVariations) {
+      batch.update(
+        'item_variations',
+        itemVariation.toJson(),
+        where: 'id = ?',
+        whereArgs: [itemVariation.id],
+      );
+    }
+    await batch.commit(noResult: true);
+  }
+
+  Future<void> insertItemVariations(List<ItemVariation> itemVariations) async {
+    final db = await database;
+    Batch batch = db.batch();
+
+    for (var itemVariation in itemVariations) {
+      batch.insert('item_variations', itemVariation.toJson());
+    }
+    await batch.commit(noResult: true);
   }
 
   Future<ItemVariation?> getItemVariation(int id) async {
@@ -73,6 +122,20 @@ class DatabaseHelper {
     return result.map((json) => ItemVariation.fromJson(json)).toList();
   }
 
+
+    Future<List<ItemVariation>> itemVariationsFromDB(
+      int serviceTimingId, int itemId) async {
+    final db = await database;
+
+    final result = await db.query(
+      'item_variations',
+      where: 'service_timing_id = ? AND item_id = ?',
+      whereArgs: [serviceTimingId, itemId],
+    );
+
+    return result.map((json) => ItemVariation.fromJson(json)).toList();
+  }
+
   Future<int> updateItemVariation(ItemVariation itemVariation) async {
     final db = await instance.database;
 
@@ -84,6 +147,7 @@ class DatabaseHelper {
     );
   }
 
+
   Future<int> deleteItemVariation(int id) async {
     final db = await instance.database;
 
@@ -94,13 +158,56 @@ class DatabaseHelper {
     );
   }
 
+
+
+  Future<int> deleteItemVariationTable() async {
+    final db = await instance.database;
+
+    int res = await db.delete('item_variations');
+
+    return res;
+  }
+
+
+  // Item Summary
+
+
+  
+
+  
+ 
+  Future<int> insertItem(Item item) async {
+    final db = await instance.database;
+    return await db.insert('item', item.toJson());
+  }
+
+
+  Future<int> updateItem(Item item) async {
+    final db = await instance.database;
+
+    return await db.update(
+      'item',
+      item.toJson(),
+      where: 'id = ?',
+      whereArgs: [item.id],
+    );
+  }
+  Future<List<Item>> getAllItems() async {
+    final db = await instance.database;
+
+    final result = await db.query('item');
+
+    return result.map((json) => Item.fromJson(json)).toList();
+  }
+  
+
+ 
   Future close() async {
     final db = await instance.database;
 
     db.close();
   }
 }
-
 
 class ItemVariationl {
   static const String tableName = 'item_variations';
@@ -130,5 +237,6 @@ class ItemVariationl {
     columnUpdatedAt
   ];
 
-  // ... rest of the class remains unchanged
 }
+
+

@@ -1,46 +1,90 @@
 import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:laundryday/helpers/google_helper.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/service/my_adderesses_service.dart';
 import 'package:laundryday/screens/services/provider/addresses_state.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
     as myaddressmodel;
-import 'package:laundryday/screens/services/provider/services_notifier.dart';
 
-final serviceAddressesProvider =
-    StateNotifierProvider<AddressesNotifier, AddressesState>((ref) {
-  return AddressesNotifier();
-});
+final addressProvider =
+    StateNotifierProvider<AddressesNotifier, AddressessStates>(
+        (ref) => AddressesNotifier());
 
-class AddressesNotifier extends StateNotifier<AddressesState> {
-  AddressesNotifier() : super(AddressesInitialState()) {}
+class AddressesNotifier extends StateNotifier<AddressessStates> {
+  AddressesNotifier()
+      : super(AddressessStates(addressState: AddressesInitialState())) {}
+
+  addCurrentAddress({required AddressState addressLoadedState}) {
+    if (addressLoadedState is AddressesLoadedState) {
+      addressLoadedState.addressModel.addresses!.add(Address(
+          addressName: 'my-current-address',
+          addressDetail: 'my-current-address',
+          googleMapAddress: "ksdk",
+          district: "Al",
+          lat: 5.5,
+          lng: 5.4));
+
+      state.addressState = AddressesLoadedState(
+          addressModel: MyAddressModel(
+              addresses: addressLoadedState.addressModel.addresses!));
+    }
+
+    // state = AddressesLoadedState(addressModel: MyAddressModel());
+  }
+
+  Future getCurrentLocation() async {
+    Position position = await GoogleServices().currentLocation();
+
+    state =
+        state.copyWith(latLng: LatLng(position.latitude, position.longitude));
+  }
+
+  Future getDistrict() async {
+    Position position = await GoogleServices().currentLocation();
+    String? district = await GoogleServices()
+        .getDistrict(position.latitude, position.longitude);
+
+    state = state.copyWith(district: district);
+  }
+
+  getAddress() async {
+    Future.wait([getCurrentLocation(), getDistrict()]);
+  }
 
   Future<dynamic> allAddresses({
     required int customerId,
-    required WidgetRef ref,
   }) async {
+    print(customerId);
     try {
-      var servicestates = ref.read(serviceProvider);
-      state = AddressesLoadingState();
+      state = state.copyWith(addressState: AddressesLoadingState());
 
       var data = await MyAdderessesService.allAddresses(customerId: customerId);
 
       if (data is MyAddressModel) {
-        log(servicestates.latLng!.latitude.toString());
-        log(servicestates.latLng!.longitude.toString());
-        data.addresses?.add(Address(
+        print("------");
+        print(state.latLng!.latitude);
+        print("------");
+
+        data.addresses!.add(Address(
             addressName: 'my-current-address',
             addressDetail: 'my-current-address',
-            googleMapAddress: servicestates.district,
-            district: servicestates.district,
-            lat: servicestates.latLng?.latitude,
-            lng: servicestates.latLng?.longitude));
-        state = AddressesLoadedState(addressModel: data);
+            googleMapAddress: state.district,
+            district: state.district,
+            lat: state.latLng!.latitude,
+            lng: state.latLng!.longitude));
+
+        state = state.copyWith(
+            addressState: AddressesLoadedState(addressModel: data));
       } else {
-        state = AddressesErrorState(errorMessage: data.toString());
+        state = state.copyWith(
+            addressState: AddressesErrorState(errorMessage: data.toString()));
       }
     } catch (e) {
-      state = AddressesErrorState(errorMessage: e.toString());
+      state = state.copyWith(
+          addressState: AddressesErrorState(errorMessage: e.toString()));
     }
   }
 }

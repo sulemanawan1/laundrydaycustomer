@@ -1,8 +1,11 @@
-import 'package:laundryday/screens/laundry_items/model/category_item_model.dart';
+import 'package:laundryday/screens/laundry_items/model/category_item_model.dart'
+    as categorymodel;
 import 'package:laundryday/screens/laundry_items/model/item_variation_model.dart';
 import 'package:laundryday/screens/laundry_items/model/laundry_model.dart';
 
 class LaundryItemStates {
+  double total;
+  int count;
   ItemVariationStates itemVariationStates;
   NearestLaundryStates nearestLaundryStates;
 
@@ -10,8 +13,13 @@ class LaundryItemStates {
   List<ItemVariation> selecteditemVariationList;
 
   CategoryItemsStates categoryItemsStates;
-  Datum? selectedCategory;
+  categorymodel.Item? selectedCategory;
+  categorymodel.Item? selectedItem;
+
   LaundryItemStates({
+    required this.count,
+    required this.selectedItem,
+    required this.total,
     required this.selecteditemVariationList,
     required this.itemVariationList,
     required this.itemVariationStates,
@@ -21,16 +29,23 @@ class LaundryItemStates {
   });
 
   LaundryItemStates copyWith(
-      {List<ItemVariation>? itemVariationList,
-        List<ItemVariation>? selecteditemVariationList,
-
+      {categorymodel.Item? selectedItem,
+      List<ItemVariation>? itemVariationList,
+      List<ItemVariation>? selecteditemVariationList,
       ItemVariationStates? itemVariationStates,
       CategoryItemsStates? categoryItemsStates,
       NearestLaundryStates? nearestLaundryStates,
-      Datum? selectedCategory,
+      categorymodel.Item? selectedCategory,
+       double? total,
+      int? count,
       int? categoryIndex}) {
     return LaundryItemStates(
-      selecteditemVariationList: selecteditemVariationList??this.selecteditemVariationList,
+      count: count??this.count ,
+       total: total ?? this.total,
+
+      selectedItem: selectedItem ?? this.selectedItem,
+      selecteditemVariationList:
+          selecteditemVariationList ?? this.selecteditemVariationList,
       itemVariationList: itemVariationList ?? this.itemVariationList,
       itemVariationStates: itemVariationStates ?? this.itemVariationStates,
       selectedCategory: selectedCategory ?? this.selectedCategory,
@@ -63,7 +78,7 @@ class CategoryItemsIntitialState extends CategoryItemsStates {}
 class CategoryItemsLoadingState extends CategoryItemsStates {}
 
 class CategoryItemsLoadedState extends CategoryItemsStates {
-  CategoryItemModel categoryItemModel;
+  categorymodel.CategoryItemModel categoryItemModel;
   CategoryItemsLoadedState({required this.categoryItemModel});
 }
 
@@ -80,7 +95,9 @@ class ItemVariationLoadingState extends ItemVariationStates {}
 
 class ItemVariationLoadedState extends ItemVariationStates {
   ItemVariationModel itemVariationModel;
-  ItemVariationLoadedState({required this.itemVariationModel});
+  String dataSource;
+  ItemVariationLoadedState(
+      {required this.itemVariationModel, required this.dataSource});
 }
 
 class ItemVariationErrorState extends ItemVariationStates {

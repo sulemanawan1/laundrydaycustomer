@@ -19,7 +19,6 @@ class ServicesNotifier extends StateNotifier<ServicesStates> {
   ServicesNotifier()
       : super(ServicesStates(allServicesState: AllServicesInitialState())) {
     rqPermision();
-    getAddress();
     allServices();
   }
 
@@ -53,13 +52,5 @@ class ServicesNotifier extends StateNotifier<ServicesStates> {
     }
   }
 
-  getAddress() async {
-    Position position = await GoogleServices().currentLocation();
-    String? district = await GoogleServices()
-        .getDistrict(position.latitude, position.longitude);
-
-    state.district = district;
-    state.latLng = LatLng(position.latitude, position.longitude);
-    state = state.copyWith(district: state.district, latLng: state.latLng);
-  }
+ 
 }

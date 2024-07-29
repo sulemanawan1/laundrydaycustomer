@@ -185,24 +185,24 @@ class ResuableDeliveryPickuPLaundryTile extends StatelessWidget {
                               fit: BoxFit.contain,
                               "assets/laundry_shop.jpg",
                             ),
-                            laundry.openingHours == false
-                                ? Container(
-                                    height: 80,
-                                    width: 80,
-                                    decoration: ShapeDecoration(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8)),
-                                        color: Colors.black.withOpacity(0.6)),
-                                    child: Center(
-                                        child: Text(
-                                      'Closed',
-                                      style: GoogleFonts.poppins(
-                                          color: ColorManager.whiteColor,
-                                          fontWeight: FontWeight.w600),
-                                    )),
-                                  )
-                                : const SizedBox()
+                            // laundry.openingHours == false
+                            //     ? Container(
+                            //         height: 80,
+                            //         width: 80,
+                            //         decoration: ShapeDecoration(
+                            //             shape: RoundedRectangleBorder(
+                            //                 borderRadius:
+                            //                     BorderRadius.circular(8)),
+                            //             color: Colors.black.withOpacity(0.6)),
+                            //         child: Center(
+                            //             child: Text(
+                            //           'Closed',
+                            //           style: GoogleFonts.poppins(
+                            //               color: ColorManager.whiteColor,
+                            //               fontWeight: FontWeight.w600),
+                            //         )),
+                            //       )
+                            //     : const SizedBox()
                           ]),
                         ),
                       )),
@@ -218,7 +218,8 @@ class ResuableDeliveryPickuPLaundryTile extends StatelessWidget {
                         child: Text(
                           textDirection: TextDirection.ltr,
                           maxLines: 2,
-                          laundry.destinationAddresses.toString(),
+                          laundry.destinationAddresses
+                              ,
                           style: GoogleFonts.poppins(
                               color: ColorManager.greyColor),
                         ),
@@ -268,7 +269,7 @@ class ResuableDeliveryPickuPLaundryTile extends StatelessWidget {
                 ),
                 5.pw,
                 Text(
-                laundry.openingHours==true? 'Opened' :'',
+                  laundry.openingHours == true ? 'Opened' : '',
                   style: GoogleFonts.poppins(
                       color: Colors.green, fontWeight: FontWeight.w500),
                 ),

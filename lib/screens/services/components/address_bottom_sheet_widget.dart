@@ -22,7 +22,7 @@ class AddressBottomSheetWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AddressesState addressesState = ref.watch(serviceAddressesProvider);
+    var addressesState = ref.watch(addressProvider).addressState;
 
     myaddressmodel.Address? selectedAddress =
         ref.watch(selectedAddressProvider);

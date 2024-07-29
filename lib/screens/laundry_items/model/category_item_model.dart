@@ -12,7 +12,7 @@ String categoryItemModelToJson(CategoryItemModel data) =>
 
 class CategoryItemModel {
   String? message;
-  List<Datum>? data;
+  List<Item>? data;
 
   CategoryItemModel({
     this.message,
@@ -21,7 +21,7 @@ class CategoryItemModel {
 
   CategoryItemModel copyWith({
     String? message,
-    List<Datum>? data,
+    List<Item>? data,
   }) =>
       CategoryItemModel(
         message: message ?? this.message,
@@ -33,7 +33,7 @@ class CategoryItemModel {
         message: json["message"],
         data: json["data"] == null
             ? []
-            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+            : List<Item>.from(json["data"]!.map((x) => Item.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -44,18 +44,22 @@ class CategoryItemModel {
       };
 }
 
-class Datum {
+class Item {
   int? id;
+  int? count;
+  double? total_price;
   String? name;
   String? arabicName;
   String? image;
   int? serviceId;
   DateTime? createdAt;
   DateTime? updatedAt;
-  List<Datum>? items;
+  List<Item>? items;
   int? categoryId;
 
-  Datum({
+  Item({
+    this.count,
+    this.total_price,
     this.id,
     this.name,
     this.arabicName,
@@ -67,7 +71,9 @@ class Datum {
     this.categoryId,
   });
 
-  Datum copyWith({
+  Item copyWith({
+    int? count,
+    double? total_price,
     int? id,
     String? name,
     String? arabicName,
@@ -75,10 +81,12 @@ class Datum {
     int? serviceId,
     DateTime? createdAt,
     DateTime? updatedAt,
-    List<Datum>? items,
+    List<Item>? items,
     int? categoryId,
   }) =>
-      Datum(
+      Item(
+        count: count ?? this.count,
+        total_price: total_price ?? this.total_price,
         id: id ?? this.id,
         name: name ?? this.name,
         arabicName: arabicName ?? this.arabicName,
@@ -90,7 +98,9 @@ class Datum {
         categoryId: categoryId ?? this.categoryId,
       );
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory Item.fromJson(Map<String, dynamic> json) => Item(
+        total_price: json['total_price'],
+        count: json['count'],
         id: json["id"],
         name: json["name"],
         arabicName: json["arabic_name"],
@@ -104,11 +114,13 @@ class Datum {
             : DateTime.parse(json["updated_at"]),
         items: json["items"] == null
             ? []
-            : List<Datum>.from(json["items"]!.map((x) => Datum.fromJson(x))),
+            : List<Item>.from(json["items"]!.map((x) => Item.fromJson(x))),
         categoryId: json["category_id"],
       );
 
   Map<String, dynamic> toJson() => {
+        "count": count,
+        "total_price": total_price,
         "id": id,
         "name": name,
         "arabic_name": arabicName,

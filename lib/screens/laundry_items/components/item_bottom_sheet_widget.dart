@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:laundryday/core/widgets/my_button.dart';
 import 'package:laundryday/core/widgets/my_loader.dart';
 import 'package:laundryday/core/constants/colors.dart';
 import 'package:laundryday/core/constants/sized_box.dart';
 import 'package:laundryday/core/constants/value_manager.dart';
 import 'package:laundryday/core/widgets/heading.dart';
 import 'package:laundryday/helpers/db_helper.dart';
+import 'package:laundryday/screens/laundry_items/model/category_item_model.dart';
 import 'package:laundryday/screens/laundry_items/model/item_variation_model.dart';
 import 'package:laundryday/screens/laundry_items/provider/laundry_item_states.dart';
 import 'package:laundryday/screens/laundry_items/provider/laundry_items.notifier.dart';
 
 class ItemBottomSheet extends ConsumerWidget {
-  ItemBottomSheet({super.key});
+  Item? selectedItem;
+  ItemBottomSheet({super.key, this.selectedItem});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -62,17 +65,14 @@ class ItemBottomSheet extends ConsumerWidget {
                           ListTile(
                             trailing: quantityAddRemoveCard(
                                 onTapAddQuantity: () {
-                                  DatabaseHelper.instance
-                                      .insertItemVariation(itemVariation)
-                                      .then((v) {
-                                    print(v);
-                                  }).onError((e, r) {
-                                    print(e);
-                                  });
-
                                   ref
                                       .read(laundryItemProver.notifier)
                                       .addQuantity(id: itemVariation.id);
+
+                                  ref
+                                      .read(laundryItemProver.notifier)
+                                      .addTotalItemsCount(
+                                          selectedItem: selectedItem!);
                                 },
                                 context: context,
                                 blankets: itemVariation,
@@ -80,6 +80,10 @@ class ItemBottomSheet extends ConsumerWidget {
                                   ref
                                       .read(laundryItemProver.notifier)
                                       .removeQuantity(id: itemVariation.id);
+                                  ref
+                                      .read(laundryItemProver.notifier)
+                                      .removeTotalItemsVariationCount(
+                                          selectedItem: selectedItem!);
                                 }),
                             title: Text(
                               itemVariation.name.toString(),
@@ -89,7 +93,7 @@ class ItemBottomSheet extends ConsumerWidget {
                               padding: const EdgeInsets.symmetric(
                                   vertical: AppPadding.p10),
                               child: Text(
-                                "${itemVariation.price.toString()} SAR",
+                                "${itemVariation.price!.toStringAsFixed(2)} SAR",
                                 maxLines: 2,
                                 style: GoogleFonts.poppins(
                                     color: ColorManager.blackColor),
@@ -103,41 +107,149 @@ class ItemBottomSheet extends ConsumerWidget {
                 ),
               ),
               5.ph,
-              GestureDetector(
-                onTap: () {
-                  context.pop();
-                },
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: AppPadding.p10),
-                  child: Container(
-                    width: double.infinity,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: ColorManager.primaryColor,
-                        borderRadius: BorderRadius.circular(40)),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: AppPadding.p20),
-                      child: Center(
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Heading(
-                                title: "SAR 0.0",
-                                color: ColorManager.whiteColor,
-                              ),
-                              Heading(
-                                title: 'Add',
-                                color: ColorManager.whiteColor,
-                              )
-                            ]),
+              itemVariationStates.dataSource == 'api'
+                  ? GestureDetector(
+                      onTap: itemVariationList.map((e) => e.quantity == 0) ==
+                              true
+                          ? null
+                          : () async {
+                              DatabaseHelper.instance
+                                  .insertItemVariations(itemVariationList);
+
+                              ref
+                                  .read(laundryItemProver.notifier)
+                                  .totalCount(selectedItem: selectedItem!);
+
+                              await DatabaseHelper.instance
+                                  .insertItem(selectedItem!);
+
+                              ref.read(laundryItemProver.notifier).getCount();
+                              ref.read(laundryItemProver.notifier).getTotal();
+                              context.pop();
+                            },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: AppPadding.p10),
+                        child: Container(
+                          width: double.infinity,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: ColorManager.primaryColor,
+                              borderRadius: BorderRadius.circular(40)),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: AppPadding.p20),
+                            child: Center(
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    // Heading(
+                                    //   title: itemsTotalPrice
+                                    //       .abs()
+                                    //       .toStringAsFixed(2),
+                                    //   color: ColorManager.whiteColor,
+                                    // ),
+                                    Heading(
+                                      title: selectedItem!.total_price != null
+                                          ? selectedItem!.total_price!
+                                              .abs()
+                                              .toStringAsFixed(2)
+                                          : "00.00",
+                                      color: ColorManager.whiteColor,
+                                    ),
+                                    Heading(
+                                      title: 'Add',
+                                      color: ColorManager.whiteColor,
+                                    )
+                                  ]),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  : GestureDetector(
+                      onTap: () async {
+                        DatabaseHelper.instance
+                            .updateItemVariations(itemVariationList);
+                        ref
+                            .read(laundryItemProver.notifier)
+                            .totalCount(selectedItem: selectedItem!);
+
+                        await DatabaseHelper.instance.updateItem(selectedItem!);
+
+                        ref.read(laundryItemProver.notifier).getCount();
+                        ref.read(laundryItemProver.notifier).getTotal();
+
+                        context.pop();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: AppPadding.p10),
+                        child: Container(
+                          width: double.infinity,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: ColorManager.primaryColor,
+                              borderRadius: BorderRadius.circular(40)),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: AppPadding.p20),
+                            child: Center(
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Heading(
+                                      title: selectedItem!.total_price != null
+                                          ? selectedItem!.total_price!
+                                              .abs()
+                                              .toStringAsFixed(2)
+                                          : "0.0",
+                                      color: ColorManager.whiteColor,
+                                    ),
+                                    Heading(
+                                      title: 'Edit',
+                                      color: ColorManager.whiteColor,
+                                    )
+                                  ]),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
               20.ph,
+
+              MyButton(
+                title: 'Item',
+                onPressed: () async {
+                  List<Item> item = await DatabaseHelper.instance.getAllItems();
+
+                  print(item.map((e) => e.count));
+                  print(item.map((e) => e.total_price));
+                },
+              )
+              // MyButton(
+              //   title: 'Delete',
+              //   onPressed: () async {
+              //     int rows =
+              //         await DatabaseHelper.instance.deleteItemVariationTable();
+              //     print("${rows} Record  deleted");
+              //   },
+              // ),
+              // 10.ph,
+              // MyButton(
+              //   title: 'Get',
+              //   onPressed: () async {
+              //     List<ItemVariation> items =
+              //         await DatabaseHelper.instance.getAllItemVariations();
+
+              //     for (int i = 0; i < items.length; i++) {
+              //       print(items[i].quantity);
+              //     }
+              //   },
+              // ),
+              // 10.ph,
             ],
           ));
     }

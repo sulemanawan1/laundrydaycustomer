@@ -7,3 +7,8 @@ const String providerSPKEY = 'provider';
 const String emailSPKEY = 'email';
 const String userNameSPKEY = 'user_name';
 const String tokenSPKEY = 'token';
+
+//Item
+
+const String totalPrice = 'totalPrice';
+const String counter = 'counter';

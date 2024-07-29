@@ -39,7 +39,6 @@ class DeliveryPickup extends ConsumerStatefulWidget {
 class _DeliveryPickupState extends ConsumerState<DeliveryPickup> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     Future.delayed(Duration(seconds: 0), () {

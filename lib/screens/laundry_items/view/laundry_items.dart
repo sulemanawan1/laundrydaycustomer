@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:laundryday/core/routes/route_names.dart';
+import 'package:laundryday/core/widgets/reusable_checkout_card.dart';
+import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
+import 'package:laundryday/screens/laundries/model/delivery_pickup_laundry_model.dart';
 import 'package:laundryday/screens/laundries/provider/laundries_notifier.dart';
 import 'package:laundryday/screens/laundry_items/components/attention_widget.dart';
 import 'package:laundryday/screens/laundry_items/components/item_bottom_sheet_widget.dart';
+import 'package:laundryday/screens/laundry_items/components/no_laundry_found.dart';
 import 'package:laundryday/screens/laundry_items/model/category_item_model.dart';
 import 'package:laundryday/screens/laundry_items/provider/laundry_item_states.dart';
 import 'package:laundryday/screens/laundry_items/provider/laundry_items.notifier.dart';
@@ -44,6 +49,8 @@ class _BlanketsCategoryState extends ConsumerState<LaundryItems> {
       ref
           .read(laundryItemProver.notifier)
           .categoriesWithItems(serviceId: widget.services!.id!);
+      ref.read(laundryItemProver.notifier).getCount();
+      ref.read(laundryItemProver.notifier).getTotal();
     });
   }
 
@@ -54,6 +61,8 @@ class _BlanketsCategoryState extends ConsumerState<LaundryItems> {
     final categoryItemsStates =
         ref.watch(laundryItemProver).categoryItemsStates;
     final selectedCategory = ref.watch(laundryItemProver).selectedCategory;
+    final count = ref.watch(laundryItemProver).count;
+    final total = ref.watch(laundryItemProver).total;
 
     final selectedServiceTiming = ref.read(laundriessProvider).serviceTiming;
     return Scaffold(
@@ -85,80 +94,92 @@ class _BlanketsCategoryState extends ConsumerState<LaundryItems> {
                       Text(categoryItemsStates.errorMessage.toString())
                     ] else if (categoryItemsStates
                         is CategoryItemsLoadedState) ...[
-                      SizedBox(
-                        height: 40,
-                        child: ListView.separated(
-                          separatorBuilder: (context, index) => 10.pw,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: categoryItemsStates
-                              .categoryItemModel.data!.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            Datum category = categoryItemsStates
-                                .categoryItemModel.data![index];
+                      categoryItemsStates.categoryItemModel.data!.length <= 1
+                          ? SizedBox()
+                          : SizedBox(
+                              height: 40,
+                              child: ListView.separated(
+                                separatorBuilder: (context, index) => 10.pw,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: categoryItemsStates
+                                    .categoryItemModel.data!.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  Item category = categoryItemsStates
+                                      .categoryItemModel.data![index];
 
-                            return GestureDetector(
-                              onTap: () {
-                                ref
-                                    .read(laundryItemProver.notifier)
-                                    .changeIndex(catregory: category);
-                              },
-                              child: Container(
-                                width: 100,
-                                height: 18,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: category == selectedCategory
-                                            ? ColorManager.primaryColor
-                                            : ColorManager.lightGrey,
-                                        width: 1),
-                                    color: category == selectedCategory
-                                        ? ColorManager.primaryColorOpacity10
-                                        : ColorManager.whiteColor,
-                                    borderRadius: BorderRadius.circular(30)),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                        overflow: TextOverflow.ellipsis,
-                                        category.name ?? "",
-                                        textAlign: TextAlign.center,
-                                        style: getSemiBoldStyle(
-                                            color: category == selectedCategory
-                                                ? ColorManager.primaryColor
-                                                : ColorManager.greyColor,
-                                            fontSize: 10)),
-                                    Row(
+                                  return GestureDetector(
+                                    onTap: () {
+                                      ref
+                                          .read(laundryItemProver.notifier)
+                                          .changeIndex(catregory: category);
+                                    },
+                                    child: Container(
+                                      width: 100,
+                                      height: 18,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: category ==
+                                                      selectedCategory
+                                                  ? ColorManager.primaryColor
+                                                  : ColorManager.lightGrey,
+                                              width: 1),
+                                          color: category == selectedCategory
+                                              ? ColorManager
+                                                  .primaryColorOpacity10
+                                              : ColorManager.whiteColor,
+                                          borderRadius:
+                                              BorderRadius.circular(30)),
+                                      child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
-                                          Icon(
-                                            Icons.schedule,
-                                            size: AppSize.s12,
-                                            color: category == selectedCategory
-                                                ? ColorManager.primaryColor
-                                                : ColorManager.greyColor,
-                                          ),
-                                          5.pw,
-                                          Text('24 hour',
+                                          Text(
+                                              overflow: TextOverflow.ellipsis,
+                                              category.name ?? "",
                                               textAlign: TextAlign.center,
                                               style: getSemiBoldStyle(
-                                                  fontSize: FontSize.s9,
                                                   color: category ==
                                                           selectedCategory
                                                       ? ColorManager
                                                           .primaryColor
-                                                      : ColorManager.greyColor))
-                                        ])
-                                  ],
-                                ),
+                                                      : ColorManager.greyColor,
+                                                  fontSize: 10)),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.schedule,
+                                                  size: AppSize.s12,
+                                                  color: category ==
+                                                          selectedCategory
+                                                      ? ColorManager
+                                                          .primaryColor
+                                                      : ColorManager.greyColor,
+                                                ),
+                                                5.pw,
+                                                Text(
+                                                    "${selectedServiceTiming!.duration} ${selectedServiceTiming.type}",
+                                                    textAlign: TextAlign.center,
+                                                    style: getSemiBoldStyle(
+                                                        fontSize: FontSize.s9,
+                                                        color: category ==
+                                                                selectedCategory
+                                                            ? ColorManager
+                                                                .primaryColor
+                                                            : ColorManager
+                                                                .greyColor))
+                                              ])
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          },
-                        ),
-                      ),
+                            ),
                       10.ph,
                       Expanded(
                         child: GridView.builder(
@@ -179,11 +200,12 @@ class _BlanketsCategoryState extends ConsumerState<LaundryItems> {
                                 onTap: () {
                                   ref
                                       .read(laundryItemProver.notifier)
-                                      .itemVariations(
+                                      .itemVariationsFromDB(
                                           itemId: selectedCategory
                                               .items![index].id!,
                                           serviceTimingId:
                                               selectedServiceTiming!.id!);
+
                                   showModalBottomSheet(
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.only(
@@ -191,7 +213,10 @@ class _BlanketsCategoryState extends ConsumerState<LaundryItems> {
                                               topRight: Radius.circular(8))),
                                       context: context,
                                       builder: ((context) {
-                                        return ItemBottomSheet();
+                                        return ItemBottomSheet(
+                                          selectedItem:
+                                              selectedCategory.items![index],
+                                        );
                                       }));
                                 });
                           },
@@ -204,94 +229,62 @@ class _BlanketsCategoryState extends ConsumerState<LaundryItems> {
       ] else if (nearestLaundryStates is NearestLaundryErrorState) ...[
         Text(nearestLaundryStates.errorMessage)
       ],
-
       10.ph,
-
-      // count > 0
-      //     ? ReusableCheckOutCard(
-      //         onPressed: () {
-      //           context.pushNamed(RouteNames().orderReview,
-      //               extra: Arguments(
-      //                 laundryModel: widget.laundry,
-      //               ));
-      //         },
-      //         quantity: count.toString(),
-      //         total: "150",
-      //       )
-      //     : const SizedBox(),
+      count > 0
+          ? ReusableCheckOutCard(
+              onPressed: () {
+                context.pushNamed(RouteNames().orderReview, extra: {
+                  'order_type': OrderType.normal,
+                  'laundry': null,
+                  'service': widget.services
+                });
+              },
+              quantity: count.toString(),
+              total: total.abs().toStringAsFixed(2),
+            )
+          : const SizedBox(),
       20.ph,
     ]));
   }
 
-  Widget _itemCard({void Function()? onTap, required Datum blanketItem}) {
+  Widget _itemCard({void Function()? onTap, required Item blanketItem}) {
     return GestureDetector(
       onTap: onTap,
-      child: Column(
-        children: [
-          Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              SizedBox(
-                height: 110,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    side: BorderSide(color: ColorManager.greyColor, width: 0.2),
-                  ),
-                  elevation: AppSize.s1_0,
-                  child: Center(
-                      child: Image.network(
-                          Api.imageUrl + blanketItem.image.toString(),
-                          width: AppSize.s65,
-                          height: AppSize.s65)),
-                ),
-              ),
-            ],
-          ),
-          4.ph,
-          Text(
-            blanketItem.name.toString(),
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.start,
-            style: getSemiBoldStyle(
-                color: ColorManager.blackColor, fontSize: FontSize.s12),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class NoLaundryFound extends StatelessWidget {
-  const NoLaundryFound({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Center(
+      child: Badge(
+        isLabelVisible: blanketItem.count == null ? false : true,
+        offset: Offset(-10, 10),
+        label: Text(blanketItem.count.toString()),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/icons/no_data.png',
-              width: 100,
+            Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                SizedBox(
+                  height: 110,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      side:
+                          BorderSide(color: ColorManager.greyColor, width: 0.2),
+                    ),
+                    elevation: AppSize.s1_0,
+                    child: Center(
+                        child: Image.network(
+                            Api.imageUrl + blanketItem.image.toString(),
+                            width: AppSize.s65,
+                            height: AppSize.s65)),
+                  ),
+                ),
+              ],
             ),
+            4.ph,
             Text(
-              "No Laundry Found",
-              style:
-                  getMediumStyle(color: ColorManager.blackColor, fontSize: 14),
-            ),
-            OutlinedButton(
-                onPressed: () {
-                  context.pop();
-                },
-                child: Text(
-                  "Go to Home Screen",
-                  style: getMediumStyle(color: ColorManager.purpleColor),
-                ))
+              blanketItem.name.toString(),
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.start,
+              style: getSemiBoldStyle(
+                  color: ColorManager.blackColor, fontSize: FontSize.s12),
+            )
           ],
         ),
       ),

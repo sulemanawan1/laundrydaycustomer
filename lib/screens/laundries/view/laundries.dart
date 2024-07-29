@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:laundryday/core/utils.dart';
 import 'package:laundryday/screens/laundries/components/delivery_pickup_heading.dart';
 import 'package:laundryday/screens/laundries/model/delivery_pickup_laundry_model.dart';
 import 'package:laundryday/screens/laundries/model/services_timings_model.dart';
@@ -68,116 +67,127 @@ class _LaundriesState extends ConsumerState<Laundries> {
       ),
       body: SingleChildScrollView(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          ReusableOrderNowCard(
-              image: getOrderNowImage(
-                      serviceName: widget.services!.serviceName!) ??
-                  "",
-              onPressed: () {
-                serviceTimingController.serviceTimings(
-                    serviceId: widget.services!.id!);
+         
+          if (widget.services!.serviceName!.toLowerCase() == 'carpets')
+            ...[]
+          else ...[
+             ReusableOrderNowCard(
+                image: getOrderNowImage(
+                        serviceName: widget.services!.serviceName!) ??
+                    "",
+                onPressed: () {
+                  serviceTimingController.serviceTimings(
+                      serviceId: widget.services!.id!);
 
-                showDialog<void>(
-                    useSafeArea: true,
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                          insetPadding: const EdgeInsets.all(10),
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          title: Center(
-                            child: Heading(
-                              title: 'Select Service Type',
-                            ),
-                          ),
-                          content: ServiceTimingDialog(
-                              serviceModel: widget.services!));
-                    });
-              }),
-
-          if (laundryByAreaState is LaundryByAreaIntitialState) ...[
-            CircularProgressIndicator()
-          ] else if (laundryByAreaState is LaundryByAreaLoadingState) ...[
-            CircularProgressIndicator()
-          ] else if (laundryByAreaState is LaundryByAreaErrorState) ...[
-            Text(laundryByAreaState.errorMessage)
-          ] else if (laundryByAreaState is LaundryByAreaLoadedState) ...[
-            ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              shrinkWrap: true,
-              itemCount: laundryByAreaState.laundryByAreaModel.data!.length,
-              itemBuilder: (BuildContext context, int index) {
-                laundrybyareamodel.Datum laundry =
-                    laundryByAreaState.laundryByAreaModel.data![index];
-                return ResuableLaundryTile(
-                  onTap: () {
-                    serviceTimingController.serviceTimings(
-                        serviceId: widget.services!.id!);
-
-                    showDialog<void>(
-                        useSafeArea: true,
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                              insetPadding: const EdgeInsets.all(10),
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              title: Center(
-                                child: Heading(
-                                  title: 'Select Service Type',
-                                ),
+                  showDialog<void>(
+                      useSafeArea: true,
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                            insetPadding: const EdgeInsets.all(10),
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            title: Center(
+                              child: Heading(
+                                title: 'Select Service Type',
                               ),
-                              content: ServiceTimingDialog(
-                                  serviceModel: widget.services!));
-                        });
-                  },
-                  laundry: laundry,
-                );
-              },
-            ),
-          ],
-          // Delivery Pickup Laundries
+                            ),
+                            content: ServiceTimingDialog(
+                                serviceModel: widget.services!));
+                      });
+                }),
+          
+            if (laundryByAreaState is LaundryByAreaIntitialState) ...[
+              CircularProgressIndicator()
+            ] else if (laundryByAreaState is LaundryByAreaLoadingState) ...[
+              CircularProgressIndicator()
+            ] else if (laundryByAreaState is LaundryByAreaErrorState) ...[
+              Text(laundryByAreaState.errorMessage)
+            ] else if (laundryByAreaState is LaundryByAreaLoadedState) ...[
+              ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                shrinkWrap: true,
+                itemCount: laundryByAreaState.laundryByAreaModel.data!.length,
+                itemBuilder: (BuildContext context, int index) {
+                  laundrybyareamodel.Datum laundry =
+                      laundryByAreaState.laundryByAreaModel.data![index];
+                  return ResuableLaundryTile(
+                    onTap: () {
+                      serviceTimingController.serviceTimings(
+                          serviceId: widget.services!.id!);
 
-          if (deliveryPickupLaundryState
-              is DeliveryPickupLaundryIntitialState) ...[
-            CircularProgressIndicator()
-          ] else if (deliveryPickupLaundryState
-              is DeliveryPickupLaundryLoadingState) ...[
-            CircularProgressIndicator()
-          ] else if (deliveryPickupLaundryState
-              is DeliveryPickupLaundryLoadedState) ...[
-            10.ph,
-            DelieveryPickupHeading(),
-            10.ph,
-            ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount:
-                  deliveryPickupLaundryState.deliveryPickupLaundryModel.length,
-              itemBuilder: (BuildContext context, int index) {
-                DeliveryPickupLaundryModel laundry = deliveryPickupLaundryState
-                    .deliveryPickupLaundryModel[index];
-                return ResuableDeliveryPickuPLaundryTile(
-                  laundry: laundry,
-                  onTap: () {
-                    if (laundry.openingHours == false) {
-                      Utils.showSnackBar(
+                      showDialog<void>(
+                          useSafeArea: true,
                           context: context,
-                          message: 'Laundry Closed. Try Again later',
-                          color: ColorManager.blackColor);
-                    } else {
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                                insetPadding: const EdgeInsets.all(10),
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                title: Center(
+                                  child: Heading(
+                                    title: 'Select Service Type',
+                                  ),
+                                ),
+                                content: ServiceTimingDialog(
+                                    serviceModel: widget.services!));
+                          });
+                    },
+                    laundry: laundry,
+                  );
+                },
+              ),
+            ],
+            // Delivery Pickup Laundries
+
+            if (deliveryPickupLaundryState
+                is DeliveryPickupLaundryIntitialState) ...[
+              CircularProgressIndicator()
+            ] else if (deliveryPickupLaundryState
+                is DeliveryPickupLaundryLoadingState) ...[
+              CircularProgressIndicator()
+            ] else if (deliveryPickupLaundryState
+                is DeliveryPickupLaundryLoadedState) ...[
+              10.ph,
+              DelieveryPickupHeading(),
+              10.ph,
+              ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: deliveryPickupLaundryState
+                    .deliveryPickupLaundryModel.length,
+                itemBuilder: (BuildContext context, int index) {
+                  DeliveryPickupLaundryModel laundry =
+                      deliveryPickupLaundryState
+                          .deliveryPickupLaundryModel[index];
+                  return ResuableDeliveryPickuPLaundryTile(
+                    laundry: laundry,
+                    onTap: () {
                       GoRouter.of(context)
                           .pushNamed(RouteNames().deliveryPickup, extra: {
                         'laundry': laundry,
                         'service': widget.services
                       });
-                    }
-                  },
-                );
-              },
-            ),
-          ] else if (deliveryPickupLaundryState
-              is DeliveryPickupLaundryErrorState) ...[
-            Text(deliveryPickupLaundryState.errorMessage)
+                      // if (laundry.openingHours == false) {
+                      //   Utils.showSnackBar(
+                      //       context: context,
+                      //       message: 'Laundry Closed. Try Again later',
+                      //       color: ColorManager.blackColor);
+                      // } else {
+                      //   GoRouter.of(context)
+                      //       .pushNamed(RouteNames().deliveryPickup, extra: {
+                      //     'laundry': laundry,
+                      //     'service': widget.services
+                      //   });
+                      // }
+                    },
+                  );
+                },
+              ),
+            ] else if (deliveryPickupLaundryState
+                is DeliveryPickupLaundryErrorState) ...[
+              Text(deliveryPickupLaundryState.errorMessage)
+            ]
           ]
         ]),
       ),
@@ -239,6 +249,11 @@ class ServiceTimingDialog extends ConsumerWidget {
                 .selectedServiceTiming(serviceTiming: serviceTiming);
 
             if (service.serviceName!.toLowerCase() == 'clothes') {
+              context.pushNamed(RouteNames().laundryItems, extra: service);
+              context.pop();
+            }
+
+            if (service.serviceName!.toLowerCase() == 'blankets') {
               context.pushNamed(RouteNames().laundryItems, extra: service);
               context.pop();
             }
