@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/helpers/validation_helper/validation_helper.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
+import 'package:laundryday/helpers/validation_helper.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/auth/verification/provider/verification_notifier.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
-import 'package:laundryday/core/constants/value_manager.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/resources/value_manager.dart';
 import 'package:laundryday/core/widgets/my_button.dart';
 import 'package:laundryday/core/widgets/heading.dart';
 import 'package:pinput/pinput.dart';
@@ -61,7 +61,7 @@ class Verification extends ConsumerWidget {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 color: const Color.fromRGBO(241, 240, 245, 1))),
-                        errorTextStyle: GoogleFonts.poppins(color: Colors.red),
+                        errorTextStyle: getRegularStyle(color: Colors.red),
                         androidSmsAutofillMethod:
                             AndroidSmsAutofillMethod.smsUserConsentApi,
                         validator: AppValidator.otpValidator,

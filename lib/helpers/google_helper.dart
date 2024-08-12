@@ -3,7 +3,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundryday/core/constants/api_routes.dart';
+import 'package:laundryday/config/resources/api_routes.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
 
 class GoogleServices {

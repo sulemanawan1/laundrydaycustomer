@@ -7,21 +7,21 @@ import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:laundryday/app_services/image_picker_handler.dart';
+import 'package:laundryday/core/image_picker_handler.dart';
 import 'package:laundryday/helpers/google_helper.dart';
 import 'package:laundryday/screens/more/addresses/add_new_address/model/add_address_model.dart';
 import 'package:laundryday/screens/more/addresses/add_new_address/provider/add_address_state.dart';
 import 'package:laundryday/screens/more/addresses/add_new_address/service/add_address_service.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/provider/my_addresses_notifier.dart';
 import 'package:laundryday/core/utils.dart';
-import 'package:location/location.dart';
+
 final addAddressNotifier =
     StateNotifierProvider.autoDispose<AddAddressNotifier, AddAddressState>(
         (ref) => AddAddressNotifier());
 
 class AddAddressNotifier extends StateNotifier<AddAddressState> {
   late GoogleMapController mapController;
-  Location location = Location();
+  
 
   TextEditingController addressNameController = TextEditingController();
   TextEditingController addressDetailController = TextEditingController();
@@ -38,14 +38,10 @@ class AddAddressNotifier extends StateNotifier<AddAddressState> {
     intitilzeAddress();
   }
 
-  
-
   Future<CameraPosition> getCurrentCameraPosition() async {
     Position pos = await GoogleServices().currentLocation();
     log(pos.latitude.toString());
     log(pos.longitude.toString());
-
-    
 
     final newCameraPosition = CameraPosition(
       target: LatLng(pos.latitude, pos.longitude),
@@ -64,7 +60,7 @@ class AddAddressNotifier extends StateNotifier<AddAddressState> {
     state = state.copyWith(selectedCameraPos: selectedCameraPos);
   }
 
-  coordinateToAddress({required LatLng taget}) async {
+  Future coordinateToAddress({required LatLng taget}) async {
     String? address = await GoogleServices().coordinateToAddress(taget: taget);
     log(address.toString());
     state = state.copyWith(address: address);
@@ -106,6 +102,7 @@ class AddAddressNotifier extends StateNotifier<AddAddressState> {
 
   intitilzeAddress() async {
     Position position = await GoogleServices().currentLocation();
+    coordinateToAddress(taget: LatLng(position.latitude, position.longitude));
 
     final newCameraPosition = CameraPosition(
       target: LatLng(position.latitude, position.longitude),
@@ -113,7 +110,5 @@ class AddAddressNotifier extends StateNotifier<AddAddressState> {
     );
     state =
         state.copyWith(isLoading: false, initialCameraPos: newCameraPosition);
-
-    coordinateToAddress(taget: newCameraPosition.target);
   }
 }

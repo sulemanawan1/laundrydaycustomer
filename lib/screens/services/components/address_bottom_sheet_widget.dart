@@ -5,16 +5,17 @@ import 'package:go_router/go_router.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
 import 'package:laundryday/screens/services/provider/addresses_state.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
-import 'package:laundryday/core/routes/route_names.dart';
-import 'package:laundryday/core/theme/styles_manager.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/routes/route_names.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/widgets/my_button.dart';
 import 'package:laundryday/core/widgets/heading.dart';
 import 'package:laundryday/screens/services/model/services_model.dart'
     as servicemodel;
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
     as myaddressmodel;
+import 'package:laundryday/screens/services/provider/services_notifier.dart';
 
 class AddressBottomSheetWidget extends ConsumerWidget {
   final servicemodel.Datum? servicesModel;
@@ -84,6 +85,7 @@ class AddressBottomSheetWidget extends ConsumerWidget {
 
   Widget buildAddressList(AddressesLoadedState addressesState,
       Address? selectedAddress, WidgetRef ref) {
+        
     return ListView.separated(
       shrinkWrap: true,
       reverse: true,
@@ -92,6 +94,7 @@ class AddressBottomSheetWidget extends ConsumerWidget {
       itemCount: addressesState.addressModel.addresses!.length,
       itemBuilder: (BuildContext context, int index) {
         Address adddress = addressesState.addressModel.addresses![index];
+
 
         return Container(
           decoration: BoxDecoration(
@@ -128,25 +131,29 @@ class AddressBottomSheetWidget extends ConsumerWidget {
                 ref
                     .read(selectedAddressProvider.notifier)
                     .onAddressTap(adddress);
-                // context.pop();
 
                 if (servicesModel?.serviceName.toString() == 'Blankets') {
-                  log(servicesModel!.deliveryFee.toString());
+                  ref
+                      .read(serviceProvider.notifier)
+                      .selectedService(selectedService: servicesModel!);
 
                   GoRouter.of(context)
                       .pushNamed(RouteNames().laundries, extra: servicesModel);
 
                   context.pop();
                 } else if (servicesModel?.serviceName.toString() == "Carpets") {
-                  log(servicesModel!.deliveryFee.toString());
+                  ref
+                      .read(serviceProvider.notifier)
+                      .selectedService(selectedService: servicesModel!);
 
                   GoRouter.of(context)
                       .pushNamed(RouteNames().laundries, extra: servicesModel);
 
                   context.pop();
                 } else if (servicesModel?.serviceName.toString() == "Clothes") {
-                  log(servicesModel!.id.toString());
-                  log(servicesModel!.deliveryFee.toString());
+                  ref
+                      .read(serviceProvider.notifier)
+                      .selectedService(selectedService: servicesModel!);
 
                   GoRouter.of(context)
                       .pushNamed(RouteNames().laundries, extra: servicesModel);

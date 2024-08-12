@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/home/provider/home_notifier.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/font_manager.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/font_manager.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
 
 // ignore: must_be_immutable
 class CircularTimerWidget extends ConsumerWidget {
@@ -32,8 +32,8 @@ class CircularTimerWidget extends ConsumerWidget {
         10.ph,
         Text(
           '${timerModel[index].remainingTime!.inHours.toString().padLeft(2, '0')}:${(timerModel[index].remainingTime!.inMinutes % 60).toString().padLeft(2, '0')}:${(timerModel[index].remainingTime!.inSeconds % 60).toString().padLeft(2, '0')}',
-          style: GoogleFonts.poppins(
-              color: ColorManager.primaryColor, fontSize: FontSize.s12,fontWeight:FontWeight.w600),
+          style: getSemiBoldStyle(
+              color: ColorManager.primaryColor, fontSize: FontSize.s12,),
         ),
       ],
     );

@@ -1,23 +1,29 @@
-import 'package:laundryday/models/order_status.dart';
-import 'package:location/location.dart';
+import 'package:laundryday/screens/order_review/data/models/order_model.dart';
 
 class OrderProcessStates {
-  List<OrderStatusModel> orderStatusList;
-  int orderStatus;
-  LocationData? currentLocation;
-
-  OrderProcessStates(
-      {required this.orderStatusList,
-      required this.orderStatus,
-      required this.currentLocation});
+  OrderState orderState;
+  OrderModel? orderModel;
+  OrderProcessStates({required this.orderState, this.orderModel});
 
   OrderProcessStates copyWith(
-      {List<OrderStatusModel>? orderStatusList,
-      int? orderStatus,
-      LocationData? currentLocation}) {
+      {OrderState? orderState, OrderModel? orderModel}) {
     return OrderProcessStates(
-        orderStatusList: orderStatusList ?? this.orderStatusList,
-        orderStatus: orderStatus ?? this.orderStatus,
-        currentLocation: currentLocation ?? currentLocation);
+        orderModel: orderModel ?? this.orderModel,
+        orderState: orderState ?? this.orderState);
   }
+}
+
+abstract class OrderState {}
+
+class OrderStateInitialState extends OrderState {}
+
+class OrderStateLoadingState extends OrderState {}
+
+class OrderStateLoadedState extends OrderState {
+  OrderStateLoadedState();
+}
+
+class OrderStateErrorState extends OrderState {
+  final String errorMessage;
+  OrderStateErrorState({required this.errorMessage});
 }

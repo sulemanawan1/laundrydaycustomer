@@ -1,6 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/config/resources/colors.dart';
 
 
 class MyCarouselIndicator extends StatelessWidget {

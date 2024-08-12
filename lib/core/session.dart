@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:laundryday/models/my_user_model.dart';
 import 'package:laundryday/provider/user_notifier.dart';
-import 'package:laundryday/core/constants/my_shareprefrences_constants.dart';
+import 'package:laundryday/config/resources/my_shareprefrences_constants.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,7 +19,6 @@ class MySharedPreferences {
 
   static saveUserSession({UserModel? user}) async {
 
-    
     await SharedPreferences.getInstance().then((value) {
       value.setInt(userIdSPKey, user?.user?.id ?? 0);
       value.setString(firstNameSPKey, user?.user?.firstName ?? '');
@@ -36,16 +35,15 @@ class MySharedPreferences {
 
     await SharedPreferences.getInstance().then((value) {
       user = UserModel(
-          token: value.getString(tokenSPKEY),
-          user: User(
+        token: value.getString(tokenSPKEY),
+        user: User(
           id: value.getInt(userIdSPKey) ?? 0,
           firstName: value.getString(firstNameSPKey),
           lastName: value.getString(lastNameSPKey),
           role: value.getString(roleSPKEY),
           userName: value.getString(providerSPKEY),
         ),
-
-          );
+      );
     });
     return user;
   }

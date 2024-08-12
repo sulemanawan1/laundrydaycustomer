@@ -41,6 +41,68 @@ class BaseClientClass {
     }
   }
 
+  static Future<dynamic> postFormReq2(String url, Map data,
+      {Map? files}) async {
+    if (kDebugMode) {
+      print('url: $url');
+      print('data: $data');
+      print('Files: $files');
+    }
+
+    // UserModel userModel = await MySharedPreferences.getUserSession();
+
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+
+      // Adding headers
+      Map<String, String> headers = {
+        // Uncomment and replace 'your-token' with the actual token
+        // 'Authorization': 'Bearer ${userModel.token}',
+      };
+
+      // Adding the file if it exists
+      if (files != null) {
+        for (var entry in files.entries) {
+          request.files
+              .add(await http.MultipartFile.fromPath(entry.key, entry.value));
+        }
+      }
+
+      // Adding form fields
+      data.forEach((key, value) {
+        request.fields[key] = value.toString();
+      });
+
+      // Adding headers to the request
+      request.headers.addAll(headers);
+
+      // Sending the request
+      var responsed = await request.send();
+      var response = await http.Response.fromStream(responsed);
+
+      if (kDebugMode) {
+        printResponse(response);
+      }
+
+      return handleResponse(response);
+    } on SocketException {
+      if (kDebugMode) {
+        print('No internet connection');
+      }
+      return 'No internet connection';
+    } on TimeoutException {
+      if (kDebugMode) {
+        print('Connection timed out');
+      }
+      return 'Connection timed out';
+    } catch (e) {
+      if (kDebugMode) {
+        print('An error occurred: $e');
+      }
+      return 'An error occurred: $e';
+    }
+  }
+
   static Future<dynamic> postFormReq(String url, Map data,
       {String? file}) async {
     if (kDebugMode) {
@@ -233,7 +295,7 @@ class BaseClientClass {
       case 401:
         return 'Unauthorized';
       case 404:
-        return 'Not Found';
+        return 'Not-Found';
       case 500:
         return 'Internal Server Error';
       case 403:

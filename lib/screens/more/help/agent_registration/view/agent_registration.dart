@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:laundryday/app_services/date_picker_handler.dart';
-import 'package:laundryday/helpers/validation_helper/validation_helper.dart';
+import 'package:laundryday/core/date_picker_handler.dart';
+import 'package:laundryday/helpers/validation_helper.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/home/provider/home_notifier.dart';
 import 'package:laundryday/screens/more/help/agent_registration/provider/delivery_agent_registartion_states.dart';
@@ -15,12 +14,12 @@ import 'package:laundryday/models/city_model.dart' as citymodel;
 import 'package:laundryday/models/country_model.dart' as countrymodel;
 import 'package:laundryday/models/district_model.dart' as districtmodel;
 import 'package:laundryday/models/region_model.dart' as regionmodel;
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/font_manager.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
-import 'package:laundryday/core/constants/value_manager.dart';
-import 'package:laundryday/core/routes/route_names.dart';
-import 'package:laundryday/core/theme/styles_manager.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/font_manager.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/resources/value_manager.dart';
+import 'package:laundryday/config/routes/route_names.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/utils.dart';
 import 'package:laundryday/core/widgets/heading.dart';
 import 'package:laundryday/core/widgets/my_app_bar.dart';
@@ -575,15 +574,7 @@ class AgentRegistration extends ConsumerWidget {
                                     states.registrationImage!.path.toString(),
                               };
 
-                              Map<String, XFile> filesBytes = {
-                                'image': states.image!,
-                                'identity_image': states.identityImage!,
-                                'front_image': states.frontImage!,
-                                'rear_image': states.rearImage!,
-                                'driving_license_image':
-                                    states.drivingLicenseImage!,
-                                'registration_image': states.registrationImage!,
-                              };
+                           
 
                               Map<String, String> data = {
                                 'first_name':
@@ -673,8 +664,8 @@ class AgentRegistration extends ConsumerWidget {
         children: [
           Text(
             title ?? "",
-            style: GoogleFonts.poppins(
-                fontWeight: FontWeight.w600,
+            style: getSemiBoldStyle(
+              
                 fontSize: 14,
                 color: imageFile?.path == null
                     ? Colors.blue

@@ -6,15 +6,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
 import 'package:laundryday/core/widgets/heading.dart';
 
-class ScanReceiptWidget extends ConsumerWidget {
-  const ScanReceiptWidget({super.key});
+class ScanReceiptWidget extends StatelessWidget {
+  WidgetRef ref;
+   ScanReceiptWidget({super.key,required this.ref});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final states = ref.watch(deliverPickupProvider);
     return GestureDetector(
       onTap: () async {

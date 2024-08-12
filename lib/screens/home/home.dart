@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/home/provider/home_notifier.dart';
 import 'package:laundryday/screens/more/more.dart';
 import 'package:laundryday/screens/offers/view/offers.dart';
 import 'package:laundryday/screens/orders/orders.dart';
 import 'package:laundryday/screens/services/view/services.dart';
-import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/config/resources/colors.dart';
 
 class Home extends ConsumerWidget {
   Home({super.key});
@@ -53,9 +53,9 @@ class Home extends ConsumerWidget {
             unselectedItemColor: Colors.grey,
             showUnselectedLabels: true,
             selectedLabelStyle:
-                GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
+                getSemiBoldStyle(fontSize: 16, color: ColorManager.blackColor),
             unselectedLabelStyle:
-                GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
+                         getSemiBoldStyle(fontSize: 16, color: ColorManager.blackColor),
           ),
         ),
         body: IndexedStack(

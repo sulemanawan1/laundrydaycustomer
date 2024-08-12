@@ -1,20 +1,19 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/screens/services/components/address_bottom_sheet_widget.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
 import 'package:laundryday/screens/services/provider/services_states.dart';
-import 'package:laundryday/core/constants/api_routes.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/config/resources/api_routes.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
     as myaddressmodel;
-import 'package:laundryday/core/constants/value_manager.dart';
-import 'package:laundryday/core/theme/styles_manager.dart';
+import 'package:laundryday/config/resources/value_manager.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Services extends ConsumerStatefulWidget {
@@ -113,7 +112,7 @@ class _ServicesState extends ConsumerState<Services> {
                               : selectedAddress?.googleMapAddress ??
                                   "Current Location",
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.poppins(
+                          style: getRegularStyle(
                             fontSize: 13,
                             color: selectedAddress?.addressName ==
                                     'my-current-address'
@@ -223,8 +222,9 @@ class _ServicesState extends ConsumerState<Services> {
                               Text(
                                 services.serviceModel.data![index].serviceName
                                     .toString(),
-                                style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w600, fontSize: 18),
+                                style: getSemiBoldStyle(
+                                  color: ColorManager.blackColor,
+                                 fontSize: 18),
                                 textAlign: TextAlign.center,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,

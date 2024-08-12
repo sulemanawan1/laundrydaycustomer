@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:laundryday/config/resources/colors.dart';
 
-import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/widgets/heading.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/services/model/services_model.dart' as s;
 
-// ignore: must_be_immutable
 class PaymentSummaryWidget extends ConsumerWidget {
   s.Datum? service;
 
@@ -31,8 +31,7 @@ class PaymentSummaryWidget extends ConsumerWidget {
             ),
             10.ph,
             PaymentSummaryText(
-                text1: 'Delievery Fees',
-                text2: "${deliveryfee.toStringAsFixed(2)} SAR"),
+                text1: 'Delievery Fees', text2: "${service!.deliveryFee} SAR"),
             PaymentSummaryText(
                 text1: 'Operation Fees',
                 text2: "${service!.operationFee.toString()} SAR"),
@@ -59,12 +58,12 @@ class PaymentSummaryText extends StatelessWidget {
           children: [
             Text(
               text1,
-              style: GoogleFonts.poppins(fontSize: 16),
+              style: getRegularStyle(fontSize: 16,color: ColorManager.blackColor),
             ),
             Text(
               text2,
-              style: GoogleFonts.poppins(
-                  fontSize: 16, fontWeight: FontWeight.w500),
+              style: getSemiBoldStyle(color: ColorManager.blackColor,
+                  fontSize: 16,),
             ),
           ],
         ),

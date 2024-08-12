@@ -1,23 +1,21 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/order_chat/provider/order_chat_notifier.dart';
 import 'package:laundryday/screens/order_chat/provider/order_chat_states.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
 import 'package:laundryday/core/widgets/my_app_bar.dart';
 import 'package:laundryday/core/widgets/my_loader.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import 'package:voice_message_package/voice_message_package.dart';
-
-import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/config/resources/colors.dart';
 
 final orderStateProvider =
     StateNotifierProvider.autoDispose<OrderChatNotifier, OrderChatStates?>(
@@ -153,11 +151,12 @@ class _OrderChatState extends ConsumerState<OrderChat> {
                           children: [
                             Text(
                               chatList[index].content.toString(),
-                              style: GoogleFonts.poppins(),
+                              style: getRegularStyle(
+                                  color: ColorManager.blackColor),
                             ),
                             Text(
                               chatList[index].timeStamp.toString(),
-                              style: GoogleFonts.poppins(
+                              style: getRegularStyle(
                                   color: ColorManager.greyColor),
                             ),
                           ],
@@ -213,7 +212,7 @@ class _OrderChatState extends ConsumerState<OrderChat> {
                                   const EdgeInsets.only(right: 10, bottom: 10),
                               child: Text(
                                 chatList[index].timeStamp.toString(),
-                                style: GoogleFonts.poppins(
+                                style: getRegularStyle(
                                     color: ColorManager.greyColor),
                               ),
                             ),
@@ -250,7 +249,7 @@ class _OrderChatState extends ConsumerState<OrderChat> {
                             3.ph,
                             Text(
                               chatList[index].timeStamp.toString(),
-                              style: GoogleFonts.poppins(
+                              style: getRegularStyle(
                                   color: ColorManager.greyColor),
                             ),
                           ],

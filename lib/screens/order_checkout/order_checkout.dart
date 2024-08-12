@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
-import 'package:laundryday/core/routes/route_names.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/routes/route_names.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/widgets/my_app_bar.dart';
-import 'package:laundryday/core/widgets/payment_method_widget.dart';
 import 'package:laundryday/core/widgets/payment_summary_widget.dart';
 
 class OrderCheckout extends ConsumerStatefulWidget {
@@ -33,7 +32,7 @@ class _OrderCheckoutState extends ConsumerState<OrderCheckout> {
                 const Icon(Icons.receipt),
                 Text(
                   'Invoice',
-                  style: GoogleFonts.poppins(color: ColorManager.primaryColor),
+                  style: getRegularStyle(color: ColorManager.primaryColor),
                 )
               ],
             ),
@@ -48,7 +47,7 @@ class _OrderCheckoutState extends ConsumerState<OrderCheckout> {
           children: [
             // OrderItemWidget(items: selectedItems),
             10.ph,
-            const PaymentMethodWidget(),
+            // const PaymentMethodWidget(),
             10.ph,
             PaymentSummaryWidget(),
             10.ph,
@@ -67,10 +66,10 @@ class _OrderCheckoutState extends ConsumerState<OrderCheckout> {
                   children: [
                     Text(
                       'Pay with',
-                      style: GoogleFonts.poppins(
+                      style: getSemiBoldStyle(
                         color: ColorManager.whiteColor,
                         fontSize: 14,
-                        fontWeight: FontWeight.w600,
+                      
                       ),
                     ),
                     5.pw,

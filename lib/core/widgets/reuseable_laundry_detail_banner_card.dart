@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/laundry_items/model/laundry_model.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ReusabelLaundryDetailBannerCard extends StatelessWidget {
@@ -64,8 +63,8 @@ class ReusabelLaundryDetailBannerCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         nearestLaundryModel.data?.name ?? "",
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
+                        style: getSemiBoldStyle(
+                          color: ColorManager.blackColor,
                           fontSize: 16,
                         ),
                         overflow: TextOverflow.ellipsis,
@@ -85,7 +84,7 @@ class ReusabelLaundryDetailBannerCard extends StatelessWidget {
                           4.pw,
                           Text(
                             'Reviews',
-                            style: GoogleFonts.poppins(
+                            style: getRegularStyle(
                                 color: ColorManager.primaryColor),
                             overflow: TextOverflow.ellipsis,
                           )
@@ -100,22 +99,22 @@ class ReusabelLaundryDetailBannerCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        SvgPicture.asset(
-                          'assets/delivery_agent.svg',
-                          height: 18,
-                          color: ColorManager.primaryColor,
-                        ),
+                        // SvgPicture.asset(
+                        //   'assets/delivery_agent.svg',
+                        //   height: 18,
+                        //   color: ColorManager.primaryColor,
+                        // ),
                         10.pw,
                         Text(
                           nearestLaundryModel.data?.duration ?? "",
-                          style: GoogleFonts.poppins(
+                          style: getRegularStyle(
                               color: ColorManager.greyColor),
                         ),
                       ],
                     ),
                     Text(
                       '${nearestLaundryModel.data?.distance ?? ""}',
-                      style: GoogleFonts.poppins(color: ColorManager.greyColor),
+                      style: getRegularStyle(color: ColorManager.greyColor),
                     ),
                   ],
                 ),
@@ -133,7 +132,7 @@ class ReusabelLaundryDetailBannerCard extends StatelessWidget {
                         nearestLaundryModel.data?.branch?.googleMapAddress ??
                             "",
                         style:
-                            GoogleFonts.poppins(color: ColorManager.greyColor),
+                            getRegularStyle(color: ColorManager.greyColor),
                         overflow: TextOverflow.ellipsis,
                       ),
                     )

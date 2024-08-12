@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/app_services/card_utils.dart';
+import 'package:laundryday/core/card_utils.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/add_new_card.dart/add_new_card_notifier.dart';
 import 'package:laundryday/screens/add_new_card.dart/add_new_card_states.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/font_manager.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
-import 'package:laundryday/core/constants/value_manager.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/font_manager.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/resources/value_manager.dart';
 import 'package:laundryday/core/widgets/my_app_bar.dart';
 import 'package:laundryday/core/widgets/my_button.dart';
 
@@ -285,7 +285,7 @@ class _AddNewCardState extends ConsumerState<AddNewCard> {
                                     Expanded(
                                       child: Text(
                                         "Note: You will be charged for an amount of 1 SR for\ncard verification which will be refunded Directly to your account.",
-                                        style: GoogleFonts.poppins(
+                                        style: getRegularStyle(
                                             color: ColorManager.blackColor),
                                         textAlign: TextAlign.center,
                                         overflow: TextOverflow.ellipsis,

@@ -1,41 +1,32 @@
 import 'dart:async';
-import 'dart:math';
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart';
-import 'package:laundryday/models/ratings.dart';
-import 'package:laundryday/screens/auth/signup/signup.dart';
-import 'package:laundryday/screens/laundry_items/view/laundry_items.dart';
-import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
-import 'package:laundryday/screens/order_process/components/delivery_time_widget.dart';
-import 'package:laundryday/screens/order_process/components/four_digit_code_widget.dart';
-import 'package:laundryday/screens/order_process/components/order_status_info_widget.dart';
+import 'package:laundryday/config/resources/pusher_handler.dart';
+import 'package:laundryday/provider/user_notifier.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:laundryday/config/resources/assets_manager.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/font_manager.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/resources/value_manager.dart';
+import 'package:laundryday/config/routes/route_names.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
+import 'package:laundryday/core/utils.dart';
+import 'package:laundryday/core/widgets/my_app_bar.dart';
+import 'package:laundryday/core/widgets/my_loader.dart';
 import 'package:laundryday/screens/order_process/providers/order_process_notifier.dart';
 import 'package:laundryday/screens/order_process/providers/order_process_states.dart';
-import 'package:laundryday/screens/order_summary/order_summary.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
-import 'package:laundryday/core/routes/route_names.dart';
-import 'package:laundryday/core/utils.dart';
-import 'package:laundryday/core/widgets/address_detail_widget.dart';
-import 'package:laundryday/core/widgets/map_icon_widget.dart';
-import 'package:laundryday/core/widgets/my_app_bar.dart';
-import 'package:laundryday/core/widgets/my_button.dart';
-import 'package:laundryday/core/widgets/heading.dart';
-import 'package:laundryday/core/widgets/my_loader.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 final orderProcessProvider =
     StateNotifierProvider.autoDispose<OrderProcessNotifier, OrderProcessStates>(
         (ref) => OrderProcessNotifier());
 
 class OrderProcess extends ConsumerStatefulWidget {
-  const OrderProcess({
+  final int orderId;
+  OrderProcess({
+    required this.orderId,
     super.key,
   });
 
@@ -46,648 +37,311 @@ class OrderProcess extends ConsumerStatefulWidget {
 class _OrderProcessState extends ConsumerState<OrderProcess> {
   TimeOfDay? selectedTime;
 
-  final _controller = DraggableScrollableController();
-
-  final Completer<GoogleMapController> _googleMapcontroller =
-      Completer<GoogleMapController>();
-
-  static const LatLng sourceLocation =
-      LatLng(24.549946260906324, 46.65291910092833);
-  static const LatLng destination =
-      LatLng(24.545658765869764, 46.665644942355414);
-
-  List<Ratings> users = [];
-  String fourDigitcode = '';
-
   @override
   void initState() {
-    // ref.read(orderProcessProvider.notifier).getCurrentLocation();
-    selectedTime = TimeOfDay.now();
-
     super.initState();
-    generateRandomCode();
 
-    List.generate(7, (index) {
-      var random = Random();
-      double min = 1.0;
-      double max = 5.0;
+    Future.delayed(Duration(seconds: 0), () {
+      ref
+          .read(orderProcessProvider.notifier)
+          .getOrderDetail(orderId: widget.orderId, ref: ref, context: context);
 
-      double randomRating = min + random.nextDouble() * (max - min);
-      var faker = Faker();
+      final userModel = ref.read(userProvider).userModel;
 
-      users.add(Ratings(
-          id: index,
-          rating: randomRating,
-          prefixName: faker.person.firstName(),
-          name: faker.person.lastName(),
-          image: 'assets/icons/user-avatar.png'));
+      PusherHandler(userModel: userModel!, ref: ref).initCLinet();
     });
   }
 
   @override
   void dispose() {
     super.dispose();
-    if (mounted) {
-      _controller.dispose();
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    var states = ref.watch(orderProcessProvider);
-    final currentLocation = ref.watch(orderProcessProvider).currentLocation;
-    // final selectedItems = ref.watch(selectedItemNotifier);
+    var orderState = ref.watch(orderProcessProvider).orderState;
+    var orderModel = ref.watch(orderProcessProvider).orderModel;
 
-    return Scaffold(
-        appBar: MyAppBar(
-          title: 'order',
-          actions: [
-            PopupMenuButton(
-              iconColor: ColorManager.blackColor,
-              icon: const Icon(Icons.more_vert),
-              onSelected: (value) {
-                // your logic
-              },
-              itemBuilder: (BuildContext bc) {
-                return [
-                  PopupMenuItem(
-                    value: 'support',
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.height * 0.2,
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text("Support"), Icon(Icons.support_agent)],
+    return PopScope(
+      onPopInvoked: (didPop) {
+        context.goNamed(RouteNames().splash);
+      },
+      child: Scaffold(
+          appBar: MyAppBar(
+            onPressed: () {
+              context.goNamed(RouteNames().splash);
+            },
+            title: 'order',
+            actions: [
+              PopupMenuButton(
+                iconColor: ColorManager.blackColor,
+                icon: const Icon(Icons.more_vert),
+                onSelected: (value) {
+                  // your logic
+                },
+                itemBuilder: (BuildContext bc) {
+                  return [
+                    PopupMenuItem(
+                      value: 'support',
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.height * 0.2,
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Support"),
+                            Icon(Icons.support_agent)
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  PopupMenuItem(
-                    value: 'cancel order',
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.height * 0.2,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Cancel Order",
-                            style: GoogleFonts.poppins(color: Colors.red),
-                          ),
-                          const Icon(
-                            Icons.cancel,
-                            color: Colors.red,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ];
-              },
-            )
-          ],
-        ),
-        body: Stack(children: [
-          LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-            return SizedBox(
-              height: constraints.maxHeight / 1,
-              child: SingleChildScrollView(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                    if ("deliverypickup" == 'deliverypickup') ...[
-                      if (states.orderStatus == 0) ...[
-                        const OrderStatusInfoWidget(
-                            image: 'assets/vectors/step0.png',
-                            title: 'Accepted Order',
-                            description:
-                                'The driver is coming to pick up your clothes.'),
-                      ]
-                      // else if (states.orderStatus == 1) ...[
-                      //   const OrderStatusInfoWidget(
-                      //       image: 'assets/vectors/step1.png',
-                      //       title: 'Approach You',
-                      //       description:
-                      //           'The driver is coming to pick up your clothes.'),
-                      // ] else if (states.orderStatus == 2) ...[
-                      //   const OrderStatusInfoWidget(
-                      //       image: 'assets/vectors/step2.png',
-                      //       title: 'The invoice has been Issued',
-                      //       description: 'The representative issue the invoice')
-                      // ]
-
-                      else if (states.orderStatus == 3) ...[
-                        const OrderStatusInfoWidget(
-                            image: 'assets/vectors/step3.png',
-                            title: 'Driver recieved order.',
-                            description:
-                                'Driver received order,he is on his way'),
-                      ] else if (states.orderStatus == 4) ...[
-                        const OrderStatusInfoWidget(
-                            image: 'assets/vectors/step4.png',
-                            title: 'Driver near you.',
-                            description:
-                                'Driver near you,be ready to get your order,')
-                      ] else if (states.orderStatus == 5) ...[
-                        const OrderStatusInfoWidget(
-                            image: 'assets/vectors/step5.png',
-                            title: 'Your Order Completed',
-                            description:
-                                'Your Order Completed,we hope to see you again.')
-                      ],
-                      5.ph,
-                      if (states.orderStatus == 4) ...[
-                        FourDigitCodeWidget(fourDigitcode: fourDigitcode)
-                      ] else ...[
-                        const DeliveryTimeWidget(),
-                      ],
-                      20.ph,
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: states.orderStatusList
-                              .map((e) => (e.status == 1 || e.status == 2)
-                                  ? const SizedBox()
-                                  : InkWell(
-                                      onTap: () {
-                                        ref
-                                            .read(orderProcessProvider.notifier)
-                                            .updateStatus(status: e.status);
-
-                                        ref
-                                            .read(orderProcessProvider.notifier)
-                                            .updateIsActive(id: e.id);
-                                        ref
-                                            .read(orderProcessProvider.notifier)
-                                            .getCurrentLocation();
-
-                                        if (e.status == 5) {
-                                          context.pushNamed(
-                                              RouteNames().rateCourier);
-                                        }
-                                      },
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            e.isActive
-                                                ? Icons.check_circle_rounded
-                                                : Icons.circle,
-                                            color: e.isActive
-                                                ? ColorManager.primaryColor
-                                                : ColorManager.greyColor,
-                                            size: 30,
-                                          ),
-                                          Text(
-                                            e.description.toString(),
-                                            style: GoogleFonts.poppins(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 10,
-                                                color: e.isActive
-                                                    ? ColorManager.primaryColor
-                                                    : ColorManager.greyColor),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          5.ph,
-                                          e.isActive
-                                              ? Text(
-                                                  DateFormat("jm")
-                                                      .format(e.createdAt!)
-                                                      .toString(),
-                                                  style: GoogleFonts.poppins(
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 10,
-                                                      color: ColorManager
-                                                          .primaryColor),
-                                                  textAlign: TextAlign.center,
-                                                )
-                                              : const SizedBox()
-                                        ],
-                                      ),
-                                    ))
-                              .toList()),
-                    ] else ...[
-                      if (states.orderStatus == 0) ...[
-                        const OrderStatusInfoWidget(
-                            image: 'assets/vectors/step0.png',
-                            title: 'Accepted Order',
-                            description:
-                                'The driver is coming to pick up your clothes.'),
-                      ] else if (states.orderStatus == 1) ...[
-                        const OrderStatusInfoWidget(
-                            image: 'assets/vectors/step1.png',
-                            title: 'Approach You',
-                            description:
-                                'The driver is coming to pick up your clothes.'),
-                      ] else if (states.orderStatus == 2) ...[
-                        const OrderStatusInfoWidget(
-                            image: 'assets/vectors/step2.png',
-                            title: 'The invoice has been Issued',
-                            description: 'The representative issue the invoice')
-                      ] else if (states.orderStatus == 3) ...[
-                        const OrderStatusInfoWidget(
-                            image: 'assets/vectors/step3.png',
-                            title: 'Driver recieved order.',
-                            description:
-                                'Driver received order,he is on his way')
-                      ] else if (states.orderStatus == 4) ...[
-                        const OrderStatusInfoWidget(
-                            image: 'assets/vectors/step4.png',
-                            title: 'Driver near you.',
-                            description:
-                                'Driver near you,be ready to get your order,')
-                      ] else if (states.orderStatus == 5) ...[
-                        const OrderStatusInfoWidget(
-                            image: 'assets/vectors/step5.png',
-                            title: 'Your Order Completed',
-                            description:
-                                'Your Order Completed,we hope to see you again.')
-                      ],
-                      5.ph,
-                      if (states.orderStatus == 4) ...[
-                        FourDigitCodeWidget(fourDigitcode: fourDigitcode)
-                      ] else ...[
-                        const DeliveryTimeWidget(),
-                      ],
-                      20.ph,
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: states.orderStatusList
-                              .map((e) => InkWell(
-                                    onTap: () {
-                                      ref
-                                          .read(orderProcessProvider.notifier)
-                                          .updateStatus(status: e.status);
-
-                                      ref
-                                          .read(orderProcessProvider.notifier)
-                                          .updateIsActive(id: e.id);
-                                      ref
-                                          .read(orderProcessProvider.notifier)
-                                          .getCurrentLocation();
-
-                                      if (e.status == 5) {
-                                        context.pushNamed(
-                                            RouteNames().rateCourier);
-                                      }
-                                    },
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          e.isActive
-                                              ? Icons.check_circle_rounded
-                                              : Icons.circle,
-                                          color: e.isActive
-                                              ? ColorManager.primaryColor
-                                              : ColorManager.greyColor,
-                                          size: 30,
-                                        ),
-                                        Text(
-                                          e.description.toString(),
-                                          style: GoogleFonts.poppins(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 10,
-                                              color: e.isActive
-                                                  ? ColorManager.primaryColor
-                                                  : ColorManager.greyColor),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        5.ph,
-                                        e.isActive
-                                            ? Text(
-                                                DateFormat("jm")
-                                                    .format(e.createdAt!)
-                                                    .toString(),
-                                                style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 10,
-                                                    color: ColorManager
-                                                        .primaryColor),
-                                                textAlign: TextAlign.center,
-                                              )
-                                            : const SizedBox()
-                                      ],
-                                    ),
-                                  ))
-                              .toList()),
-                    ],
-                    30.ph,
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: MyButton(
-                        title: 'Request Details',
-                        onPressed: () {
-                          Utils.showResuableBottomSheet(
-                              context: context,
-                              widget: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  HeadingMedium(title: 'Address Details'),
-                                  10.ph,
-                                  AddressDetailCard(
-                                    origin: '',
-                                    destination: '',
-                                  ),
-                                  10.ph,
-                                  HeadingMedium(title: 'Order Details'),
-                                  10.ph,
-                                  const OrderDetailAddressWidget(),
-                                  10.ph,
-                                  // Container(
-                                  //   constraints: const BoxConstraints(
-                                  //       maxHeight: double.infinity),
-                                  //   child: Card(
-                                  //     elevation: 0,
-                                  //     child: ListView.separated(
-                                  //       separatorBuilder: (context, index) =>
-                                  //           5.ph,
-                                  //       itemCount: selectedItems.length,
-                                  //       shrinkWrap: true,
-                                  //       itemBuilder:
-                                  //           (BuildContext context, int index) {
-                                  //         return Padding(
-                                  //           padding: const EdgeInsets.symmetric(
-                                  //               horizontal: 10),
-                                  //           child: SizedBox(
-                                  //             child: Row(
-                                  //               mainAxisAlignment:
-                                  //                   MainAxisAlignment
-                                  //                       .spaceBetween,
-                                  //               children: [
-                                  //                 Expanded(
-                                  //                   child: Text(
-                                  //                       selectedItems[index]
-                                  //                           .name
-                                  //                           .toString()),
-                                  //                 ),
-                                  //                 Expanded(
-                                  //                   child: Text(
-                                  //                       "x${selectedItems[index].quantity.toString()}"),
-                                  //                 ),
-                                  //               ],
-                                  //             ),
-                                  //           ),
-                                  //         );
-                                  //       },
-                                  //     ),
-                                  //   ),
-                                  // ),
-
-                                  30.ph,
-                                ],
-                              ),
-                              title: 'Request Details');
-                        },
-                        isBorderButton: true,
-                        borderColor: Colors.amber,
-                        textColor: Colors.amber,
-                      ),
-                    ),
-                    5.ph,
-                    states.orderStatus == 2
-                        ? Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: MyButton(
-                              color: ColorManager.amber,
-                              title: 'Confirm Pickup',
-                              onPressed: () {
-                                _showMyDialog();
-                              },
+                    PopupMenuItem(
+                      value: 'cancel order',
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.height * 0.2,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Cancel Order",
+                              style: getRegularStyle(color: Colors.red),
                             ),
-                          )
-                        : const SizedBox(),
-                    5.ph,
-                    states.orderStatus != 1 && states.orderStatus != 0
-                        ? Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: MyButton(
-                              title: 'View Invoice and Payment',
-                              onPressed: () {
-                                context.pushNamed(RouteNames().orderCheckout);
-                              },
+                            const Icon(
+                              Icons.cancel,
+                              color: Colors.red,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ];
+                },
+              )
+            ],
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (orderState is OrderStateInitialState) ...[
+                    Loader()
+                  ] else if (orderState is OrderStateLoadingState) ...[
+                    Loader()
+                  ] else if (orderState is OrderStateLoadedState) ...[
+                    34.85.ph,
+                    Center(
+                      child: Image.asset(
+                        getStatusImage(status: orderModel!.order!.status!),
+                        height: AppSize.s95,
+                      ),
+                    ),
+                    25.ph,
+                    Container(
+                      width: MediaQuery.sizeOf(context).width * 0.85,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Color(0xffDCE2EF)),
+                          borderRadius: BorderRadius.circular(AppSize.s6)),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: AppPadding.p11_03),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            17.ph,
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: orderModel.order!.orderStatuses!
+                                    .map((e) => (e.status == 'pending' ||
+                                            e.status == 'accepted')
+                                        ? Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: AppPadding.p6),
+                                              child: Container(
+                                                height: 5,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            AppSize.s4),
+                                                    color: Color(0xFF7862EB)),
+                                              ),
+                                            ),
+                                          )
+                                        : Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: AppPadding.p6),
+                                              child: Container(
+                                                width: 30,
+                                                height: 5,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            AppSize.s4),
+                                                    color: Color(0xFFD9D9D9)),
+                                              ),
+                                            ),
+                                          ))
+                                    .toList()),
+                            13.ph,
+                            Text(
+                              getOrderStatusMessage(
+                                  status: orderModel.order!.status!),
+                              style: getSemiBoldStyle(
+                                  color: ColorManager.nprimaryColor,
+                                  fontSize: FontSize.s16),
                             ),
-                          )
-                        : const SizedBox(),
+                            5.ph,
+                            Text(
+                              getOrderDescription(
+                                  status: orderModel.order!.status!),
+                              style: getlightStyle(
+                                  color: ColorManager.nlightGreyColor,
+                                  fontSize: FontSize.s12),
+                            ),
+                            17.ph,
+                          ],
+                        ),
+                      ),
+                    ),
                     10.ph,
-                    currentLocation == null
-                        ? const Loader()
-                        : Stack(
-                            children: [
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.17,
-                                child: GoogleMap(
-                                  initialCameraPosition: CameraPosition(
-                                    target: LatLng(
-                                        states.currentLocation!.latitude!,
-                                        states.currentLocation!.longitude!),
-                                    zoom: 13.5,
-                                  ),
-                                  onMapCreated:
-                                      (GoogleMapController controller) {
-                                    // _googleMapcontroller.complete(controller);
-                                  },
-                                  markers: {
-                                    Marker(
-                                      markerId:
-                                          const MarkerId("currentLocation"),
-                                      position: LatLng(
-                                          states.currentLocation!.latitude!,
-                                          states.currentLocation!.longitude!),
-                                    ),
-                                    const Marker(
-                                      markerId: MarkerId('source'),
-                                      position: sourceLocation,
-                                    ),
-
-                                    const Marker(
-                                      markerId: MarkerId('desitonation'),
-                                      position: destination,
-                                    ),
-                                    // Add more courier markers here
-                                  },
-                                  myLocationEnabled: true,
-                                  zoomControlsEnabled: false,
-                                  buildingsEnabled: false,
-                                  myLocationButtonEnabled: false,
-                                  mapToolbarEnabled: false,
-                                  onCameraMove:
-                                      (CameraPosition cameraPosition) {
-                                    // states.selectedLat = cameraPosition.target.latitude;
-                                    // states.selectedLng = cameraPosition.target.longitude;
-                                  },
-                                  onCameraIdle: () async {},
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: AppPadding.p21),
+                        child: Column(
+                          children: [
+                            12.ph,
+                            Row(
+                              children: [
+                                Image.asset(
+                                  AssetImages.laundryIcon,
+                                  width: 32,
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child: MapIconWidget(
-                                    onTap: () {
-                                      showModalBottomSheet(
-                                          isScrollControlled: true,
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                10.ph,
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 10),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      const Heading(
-                                                          title:
-                                                              'Track your Courier.'),
-                                                      IconButton(
-                                                          onPressed: () {
-                                                            GoRouter.of(context)
-                                                                .pop();
-                                                          },
-                                                          icon: Icon(
-                                                            Icons.close,
-                                                            color: ColorManager
-                                                                .greyColor,
-                                                          ))
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 500,
-                                                  child: GoogleMap(
-                                                    initialCameraPosition:
-                                                        CameraPosition(
-                                                      target: LatLng(
-                                                          states
-                                                              .currentLocation!
-                                                              .latitude!,
-                                                          states
-                                                              .currentLocation!
-                                                              .longitude!),
-                                                      zoom: 13.5,
-                                                    ),
-                                                    onMapCreated:
-                                                        (GoogleMapController
-                                                            controller) {
-                                                      _googleMapcontroller
-                                                          .complete(controller);
-                                                    },
-                                                    markers: {
-                                                      Marker(
-                                                        markerId: const MarkerId(
-                                                            "currentLocation"),
-                                                        position: LatLng(
-                                                            states
-                                                                .currentLocation!
-                                                                .latitude!,
-                                                            states
-                                                                .currentLocation!
-                                                                .longitude!),
-                                                      ),
-                                                      const Marker(
-                                                        markerId:
-                                                            MarkerId('source'),
-                                                        position:
-                                                            sourceLocation,
-                                                      ),
-
-                                                      const Marker(
-                                                        markerId: MarkerId(
-                                                            'desitonation'),
-                                                        position: destination,
-                                                      ),
-                                                      // Add more courier markers here
-                                                    },
-                                                    myLocationEnabled: true,
-                                                    zoomControlsEnabled: false,
-                                                    buildingsEnabled: false,
-                                                    myLocationButtonEnabled:
-                                                        false,
-                                                    mapToolbarEnabled: false,
-                                                    onCameraMove:
-                                                        (CameraPosition
-                                                            cameraPosition) {
-                                                      // states.selectedLat = cameraPosition.target.latitude;
-                                                      // states.selectedLng = cameraPosition.target.longitude;
-                                                    },
-                                                    onCameraIdle: () async {},
-                                                  ),
-                                                ),
-                                              ],
-                                            );
-                                          });
-                                    },
-                                    icon: Icons.zoom_out_map_outlined,
-                                  ),
+                                10.pw,
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: 142,
+                                      child: Text(
+                                        overflow: TextOverflow.ellipsis,
+                                        orderModel.order!.branchName.toString(),
+                                        style: getRegularStyle(
+                                            fontSize: FontSize.s20,
+                                            color: Color(0xFF525253)),
+                                      ),
+                                    ),
+                                    Text(
+                                      '20x items',
+                                      style: getRegularStyle(
+                                          fontSize: FontSize.s12,
+                                          color: Color(0xFF525253)),
+                                    )
+                                  ],
                                 ),
-                              )
-                            ],
-                          ),
-                  ])),
-            );
-          }),
-          DraggableScrollableSheet(
-              controller: _controller,
-              initialChildSize: 0.22,
-              minChildSize: 0.22,
-              builder: (context, scrollController) => Container(
-                  decoration: BoxDecoration(
-                      color: ColorManager.whiteColor,
-                      borderRadius: const BorderRadius.horizontal(
-                          right: Radius.circular(20),
-                          left: Radius.circular(20))),
-                  child: ListView.builder(
-                    controller: scrollController,
-                    shrinkWrap: true,
-                    itemCount: users.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      if (index == 0) {
-                        return _courierDetails(context);
-                      }
-
-                      return ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: ColorManager.backgroundColor,
-                          backgroundImage: AssetImage(users[index].image),
+                                Spacer(),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      'Details',
+                                      style: getRegularStyle(
+                                          color: ColorManager.nprimaryColor,
+                                          fontSize: FontSize.s12),
+                                    ),
+                                    10.pw,
+                                    Image.asset(
+                                      AssetImages.forward,
+                                      width: 11.11,
+                                    )
+                                  ],
+                                ),
+                                25.pw
+                              ],
+                            ),
+                            10.ph
+                          ],
                         ),
-                        title: Text(users[index].prefixName),
-                        subtitle: Text(users[index].name),
-                        trailing: RatingBar(
-                          onRatingUpdate: (rating) {},
-                          itemSize: 18,
-                          ignoreGestures: true,
-                          initialRating: users[index].rating,
-                          direction: Axis.horizontal,
-                          allowHalfRating: false,
-                          ratingWidget: RatingWidget(
-                            full: const Icon(
-                              Icons.star,
-                              color: Colors.amber,
+                      ),
+                      width: MediaQuery.sizeOf(context).width * 0.85,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(AppSize.s8),
+                          color: Color(0xFFF7F7F7)),
+                    ),
+                    10.ph,
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: AppPadding.p20,
+                            top: AppPadding.p12,
+                            bottom: AppPadding.p9),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Order Number',
+                              style: getRegularStyle(
+                                  fontSize: FontSize.s16,
+                                  color: Color(0xFF1F2732)),
                             ),
-                            half: const Icon(
-                              Icons.star_half,
-                              color: Colors.amber,
+                            Row(
+                              children: [
+                                Text(
+                                  orderModel.order!.id.toString(),
+                                  style: getRegularStyle(
+                                      fontSize: FontSize.s16,
+                                      color: Color(0xFF1F2732)),
+                                ),
+                                7.pw,
+                                Image.asset(
+                                  AssetImages.clipboard,
+                                  height: AppSize.s18,
+                                ),
+                                22.92.pw
+                              ],
                             ),
-                            empty: Icon(
-                              Icons.star_border,
-                              color: ColorManager.greyColor,
-                            ),
-                          ),
-                          itemPadding:
-                              const EdgeInsets.symmetric(horizontal: 4.0),
+                          ],
                         ),
-                      );
-                    },
-                  )))
-        ]));
+                      ),
+                      width: MediaQuery.sizeOf(context).width * 0.85,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(AppSize.s8),
+                          color: Color(0xFFF7F7F7)),
+                    ),
+                    15.ph,
+                    SizedBox(
+                      width: MediaQuery.sizeOf(context).width * 0.85,
+                      height: AppSize.s200,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(AppSize
+                            .s12), // Ensure the border radius matches the container
+                    
+                        child: GoogleMap(
+                          initialCameraPosition: CameraPosition(
+                              zoom: 16,
+                              target: LatLng(orderModel.order!.customerLat!,
+                                  orderModel.order!.customerLng!)),
+                          compassEnabled: false,
+                          myLocationEnabled: true,
+                          zoomControlsEnabled: false,
+                          myLocationButtonEnabled: false,
+                          mapToolbarEnabled: false,
+                          onCameraIdle: () {},
+                          onCameraMove: (cameraPos) {},
+                          onMapCreated: (GoogleMapController gcontroller) {},
+                        ),
+                      ),
+                    ),
+                    orderModel.order!.orderDeliveries!.isNotEmpty
+                        ? _courierDetails(context)
+                        : SizedBox(),
+                  ] else if (orderState is OrderStateErrorState) ...[
+                    Text(orderState.errorMessage)
+                  ]
+                ]),
+          )),
+    );
   }
 
   Widget _courierDetails(BuildContext context) {
@@ -757,9 +411,9 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                                                 },
                                                 child: Text(
                                                   '05134357098',
-                                                  style: GoogleFonts.poppins(
-                                                      fontWeight:
-                                                          FontWeight.w500),
+                                                  style: getMediumStyle(
+                                                      color: ColorManager
+                                                          .blackColor),
                                                 )),
                                           ),
                                           const Divider(),
@@ -771,9 +425,9 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                                                 },
                                                 child: Text(
                                                   'Cancel',
-                                                  style: GoogleFonts.poppins(
-                                                      fontWeight:
-                                                          FontWeight.w500),
+                                                  style: getMediumStyle(
+                                                      color: ColorManager
+                                                          .blackColor),
                                                 )),
                                           ),
                                           10.ph
@@ -788,7 +442,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                     ),
                     Text(
                       'Courier',
-                      style: GoogleFonts.poppins(
+                      style: getRegularStyle(
                         color: ColorManager.greyColor,
                       ),
                     ),
@@ -803,12 +457,13 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                         Text(
                           '4',
                           style:
-                              GoogleFonts.poppins(fontWeight: FontWeight.w500),
+                              getSemiBoldStyle(color: ColorManager.blackColor),
                         ),
                         5.pw,
                         Text(
                           'base on (16)',
-                          style: GoogleFonts.poppins(),
+                          style:
+                              getRegularStyle(color: ColorManager.blackColor),
                         ),
                         TextButton(
                             style: ButtonStyle(
@@ -817,7 +472,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                             onPressed: () {},
                             child: Text(
                               'Reviews',
-                              style: GoogleFonts.poppins(
+                              style: getRegularStyle(
                                   color: ColorManager.primaryColor),
                             ))
                       ],
@@ -834,8 +489,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
                         ),
                         Text(
                           '9194',
-                          style:
-                              GoogleFonts.poppins(fontWeight: FontWeight.w500),
+                          style: getMediumStyle(color: ColorManager.blackColor),
                         )
                       ],
                     )
@@ -848,15 +502,6 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
         5.ph,
       ],
     );
-  }
-
-  void generateRandomCode() {
-    // Generate a random 4-digit code
-    Random random = Random();
-    int code = random.nextInt(10000);
-    setState(() {
-      fourDigitcode = code.toString().padLeft(4, '0');
-    });
   }
 
   Future<void> _showMyDialog() async {
@@ -883,7 +528,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
               ),
               label: Text(
                 'Set availability',
-                style: GoogleFonts.poppins(color: ColorManager.amber),
+                style: getRegularStyle(color: ColorManager.amber),
               ),
               onPressed: () {
                 _selectTime(context);
@@ -892,7 +537,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
             TextButton(
               child: Text(
                 "I'm available",
-                style: GoogleFonts.poppins(color: ColorManager.primaryColor),
+                style: getRegularStyle(color: ColorManager.primaryColor),
               ),
               onPressed: () {
                 context.pop();
@@ -902,6 +547,52 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
         );
       },
     );
+  }
+
+  String getOrderStatusMessage({required String status}) {
+    switch (status) {
+      case 'pending':
+        return 'Searching for Courier';
+      case 'accepted':
+        return 'Delivery Agent arrived to Laundry.';
+      case 'shipped':
+        return 'Order is shipped';
+      case 'delivered':
+        return 'Order is delivered';
+      case 'canceled':
+        return 'Order is canceled';
+      default:
+        return 'Unknown order status';
+    }
+  }
+
+  String getStatusImage({required String status}) {
+    switch (status) {
+      case 'pending':
+        return AssetImages.pendingStatus;
+      case 'accepted':
+        return AssetImages.acceptedStatus;
+
+      default:
+        return AssetImages.pendingStatus;
+    }
+  }
+
+  String getOrderDescription({required String status}) {
+    switch (status) {
+      case 'pending':
+        return """Patience always pay off.kindly allow us some time while we are looking for available courier.""";
+      case 'accepted':
+        return 'Delivery Agent Arrived to store and he will get your order soon';
+      case 'shipped':
+        return 'Order is shipped';
+      case 'delivered':
+        return 'Order is delivered';
+      case 'canceled':
+        return 'Order is canceled';
+      default:
+        return 'Unknown order status';
+    }
   }
 
   Future<void> _selectTime(BuildContext context) async {
@@ -925,4 +616,13 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
       setState(() {});
     }
   }
+}
+
+class OrderStatusDetailModel {
+  final String title;
+  final String description;
+  OrderStatusDetailModel({
+    required this.title,
+    required this.description,
+  });
 }

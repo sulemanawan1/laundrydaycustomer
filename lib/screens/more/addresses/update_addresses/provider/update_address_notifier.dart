@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,13 +8,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:laundryday/app_services/image_picker_handler.dart';
+import 'package:laundryday/core/image_picker_handler.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/provider/my_addresses_notifier.dart';
 import 'package:laundryday/screens/more/addresses/update_addresses/model/update_address_model.dart';
 import 'package:laundryday/screens/more/addresses/update_addresses/provider/update_address_state.dart';
 import 'package:laundryday/screens/more/addresses/update_addresses/service/update_address_service.dart';
 import 'package:laundryday/core/utils.dart';
-import 'package:location/location.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
     as myaddressesmodel;
 
@@ -25,11 +23,9 @@ final updateAddressProvider = StateNotifierProvider.autoDispose<
 
 class UpdateAddressNotifier extends StateNotifier<UpdateAddressState> {
   late GoogleMapController mapController;
-  Location location = Location();
   TextEditingController addressNameController = TextEditingController();
   TextEditingController addressDetailController = TextEditingController();
 
-  PermissionStatus _permissionGranted = PermissionStatus.denied;
   UpdateAddressNotifier()
       : super(UpdateAddressState(
           coordinates: LatLng(0, 0),
@@ -52,23 +48,7 @@ class UpdateAddressNotifier extends StateNotifier<UpdateAddressState> {
     state = state.copyWith(address: address);
   }
 
-  Future<void> checkLocationPermission() async {
-    state.locationServiceEnabled = await location.serviceEnabled();
-    if (!state.locationServiceEnabled) {
-      state.locationServiceEnabled = await location.requestService();
-      if (!state.locationServiceEnabled) {
-        return;
-      }
-    }
-
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
-  }
+  
 
   updatetoCurrent({
     required CameraPosition selectedCameraPos,

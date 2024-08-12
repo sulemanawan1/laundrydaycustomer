@@ -6,13 +6,13 @@ import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/helpers/google_helper.dart';
-import 'package:laundryday/helpers/validation_helper/validation_helper.dart';
+import 'package:laundryday/helpers/validation_helper.dart';
 import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/more/addresses/add_new_address/provider/add_new_address_notifier.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
-import 'package:laundryday/core/constants/value_manager.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/resources/value_manager.dart';
 import 'package:laundryday/core/widgets/heading.dart';
 import 'package:laundryday/core/widgets/my_app_bar.dart';
 import 'package:laundryday/core/widgets/my_button.dart';
@@ -37,7 +37,8 @@ class AddNewAddress extends ConsumerWidget {
           children: [
             states.isLoading
                 ? CircularProgressIndicator()
-                : SizedBox(
+                : 
+                SizedBox(
                     height: 280,
                     child: Stack(
                       alignment: Alignment.center,
@@ -62,6 +63,8 @@ class AddNewAddress extends ConsumerWidget {
                             reader.googleMapController = gcontroller;
                           },
                         ),
+                       
+                       
                         Icon(
                           Icons.location_on,
                           color: ColorManager.primaryColor,
@@ -97,6 +100,8 @@ class AddNewAddress extends ConsumerWidget {
                       ],
                     ),
                   ),
+          
+          
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(

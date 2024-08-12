@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:laundryday/core/routes/route_names.dart';
+import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/core/widgets/reusable_checkout_card.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/laundries/model/services_timings_model.dart';
@@ -13,20 +13,18 @@ import 'package:laundryday/screens/laundry_items/model/category_item_model.dart'
 import 'package:laundryday/screens/laundry_items/provider/laundry_item_states.dart';
 import 'package:laundryday/screens/laundry_items/provider/laundry_items.notifier.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
-import 'package:laundryday/core/constants/api_routes.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/font_manager.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
-import 'package:laundryday/core/constants/value_manager.dart';
-import 'package:laundryday/core/theme/styles_manager.dart';
+import 'package:laundryday/config/resources/api_routes.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/font_manager.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/resources/value_manager.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/widgets/my_loader.dart';
 import 'package:laundryday/core/widgets/reuseable_laundry_detail_banner_card.dart';
-import 'package:laundryday/screens/services/model/services_model.dart'
-    as servicemodel;
+import 'package:laundryday/screens/services/provider/services_notifier.dart';
 
 class LaundryItems extends ConsumerStatefulWidget {
-  final servicemodel.Datum? services;
-  LaundryItems({required this.services});
+  LaundryItems();
 
   @override
   ConsumerState<LaundryItems> createState() => _BlanketsCategoryState();
@@ -37,10 +35,11 @@ class _BlanketsCategoryState extends ConsumerState<LaundryItems> {
   void initState() {
     super.initState();
     final selectedAddress = ref.read(selectedAddressProvider);
+    final selectedService = ref.read(serviceProvider).selectedService;
 
     Future.delayed(Duration(seconds: 0), () {
       ref.read(laundryItemProver.notifier).nearestLaundries(
-          serviceId: widget.services!.id!,
+          serviceId: selectedService!.id!,
           ref: ref,
           userLat: selectedAddress!.lat!,
           userLng: selectedAddress.lng!,
@@ -48,7 +47,7 @@ class _BlanketsCategoryState extends ConsumerState<LaundryItems> {
 
       ref
           .read(laundryItemProver.notifier)
-          .categoriesWithItems(serviceId: widget.services!.id!);
+          .categoriesWithItems(serviceId: selectedService.id!);
       ref.read(laundryItemProver.notifier).getCount();
       ref.read(laundryItemProver.notifier).getTotal();
     });
@@ -63,7 +62,9 @@ class _BlanketsCategoryState extends ConsumerState<LaundryItems> {
     final selectedCategory = ref.watch(laundryItemProver).selectedCategory;
     final count = ref.watch(laundryItemProver).count;
     final total = ref.watch(laundryItemProver).total;
+    
     final selectedServiceTiming = ref.read(laundriessProvider).serviceTiming;
+    final selectedService = ref.read(serviceProvider).selectedService;
 
     return Scaffold(
         body: Column(children: [
@@ -77,11 +78,12 @@ class _BlanketsCategoryState extends ConsumerState<LaundryItems> {
             : Expanded(
                 child: Column(
                   children: [
+                   
                     ReusabelLaundryDetailBannerCard(
                       nearestLaundryModel: nearestLaundryStates.laundryModel,
                     ),
                     30.ph,
-                    if (widget.services!.serviceName!.toLowerCase() ==
+                    if (selectedService!.serviceName!.toLowerCase() ==
                         'clothes') ...[AttentionWidget()],
                     10.ph,
                     if (categoryItemsStates is CategoryItemsIntitialState) ...[
@@ -158,7 +160,7 @@ class _BlanketsCategoryState extends ConsumerState<LaundryItems> {
                 context.pushNamed(RouteNames().orderReview, extra: {
                   'order_type': OrderType.normal,
                   'laundry': null,
-                  'service': widget.services
+                  'service': selectedService
                 });
               },
               quantity: count.toString(),

@@ -1,6 +1,6 @@
 
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart';
-import 'package:laundryday/core/constants/api_routes.dart';
+import 'package:laundryday/config/resources/api_routes.dart';
 import 'package:laundryday/core/base_client_class.dart';
 import 'package:http/http.dart' as http;
 

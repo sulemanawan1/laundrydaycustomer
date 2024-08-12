@@ -9,7 +9,7 @@ import 'package:laundryday/provider/user_states.dart';
 import 'package:laundryday/screens/auth/login/provider/login_notifier.dart';
 import 'package:laundryday/screens/auth/verification/provider/verification_states.dart';
 import 'package:laundryday/screens/auth/verification/service/verification_service.dart';
-import 'package:laundryday/core/routes/route_names.dart';
+import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/core/session.dart';
 import 'package:laundryday/core/utils.dart';
 

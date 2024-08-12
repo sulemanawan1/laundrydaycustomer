@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
-import 'package:laundryday/core/constants/value_manager.dart';
-import 'package:laundryday/core/routes/route_names.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/resources/value_manager.dart';
+import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/core/widgets/my_app_bar.dart';
 
 class Help extends StatefulWidget {

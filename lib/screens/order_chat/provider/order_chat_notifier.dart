@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:laundryday/app_services/image_picker_handler.dart';
+import 'package:laundryday/core/image_picker_handler.dart';
 import 'package:laundryday/screens/order_chat/provider/order_chat_states.dart';
 
 class OrderChatNotifier extends StateNotifier<OrderChatStates> {

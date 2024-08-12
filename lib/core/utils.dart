@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
-import 'package:laundryday/core/constants/value_manager.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/resources/value_manager.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/widgets/reusbale_dialog.dart';
 
 class Utils {
@@ -64,10 +64,10 @@ class Utils {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(title,
-                        style: GoogleFonts.poppins(
+                        style: getSemiBoldStyle(
                             color: ColorManager.blackColor,
                             fontSize: 18,
-                            fontWeight: FontWeight.w500)),
+                           )),
                     Container(
                       width: 40,
                       height: 40,

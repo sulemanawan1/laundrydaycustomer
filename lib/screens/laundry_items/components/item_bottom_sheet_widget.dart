@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/core/widgets/my_button.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/widgets/my_loader.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
-import 'package:laundryday/core/constants/value_manager.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/resources/value_manager.dart';
 import 'package:laundryday/core/widgets/heading.dart';
 import 'package:laundryday/helpers/db_helper.dart';
 import 'package:laundryday/screens/laundry_items/model/category_item_model.dart';
@@ -15,7 +14,7 @@ import 'package:laundryday/screens/laundry_items/provider/laundry_item_states.da
 import 'package:laundryday/screens/laundry_items/provider/laundry_items.notifier.dart';
 
 class ItemBottomSheet extends ConsumerWidget {
-  Item? selectedItem;
+ final Item? selectedItem;
   ItemBottomSheet({super.key, this.selectedItem});
 
   @override
@@ -96,7 +95,7 @@ class ItemBottomSheet extends ConsumerWidget {
                               child: Text(
                                 "${itemVariation.price!.toStringAsFixed(2)} SAR",
                                 maxLines: 2,
-                                style: GoogleFonts.poppins(
+                                style: getSemiBoldStyle(
                                     color: ColorManager.blackColor),
                               ),
                             ),
@@ -221,15 +220,15 @@ class ItemBottomSheet extends ConsumerWidget {
                     ),
               20.ph,
 
-              MyButton(
-                title: 'Item',
-                onPressed: () async {
-                  List<Item> item = await DatabaseHelper.instance.getAllItems();
+              // MyButton(
+              //   title: 'Item',
+              //   onPressed: () async {
+              //     List<Item> item = await DatabaseHelper.instance.getAllItems();
 
-                  print(item.map((e) => e.count));
-                  print(item.map((e) => e.total_price));
-                },
-              )
+              //     print(item.map((e) => e.count));
+              //     print(item.map((e) => e.total_price));
+              //   },
+              // )
               // MyButton(
               //   title: 'Delete',
               //   onPressed: () async {
@@ -286,7 +285,7 @@ Widget quantityAddRemoveCard(
             child: Center(
               child: Text(
                 blankets.quantity.toString(),
-                style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+                style: getMediumStyle(color: ColorManager.blackColor),
               ),
             ),
           ),

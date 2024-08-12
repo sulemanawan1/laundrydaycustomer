@@ -81,7 +81,6 @@ class SelectedAddressNotifier extends StateNotifier<myaddressmodel.Address?> {
   SelectedAddressNotifier() : super(null);
 
   void onAddressTap(myaddressmodel.Address address) {
-    log(address.id.toString());
 
     state = address;
   }

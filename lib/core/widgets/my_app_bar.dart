@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 
 // ignore: must_be_immutable
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -38,10 +38,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         centerTitle: true,
         title: Text(
           title ?? "",
-          style: GoogleFonts.poppins(
+          style: getSemiBoldStyle(
               color: ColorManager.blackColor,
               fontSize: 16,
-              fontWeight: FontWeight.w600),
+              ),
         ),
         actions: actions,
         leading: isLeading

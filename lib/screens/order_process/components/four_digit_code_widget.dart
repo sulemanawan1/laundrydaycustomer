@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 
 class FourDigitCodeWidget extends StatelessWidget {
   const FourDigitCodeWidget({
@@ -34,7 +34,7 @@ class FourDigitCodeWidget extends StatelessWidget {
                 10.pw,
                 Text(
                   'Share the four-digit code with the courier\n to finalize the order.',
-                  style: GoogleFonts.poppins(color: ColorManager.blackColor),
+                  style: getRegularStyle(color: ColorManager.blackColor),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -57,9 +57,9 @@ class FourDigitCodeWidget extends StatelessWidget {
                 child: Center(
                     child: Text(
                   code,
-                  style: GoogleFonts.poppins(
+                  style: getBoldStyle(
                       color: ColorManager.blackColor,
-                      fontWeight: FontWeight.bold),
+                      ),
                 )),
               ),
             ]

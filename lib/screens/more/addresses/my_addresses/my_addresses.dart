@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/provider/my_addresses_notifier.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/font_manager.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
-import 'package:laundryday/core/routes/route_names.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/font_manager.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/core/widgets/heading.dart';
 import 'package:laundryday/core/widgets/my_app_bar.dart';
 import 'package:laundryday/core/widgets/my_button.dart';
@@ -47,10 +47,10 @@ class MyAddresses extends ConsumerWidget {
                           ),
                           label: Text(
                             'Add Address',
-                            style: GoogleFonts.poppins(
+                            style: getSemiBoldStyle(
                                 color: ColorManager.primaryColor,
                                 fontSize: 16,
-                                fontWeight: FontWeightManager.semiBold),
+                               ),
                           ),
                           icon: Icon(Icons.add_location),
                           onPressed: () {
@@ -80,8 +80,8 @@ class MyAddresses extends ConsumerWidget {
                             Text(
                               textAlign: TextAlign.center,
                               data.message.toString(),
-                              style: GoogleFonts.poppins(
-                                  fontSize: 16, fontWeight: FontWeight.w600),
+                              style: getSemiBoldStyle(
+                                  fontSize: 16, color: ColorManager.blackColor),
                             ),
                           ],
                         ),
@@ -118,13 +118,13 @@ class MyAddresses extends ConsumerWidget {
                               ),
                               title: Text(
                                 data.addresses![index].addressName.toString(),
-                                style: GoogleFonts.poppins(
+                                style: getSemiBoldStyle(
                                     color: ColorManager.blackColor),
                                 maxLines: 1,
                               ),
                               subtitle: Text(
                                 data.addresses![index].addressDetail.toString(),
-                                style: GoogleFonts.poppins(
+                                style: getSemiBoldStyle(
                                     color: ColorManager.greyColor),
                                 maxLines: 1,
                               ),
@@ -190,19 +190,19 @@ class MyAddresses extends ConsumerWidget {
             children: [
               Text(
                 'Delete Address',
-                style: GoogleFonts.poppins(),
+                style: getSemiBoldStyle(color: ColorManager.blackColor),
               ),
             ],
           ),
           content: Text(
             'Are you sure you want to delete the address?',
-            style: GoogleFonts.poppins(color: ColorManager.greyColor),
+            style: getSemiBoldStyle(color: ColorManager.greyColor),
           ),
           actions: <Widget>[
             TextButton(
               child: Text(
                 'Cancel',
-                style: GoogleFonts.poppins(color: ColorManager.greyColor),
+                style: getSemiBoldStyle(color: ColorManager.greyColor),
               ),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
@@ -211,7 +211,7 @@ class MyAddresses extends ConsumerWidget {
             TextButton(
               child: Text(
                 'Delete',
-                style: GoogleFonts.poppins(color: ColorManager.redColor),
+                style: getSemiBoldStyle(color: ColorManager.redColor),
               ),
               onPressed: () {
                 ref

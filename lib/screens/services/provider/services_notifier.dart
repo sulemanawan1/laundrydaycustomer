@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:laundryday/helpers/google_helper.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart';
 import 'package:laundryday/screens/services/provider/services_states.dart';
@@ -50,5 +49,9 @@ class ServicesNotifier extends StateNotifier<ServicesStates> {
       state = state.copyWith(
           allServicesState: AllServicesErrorState(errorMessage: e.toString()));
     }
+  }
+
+  selectedService({required servicemodel.Datum selectedService}) {
+    state = state.copyWith(selectedService: selectedService);
   }
 }

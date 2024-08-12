@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
-import 'package:laundryday/core/constants/value_manager.dart';
-import 'package:laundryday/core/theme/styles_manager.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/resources/value_manager.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/utils.dart';
 
 class AttentionWidget extends StatelessWidget {
@@ -49,15 +48,15 @@ class AttentionWidget extends StatelessWidget {
                               10.ph,
                               Text(
                                 'No leather or wool items are allowed.',
-                                style: GoogleFonts.poppins(
-                                    fontSize: 18, fontWeight: FontWeight.w500),
+                                style: getSemiBoldStyle(
+                                    fontSize: 18,color: ColorManager.blackColor),
                               ),
                               5.ph,
                               Text(
                                 'Our prices are the same as the current laundry prices.All item are completely identical to the prices in the store wihout adding any increase by Laundry Day.',
-                                style: GoogleFonts.poppins(
+                                style:getSemiBoldStyle(
                                     fontSize: 16,
-                                    fontWeight: FontWeight.w500,
+                                    
                                     color: ColorManager.greyColor),
                               ),
                               30.ph,

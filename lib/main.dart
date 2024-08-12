@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:laundryday/firebase_options.dart';
-import 'package:laundryday/core/theme/theme_manager.dart';
-import 'core/routes/app_routes.dart';
+import 'package:laundryday/config/theme/theme_manager.dart';
+import 'config/routes/app_routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
@@ -29,8 +29,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      
       debugShowCheckedModeBanner: false,
-      routerConfig: AppRoutes().routes,
+      routerConfig: AppRoutes.routes,
       theme: getApplicatonTheme(),
     );
   }

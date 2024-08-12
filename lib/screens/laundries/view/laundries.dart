@@ -9,11 +9,11 @@ import 'package:laundryday/screens/laundries/provider/laundries_states.dart';
 import 'package:laundryday/screens/laundries/provider/service_timing_notifier.dart';
 import 'package:laundryday/screens/laundries/provider/service_timing_states.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
-import 'package:laundryday/core/constants/api_routes.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
-import 'package:laundryday/core/routes/route_names.dart';
-import 'package:laundryday/core/theme/styles_manager.dart';
+import 'package:laundryday/config/resources/api_routes.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/routes/route_names.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/widgets/heading.dart';
 import 'package:laundryday/core/widgets/my_app_bar.dart';
 import 'package:laundryday/core/widgets/my_loader.dart';
@@ -23,11 +23,12 @@ import 'package:laundryday/screens/services/model/services_model.dart'
 import 'package:laundryday/screens/laundries/model/laundry_by_area.model.dart'
     as laundrybyareamodel;
 import 'package:laundryday/core/widgets/reuseable_laundry_tile.dart';
+import 'package:laundryday/screens/services/provider/services_notifier.dart';
 
 class Laundries extends ConsumerStatefulWidget {
-  servicemodel.Datum? services;
-
-  Laundries({super.key, required this.services});
+  Laundries({
+    super.key,
+  });
 
   @override
   ConsumerState<Laundries> createState() => _LaundriesState();
@@ -37,12 +38,13 @@ class _LaundriesState extends ConsumerState<Laundries> {
   @override
   void initState() {
     super.initState();
-
+    final servicemodel.Datum? selectedService =
+        ref.read(serviceProvider).selectedService;
     Future.delayed(Duration(seconds: 0), () {
       final selectedAddress = ref.read(selectedAddressProvider);
 
       ref.read(laundriessProvider.notifier).branchByArea(
-          serviceId: widget.services?.id ?? 0,
+          serviceId: selectedService?.id ?? 0,
           district: selectedAddress!.district ?? '',
           userLat: selectedAddress.lat ?? 0.0,
           userLng: selectedAddress.lng ?? 0 / 0);
@@ -58,26 +60,27 @@ class _LaundriesState extends ConsumerState<Laundries> {
     final laundryByAreaState = ref.watch(laundriessProvider).laundryByAreaState;
     final deliveryPickupLaundryState =
         ref.watch(laundriessProvider).deliveryPickupLaundryState;
+    final servicemodel.Datum? selectedService =
+        ref.watch(serviceProvider).selectedService;
 
     return Scaffold(
       appBar: MyAppBar(
-        title: widget.services!.serviceName.toString(),
+        title: selectedService!.serviceName.toString(),
         iconColor: ColorManager.blackColor,
         backgroundColor: ColorManager.backgroundColor,
       ),
       body: SingleChildScrollView(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-         
-          if (widget.services!.serviceName!.toLowerCase() == 'carpets')
+          if (selectedService.serviceName!.toLowerCase() == 'carpets')
             ...[]
           else ...[
-             ReusableOrderNowCard(
+            ReusableOrderNowCard(
                 image: getOrderNowImage(
-                        serviceName: widget.services!.serviceName!) ??
+                        serviceName: selectedService.serviceName!) ??
                     "",
                 onPressed: () {
                   serviceTimingController.serviceTimings(
-                      serviceId: widget.services!.id!);
+                      serviceId: selectedService.id!);
 
                   showDialog<void>(
                       useSafeArea: true,
@@ -92,14 +95,14 @@ class _LaundriesState extends ConsumerState<Laundries> {
                               ),
                             ),
                             content: ServiceTimingDialog(
-                                serviceModel: widget.services!));
+                                serviceModel: selectedService));
                       });
                 }),
-          
+            10.ph,
             if (laundryByAreaState is LaundryByAreaIntitialState) ...[
-              CircularProgressIndicator()
+              Center(child: Loader())
             ] else if (laundryByAreaState is LaundryByAreaLoadingState) ...[
-              CircularProgressIndicator()
+              Center(child: Loader())
             ] else if (laundryByAreaState is LaundryByAreaErrorState) ...[
               Text(laundryByAreaState.errorMessage)
             ] else if (laundryByAreaState is LaundryByAreaLoadedState) ...[
@@ -114,7 +117,7 @@ class _LaundriesState extends ConsumerState<Laundries> {
                   return ResuableLaundryTile(
                     onTap: () {
                       serviceTimingController.serviceTimings(
-                          serviceId: widget.services!.id!);
+                          serviceId: selectedService.id!);
 
                       showDialog<void>(
                           useSafeArea: true,
@@ -129,7 +132,7 @@ class _LaundriesState extends ConsumerState<Laundries> {
                                   ),
                                 ),
                                 content: ServiceTimingDialog(
-                                    serviceModel: widget.services!));
+                                    serviceModel: selectedService));
                           });
                     },
                     laundry: laundry,
@@ -137,14 +140,12 @@ class _LaundriesState extends ConsumerState<Laundries> {
                 },
               ),
             ],
-            // Delivery Pickup Laundries
-
             if (deliveryPickupLaundryState
                 is DeliveryPickupLaundryIntitialState) ...[
-              CircularProgressIndicator()
+              Center(child: Loader())
             ] else if (deliveryPickupLaundryState
                 is DeliveryPickupLaundryLoadingState) ...[
-              CircularProgressIndicator()
+              Center(child: Loader())
             ] else if (deliveryPickupLaundryState
                 is DeliveryPickupLaundryLoadedState) ...[
               10.ph,
@@ -163,23 +164,12 @@ class _LaundriesState extends ConsumerState<Laundries> {
                   return ResuableDeliveryPickuPLaundryTile(
                     laundry: laundry,
                     onTap: () {
+                      ref
+                          .read(laundriessProvider.notifier)
+                          .selectedLaundry(selectedLaundry: laundry);
+
                       GoRouter.of(context)
-                          .pushNamed(RouteNames().deliveryPickup, extra: {
-                        'laundry': laundry,
-                        'service': widget.services
-                      });
-                      // if (laundry.openingHours == false) {
-                      //   Utils.showSnackBar(
-                      //       context: context,
-                      //       message: 'Laundry Closed. Try Again later',
-                      //       color: ColorManager.blackColor);
-                      // } else {
-                      //   GoRouter.of(context)
-                      //       .pushNamed(RouteNames().deliveryPickup, extra: {
-                      //     'laundry': laundry,
-                      //     'service': widget.services
-                      //   });
-                      // }
+                          .pushNamed(RouteNames().deliveryPickup);
                     },
                   );
                 },

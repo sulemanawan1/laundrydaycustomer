@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 
 class MyButton extends StatelessWidget {
   final String? title;
@@ -48,12 +48,13 @@ class MyButton extends StatelessWidget {
               Center(
                 child: Text(
                   title!,
-                  style: GoogleFonts.poppins(
+                  style: getSemiBoldStyle(
                     color: isBorderButton
                         ? textColor ?? ColorManager.primaryColor
                         : ColorManager.whiteColor,
                     fontSize: 16,
-                    fontWeight: FontWeight.w600,
+               
+                    
                   ),
                 ),
               ),

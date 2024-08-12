@@ -199,8 +199,6 @@ class LaundryItemsNotifier extends StateNotifier<LaundryItemStates> {
     state = state.copyWith(selectedItem: selectedItem);
   }
 
- 
-
   Future getTotal() async {
     List<Item> item = await DatabaseHelper.instance.getAllItems();
 

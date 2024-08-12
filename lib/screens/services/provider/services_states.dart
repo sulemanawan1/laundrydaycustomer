@@ -6,17 +6,23 @@ class ServicesStates {
   AllServicesState? allServicesState;
   String? district;
   LatLng? latLng;
+  servicemodel.Datum? selectedService;
 
-  ServicesStates({this.allServicesState,this.district,this.latLng});
+  ServicesStates(
+      {this.allServicesState,
+      this.district,
+      this.latLng,
+      this.selectedService});
 
   ServicesStates copyWith(
-      {
-  String? district,
-  LatLng? latLng,
-  AllServicesState? allServicesState}) {
+      {servicemodel.Datum? selectedService,
+      String? district,
+      LatLng? latLng,
+      AllServicesState? allServicesState}) {
     return ServicesStates(
-      district: district??this.district,
-      latLng: latLng??this.latLng,
+      selectedService: selectedService??this.selectedService,
+      district: district ?? this.district,
+      latLng: latLng ?? this.latLng,
       allServicesState: allServicesState ?? this.allServicesState,
     );
   }

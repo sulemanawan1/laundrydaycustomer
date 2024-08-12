@@ -7,9 +7,9 @@ import 'package:laundryday/screens/laundries/model/google_distance_matrix_model.
 import 'package:laundryday/screens/laundries/model/laundry_by_area.model.dart';
 import 'package:laundryday/screens/laundries/provider/laundries_states.dart';
 import 'package:laundryday/screens/laundries/service/laundries_services.dart';
-import 'package:laundryday/core/constants/api_routes.dart';
-import 'package:laundryday/screens/laundries/model/services_timings_model.dart'
-    as servicetimingmodel;
+import 'package:laundryday/config/resources/api_routes.dart';
+import 'package:laundryday/screens/laundries/model/services_timings_model.dart' as servicetimingmodel;
+import 'dart:math';
 
 final laundriessProvider =
     StateNotifierProvider<LaundriesNotifier, LaundriesStates>(
@@ -75,6 +75,7 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
       if (placesResponse.statusCode == 200) {
         final data = jsonDecode(placesResponse.body);
         List<dynamic> laundryList = data['results'];
+        
 
         // Prepare distance matrix requests
         List<Future<DistanceMatrixResponse?>> distanceMatrixFutures =
@@ -119,11 +120,24 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
             );
           }
         }
+        List<String> excludeWords = [
+          'سيارات',
+          'سيارة',
+          'car',
+          'cars',
+          'vechiles',
+          'vechile'
+        ];
 
+        List<DeliveryPickupLaundryModel> filteredLaundry =
+            laundries.where((item) {
+          return !excludeWords.any((word) =>
+                  item.name.toString().toLowerCase().contains(word)) &&
+              item.distanceInKm <= 3.0;
+        }).toList();
         state = state.copyWith(
           deliveryPickupLaundryState: DeliveryPickupLaundryLoadedState(
-            deliveryPickupLaundryModel: laundries,
-          ),
+              deliveryPickupLaundryModel: filteredLaundry),
         );
       } else {
         throw Exception('Failed to load laundries');
@@ -140,7 +154,7 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
 
   Future<http.Response> _fetchNearbyLaundries(double lat, double lng) async {
     final url = Uri.parse(
-      'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$lat,$lng&radius=3500&type=laundry&key=${Api.googleKey}',
+      'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$lat,$lng&radius=3000&type=laundry&key=${Api.googleKey}&language=ar',
     );
     return await http.get(url);
   }
@@ -174,4 +188,27 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
 
     return null;
   }
+
+  selectedLaundry({required DeliveryPickupLaundryModel selectedLaundry}) {
+    state = state.copyWith(selectedLaundry: selectedLaundry);
+  }
+
+  double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+    const double earthRadius = 6371; // Earth's radius in km
+    double dLat = _degreesToRadians(lat2 - lat1);
+    double dLon = _degreesToRadians(lon2 - lon1);
+    double a = sin(dLat / 2) * sin(dLat / 2) +
+        cos(_degreesToRadians(lat1)) *
+            cos(_degreesToRadians(lat2)) *
+            sin(dLon / 2) *
+            sin(dLon / 2);
+    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+    return earthRadius * c;
+  }
+
+  double _degreesToRadians(double degrees) {
+    return degrees * pi / 180;
+  }
+
+ 
 }

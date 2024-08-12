@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
-import 'package:laundryday/core/constants/value_manager.dart';
-import 'package:laundryday/core/routes/route_names.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/resources/value_manager.dart';
+import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/core/widgets/my_app_bar.dart';
 import 'package:laundryday/core/widgets/my_button.dart';
 import 'package:laundryday/core/widgets/heading.dart';
@@ -45,7 +45,7 @@ class _ProfileState extends State<Profile> {
             10.ph,
             Text(
               "Suleman Abrar",
-              style: GoogleFonts.poppins(),
+              style: getRegularStyle(color: ColorManager.blackColor),
             ),
             const Divider(),
             10.ph,
@@ -62,7 +62,7 @@ class _ProfileState extends State<Profile> {
             10.ph,
             Text(
               "+96633247474",
-              style: GoogleFonts.poppins(),
+              style: getRegularStyle(color: ColorManager.blackColor),
             ),
             const Divider(),
             const Spacer(),

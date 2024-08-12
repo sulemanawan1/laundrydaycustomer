@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/laundries/model/delivery_pickup_laundry_model.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
 import 'package:laundryday/screens/laundries/model/laundry_by_area.model.dart'
     as laundrybyareamodel;
 
@@ -54,9 +54,9 @@ class ResuableLaundryTile extends StatelessWidget {
                                     child: Center(
                                         child: Text(
                                       'Closed',
-                                      style: GoogleFonts.poppins(
-                                          color: ColorManager.whiteColor,
-                                          fontWeight: FontWeight.w600),
+                                      style: getSemiBoldStyle(
+                                        color: ColorManager.whiteColor,
+                                      ),
                                     )),
                                   )
                                 : const SizedBox()
@@ -67,14 +67,14 @@ class ResuableLaundryTile extends StatelessWidget {
                     child: ListTile(
                       title: Text(
                         laundry.name.toString(),
-                        style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+                        style: getSemiBoldStyle(color: ColorManager.blackColor),
                       ),
                       subtitle: Padding(
                         padding: const EdgeInsets.only(top: 10),
                         child: Text(
                           laundry.services!.first.serviceName.toString(),
-                          style: GoogleFonts.poppins(
-                              color: ColorManager.greyColor),
+                          style:
+                              getSemiBoldStyle(color: ColorManager.greyColor),
                         ),
                       ),
                     ),
@@ -97,9 +97,9 @@ class ResuableLaundryTile extends StatelessWidget {
                 5.pw,
                 Text(
                   laundry.rating.toString(),
-                  style: GoogleFonts.poppins(
-                      color: ColorManager.blackColor,
-                      fontWeight: FontWeight.w400),
+                  style: getSemiBoldStyle(
+                    color: ColorManager.blackColor,
+                  ),
                 ),
                 15.pw,
                 Icon(
@@ -110,34 +110,10 @@ class ResuableLaundryTile extends StatelessWidget {
                 5.pw,
                 Text(
                   "${laundry.distance.toString()}",
-                  style: GoogleFonts.poppins(
-                      color: ColorManager.greyColor,
-                      fontWeight: FontWeight.w400),
+                  style: getSemiBoldStyle(
+                    color: ColorManager.greyColor,
+                  ),
                 ),
-                15.pw,
-                Icon(
-                  Icons.schedule_outlined,
-                  size: 16,
-                  color: ColorManager.blackColor,
-                ),
-                5.pw,
-                Text(
-                  "${laundry.branch!.openTime.toString()}- ${laundry.branch!.closeTime.toString()}",
-                  style: GoogleFonts.poppins(
-                      color: ColorManager.greyColor,
-                      fontWeight: FontWeight.w400),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                5.pw,
-                // Text(
-                //   'Opened' ?? '',
-                //   style: GoogleFonts.poppins(
-                //       color: laundry.verificationStatus == 'closed'
-                //           ? Colors.red
-                //           : Colors.green,
-                //       fontWeight: FontWeight.w500),
-                // ),
-                5.pw,
               ],
             ),
             10.ph
@@ -156,6 +132,10 @@ class ResuableDeliveryPickuPLaundryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> parts = laundry.destinationAddresses.toString().split('،');
+
+    String part3 = (parts.length > 1) ? parts[1].trim() : '';
+    String part4 = '';
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       elevation: 6,
@@ -211,17 +191,28 @@ class ResuableDeliveryPickuPLaundryTile extends StatelessWidget {
                       isThreeLine: false,
                       title: Text(
                         laundry.name.toString(),
-                        style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+                        style: getSemiBoldStyle(color: ColorManager.blackColor),
                       ),
                       subtitle: Padding(
                         padding: const EdgeInsets.only(top: 10),
-                        child: Text(
-                          textDirection: TextDirection.ltr,
-                          maxLines: 2,
-                          laundry.destinationAddresses
-                              ,
-                          style: GoogleFonts.poppins(
-                              color: ColorManager.greyColor),
+                        child: Row(
+                          children: [
+                            Text(
+                              textDirection: TextDirection.ltr,
+                              maxLines: 2,
+                              "${part3}",
+                              style: getSemiBoldStyle(
+                                  color: ColorManager.greyColor),
+                            ),
+                            2.pw,
+                            Text(
+                              textDirection: TextDirection.ltr,
+                              maxLines: 2,
+                              "${part4}",
+                              style: getSemiBoldStyle(
+                                  color: ColorManager.purpleColor),
+                            )
+                          ],
                         ),
                       ),
                     ),
@@ -248,9 +239,9 @@ class ResuableDeliveryPickuPLaundryTile extends StatelessWidget {
                           5.pw,
                           Text(
                             laundry.rating.toString(),
-                            style: GoogleFonts.poppins(
-                                color: ColorManager.blackColor,
-                                fontWeight: FontWeight.w400),
+                            style: getSemiBoldStyle(
+                              color: ColorManager.blackColor,
+                            ),
                           ),
                         ],
                       ),
@@ -263,15 +254,16 @@ class ResuableDeliveryPickuPLaundryTile extends StatelessWidget {
                 5.pw,
                 Text(
                   "${laundry.distance}",
-                  style: GoogleFonts.poppins(
-                      color: ColorManager.greyColor,
-                      fontWeight: FontWeight.w400),
+                  style: getRegularStyle(
+                    color: ColorManager.greyColor,
+                  ),
                 ),
                 5.pw,
                 Text(
                   laundry.openingHours == true ? 'Opened' : '',
-                  style: GoogleFonts.poppins(
-                      color: Colors.green, fontWeight: FontWeight.w500),
+                  style: getSemiBoldStyle(
+                    color: Colors.green,
+                  ),
                 ),
                 5.pw,
               ],

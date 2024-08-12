@@ -1,5 +1,5 @@
 import 'package:laundryday/models/my_user_model.dart';
-import 'package:laundryday/core/constants/api_routes.dart';
+import 'package:laundryday/config/resources/api_routes.dart';
 import 'package:laundryday/core/base_client_class.dart';
 import 'package:http/http.dart' as http;
 

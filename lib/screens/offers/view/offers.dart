@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/offers/models/subsription_plan_model.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
 import 'package:laundryday/core/widgets/my_app_bar.dart';
 import 'package:laundryday/core/widgets/heading.dart';
 
@@ -91,9 +91,9 @@ class _OffersState extends State<Offers> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
                                         plans[index].name.toString(),
-                                        style: GoogleFonts.poppins(
+                                        style: getBoldStyle(
                                             fontSize: 14,
-                                            fontWeight: FontWeight.bold,
+                                            
                                             color: ColorManager.whiteColor),
                                       ),
                                     )),
@@ -102,10 +102,10 @@ class _OffersState extends State<Offers> {
                                     children: [
                                       Text(
                                         'SAR ${plans[index].price}',
-                                        style: GoogleFonts.poppins(
-                                            letterSpacing: 1.0,
+                                        style: getSemiBoldStyle(
+                                           
                                             fontSize: 16,
-                                            fontWeight: FontWeight.w500),
+                                           color: ColorManager.blackColor),
                                       ),
                                       5.ph,
                                       TextButton(
@@ -117,9 +117,9 @@ class _OffersState extends State<Offers> {
                                           onPressed: () {},
                                           child: Text(
                                             'Subscribe',
-                                            style: GoogleFonts.poppins(
+                                            style: getSemiBoldStyle(
                                                 color: ColorManager.whiteColor,
-                                                fontWeight: FontWeight.w600),
+                                                ),
                                           ))
                                     ],
                                   )
@@ -141,9 +141,9 @@ class _OffersState extends State<Offers> {
                                       5.pw,
                                       Text(
                                         plans[index].features,
-                                        style: GoogleFonts.poppins(
+                                        style: getSemiBoldStyle(
                                           color: ColorManager.greyColor,
-                                          fontWeight: FontWeight.w400,
+                                          
                                           fontSize: 12,
                                         ),
                                       )
@@ -159,9 +159,9 @@ class _OffersState extends State<Offers> {
                                       5.pw,
                                       Text(
                                         '${plans[index].duration} Days',
-                                        style: GoogleFonts.poppins(
+                                        style:getSemiBoldStyle(
                                             color: ColorManager.greyColor,
-                                            fontWeight: FontWeight.w400,
+                                          
                                             fontSize: 12),
                                       )
                                     ],

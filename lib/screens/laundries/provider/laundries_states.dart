@@ -5,31 +5,30 @@ import 'package:laundryday/screens/laundries/model/services_timings_model.dart'
 
 class LaundriesStates {
   LaundryByAreaState laundryByAreaState;
+  DeliveryPickupLaundryModel? selectedLaundry;
+
   servicetimingmodel.Datum? serviceTiming;
   DeliveryPickupLaundryState deliveryPickupLaundryState;
   LaundriesStates({
+    this.selectedLaundry,
     this.serviceTiming,
     required this.deliveryPickupLaundryState,
     required this.laundryByAreaState,
   });
 
   LaundriesStates copyWith(
-      {servicetimingmodel.Datum? serviceTiming,
+      {DeliveryPickupLaundryModel? selectedLaundry,
+      servicetimingmodel.Datum? serviceTiming,
       LaundryByAreaState? laundryByAreaState,
       DeliveryPickupLaundryState? deliveryPickupLaundryState}) {
     return LaundriesStates(
-      serviceTiming: serviceTiming??this.serviceTiming,
+      selectedLaundry: selectedLaundry ?? this.selectedLaundry,
+      serviceTiming: serviceTiming ?? this.serviceTiming,
       deliveryPickupLaundryState:
           deliveryPickupLaundryState ?? this.deliveryPickupLaundryState,
       laundryByAreaState: laundryByAreaState ?? this.laundryByAreaState,
     );
-
-
-    
   }
-
-
-  
 }
 
 abstract class LaundryByAreaState {}

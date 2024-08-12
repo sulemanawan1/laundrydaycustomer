@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/models/laundry_model.dart';
-import 'package:laundryday/models/service_images.dart';
-import 'package:laundryday/models/service_types_model.dart';
-import 'package:laundryday/models/services_model.dart';
-import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
-import 'package:laundryday/core/routes/route_names.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/routes/route_names.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/widgets/my_app_bar.dart';
 import 'package:laundryday/core/widgets/heading.dart';
 
@@ -39,45 +34,11 @@ class _OrdersState extends State<Orders> {
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
                 return _orderTile2(onTap: () {
-                  final LaundryModel laundryModel = LaundryModel(
-                      service: ServicesModel(
-                        vat: 15.0,
-                        id: 1,
-                        name: 'Clothes',
-                        deliveryFee: 14.0,
-                        operationFee: 2.0,
-                        image: 'assets/services_clothing.jpg',
-                        images: [
-                          ServiceImage(image: 'assets/clothes_1.jpg'),
-                          ServiceImage(image: 'assets/clothes_2.jpg'),
-                          ServiceImage(image: 'assets/clothes_3.jpg'),
-                          ServiceImage(image: 'assets/clothes_4.jpg'),
-                          ServiceImage(image: 'assets/clothes_5.jpg'),
-                        ],
-                      ),
-                      lat: 24.2,
-                      lng: 44.5,
-                      rating: 5.0,
-                      address: "Riyadh, 12232",
-                      userRatingTotal: 25,
-                      id: 2,
-                      name: 'Abdullah Haleem Laundrys',
-                      logo: 'assets/clothing_services_icons.png',
-                      distance: 2.1,
-                      type: 'register',
-                      banner: 'assets/category_banner/clothes_banner.jpg',
-                      seviceTypes: [
-                        ServiceTypesModel(
-                            id: 2, serviceId: 1, type: 'drycleaning'),
-                        ServiceTypesModel(
-                            id: 3, serviceId: 1, type: 'pressing'),
-                      ],
-                      status: 'closed');
 
-                  Arguments arguments = Arguments(laundryModel: laundryModel);
+                 
 
                   context.pushNamed(RouteNames().orderProcess,
-                      extra: arguments);
+                      );
                 });
               },
             ),
@@ -138,8 +99,8 @@ class _OrdersState extends State<Orders> {
                         children: [
                           Text(
                             'Al Rahdan',
-                            style: GoogleFonts.poppins(
-                                fontSize: 15, fontWeight: FontWeight.w500),
+                            style: getSemiBoldStyle(color: ColorManager.blackColor,
+                                fontSize: 15),
                           ),
                           Row(
                             children: [
@@ -150,9 +111,9 @@ class _OrdersState extends State<Orders> {
                               ),
                               5.pw,
                               Text('5',
-                                  style: GoogleFonts.poppins(
+                                  style: getSemiBoldStyle(color: ColorManager.blackColor,
                                       fontSize: 14,
-                                      fontWeight: FontWeight.w500))
+                                      ))
                             ],
                           )
                         ],
@@ -170,8 +131,8 @@ class _OrdersState extends State<Orders> {
                               5.pw,
                               Text(
                                 '2024/02/13',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14,
+                                style: getRegularStyle(
+                                  fontSize: 14,color: ColorManager.blackColor
                                 ),
                               ),
                             ],
@@ -179,8 +140,7 @@ class _OrdersState extends State<Orders> {
                           const Spacer(),
                           Text(
                             'Canceled',
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
+                            style: getSemiBoldStyle(
                                 fontSize: 14,
                                 color: Colors.red),
                           ),
@@ -234,8 +194,8 @@ class _OrdersState extends State<Orders> {
                         children: [
                           Text(
                             'Al Rahdan',
-                            style: GoogleFonts.poppins(
-                                fontSize: 15, fontWeight: FontWeight.w500),
+                            style: getSemiBoldStyle(
+                                fontSize: 15, color: ColorManager.blackColor),
                           ),
                           Row(
                             children: [
@@ -246,9 +206,9 @@ class _OrdersState extends State<Orders> {
                               ),
                               5.pw,
                               Text('5',
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500))
+                                  style: getSemiBoldStyle(
+                                      fontSize: 14,color: ColorManager.blackColor
+                                     ))
                             ],
                           )
                         ],
@@ -266,8 +226,8 @@ class _OrdersState extends State<Orders> {
                               5.pw,
                               Text(
                                 '2024/02/13',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14,
+                                style: getRegularStyle(
+                                  fontSize: 14,color: ColorManager.blackColor
                                 ),
                               ),
                             ],
@@ -275,8 +235,7 @@ class _OrdersState extends State<Orders> {
                           const Spacer(),
                           Text(
                             'Track Order',
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
+                            style:getSemiBoldStyle(
                                 fontSize: 14,
                                 color: ColorManager.primaryColor),
                           ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:laundryday/core/constants/colors.dart';
+import 'package:laundryday/config/resources/colors.dart';
 
 // ignore: must_be_immutable
 class MapIconWidget extends StatelessWidget {

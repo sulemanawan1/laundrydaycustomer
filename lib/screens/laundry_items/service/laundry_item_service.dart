@@ -3,7 +3,7 @@ import 'package:laundryday/screens/laundry_items/model/category_item_model.dart'
 import 'package:laundryday/screens/laundry_items/model/item_variation_model.dart';
 import 'package:laundryday/screens/laundry_items/model/laundry_model.dart';
 import 'package:laundryday/core/base_client_class.dart';
-import 'package:laundryday/core/constants/api_routes.dart';
+import 'package:laundryday/config/resources/api_routes.dart';
 
 class LaundryItemService{
 

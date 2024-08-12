@@ -1,11 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:laundryday/app_services/image_picker_handler.dart';
-import 'package:laundryday/helpers/date_helper/date_helper.dart';
-import 'package:laundryday/screens/add_laundry/service/add_laundry_service.dart';
+import 'package:laundryday/core/image_picker_handler.dart';
+import 'package:laundryday/helpers/date_helper.dart';
+import 'package:laundryday/screens/add_laundry/data/repository/add_laundry_repository.dart';
 import 'package:laundryday/screens/home/provider/home_notifier.dart';
 import 'package:laundryday/screens/more/help/agent_registration/model/delivery_agent_registartion_model.dart';
 import 'package:laundryday/screens/more/help/agent_registration/provider/delivery_agent_registartion_states.dart';
@@ -14,7 +16,7 @@ import 'package:laundryday/models/country_model.dart' as countrymodel;
 import 'package:laundryday/models/district_model.dart' as districtmodel;
 import 'package:laundryday/models/region_model.dart' as regionmodel;
 import 'package:http/http.dart' as http;
-import 'package:laundryday/core/routes/route_names.dart';
+import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/core/utils.dart';
 
 class DeliveryAgentRegistrationNotifier
@@ -36,8 +38,6 @@ class DeliveryAgentRegistrationNotifier
   TextEditingController identityTypeController = TextEditingController();
   TextEditingController identityNumberController = TextEditingController();
   TextEditingController brandController = TextEditingController();
-
-
   TextEditingController countryController = TextEditingController();
   TextEditingController regionController = TextEditingController();
   TextEditingController cityController = TextEditingController();
@@ -82,7 +82,7 @@ class DeliveryAgentRegistrationNotifier
   }
 
   void countries() async {
-    var data = await AddLaundryService.countries();
+    var data = await AddLaundryRepository.countries();
 
     if (kDebugMode) {
       print("Data $data");
@@ -99,7 +99,7 @@ class DeliveryAgentRegistrationNotifier
   }
 
   void regions({required int countryId}) async {
-    var data = await AddLaundryService.regions(countryId: countryId);
+    var data = await AddLaundryRepository.regions(countryId: countryId);
 
     if (kDebugMode) {
       print("Data $data");
@@ -116,7 +116,7 @@ class DeliveryAgentRegistrationNotifier
   }
 
   void cities({required int regionId}) async {
-    var data = await AddLaundryService.cities(regionId: regionId);
+    var data = await AddLaundryRepository.cities(regionId: regionId);
     if (kDebugMode) {
       print("Data $data");
     }
@@ -132,7 +132,7 @@ class DeliveryAgentRegistrationNotifier
   }
 
   void districts({required int cityId}) async {
-    var data = await AddLaundryService.districts(cityId: cityId);
+    var data = await AddLaundryRepository.districts(cityId: cityId);
 
     if (data is districtmodel.DistrictModel) {
       districtModel = data;
@@ -193,10 +193,9 @@ class DeliveryAgentRegistrationNotifier
       var headers = {
         'X-API-Key': '79|FOWSWXhxGbJ1WZbGrMsfvA3BgU7wOhomICgYGTy28cdf00a8'
       };
-      var request = http.MultipartRequest(
-          'POST',
-          Uri.parse(
-              'http://192.168.1.3:8000/api/delivery_agents/register?first_name=Fuzail&last_name=Rajput&delivery_agents_date_of_birth=1998-08-21&delivery_agents_identity_type=National Id&delivery_agents_identity_image='));
+      var request = http.MultipartRequest('POST',
+          Uri.parse('http://192.168.1.3:8000/api/delivery_agents/register'));
+
       request.fields.addAll(data);
 
       request.headers.addAll(headers);
@@ -207,6 +206,7 @@ class DeliveryAgentRegistrationNotifier
       }
 
       http.StreamedResponse response = await request.send();
+      String responseBody = await response.stream.bytesToString();
 
       if (response.statusCode == 201) {
         String responseBody = await response.stream.bytesToString();
@@ -236,16 +236,22 @@ class DeliveryAgentRegistrationNotifier
             deliveryAgentButtonStates: DeliveryAgentButtonLoadedState(
                 deliveryAgentRegistrationModel:
                     _deliveryAgentRegistrationModel));
-      } else {
-        state = state.copyWith(
-            deliveryAgentButtonStates:
-                DeliveryAgentButtonErrorState(errorMessage: 'Server Error'));
+      } else if (response.statusCode == 400) {
+        Map data = jsonDecode(responseBody);
+
+        data.forEach((key, v) {
+          for (int i = 0; i < v.length; i++) {
+            state = state.copyWith(
+                deliveryAgentButtonStates: DeliveryAgentButtonErrorState(
+                    errorMessage: v[i].toString()));
+          }
+        });
       }
     } catch (e) {
       print(e);
       state = state.copyWith(
-          deliveryAgentButtonStates: DeliveryAgentButtonErrorState(
-              errorMessage: 'Something Went Wrong'));
+          deliveryAgentButtonStates:
+              DeliveryAgentButtonErrorState(errorMessage: 'An Error Occured'));
     }
   }
 }

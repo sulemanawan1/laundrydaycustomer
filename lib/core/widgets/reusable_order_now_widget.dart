@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/font_manager.dart';
-import 'package:laundryday/core/constants/value_manager.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/font_manager.dart';
+import 'package:laundryday/config/resources/value_manager.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 
 final reusableOrderNowCardProvider =
     StateNotifierProvider<ReusableOrderNowCardNotifier, Color>(
@@ -71,10 +71,10 @@ class _ReusableOrderNowCardState extends ConsumerState<ReusableOrderNowCard> {
                   child: Center(
                     child: Text(
                       'Order Now',
-                      style: GoogleFonts.poppins(
+                      style: getSemiBoldStyle(
                         color: ColorManager.whiteColor,
                         fontSize: FontSize.s16,
-                        fontWeight: FontWeightManager.semiBold,
+                      
                       ),
                     ),
                   ),
@@ -96,10 +96,10 @@ class _ReusableOrderNowCardState extends ConsumerState<ReusableOrderNowCard> {
               child: Center(
                 child: Text(
                   '4',
-                  style: GoogleFonts.poppins(
+                  style: getSemiBoldStyle(
                       color: ColorManager.primaryColor,
                       fontSize: FontSize.s20,
-                      fontWeight: FontWeightManager.semiBold),
+                   ),
                 ),
               ),
             ),

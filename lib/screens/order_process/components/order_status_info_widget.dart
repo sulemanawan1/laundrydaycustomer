@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:laundryday/core/constants/colors.dart';
-import 'package:laundryday/core/constants/sized_box.dart';
+import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 
 class OrderStatusInfoWidget extends StatelessWidget {
   final String image, title, description;
@@ -24,16 +24,15 @@ class OrderStatusInfoWidget extends StatelessWidget {
         10.ph,
         Text(
           title,
-          style: GoogleFonts.poppins(fontSize: 22, fontWeight: FontWeight.w500),
+          style: getSemiBoldStyle(fontSize: 22, color: ColorManager.blackColor),
         ),
         10.ph,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Text(
             description,
-            style: GoogleFonts.poppins(
+            style: getSemiBoldStyle(
                 fontSize: 16,
-                fontWeight: FontWeight.w500,
                 color: ColorManager.greyColor),
             textAlign: TextAlign.center,
           ),
