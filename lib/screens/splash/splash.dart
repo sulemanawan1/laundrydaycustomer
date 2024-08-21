@@ -13,7 +13,6 @@ class _SplashState extends ConsumerState<Splash> {
   @override
   void initState() {
     super.initState();
-
     ref.read(splashProvider.notifier).checkSession(context: context);
   }
 

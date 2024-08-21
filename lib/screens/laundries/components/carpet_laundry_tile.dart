@@ -28,7 +28,7 @@
 //             return GestureDetector(
 //               onTap: () {
 //                 GoRouter.of(context)
-//                     .pushNamed(RouteNames().laundryItems, extra: laundry);
+//                     .pushNamed(RouteNames.laundryItems, extra: laundry);
 //               },
 //               child: Card(
 //                 color: ColorManager.whiteColor,

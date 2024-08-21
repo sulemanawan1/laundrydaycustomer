@@ -41,7 +41,6 @@ class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
     Either<String, OrderModel> apiData =
         await _orderRepository.pickupOrder(data: data, files: files);
 
-
     apiData.fold((l) {
       if (l == 'Not-Found') {
         l = 'Sorry There is no Delivery Agent in your Area. Try Again';
@@ -71,7 +70,8 @@ class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
             context: context);
       }
     }, (r) {
-      context.pushNamed(RouteNames().orderProcess, extra: r.order!.id!);
+      context.pushReplacementNamed(RouteNames.orderProcess,
+          extra: r.order!.id!);
     });
   }
 }

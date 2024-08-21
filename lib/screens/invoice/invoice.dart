@@ -17,7 +17,7 @@ class Invoice extends StatelessWidget {
           actions: [
             InkWell(
               onTap: () {
-                context.pushNamed(RouteNames().taxInvoice);
+                context.pushNamed(RouteNames.taxInvoice);
               },
               child: Row(
                 children: [
@@ -25,8 +25,7 @@ class Invoice extends StatelessWidget {
                   5.pw,
                   Text(
                     'Tax\nInvoice',
-                    style:
-                       getSemiBoldStyle(color: ColorManager.primaryColor),
+                    style: getSemiBoldStyle(color: ColorManager.primaryColor),
                     textAlign: TextAlign.center,
                   )
                 ],

@@ -73,7 +73,7 @@ class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {
       Fluttertoast.showToast(msg: 'Please select Receipt.');
     } else {
       {}
-      context.pushNamed(RouteNames().orderReview, extra: {
+      context.pushNamed(RouteNames.orderReview, extra: {
         'order_type': OrderType.delivery_pickup,
         'laundry': laundry,
         'service': service

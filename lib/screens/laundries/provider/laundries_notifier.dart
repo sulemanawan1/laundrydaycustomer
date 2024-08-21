@@ -8,11 +8,12 @@ import 'package:laundryday/screens/laundries/model/laundry_by_area.model.dart';
 import 'package:laundryday/screens/laundries/provider/laundries_states.dart';
 import 'package:laundryday/screens/laundries/service/laundries_services.dart';
 import 'package:laundryday/config/resources/api_routes.dart';
-import 'package:laundryday/screens/laundries/model/services_timings_model.dart' as servicetimingmodel;
+import 'package:laundryday/screens/laundries/model/services_timings_model.dart'
+    as servicetimingmodel;
 import 'dart:math';
 
 final laundriessProvider =
-    StateNotifierProvider<LaundriesNotifier, LaundriesStates>(
+    StateNotifierProvider.autoDispose<LaundriesNotifier, LaundriesStates>(
         (ref) => LaundriesNotifier());
 
 class LaundriesNotifier extends StateNotifier<LaundriesStates> {
@@ -75,7 +76,6 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
       if (placesResponse.statusCode == 200) {
         final data = jsonDecode(placesResponse.body);
         List<dynamic> laundryList = data['results'];
-        
 
         // Prepare distance matrix requests
         List<Future<DistanceMatrixResponse?>> distanceMatrixFutures =
@@ -131,9 +131,11 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
 
         List<DeliveryPickupLaundryModel> filteredLaundry =
             laundries.where((item) {
-          return !excludeWords.any((word) =>
-                  item.name.toString().toLowerCase().contains(word)) &&
-              item.distanceInKm <= 3.0;
+          return !excludeWords.any(
+                  (word) => item.name.toString().toLowerCase().contains(word))
+              //     &&
+              // item.distanceInKm <= 3.0
+              ;
         }).toList();
         state = state.copyWith(
           deliveryPickupLaundryState: DeliveryPickupLaundryLoadedState(
@@ -209,6 +211,4 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
   double _degreesToRadians(double degrees) {
     return degrees * pi / 180;
   }
-
- 
 }

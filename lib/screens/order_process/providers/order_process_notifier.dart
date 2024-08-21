@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
@@ -7,7 +8,11 @@ import 'package:laundryday/screens/order_review/data/models/order_model.dart';
 
 class OrderProcessNotifier extends StateNotifier<OrderProcessStates> {
   OrderProcessNotifier()
-      : super(OrderProcessStates(orderState: OrderStateInitialState()));
+      : super(OrderProcessStates(
+            countDownProgress: 0.0,
+            remainingTime: Duration.zero,
+            orderModel: OrderModel(),
+            orderState: OrderStateInitialState()));
 
   OrderService _orderService = OrderService();
 
@@ -42,4 +47,6 @@ class OrderProcessNotifier extends StateNotifier<OrderProcessStates> {
           orderState: OrderStateErrorState(errorMessage: 'An Error Occured'));
     }
   }
+
+ 
 }

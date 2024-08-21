@@ -108,7 +108,7 @@ class MyTextFormField extends StatelessWidget {
               fontSize: FontSize.s11),
           hintText: hintText,
           labelText: labelText,
-          fillColor: fillColor ?? ColorManager.whiteColor,
+          fillColor: fillColor ?? ColorManager.silverWhite,
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppSize.s10),
             borderSide: BorderSide(

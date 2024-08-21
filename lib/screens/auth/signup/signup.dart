@@ -11,7 +11,7 @@ import 'package:laundryday/core/widgets/heading.dart';
 import 'package:laundryday/core/widgets/my_textform_field.dart';
 
 class SignUp extends ConsumerWidget {
-  String mobileNumber;
+  final String mobileNumber;
   final formKey = GlobalKey<FormState>();
 
   SignUp({super.key, required this.mobileNumber});

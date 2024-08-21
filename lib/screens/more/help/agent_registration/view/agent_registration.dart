@@ -12,12 +12,10 @@ import 'package:laundryday/screens/more/help/agent_registration/provider/deliver
 import 'package:laundryday/screens/more/help/agent_registration/provider/delivery_agent_registration_notifier.dart';
 import 'package:laundryday/models/city_model.dart' as citymodel;
 import 'package:laundryday/models/country_model.dart' as countrymodel;
-import 'package:laundryday/models/district_model.dart' as districtmodel;
 import 'package:laundryday/models/region_model.dart' as regionmodel;
 import 'package:laundryday/config/resources/colors.dart';
 import 'package:laundryday/config/resources/font_manager.dart';
 import 'package:laundryday/config/resources/sized_box.dart';
-import 'package:laundryday/config/resources/value_manager.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/utils.dart';
@@ -323,8 +321,7 @@ class AgentRegistration extends ConsumerWidget {
                                   ],
                                   controller:
                                       controller.plateNumberDigitsController,
-                                  validator:
-                                      AppValidator.emptyStringValidator,
+                                  validator: AppValidator.emptyStringValidator,
                                   hintText: '0000',
                                   labelText: 'Plate Number'),
                             ),
@@ -339,8 +336,7 @@ class AgentRegistration extends ConsumerWidget {
                                   ],
                                   controller:
                                       controller.plateNumberLettersController,
-                                  validator:
-                                      AppValidator.emptyStringValidator,
+                                  validator: AppValidator.emptyStringValidator,
                                   hintText: 'ABC',
                                   labelText: 'Plate Letters'),
                             ),
@@ -574,8 +570,6 @@ class AgentRegistration extends ConsumerWidget {
                                     states.registrationImage!.path.toString(),
                               };
 
-                           
-
                               Map<String, String> data = {
                                 'first_name':
                                     controller.firstNameController.text,
@@ -638,8 +632,7 @@ class AgentRegistration extends ConsumerWidget {
                                       .read(homeProvider.notifier)
                                       .changeIndex(index: 0, ref: ref);
 
-                                  context
-                                      .pushReplacementNamed(RouteNames().home);
+                                  context.pushReplacementNamed(RouteNames.home);
                                 },
                                 child: Text('Go to homen sccreen.'))
                           ],
@@ -665,7 +658,6 @@ class AgentRegistration extends ConsumerWidget {
           Text(
             title ?? "",
             style: getSemiBoldStyle(
-              
                 fontSize: 14,
                 color: imageFile?.path == null
                     ? Colors.blue

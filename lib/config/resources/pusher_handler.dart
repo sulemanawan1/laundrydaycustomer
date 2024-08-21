@@ -102,16 +102,19 @@ class PusherHandler {
     // OrderPickupModel order = orderPickupModelFromJson(event.data.toString());
 
     OrderModel order = orderModelFromJson(event.data.toString());
+
     if (order.order?.id != null) {
+      
       ref.read(orderProcessProvider.notifier).updaterOrder(order: order);
+
+      _audioPlayerHandler.iniializeAudioPlayer();
+      _audioPlayerHandler.playAssetSound(
+          audioPath: 'audios/mixkit-bell-notification-933.wav');
+      _notificationHandler.showNotification(
+          'Order', 'Your order Requested has been accepted');
     }
     // if (order.order?.id != null) {
     //   ref.read(orderRequestProvider.notifier).addOrder(order: order);
-
-    _audioPlayerHandler.iniializeAudioPlayer();
-    _audioPlayerHandler.playAssetSound(
-        audioPath: 'audios/mixkit-bell-notification-933.wav');
-    _notificationHandler.showNotification('Order Recieved', "");
 
     // }
     // strings.add(data);

@@ -23,7 +23,6 @@ import 'package:laundryday/core/widgets/payment_summary_widget.dart';
 import 'package:laundryday/screens/order_review/presentaion/riverpod/payment_method_nofifier.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
-import 'package:moyasar/moyasar.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
@@ -320,8 +319,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                                                   title: '',
                                                   onPressed: () {
                                                     context.pushNamed(
-                                                        RouteNames()
-                                                            .addNewCard);
+                                                        RouteNames.addNewCard);
                                                   },
                                                 ),
                                                 10.ph,
@@ -366,10 +364,11 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                             ),
                           ),
                         ),
+
                         10.ph,
-                        PaymentSummaryWidget(
-                          service: selectedService,
-                        ),
+                        // PaymentSummaryWidget(
+                        //   service: selectedService,
+                        // ),
                         10.ph,
                         // PaymentMethods(),
                         MyButton(
@@ -391,17 +390,15 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                             Map data = {
                               "customer_id": cutomerId,
                               "service_id": selectedService.id,
-                              "pickup_from":
+                              "shop_address":
                                   selectedLaundry!.destinationAddresses,
-                              "delivered_to": selectedLaundry.originAddresses,
+                              "customer_address": selectedLaundry.originAddresses,
                               "payment_method": selectedPaymentMethod.name,
                               "item_total_price": 0,
                               "total_items": 0,
                               "total_price": total,
                               "delivery_fee": selectedService.deliveryFee,
                               "operation_fee": selectedService.operationFee,
-                              "start_time": "2024-07-31 04:34:56",
-                              "end_time": "2024-07-31 04:34:56",
                               "country": "Saudia Arabia",
                               "city": "Riyadh",
                               "area": selectedAddress!.district,
@@ -468,14 +465,14 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                       _recording(),
                       // const PaymentMethodWidget(),
                       10.ph,
-                      PaymentSummaryWidget(
-                        service: selectedService,
-                      ),
+                      // PaymentSummaryWidget(
+                      //   service: selectedService,
+                      // ),
                       10.ph,
                       MyButton(
                         title: 'Order',
                         onPressed: () async {
-                          context.pushNamed(RouteNames().orderProcess);
+                          context.pushNamed(RouteNames.orderProcess);
                         },
                       )
                     ],
@@ -594,55 +591,55 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
   }
 }
 
-class PaymentMethods extends StatelessWidget {
-  PaymentMethods({super.key});
+// class PaymentMethods extends StatelessWidget {
+//   PaymentMethods({super.key});
 
-  final paymentConfig = PaymentConfig(
-    publishableApiKey: 'pk_test_zUoi76uHXmEvwcBNCqWMtdENCtTZeUZKRQM39qBT',
-    amount: 1200, // SAR 257.58
-    description: 'order #1324',
-    metadata: {'size': '250g'},
-    applePay: ApplePayConfig(
-        merchantId: 'YOUR_MERCHANT_ID', label: 'YOUR_STORE_NAME', manual: true),
+//   final paymentConfig = PaymentConfig(
+//     publishableApiKey: 'pk_test_zUoi76uHXmEvwcBNCqWMtdENCtTZeUZKRQM39qBT',
+//     amount: 1200, // SAR 257.58
+//     description: 'order #1324',
+//     metadata: {'size': '250g'},
+//     applePay: ApplePayConfig(
+//         merchantId: 'YOUR_MERCHANT_ID', label: 'YOUR_STORE_NAME', manual: true),
 
-    creditCard: CreditCardConfig(saveCard: true, manual: false),
-  );
+//     creditCard: CreditCardConfig(saveCard: true, manual: false),
+//   );
 
-  void onPaymentResult(result) {
-    if (result is PaymentResponse) {
-      switch (result.status) {
-        case PaymentStatus.paid:
-          // handle success.
-          debugPrint(result.toString());
+//   void onPaymentResult(result) {
+//     if (result is PaymentResponse) {
+//       switch (result.status) {
+//         case PaymentStatus.paid:
+//           // handle success.
+//           debugPrint(result.toString());
 
-          debugPrint(result.status.toString());
-          break;
-        case PaymentStatus.failed:
-          break;
-        case PaymentStatus.initiated:
-        // TODO: Handle this case.
-        case PaymentStatus.authorized:
-        // TODO: Handle this case.
-        case PaymentStatus.captured:
-        // TODO: Handle this case.
-      }
-    }
-  }
+//           debugPrint(result.status.toString());
+//           break;
+//         case PaymentStatus.failed:
+//           break;
+//         case PaymentStatus.initiated:
+//         // TODO: Handle this case.
+//         case PaymentStatus.authorized:
+//         // TODO: Handle this case.
+//         case PaymentStatus.captured:
+//         // TODO: Handle this case.
+//       }
+//     }
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ApplePay(
-          config: paymentConfig,
-          onPaymentResult: onPaymentResult,
-        ),
-        const Text("or"),
-        CreditCard(
-          config: paymentConfig,
-          onPaymentResult: onPaymentResult,
-        )
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: [
+//         ApplePay(
+//           config: paymentConfig,
+//           onPaymentResult: onPaymentResult,
+//         ),
+//         const Text("or"),
+//         CreditCard(
+//           config: paymentConfig,
+//           onPaymentResult: onPaymentResult,
+//         )
+//       ],
+//     );
+//   }
+// }

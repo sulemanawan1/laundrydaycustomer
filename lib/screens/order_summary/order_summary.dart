@@ -77,7 +77,7 @@ class OrderSummary extends StatelessWidget {
               title: 'Order Chat',
               isBorderButton: true,
               onPressed: () {
-                context.pushNamed(RouteNames().orderChat);
+                context.pushNamed(RouteNames.orderChat);
               },
             ),
           ]),

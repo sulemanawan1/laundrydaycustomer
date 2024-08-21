@@ -1,25 +1,38 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:laundryday/screens/services/model/customer_order_model.dart';
 import 'package:laundryday/screens/services/model/services_model.dart'
     as servicemodel;
+import 'package:laundryday/screens/services/provider/services_notifier.dart';
 
 class ServicesStates {
+  CustomerOrderStates customerOrderStates;
+  List<Order> order;
   AllServicesState? allServicesState;
   String? district;
   LatLng? latLng;
   servicemodel.Datum? selectedService;
 
   ServicesStates(
-      {this.allServicesState,
+      {
+        
+        required this.order,
+      required this.customerOrderStates,
+        this.allServicesState,
       this.district,
       this.latLng,
       this.selectedService});
 
   ServicesStates copyWith(
-      {servicemodel.Datum? selectedService,
+      {List<Order>? order,
+
+    CustomerOrderStates? customerOrderStates,
+        servicemodel.Datum? selectedService,
       String? district,
       LatLng? latLng,
       AllServicesState? allServicesState}) {
     return ServicesStates(
+      order:order ??this.order ,
+        customerOrderStates: customerOrderStates ?? this.customerOrderStates,
       selectedService: selectedService??this.selectedService,
       district: district ?? this.district,
       latLng: latLng ?? this.latLng,

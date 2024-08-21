@@ -96,7 +96,7 @@ class _DeliveryPickupState extends ConsumerState<DeliveryPickup> {
 }
 
 class LaundryDetailCard extends StatelessWidget {
-  DeliveryPickupLaundryModel laundry;
+  final DeliveryPickupLaundryModel laundry;
   LaundryDetailCard({super.key, required this.laundry});
 
   @override

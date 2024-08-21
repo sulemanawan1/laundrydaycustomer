@@ -40,7 +40,7 @@ class _MoreState extends State<More> {
                       leading: const Icon(Icons.person),
                       title: const Text('Profile'),
                       onTap: () {
-                        context.pushNamed(RouteNames().profile);
+                        context.pushNamed(RouteNames.profile);
                       },
                     ),
                     ListTile(
@@ -49,8 +49,7 @@ class _MoreState extends State<More> {
                       title: const Text('Addresses'),
                       onTap: () {
                         // Navigate to the home screen
-                        GoRouter.of(context)
-                            .pushNamed(RouteNames().myAddresses);
+                        GoRouter.of(context).pushNamed(RouteNames.myAddresses);
                       },
                     ),
                     ListTile(
@@ -60,7 +59,7 @@ class _MoreState extends State<More> {
                       onTap: () {
                         // Navigate to the home screen
                         GoRouter.of(context)
-                            .pushNamed(RouteNames().paymentOptions);
+                            .pushNamed(RouteNames.paymentOptions);
                       },
                     ),
                     ListTile(
@@ -68,7 +67,7 @@ class _MoreState extends State<More> {
                       leading: const Icon(Icons.language),
                       title: const Text('Settings'),
                       onTap: () {
-                        GoRouter.of(context).pushNamed(RouteNames().settings);
+                        GoRouter.of(context).pushNamed(RouteNames.settings);
                       },
                     ),
                     ListTile(
@@ -76,7 +75,7 @@ class _MoreState extends State<More> {
                       leading: const Icon(Icons.help),
                       title: const Text('Help'),
                       onTap: () {
-                        GoRouter.of(context).pushNamed(RouteNames().help);
+                        GoRouter.of(context).pushNamed(RouteNames.help);
                       },
                     ),
                     ListTile(
@@ -86,7 +85,7 @@ class _MoreState extends State<More> {
                       onTap: () {
                         MySharedPreferences.deleterUserSession();
                         GoRouter.of(context)
-                            .pushReplacementNamed(RouteNames().login);
+                            .pushReplacementNamed(RouteNames.login);
                       },
                     ),
                   ],

@@ -11,7 +11,7 @@ import 'package:laundryday/config/resources/sized_box.dart';
 import 'package:laundryday/core/widgets/heading.dart';
 
 class ScanReceiptWidget extends StatelessWidget {
-  WidgetRef ref;
+ final WidgetRef ref;
    ScanReceiptWidget({super.key,required this.ref});
 
   @override

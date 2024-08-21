@@ -52,7 +52,7 @@ class SignupNotifier extends StateNotifier<SignupStates> {
         log("-----------------------");
         userStates = userStates.copyWith(userModel: userStates.userModel);
 
-        context.pushReplacementNamed(RouteNames().home);
+        context.pushReplacementNamed(RouteNames.home);
         state.isLoading = false;
         state = state.copyWith(isLoading: state.isLoading);
       }
@@ -66,4 +66,3 @@ class SignupNotifier extends StateNotifier<SignupStates> {
     state = state.copyWith(isLoading: state.isLoading);
   }
 }
-

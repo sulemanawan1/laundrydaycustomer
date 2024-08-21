@@ -168,8 +168,7 @@ class _LaundriesState extends ConsumerState<Laundries> {
                           .read(laundriessProvider.notifier)
                           .selectedLaundry(selectedLaundry: laundry);
 
-                      GoRouter.of(context)
-                          .pushNamed(RouteNames().deliveryPickup);
+                      GoRouter.of(context).pushNamed(RouteNames.deliveryPickup);
                     },
                   );
                 },
@@ -239,12 +238,12 @@ class ServiceTimingDialog extends ConsumerWidget {
                 .selectedServiceTiming(serviceTiming: serviceTiming);
 
             if (service.serviceName!.toLowerCase() == 'clothes') {
-              context.pushNamed(RouteNames().laundryItems, extra: service);
+              context.pushNamed(RouteNames.laundryItems, extra: service);
               context.pop();
             }
 
             if (service.serviceName!.toLowerCase() == 'blankets') {
-              context.pushNamed(RouteNames().laundryItems, extra: service);
+              context.pushNamed(RouteNames.laundryItems, extra: service);
               context.pop();
             }
           },

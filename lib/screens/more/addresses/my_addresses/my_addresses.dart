@@ -5,7 +5,6 @@ import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/provider/my_addresses_notifier.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
 import 'package:laundryday/config/resources/colors.dart';
-import 'package:laundryday/config/resources/font_manager.dart';
 import 'package:laundryday/config/resources/sized_box.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/core/widgets/heading.dart';
@@ -48,14 +47,14 @@ class MyAddresses extends ConsumerWidget {
                           label: Text(
                             'Add Address',
                             style: getSemiBoldStyle(
-                                color: ColorManager.primaryColor,
-                                fontSize: 16,
-                               ),
+                              color: ColorManager.primaryColor,
+                              fontSize: 16,
+                            ),
                           ),
                           icon: Icon(Icons.add_location),
                           onPressed: () {
                             GoRouter.of(context)
-                                .pushNamed(RouteNames().addNewAddress);
+                                .pushNamed(RouteNames.addNewAddress);
                           },
                         ),
             ],
@@ -132,7 +131,7 @@ class MyAddresses extends ConsumerWidget {
                                 IconButton(
                                     onPressed: () {
                                       context.pushNamed(
-                                          RouteNames().updateAddress,
+                                          RouteNames.updateAddress,
                                           extra: data.addresses![index]);
                                     },
                                     icon: Icon(
@@ -165,7 +164,7 @@ class MyAddresses extends ConsumerWidget {
                       title: "Add Address",
                       onPressed: () {
                         GoRouter.of(context)
-                            .pushNamed(RouteNames().addNewAddress);
+                            .pushNamed(RouteNames.addNewAddress);
                       },
                     )
                   : MyButton(
@@ -216,7 +215,7 @@ class MyAddresses extends ConsumerWidget {
               onPressed: () {
                 ref
                     .read(myAddresesProvider.notifier)
-                    .deleteAddress(addressId: addressId,ref: ref);
+                    .deleteAddress(addressId: addressId, ref: ref);
 
                 // Add your delete functionality here
                 Navigator.of(context).pop(); // Close the dialog

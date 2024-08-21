@@ -15,7 +15,7 @@ class BaseClientClass {
 
     http.Response response;
     try {
-      UserModel userModel = await MySharedPreferences.getUserSession();
+      // UserModel userModel = await MySharedPreferences.getUserSession();
 
       response = await http.get(
         Uri.parse(url + params),

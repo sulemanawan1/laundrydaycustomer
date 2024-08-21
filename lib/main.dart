@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:laundryday/firebase_options.dart';
 import 'package:laundryday/config/theme/theme_manager.dart';
 import 'config/routes/app_routes.dart';
@@ -18,20 +19,16 @@ void main() async {
   ));
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final GoRouter routes = ref.read(goRouterProvider);
 
-class _MyAppState extends State<MyApp> {
-  @override
-  Widget build(BuildContext context) {
     return MaterialApp.router(
-      
       debugShowCheckedModeBanner: false,
-      routerConfig: AppRoutes.routes,
+      routerConfig: routes,
       theme: getApplicatonTheme(),
     );
   }

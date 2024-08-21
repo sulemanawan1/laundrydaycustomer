@@ -69,7 +69,7 @@ class _ProfileState extends State<Profile> {
             MyButton(
               title: 'Edit Profile',
               onPressed: () {
-                GoRouter.of(context).pushNamed(RouteNames().editProfile);
+                GoRouter.of(context).pushNamed(RouteNames.editProfile);
               },
             ),
             40.ph,

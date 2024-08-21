@@ -225,7 +225,7 @@ class DeliveryAgentRegistrationNotifier
                         .read(homeProvider.notifier)
                         .changeIndex(index: 0, ref: ref);
 
-                    context.goNamed(RouteNames().home);
+                    context.goNamed(RouteNames.home);
 
                     context.pop();
                   },

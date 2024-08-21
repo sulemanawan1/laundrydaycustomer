@@ -2,11 +2,10 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:laundryday/config/resources/colors.dart';
 
-
 class MyCarouselIndicator extends StatelessWidget {
-  int dotCount;
-  int position;
-  void Function(int)? onTap;
+  final int dotCount;
+  final int position;
+  final void Function(int)? onTap;
 
   MyCarouselIndicator(
       {super.key, this.onTap, required this.dotCount, required this.position});
@@ -15,10 +14,9 @@ class MyCarouselIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: DotsIndicator(
-        
         dotsCount: dotCount,
         position: position,
-        decorator:  DotsDecorator(
+        decorator: DotsDecorator(
           color: ColorManager.primaryColor,
           activeColor: Colors.white,
         ),

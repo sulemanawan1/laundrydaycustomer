@@ -62,7 +62,7 @@ class _BlanketsCategoryState extends ConsumerState<LaundryItems> {
     final selectedCategory = ref.watch(laundryItemProver).selectedCategory;
     final count = ref.watch(laundryItemProver).count;
     final total = ref.watch(laundryItemProver).total;
-    
+
     final selectedServiceTiming = ref.read(laundriessProvider).serviceTiming;
     final selectedService = ref.read(serviceProvider).selectedService;
 
@@ -78,7 +78,6 @@ class _BlanketsCategoryState extends ConsumerState<LaundryItems> {
             : Expanded(
                 child: Column(
                   children: [
-                   
                     ReusabelLaundryDetailBannerCard(
                       nearestLaundryModel: nearestLaundryStates.laundryModel,
                     ),
@@ -157,7 +156,7 @@ class _BlanketsCategoryState extends ConsumerState<LaundryItems> {
       count > 0
           ? ReusableCheckOutCard(
               onPressed: () {
-                context.pushNamed(RouteNames().orderReview, extra: {
+                context.pushNamed(RouteNames.orderReview, extra: {
                   'order_type': OrderType.normal,
                   'laundry': null,
                   'service': selectedService

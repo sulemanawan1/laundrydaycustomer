@@ -84,10 +84,10 @@ class VerificationNotifier extends StateNotifier<VerificationStates> {
 
             // state = state.copyWith(userModel: userStates.userModel);
 
-            context.pushReplacementNamed(RouteNames().home);
+            context.pushReplacementNamed(RouteNames.home);
           } else {
             log('Use does not exist');
-            context.pushReplacementNamed(RouteNames().signUp,
+            context.pushReplacementNamed(RouteNames.signUp,
                 extra: user.phoneNumber);
           }
         } else {

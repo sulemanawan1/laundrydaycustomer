@@ -7,11 +7,11 @@ class MyButton extends StatelessWidget {
   final bool isBorderButton;
   final void Function()? onPressed;
   final Color? borderColor;
-  Color? color;
+  final Color? color;
   final Color? textColor;
-  bool? isLoading;
-  Widget? widget;
-  EdgeInsetsGeometry? padding;
+  final bool? isLoading;
+  final Widget? widget;
+  final EdgeInsetsGeometry? padding;
   MyButton(
       {super.key,
       required this.title,
@@ -53,8 +53,6 @@ class MyButton extends StatelessWidget {
                         ? textColor ?? ColorManager.primaryColor
                         : ColorManager.whiteColor,
                     fontSize: 16,
-               
-                    
                   ),
                 ),
               ),

@@ -1,9 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/widgets.dart';
-
-import 'package:laundryday/screens/laundries/model/google_distance_matrix_model.dart';
-
 class DeliveryPickupLaundryModel {
   dynamic name;
   dynamic rating;
@@ -27,18 +23,17 @@ class DeliveryPickupLaundryModel {
     required this.destinationAddresses,
     required this.distanceInKm,
   });
-  
 
   DeliveryPickupLaundryModel copyWith({
-    dynamic? name,
-    dynamic? rating,
-    dynamic? openingHours,
-    dynamic? lat,
-    dynamic? lng,
-    dynamic? distance,
-    dynamic? duration,
-    dynamic? originAddresses,
-    dynamic? destinationAddresses,
+    dynamic name,
+    dynamic rating,
+    dynamic openingHours,
+    dynamic lat,
+    dynamic lng,
+    dynamic distance,
+    dynamic duration,
+    dynamic originAddresses,
+    dynamic destinationAddresses,
     double? distanceInKm,
   }) {
     return DeliveryPickupLaundryModel(
@@ -87,7 +82,8 @@ class DeliveryPickupLaundryModel {
 
   String toJson() => json.encode(toMap());
 
-  factory DeliveryPickupLaundryModel.fromJson(String source) => DeliveryPickupLaundryModel.fromMap(json.decode(source));
+  factory DeliveryPickupLaundryModel.fromJson(String source) =>
+      DeliveryPickupLaundryModel.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -97,31 +93,31 @@ class DeliveryPickupLaundryModel {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is DeliveryPickupLaundryModel &&
-      other.name == name &&
-      other.rating == rating &&
-      other.openingHours == openingHours &&
-      other.lat == lat &&
-      other.lng == lng &&
-      other.distance == distance &&
-      other.duration == duration &&
-      other.originAddresses == originAddresses &&
-      other.destinationAddresses == destinationAddresses &&
-      other.distanceInKm == distanceInKm;
+        other.name == name &&
+        other.rating == rating &&
+        other.openingHours == openingHours &&
+        other.lat == lat &&
+        other.lng == lng &&
+        other.distance == distance &&
+        other.duration == duration &&
+        other.originAddresses == originAddresses &&
+        other.destinationAddresses == destinationAddresses &&
+        other.distanceInKm == distanceInKm;
   }
 
   @override
   int get hashCode {
     return name.hashCode ^
-      rating.hashCode ^
-      openingHours.hashCode ^
-      lat.hashCode ^
-      lng.hashCode ^
-      distance.hashCode ^
-      duration.hashCode ^
-      originAddresses.hashCode ^
-      destinationAddresses.hashCode ^
-      distanceInKm.hashCode;
+        rating.hashCode ^
+        openingHours.hashCode ^
+        lat.hashCode ^
+        lng.hashCode ^
+        distance.hashCode ^
+        duration.hashCode ^
+        originAddresses.hashCode ^
+        destinationAddresses.hashCode ^
+        distanceInKm.hashCode;
   }
 }

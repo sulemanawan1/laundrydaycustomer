@@ -292,8 +292,7 @@ Widget addressInformation(BuildContext context,
                                     5.ph,
                                     SubHeading(
                                       title:
-                                          "Latitude : ${laundry.coordinates?.lat.toString()} Longitude : ${laundry.coordinates?.lng.toString()}" ??
-                                              "",
+                                          "Latitude : ${laundry.coordinates?.lat.toString()} Longitude : ${laundry.coordinates?.lng.toString()}",
                                       color: ColorManager.greyColor,
                                     ),
                                   ],

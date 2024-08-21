@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:laundryday/config/resources/colors.dart';
-
 import 'package:laundryday/config/resources/sized_box.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/widgets/heading.dart';
-import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/services/model/services_model.dart' as s;
 
 class PaymentSummaryWidget extends ConsumerWidget {
-  s.Datum? service;
+ final s.Datum? service;
 
   PaymentSummaryWidget({
     super.key,
@@ -18,7 +15,6 @@ class PaymentSummaryWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final deliveryfee = ref.watch(deliverPickupProvider).deliveryfees;
     return Card(
       elevation: 0,
       child: Padding(
@@ -52,22 +48,32 @@ class PaymentSummaryText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              text1,
-              style: getRegularStyle(fontSize: 16,color: ColorManager.blackColor),
-            ),
-            Text(
-              text2,
-              style: getSemiBoldStyle(color: ColorManager.blackColor,
-                  fontSize: 16,),
-            ),
-          ],
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 23),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(text1,
+                  style:
+                      getRegularStyle(fontSize: 14, color: Color(0xFF818181))),
+              Text(
+                '${text2} SAR ',
+                style: getMediumStyle(
+                  color: Color(0xFF242424),
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
         ),
-        5.ph,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 23),
+          child: Divider(
+            color: Color(0xFF818181),
+          ),
+        )
       ],
     );
   }

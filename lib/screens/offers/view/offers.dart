@@ -93,7 +93,6 @@ class _OffersState extends State<Offers> {
                                         plans[index].name.toString(),
                                         style: getBoldStyle(
                                             fontSize: 14,
-                                            
                                             color: ColorManager.whiteColor),
                                       ),
                                     )),
@@ -103,23 +102,22 @@ class _OffersState extends State<Offers> {
                                       Text(
                                         'SAR ${plans[index].price}',
                                         style: getSemiBoldStyle(
-                                           
                                             fontSize: 16,
-                                           color: ColorManager.blackColor),
+                                            color: ColorManager.blackColor),
                                       ),
                                       5.ph,
                                       TextButton(
                                           style: ButtonStyle(
                                               backgroundColor:
-                                                  MaterialStateColor
-                                                      .resolveWith((states) =>
+                                                  WidgetStateColor.resolveWith(
+                                                      (states) =>
                                                           plans[index].color)),
                                           onPressed: () {},
                                           child: Text(
                                             'Subscribe',
                                             style: getSemiBoldStyle(
-                                                color: ColorManager.whiteColor,
-                                                ),
+                                              color: ColorManager.whiteColor,
+                                            ),
                                           ))
                                     ],
                                   )
@@ -143,7 +141,6 @@ class _OffersState extends State<Offers> {
                                         plans[index].features,
                                         style: getSemiBoldStyle(
                                           color: ColorManager.greyColor,
-                                          
                                           fontSize: 12,
                                         ),
                                       )
@@ -159,9 +156,8 @@ class _OffersState extends State<Offers> {
                                       5.pw,
                                       Text(
                                         '${plans[index].duration} Days',
-                                        style:getSemiBoldStyle(
+                                        style: getSemiBoldStyle(
                                             color: ColorManager.greyColor,
-                                          
                                             fontSize: 12),
                                       )
                                     ],

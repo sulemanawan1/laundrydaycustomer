@@ -57,14 +57,13 @@ class PaymentOptions extends StatelessWidget {
                     style: getSemiBoldStyle(
                       color: ColorManager.primaryColor,
                       fontSize: 16,
-                      
                     ),
                   ),
                 ],
               )),
               title: '',
               onPressed: () {
-                context.pushNamed(RouteNames().addNewCard);
+                context.pushNamed(RouteNames.addNewCard);
               },
             )
           ],

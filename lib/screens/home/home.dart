@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:laundryday/config/resources/font_manager.dart';
+import 'package:laundryday/config/resources/value_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/home/provider/home_notifier.dart';
 import 'package:laundryday/screens/more/more.dart';
@@ -9,18 +11,13 @@ import 'package:laundryday/screens/services/view/services.dart';
 import 'package:laundryday/config/resources/colors.dart';
 
 class Home extends ConsumerWidget {
-  Home({super.key});
-
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final index = ref.watch(homeProvider).index;
     return Scaffold(
-        key: _scaffoldKey,
         backgroundColor: ColorManager.whiteColor,
         bottomNavigationBar: Card(
-          elevation: 0,
+          elevation: AppSize.s0,
           color: ColorManager.whiteColor,
           child: BottomNavigationBar(
             currentIndex: index,
@@ -52,10 +49,10 @@ class Home extends ConsumerWidget {
             backgroundColor: ColorManager.whiteColor,
             unselectedItemColor: Colors.grey,
             showUnselectedLabels: true,
-            selectedLabelStyle:
-                getSemiBoldStyle(fontSize: 16, color: ColorManager.blackColor),
-            unselectedLabelStyle:
-                         getSemiBoldStyle(fontSize: 16, color: ColorManager.blackColor),
+            selectedLabelStyle: getSemiBoldStyle(
+                fontSize: FontSize.s16, color: ColorManager.blackColor),
+            unselectedLabelStyle: getSemiBoldStyle(
+                fontSize: FontSize.s16, color: ColorManager.blackColor),
           ),
         ),
         body: IndexedStack(

@@ -31,10 +31,10 @@ class SplashNotifier extends StateNotifier<SplashStates> {
 
     Future.delayed(const Duration(seconds: 2), () {
       if (state.userModel!.token != null) {
-        context.pushReplacementNamed(RouteNames().home);
+        context.goNamed(RouteNames.home);
       } else {
-        context.pushReplacementNamed(
-          RouteNames().login,
+        context.goNamed(
+          RouteNames.login,
         );
       }
     });

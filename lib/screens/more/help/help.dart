@@ -49,8 +49,8 @@ class _HelpState extends State<Help> {
                       leading: const Icon(Icons.verified_user),
                       title: const Text('Agent Registration'),
                       onTap: () {
-                        GoRouter.of(context).pushReplacementNamed(
-                            RouteNames().agentRegistration);
+                        GoRouter.of(context)
+                            .pushReplacementNamed(RouteNames.agentRegistration);
                       },
                     ),
                     ListTile(
@@ -58,7 +58,7 @@ class _HelpState extends State<Help> {
                       leading: const Icon(Icons.verified_user),
                       title: const Text('Service Provider'),
                       onTap: () {
-                        GoRouter.of(context).pushNamed(RouteNames().addLaundry);
+                        GoRouter.of(context).pushNamed(RouteNames.addLaundry);
                       },
                     ),
                     ListTile(
@@ -67,7 +67,7 @@ class _HelpState extends State<Help> {
                       title: const Text('Laundry Care Guide'),
                       onTap: () {
                         GoRouter.of(context)
-                            .pushNamed(RouteNames().laundryCareGuide);
+                            .pushNamed(RouteNames.laundryCareGuide);
                       },
                     ),
                   ],

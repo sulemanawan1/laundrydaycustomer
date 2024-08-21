@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -59,7 +58,7 @@ class AddressBottomSheetWidget extends ConsumerWidget {
       title: 'Add Address',
       isBorderButton: true,
       onPressed: () {
-        context.pushNamed(RouteNames().addNewAddress);
+        context.pushNamed(RouteNames.addNewAddress);
 
         context.pop();
       },
@@ -85,7 +84,6 @@ class AddressBottomSheetWidget extends ConsumerWidget {
 
   Widget buildAddressList(AddressesLoadedState addressesState,
       Address? selectedAddress, WidgetRef ref) {
-        
     return ListView.separated(
       shrinkWrap: true,
       reverse: true,
@@ -94,7 +92,6 @@ class AddressBottomSheetWidget extends ConsumerWidget {
       itemCount: addressesState.addressModel.addresses!.length,
       itemBuilder: (BuildContext context, int index) {
         Address adddress = addressesState.addressModel.addresses![index];
-
 
         return Container(
           decoration: BoxDecoration(
@@ -108,7 +105,7 @@ class AddressBottomSheetWidget extends ConsumerWidget {
                       : IconButton(
                           onPressed: () {
                             context.pop();
-                            context.pushNamed(RouteNames().updateAddress,
+                            context.pushNamed(RouteNames.updateAddress,
                                 extra: adddress);
                           },
                           icon: Icon(
@@ -138,7 +135,7 @@ class AddressBottomSheetWidget extends ConsumerWidget {
                       .selectedService(selectedService: servicesModel!);
 
                   GoRouter.of(context)
-                      .pushNamed(RouteNames().laundries, extra: servicesModel);
+                      .pushNamed(RouteNames.laundries, extra: servicesModel);
 
                   context.pop();
                 } else if (servicesModel?.serviceName.toString() == "Carpets") {
@@ -147,7 +144,7 @@ class AddressBottomSheetWidget extends ConsumerWidget {
                       .selectedService(selectedService: servicesModel!);
 
                   GoRouter.of(context)
-                      .pushNamed(RouteNames().laundries, extra: servicesModel);
+                      .pushNamed(RouteNames.laundries, extra: servicesModel);
 
                   context.pop();
                 } else if (servicesModel?.serviceName.toString() == "Clothes") {
@@ -156,7 +153,7 @@ class AddressBottomSheetWidget extends ConsumerWidget {
                       .selectedService(selectedService: servicesModel!);
 
                   GoRouter.of(context)
-                      .pushNamed(RouteNames().laundries, extra: servicesModel);
+                      .pushNamed(RouteNames.laundries, extra: servicesModel);
                   context.pop();
                 }
               },

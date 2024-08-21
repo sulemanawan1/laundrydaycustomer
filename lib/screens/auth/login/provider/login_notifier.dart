@@ -66,7 +66,7 @@ class LoginNotifier extends StateNotifier<LoginStates> {
           state =
               state.copyWith(verificationId: verificationId, isLoading: false);
 
-          context.pushReplacementNamed(RouteNames().verification,
+          context.pushReplacementNamed(RouteNames.verification,
               extra: state.verificationId);
         }
       },

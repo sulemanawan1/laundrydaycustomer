@@ -23,7 +23,7 @@ import 'package:laundryday/core/widgets/my_button.dart';
 import 'package:laundryday/core/widgets/my_textform_field.dart';
 
 class UpdateAddress extends ConsumerStatefulWidget {
-  myaddressesmodel.Address address;
+ final myaddressesmodel.Address address;
   UpdateAddress({
     required this.address,
   });
