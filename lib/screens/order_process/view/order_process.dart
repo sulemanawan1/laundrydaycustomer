@@ -728,14 +728,14 @@ class _TimerWidgetState extends ConsumerState<TimerWidget> {
     final remainingTime = ref.watch(countDownProvider).remainingTime;
     final countDownProgress = ref.watch(countDownProvider).countDownProgress;
 
-    return Column(
+    return  Column(
       children: [
         SizedBox(
-          height: 42,
-          width: 42,
+          height: 24,
+          width: 24,
           child: CircularProgressIndicator(
             value: countDownProgress,
-            backgroundColor: ColorManager.silverWhite,
+            backgroundColor: ColorManager.nprimaryColor.withOpacity(0.2),
             strokeWidth: 5.0,
             color: ColorManager.nprimaryColor,
           ),
@@ -743,8 +743,7 @@ class _TimerWidgetState extends ConsumerState<TimerWidget> {
         9.ph,
         Text(
           ref.read(countDownProvider.notifier).formatDuration(remainingTime),
-          style:
-              getRegularStyle(color: ColorManager.nprimaryColor, fontSize: 10),
+          style: getRegularStyle(color: ColorManager.blackColor, fontSize: 8),
         )
       ],
     );
