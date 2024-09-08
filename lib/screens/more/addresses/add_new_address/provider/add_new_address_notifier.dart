@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,6 +13,7 @@ import 'package:laundryday/screens/more/addresses/add_new_address/provider/add_a
 import 'package:laundryday/screens/more/addresses/add_new_address/service/add_address_service.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/provider/my_addresses_notifier.dart';
 import 'package:laundryday/core/utils.dart';
+import 'package:location/location.dart';
 
 final addAddressNotifier =
     StateNotifierProvider.autoDispose<AddAddressNotifier, AddAddressState>(
@@ -21,7 +21,6 @@ final addAddressNotifier =
 
 class AddAddressNotifier extends StateNotifier<AddAddressState> {
   late GoogleMapController mapController;
-  
 
   TextEditingController addressNameController = TextEditingController();
   TextEditingController addressDetailController = TextEditingController();
@@ -38,17 +37,19 @@ class AddAddressNotifier extends StateNotifier<AddAddressState> {
     intitilzeAddress();
   }
 
-  Future<CameraPosition> getCurrentCameraPosition() async {
-    Position pos = await GoogleServices().currentLocation();
-    log(pos.latitude.toString());
-    log(pos.longitude.toString());
+  Future<CameraPosition?> getCurrentCameraPosition() async {
+    LocationData? pos = await GoogleServices().getLocation();
+    if (pos != null) {
+      log(pos.latitude.toString());
+      log(pos.longitude.toString());
 
-    final newCameraPosition = CameraPosition(
-      target: LatLng(pos.latitude, pos.longitude),
-      zoom: 16,
-    );
-
-    return newCameraPosition;
+      final newCameraPosition = CameraPosition(
+        target: LatLng(pos.latitude!, pos.longitude!),
+        zoom: 16,
+      );
+      return newCameraPosition;
+    }
+    return null;
   }
 
   pickImage({required ImageSource imageSource}) {
@@ -101,14 +102,17 @@ class AddAddressNotifier extends StateNotifier<AddAddressState> {
   }
 
   intitilzeAddress() async {
-    Position position = await GoogleServices().currentLocation();
-    coordinateToAddress(taget: LatLng(position.latitude, position.longitude));
+    LocationData? position = await GoogleServices().getLocation();
+    if (position != null) {
+      coordinateToAddress(
+          taget: LatLng(position.latitude!, position.longitude!));
 
-    final newCameraPosition = CameraPosition(
-      target: LatLng(position.latitude, position.longitude),
-      zoom: 16,
-    );
-    state =
-        state.copyWith(isLoading: false, initialCameraPos: newCameraPosition);
+      final newCameraPosition = CameraPosition(
+        target: LatLng(position.latitude!, position.longitude!),
+        zoom: 16,
+      );
+      state =
+          state.copyWith(isLoading: false, initialCameraPos: newCameraPosition);
+    }
   }
 }

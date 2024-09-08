@@ -1,70 +1,85 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:laundryday/config/resources/assets_manager.dart';
 import 'package:laundryday/config/resources/colors.dart';
 import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/config/resources/value_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 
-class FourDigitCodeWidget extends StatelessWidget {
-  const FourDigitCodeWidget({
-    super.key,
-    required this.fourDigitcode,
-  });
+class FourDigitCode extends StatelessWidget {
+  final String code;
 
-  final String fourDigitcode;
+  FourDigitCode({super.key, required this.code});
 
   @override
   Widget build(BuildContext context) {
+    List<String>? fourDigitCode;
+
+    fourDigitCode = code.toString().split('');
+
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        5.ph,
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.amber.withOpacity(0.1),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+        15.ph,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Container(
+            width: 315,
+            decoration: BoxDecoration(
+                color: Color(0xFFEEEEFE),
+                borderRadius: BorderRadius.circular(6)),
+            child: Column(
               children: [
-                Icon(
-                  Icons.warning,
-                  color: Colors.amber.shade600,
-                  size: 30,
+                13.ph,
+                Row(
+                  children: [
+                    18.pw,
+                    Image.asset(
+                      AssetImages.fourDigitCode,
+                      height: 16,
+                    ),
+                    10.pw,
+                    Text(
+                        textAlign: TextAlign.center,
+                        'Share the four-digit code with the courier\n to finalize the order',
+                        style: getRegularStyle(
+                            fontSize: 10, color: Color(0xFF494B4F)))
+                  ],
                 ),
-                10.pw,
-                Text(
-                  'Share the four-digit code with the courier\n to finalize the order.',
-                  style: getRegularStyle(color: ColorManager.blackColor),
-                  textAlign: TextAlign.center,
-                ),
+                13.ph,
               ],
             ),
           ),
         ),
-        10.ph,
+        15.ph,
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            for (var code in fourDigitcode.split('')) ...[
-              10.pw,
-              Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                    border: Border.all(color: ColorManager.primaryColor),
-                    shape: BoxShape.circle,
-                    color: ColorManager.primaryColor.withOpacity(0.3)),
-                child: Center(
-                    child: Text(
-                  code,
-                  style: getBoldStyle(
-                      color: ColorManager.blackColor,
-                      ),
-                )),
+          children: fourDigitCode.map((char) {
+            return Container(
+              width: AppSize.s46,
+              height: AppSize.s46,
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: const Color.fromRGBO(158, 158, 158, 1)
+                          .withOpacity(0.1),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 2)),
+                ],
+                border: Border.all(width: 1, color: Color(0xFFE3E5E5)),
+                color: ColorManager.whiteColor,
+                shape: BoxShape.circle,
               ),
-            ]
-          ],
+              child: Center(
+                child: Text(char,
+                    style: getSemiBoldStyle(
+                        fontSize: 16, color: ColorManager.nprimaryColor)),
+              ),
+            );
+          }).toList(),
         ),
+        20.ph,
       ],
     );
   }

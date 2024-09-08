@@ -15,7 +15,6 @@
 
 
 
-
     <application
         android:label="laundryday"
         android:name="${applicationName}"

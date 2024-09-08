@@ -11,6 +11,8 @@ import 'package:laundryday/config/resources/api_routes.dart';
 import 'package:laundryday/screens/laundries/model/services_timings_model.dart'
     as servicetimingmodel;
 import 'dart:math';
+import 'package:laundryday/screens/laundries/model/laundry_by_area.model.dart'
+    as laundrybyareamodel;
 
 final laundriessProvider =
     StateNotifierProvider.autoDispose<LaundriesNotifier, LaundriesStates>(
@@ -19,6 +21,7 @@ final laundriessProvider =
 class LaundriesNotifier extends StateNotifier<LaundriesStates> {
   LaundriesNotifier()
       : super(LaundriesStates(
+            selectedLaundryByArea: Datum(),
             deliveryPickupLaundryState: DeliveryPickupLaundryIntitialState(),
             laundryByAreaState: LaundryByAreaIntitialState())) {}
 
@@ -59,6 +62,13 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
 
   selectedServiceTiming({required servicetimingmodel.Datum serviceTiming}) {
     state = state.copyWith(serviceTiming: serviceTiming);
+  }
+
+  selectedLaundryByArea(
+      {required laundrybyareamodel.Datum selectedLaundryByArea}) {
+    print(selectedLaundryByArea.name);
+
+    state = state.copyWith(selectedLaundryByArea: selectedLaundryByArea);
   }
 
   Future<void> deliveryPickupLaundries({

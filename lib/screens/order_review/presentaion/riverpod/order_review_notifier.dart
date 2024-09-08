@@ -18,6 +18,7 @@ class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
   OrderRepository _orderRepository = OrderRepository();
   OrderReviewNotifier()
       : super(OrderReviewStates(
+          isLoading: false,
           items: [],
           isRecording: false,
           isPaid: false,
@@ -38,10 +39,13 @@ class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
       required Map files,
       required WidgetRef ref,
       required BuildContext context}) async {
+    state = state.copyWith(isLoading: true);
     Either<String, OrderModel> apiData =
         await _orderRepository.pickupOrder(data: data, files: files);
 
     apiData.fold((l) {
+      state = state.copyWith(isLoading: false);
+
       if (l == 'Not-Found') {
         l = 'Sorry There is no Delivery Agent in your Area. Try Again';
 
@@ -72,6 +76,54 @@ class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
     }, (r) {
       context.pushReplacementNamed(RouteNames.orderProcess,
           extra: r.order!.id!);
+      state = state.copyWith(isLoading: false);
+    });
+  }
+
+  roundTripOrder(
+      {required Map data,
+      required WidgetRef ref,
+      required BuildContext context}) async {
+    state = state.copyWith(isLoading: true);
+
+    Either<String, OrderModel> apiData = await _orderRepository.roundTripOrder(
+      data: data,
+    );
+
+    apiData.fold((l) {
+      state = state.copyWith(isLoading: false);
+
+      if (l == 'Not-Found') {
+        l = 'Sorry There is no Delivery Agent in your Area. Try Again';
+
+        Utils.showReusableDialog(
+            title: 'Operation Failed',
+            description: l,
+            buttons: [
+              OutlinedButton(
+                  onPressed: () {
+                    context.pop();
+                  },
+                  child: Text('Ok'))
+            ],
+            context: context);
+      } else {
+        Utils.showReusableDialog(
+            title: 'Operation Failed',
+            description: l,
+            buttons: [
+              OutlinedButton(
+                  onPressed: () {
+                    context.pop();
+                  },
+                  child: Text('Ok'))
+            ],
+            context: context);
+      }
+    }, (r) {
+      context.pushReplacementNamed(RouteNames.orderProcess,
+          extra: r.order!.id!);
+      state = state.copyWith(isLoading: false);
     });
   }
 }

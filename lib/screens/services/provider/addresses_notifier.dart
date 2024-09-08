@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:laundryday/helpers/google_helper.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart';
@@ -7,6 +6,7 @@ import 'package:laundryday/screens/more/addresses/my_addresses/service/my_addere
 import 'package:laundryday/screens/services/provider/addresses_state.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
     as myaddressmodel;
+import 'package:location/location.dart';
 
 final addressProvider =
     StateNotifierProvider<AddressesNotifier, AddressessStates>(
@@ -16,21 +16,23 @@ class AddressesNotifier extends StateNotifier<AddressessStates> {
   AddressesNotifier()
       : super(AddressessStates(addressState: AddressesInitialState())) {}
 
- 
-
   Future getCurrentLocation() async {
-    Position position = await GoogleServices().currentLocation();
+    LocationData? position = await GoogleServices().getLocation();
 
-    state =
-        state.copyWith(latLng: LatLng(position.latitude, position.longitude));
+    if (position != null) {
+      state = state.copyWith(
+          latLng: LatLng(position.latitude!, position.longitude!));
+    }
   }
 
   Future getDistrict() async {
-    Position position = await GoogleServices().currentLocation();
-    String? district = await GoogleServices()
-        .getDistrict(position.latitude, position.longitude);
+    LocationData? position = await GoogleServices().getLocation();
 
-    state = state.copyWith(district: district);
+    if (position != null) {
+      String? district = await GoogleServices()
+          .getDistrict(position.latitude!, position.longitude!);
+      state = state.copyWith(district: district);
+    }
   }
 
   getAddress() async {
@@ -80,7 +82,6 @@ class SelectedAddressNotifier extends StateNotifier<myaddressmodel.Address?> {
   SelectedAddressNotifier() : super(null);
 
   void onAddressTap(myaddressmodel.Address address) {
-
     state = address;
   }
 }

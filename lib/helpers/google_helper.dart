@@ -1,22 +1,16 @@
 import 'dart:convert';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:laundryday/config/resources/api_routes.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
+import 'package:location/location.dart';
 
 class GoogleServices {
   final String apiKey = Api.googleKey;
 
-  Future<Position> currentLocation() async {
-    return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-    );
-  }
-
   Future<String?> coordinateToAddress({required LatLng taget}) async {
-    List<Placemark> place = await geocoding.placemarkFromCoordinates(
+    List<geocoding.Placemark> place = await geocoding.placemarkFromCoordinates(
         taget.latitude, taget.longitude);
 
     if (place.isNotEmpty) {
@@ -26,30 +20,57 @@ class GoogleServices {
     }
   }
 
-  Future<bool> requestLocationPermission() async {
-    bool serviceEnabled;
-    LocationPermission permission;
+  void _showLocationSettingsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Enable Location Services"),
+          content: Text(
+              "Location services are required for this feature. Please enable them in settings."),
+          actions: <Widget>[
+            TextButton(
+              child: Text("Go to Settings"),
+              onPressed: () {
+                // Geolocator.openLocationSettings(); // Open location settings.
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
-    // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
+  Future<LocationData?> getLocation() async {
+    Location location = Location();
 
-    permission = await Geolocator.checkPermission();
-    
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return false;
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return null;
       }
     }
 
-    if (permission == LocationPermission.deniedForever) {
-      return false;
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return null;
+      }
     }
 
-    return true;
+    return location.getLocation();
   }
 
   Future<String?> getDistrict(double latitude, double longitude) async {

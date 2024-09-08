@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -21,9 +20,10 @@ import 'package:laundryday/core/widgets/heading.dart';
 import 'package:laundryday/core/widgets/my_app_bar.dart';
 import 'package:laundryday/core/widgets/my_button.dart';
 import 'package:laundryday/core/widgets/my_textform_field.dart';
+import 'package:location/location.dart';
 
 class UpdateAddress extends ConsumerStatefulWidget {
- final myaddressesmodel.Address address;
+  final myaddressesmodel.Address address;
   UpdateAddress({
     required this.address,
   });
@@ -96,17 +96,21 @@ class _UpdateAddressState extends ConsumerState<UpdateAddress> {
                       alignment: Alignment.bottomRight,
                       child: GestureDetector(
                         onTap: () async {
-                          Position pos = await controller.determinePosition();
-                          final newCameraPosition = CameraPosition(
-                            target: LatLng(pos.latitude, pos.longitude),
-                            zoom: 14,
-                          );
-                          log(newCameraPosition.target.latitude.toString());
-                          log(newCameraPosition.target.longitude.toString());
+                          LocationData? pos =
+                              await controller.getCurrentCameraPosition();
 
-                          reader.googleMapController!.animateCamera(
-                            CameraUpdate.newCameraPosition(newCameraPosition),
-                          );
+                          if (pos != null) {
+                            final newCameraPosition = CameraPosition(
+                              target: LatLng(pos.latitude!, pos.longitude!),
+                              zoom: 14,
+                            );
+                            log(newCameraPosition.target.latitude.toString());
+                            log(newCameraPosition.target.longitude.toString());
+
+                            reader.googleMapController!.animateCamera(
+                              CameraUpdate.newCameraPosition(newCameraPosition),
+                            );
+                          }
 
                           // controller.coordinateToAddress(
                           //     taget: newCameraPosition.target);

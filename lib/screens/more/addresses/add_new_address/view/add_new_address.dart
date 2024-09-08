@@ -37,8 +37,7 @@ class AddNewAddress extends ConsumerWidget {
           children: [
             states.isLoading
                 ? CircularProgressIndicator()
-                : 
-                SizedBox(
+                : SizedBox(
                     height: 280,
                     child: Stack(
                       alignment: Alignment.center,
@@ -63,8 +62,6 @@ class AddNewAddress extends ConsumerWidget {
                             reader.googleMapController = gcontroller;
                           },
                         ),
-                       
-                       
                         Icon(
                           Icons.location_on,
                           color: ColorManager.primaryColor,
@@ -76,13 +73,15 @@ class AddNewAddress extends ConsumerWidget {
                             alignment: Alignment.bottomRight,
                             child: GestureDetector(
                               onTap: () async {
-                                CameraPosition currentCameraPosition =
+                                CameraPosition? currentCameraPosition =
                                     await controller.getCurrentCameraPosition();
 
-                                reader.googleMapController!.animateCamera(
-                                  CameraUpdate.newCameraPosition(
-                                      currentCameraPosition),
-                                );
+                                if (currentCameraPosition != null) {
+                                  reader.googleMapController!.animateCamera(
+                                    CameraUpdate.newCameraPosition(
+                                        currentCameraPosition),
+                                  );
+                                }
                               },
                               child: Container(
                                 width: 50,
@@ -100,8 +99,6 @@ class AddNewAddress extends ConsumerWidget {
                       ],
                     ),
                   ),
-          
-          
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(

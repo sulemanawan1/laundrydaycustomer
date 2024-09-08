@@ -1,27 +1,31 @@
 import 'package:laundryday/screens/laundries/model/delivery_pickup_laundry_model.dart';
-import 'package:laundryday/screens/laundries/model/laundry_by_area.model.dart';
+import 'package:laundryday/screens/laundries/model/laundry_by_area.model.dart' as laundrybyareamodel;
 import 'package:laundryday/screens/laundries/model/services_timings_model.dart'
     as servicetimingmodel;
 
 class LaundriesStates {
   LaundryByAreaState laundryByAreaState;
   DeliveryPickupLaundryModel? selectedLaundry;
-
+  laundrybyareamodel.Datum  selectedLaundryByArea;
   servicetimingmodel.Datum? serviceTiming;
   DeliveryPickupLaundryState deliveryPickupLaundryState;
   LaundriesStates({
     this.selectedLaundry,
     this.serviceTiming,
+    required this.selectedLaundryByArea,
     required this.deliveryPickupLaundryState,
     required this.laundryByAreaState,
   });
 
   LaundriesStates copyWith(
       {DeliveryPickupLaundryModel? selectedLaundry,
+       laundrybyareamodel.Datum? selectedLaundryByArea,
+
       servicetimingmodel.Datum? serviceTiming,
       LaundryByAreaState? laundryByAreaState,
       DeliveryPickupLaundryState? deliveryPickupLaundryState}) {
     return LaundriesStates(
+      selectedLaundryByArea: selectedLaundryByArea??this.selectedLaundryByArea,
       selectedLaundry: selectedLaundry ?? this.selectedLaundry,
       serviceTiming: serviceTiming ?? this.serviceTiming,
       deliveryPickupLaundryState:
@@ -38,7 +42,7 @@ class LaundryByAreaIntitialState extends LaundryByAreaState {}
 class LaundryByAreaLoadingState extends LaundryByAreaState {}
 
 class LaundryByAreaLoadedState extends LaundryByAreaState {
-  LaundryByAreaModel laundryByAreaModel;
+ laundrybyareamodel. LaundryByAreaModel laundryByAreaModel;
   LaundryByAreaLoadedState({required this.laundryByAreaModel});
 }
 

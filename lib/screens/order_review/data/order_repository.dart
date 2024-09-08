@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:laundryday/config/resources/api_routes.dart';
@@ -14,6 +13,22 @@ class OrderRepository {
 
       var response =
           await BaseClientClass.postFormReq2(url, data, files: files);
+
+      if (response is http.Response) {
+        return right(orderModelFromJson(response.body));
+      }
+      return left(response);
+    } catch (e) {
+      debugPrint(e.toString());
+      return left('An Error Occured');
+    }
+  }
+
+  Future<Either<String, OrderModel>> roundTripOrder({required Map data}) async {
+    try {
+      var url = Api.roundTripOrder;
+
+      var response = await BaseClientClass.post(url, data);
 
       if (response is http.Response) {
         return right(orderModelFromJson(response.body));

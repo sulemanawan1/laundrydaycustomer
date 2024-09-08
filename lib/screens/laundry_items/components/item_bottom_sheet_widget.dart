@@ -14,7 +14,7 @@ import 'package:laundryday/screens/laundry_items/provider/laundry_item_states.da
 import 'package:laundryday/screens/laundry_items/provider/laundry_items.notifier.dart';
 
 class ItemBottomSheet extends ConsumerWidget {
- final Item? selectedItem;
+  final Item? selectedItem;
   ItemBottomSheet({super.key, this.selectedItem});
 
   @override

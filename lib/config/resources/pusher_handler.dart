@@ -50,6 +50,12 @@ class PusherHandler {
     }
   }
 
+  onOrderStatusSubscribe({required int orderId}) async {
+    await pusher.subscribe(
+      channelName: 'private-order-status.${orderId}',
+    );
+  }
+
   onAuthorizer(String channelName, String socketId, dynamic options) async {
     var message = "$socketId:$channelName";
     var secret = '6fac319f72f254ae38da';
@@ -104,7 +110,6 @@ class PusherHandler {
     OrderModel order = orderModelFromJson(event.data.toString());
 
     if (order.order?.id != null) {
-      
       ref.read(orderProcessProvider.notifier).updaterOrder(order: order);
 
       _audioPlayerHandler.iniializeAudioPlayer();

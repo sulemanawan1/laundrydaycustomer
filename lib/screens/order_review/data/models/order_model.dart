@@ -56,10 +56,10 @@ class Order {
   String? area;
   String? shopAddress;
   String? customerAddress;
-  String? isRated;
   String? branchName;
   String? category;
   String? type;
+  String? deliveryType;
   String? paymentStatus;
   String? paymentMethod;
   double? itemTotalPrice;
@@ -71,11 +71,12 @@ class Order {
   String? note;
   String? recording;
   String? status;
-  String? invoice;
   String? pickupInvoice;
   DateTime? countDownStart;
   DateTime? countDownEnd;
   String? customerAvailability;
+  String? firstTripStatus;
+  dynamic secondTripStatus;
   String? code;
   double? branchLat;
   double? branchLng;
@@ -86,6 +87,7 @@ class Order {
   Service? service;
   Customer? customer;
   List<OrderStatus>? orderStatuses;
+  List<Item>? items;
   OrderDeliveries? orderDeliveries;
 
   Order({
@@ -100,10 +102,10 @@ class Order {
     this.area,
     this.shopAddress,
     this.customerAddress,
-    this.isRated,
     this.branchName,
     this.category,
     this.type,
+    this.deliveryType,
     this.paymentStatus,
     this.paymentMethod,
     this.itemTotalPrice,
@@ -115,11 +117,12 @@ class Order {
     this.note,
     this.recording,
     this.status,
-    this.invoice,
     this.pickupInvoice,
     this.countDownStart,
     this.countDownEnd,
     this.customerAvailability,
+    this.firstTripStatus,
+    this.secondTripStatus,
     this.code,
     this.branchLat,
     this.branchLng,
@@ -130,6 +133,7 @@ class Order {
     this.service,
     this.customer,
     this.orderStatuses,
+    this.items,
     this.orderDeliveries,
   });
 
@@ -145,10 +149,10 @@ class Order {
     String? area,
     String? shopAddress,
     String? customerAddress,
-    String? isRated,
     String? branchName,
     String? category,
     String? type,
+    String? deliveryType,
     String? paymentStatus,
     String? paymentMethod,
     double? itemTotalPrice,
@@ -160,11 +164,12 @@ class Order {
     String? note,
     String? recording,
     String? status,
-    String? invoice,
     String? pickupInvoice,
     DateTime? countDownStart,
     DateTime? countDownEnd,
     String? customerAvailability,
+    String? firstTripStatus,
+    dynamic secondTripStatus,
     String? code,
     double? branchLat,
     double? branchLng,
@@ -175,6 +180,7 @@ class Order {
     Service? service,
     Customer? customer,
     List<OrderStatus>? orderStatuses,
+    List<Item>? items,
     OrderDeliveries? orderDeliveries,
   }) =>
       Order(
@@ -189,10 +195,10 @@ class Order {
         area: area ?? this.area,
         shopAddress: shopAddress ?? this.shopAddress,
         customerAddress: customerAddress ?? this.customerAddress,
-        isRated: isRated ?? this.isRated,
         branchName: branchName ?? this.branchName,
         category: category ?? this.category,
         type: type ?? this.type,
+        deliveryType: deliveryType ?? this.deliveryType,
         paymentStatus: paymentStatus ?? this.paymentStatus,
         paymentMethod: paymentMethod ?? this.paymentMethod,
         itemTotalPrice: itemTotalPrice ?? this.itemTotalPrice,
@@ -204,11 +210,12 @@ class Order {
         note: note ?? this.note,
         recording: recording ?? this.recording,
         status: status ?? this.status,
-        invoice: invoice ?? this.invoice,
         pickupInvoice: pickupInvoice ?? this.pickupInvoice,
         countDownStart: countDownStart ?? this.countDownStart,
         countDownEnd: countDownEnd ?? this.countDownEnd,
         customerAvailability: customerAvailability ?? this.customerAvailability,
+        firstTripStatus: firstTripStatus ?? this.firstTripStatus,
+        secondTripStatus: secondTripStatus ?? this.secondTripStatus,
         code: code ?? this.code,
         branchLat: branchLat ?? this.branchLat,
         branchLng: branchLng ?? this.branchLng,
@@ -219,6 +226,7 @@ class Order {
         service: service ?? this.service,
         customer: customer ?? this.customer,
         orderStatuses: orderStatuses ?? this.orderStatuses,
+        items: items ?? this.items,
         orderDeliveries: orderDeliveries ?? this.orderDeliveries,
       );
 
@@ -234,10 +242,10 @@ class Order {
         area: json["area"],
         shopAddress: json["shop_address"],
         customerAddress: json["customer_address"],
-        isRated: json["is_rated"],
         branchName: json["branch_name"],
         category: json["category"],
         type: json["type"],
+        deliveryType: json["delivery_type"],
         paymentStatus: json["payment_status"],
         paymentMethod: json["payment_method"],
         itemTotalPrice: json["item_total_price"]?.toDouble(),
@@ -249,7 +257,6 @@ class Order {
         note: json["note"],
         recording: json["recording"],
         status: json["status"],
-        invoice: json["invoice"],
         pickupInvoice: json["pickup_invoice"],
         countDownStart: json["count_down_start"] == null
             ? null
@@ -258,6 +265,8 @@ class Order {
             ? null
             : DateTime.parse(json["count_down_end"]),
         customerAvailability: json["customer_availability"],
+        firstTripStatus: json["first_trip_status"],
+        secondTripStatus: json["second_trip_status"],
         code: json["code"],
         branchLat: json["branch_lat"]?.toDouble(),
         branchLng: json["branch_lng"]?.toDouble(),
@@ -278,6 +287,9 @@ class Order {
             ? []
             : List<OrderStatus>.from(
                 json["order_statuses"]!.map((x) => OrderStatus.fromJson(x))),
+        items: json["items"] == null
+            ? []
+            : List<Item>.from(json["items"]!.map((x) => Item.fromJson(x))),
         orderDeliveries: json["order_deliveries"] == null
             ? null
             : OrderDeliveries.fromJson(json["order_deliveries"]),
@@ -295,10 +307,10 @@ class Order {
         "area": area,
         "shop_address": shopAddress,
         "customer_address": customerAddress,
-        "is_rated": isRated,
         "branch_name": branchName,
         "category": category,
         "type": type,
+        "delivery_type": deliveryType,
         "payment_status": paymentStatus,
         "payment_method": paymentMethod,
         "item_total_price": itemTotalPrice,
@@ -310,11 +322,12 @@ class Order {
         "note": note,
         "recording": recording,
         "status": status,
-        "invoice": invoice,
         "pickup_invoice": pickupInvoice,
         "count_down_start": countDownStart?.toIso8601String(),
         "count_down_end": countDownEnd?.toIso8601String(),
         "customer_availability": customerAvailability,
+        "first_trip_status": firstTripStatus,
+        "second_trip_status": secondTripStatus,
         "code": code,
         "branch_lat": branchLat,
         "branch_lng": branchLng,
@@ -327,6 +340,9 @@ class Order {
         "order_statuses": orderStatuses == null
             ? []
             : List<dynamic>.from(orderStatuses!.map((x) => x.toJson())),
+        "items": items == null
+            ? []
+            : List<dynamic>.from(items!.map((x) => x.toJson())),
         "order_deliveries": orderDeliveries?.toJson(),
       };
 }
@@ -334,7 +350,7 @@ class Order {
 class Customer {
   int? userId;
   String? mobileNumber;
-  CustomerUser? user;
+  User? user;
 
   Customer({
     this.userId,
@@ -345,7 +361,7 @@ class Customer {
   Customer copyWith({
     int? userId,
     String? mobileNumber,
-    CustomerUser? user,
+    User? user,
   }) =>
       Customer(
         userId: userId ?? this.userId,
@@ -356,7 +372,7 @@ class Customer {
   factory Customer.fromJson(Map<String, dynamic> json) => Customer(
         userId: json["user_id"],
         mobileNumber: json["mobile_number"],
-        user: json["user"] == null ? null : CustomerUser.fromJson(json["user"]),
+        user: json["user"] == null ? null : User.fromJson(json["user"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -366,37 +382,42 @@ class Customer {
       };
 }
 
-class CustomerUser {
+class User {
   int? id;
   String? firstName;
   String? lastName;
   String? image;
+  String? role;
 
-  CustomerUser({
+  User({
     this.id,
     this.firstName,
     this.lastName,
     this.image,
+    this.role,
   });
 
-  CustomerUser copyWith({
+  User copyWith({
     int? id,
     String? firstName,
     String? lastName,
     String? image,
+    String? role,
   }) =>
-      CustomerUser(
+      User(
         id: id ?? this.id,
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
         image: image ?? this.image,
+        role: role ?? this.role,
       );
 
-  factory CustomerUser.fromJson(Map<String, dynamic> json) => CustomerUser(
+  factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
         firstName: json["first_name"],
         lastName: json["last_name"],
         image: json["image"],
+        role: json["role"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -404,6 +425,113 @@ class CustomerUser {
         "first_name": firstName,
         "last_name": lastName,
         "image": image,
+        "role": role,
+      };
+}
+
+class Item {
+  int? id;
+  int? orderId;
+  int? itemVariationId;
+  double? price;
+  int? quantity;
+  double? total;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  ItemVariations? itemVariations;
+
+  Item({
+    this.id,
+    this.orderId,
+    this.itemVariationId,
+    this.price,
+    this.quantity,
+    this.total,
+    this.createdAt,
+    this.updatedAt,
+    this.itemVariations,
+  });
+
+  Item copyWith({
+    int? id,
+    int? orderId,
+    int? itemVariationId,
+    double? price,
+    int? quantity,
+    double? total,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    ItemVariations? itemVariations,
+  }) =>
+      Item(
+        id: id ?? this.id,
+        orderId: orderId ?? this.orderId,
+        itemVariationId: itemVariationId ?? this.itemVariationId,
+        price: price ?? this.price,
+        quantity: quantity ?? this.quantity,
+        total: total ?? this.total,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        itemVariations: itemVariations ?? this.itemVariations,
+      );
+
+  factory Item.fromJson(Map<String, dynamic> json) => Item(
+        id: json["id"],
+        orderId: json["order_id"],
+        itemVariationId: json["item_variation_id"],
+        price: json["price"]?.toDouble(),
+        quantity: json["quantity"],
+        total: json["total"]?.toDouble(),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
+        itemVariations: json["item_variations"] == null
+            ? null
+            : ItemVariations.fromJson(json["item_variations"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "order_id": orderId,
+        "item_variation_id": itemVariationId,
+        "price": price,
+        "quantity": quantity,
+        "total": total,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "item_variations": itemVariations?.toJson(),
+      };
+}
+
+class ItemVariations {
+  int? id;
+  String? name;
+
+  ItemVariations({
+    this.id,
+    this.name,
+  });
+
+  ItemVariations copyWith({
+    int? id,
+    String? name,
+  }) =>
+      ItemVariations(
+        id: id ?? this.id,
+        name: name ?? this.name,
+      );
+
+  factory ItemVariations.fromJson(Map<String, dynamic> json) => ItemVariations(
+        id: json["id"],
+        name: json["name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
       };
 }
 
@@ -416,7 +544,7 @@ class OrderDeliveries {
   DateTime? deliveryTime;
   DateTime? createdAt;
   DateTime? updatedAt;
-  OrderDeliveriesUser? user;
+  User? user;
   DeliveryAgent? deliveryAgent;
 
   OrderDeliveries({
@@ -441,7 +569,7 @@ class OrderDeliveries {
     DateTime? deliveryTime,
     DateTime? createdAt,
     DateTime? updatedAt,
-    OrderDeliveriesUser? user,
+    User? user,
     DeliveryAgent? deliveryAgent,
   }) =>
       OrderDeliveries(
@@ -473,9 +601,7 @@ class OrderDeliveries {
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"]),
-        user: json["user"] == null
-            ? null
-            : OrderDeliveriesUser.fromJson(json["user"]),
+        user: json["user"] == null ? null : User.fromJson(json["user"]),
         deliveryAgent: json["delivery_agent"] == null
             ? null
             : DeliveryAgent.fromJson(json["delivery_agent"]),
@@ -524,80 +650,11 @@ class DeliveryAgent {
       };
 }
 
-class OrderDeliveriesUser {
-  int? id;
-  String? firstName;
-  String? lastName;
-  String? image;
-  dynamic userName;
-  String? role;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-
-  OrderDeliveriesUser({
-    this.id,
-    this.firstName,
-    this.lastName,
-    this.image,
-    this.userName,
-    this.role,
-    this.createdAt,
-    this.updatedAt,
-  });
-
-  OrderDeliveriesUser copyWith({
-    int? id,
-    String? firstName,
-    String? lastName,
-    String? image,
-    dynamic userName,
-    String? role,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-  }) =>
-      OrderDeliveriesUser(
-        id: id ?? this.id,
-        firstName: firstName ?? this.firstName,
-        lastName: lastName ?? this.lastName,
-        image: image ?? this.image,
-        userName: userName ?? this.userName,
-        role: role ?? this.role,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
-
-  factory OrderDeliveriesUser.fromJson(Map<String, dynamic> json) =>
-      OrderDeliveriesUser(
-        id: json["id"],
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        image: json["image"],
-        userName: json["user_name"],
-        role: json["role"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "first_name": firstName,
-        "last_name": lastName,
-        "image": image,
-        "user_name": userName,
-        "role": role,
-        "created_at": createdAt?.toIso8601String(),
-        "updated_at": updatedAt?.toIso8601String(),
-      };
-}
-
 class OrderStatus {
   int? id;
   int? orderId;
   String? status;
+  String? type;
   DateTime? statusTime;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -606,6 +663,7 @@ class OrderStatus {
     this.id,
     this.orderId,
     this.status,
+    this.type,
     this.statusTime,
     this.createdAt,
     this.updatedAt,
@@ -615,6 +673,7 @@ class OrderStatus {
     int? id,
     int? orderId,
     String? status,
+    String? type,
     DateTime? statusTime,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -623,6 +682,7 @@ class OrderStatus {
         id: id ?? this.id,
         orderId: orderId ?? this.orderId,
         status: status ?? this.status,
+        type: type ?? this.type,
         statusTime: statusTime ?? this.statusTime,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
@@ -632,6 +692,7 @@ class OrderStatus {
         id: json["id"],
         orderId: json["order_id"],
         status: json["status"],
+        type: json["type"],
         statusTime: json["status_time"] == null
             ? null
             : DateTime.parse(json["status_time"]),
@@ -647,6 +708,7 @@ class OrderStatus {
         "id": id,
         "order_id": orderId,
         "status": status,
+        "type": type,
         "status_time": statusTime?.toIso8601String(),
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
@@ -657,8 +719,8 @@ class Service {
   int? id;
   String? serviceName;
   String? serviceNameArabic;
-  int? deliveryFee;
-  int? operationFee;
+  double? deliveryFee;
+  double? operationFee;
 
   Service({
     this.id,
@@ -672,8 +734,8 @@ class Service {
     int? id,
     String? serviceName,
     String? serviceNameArabic,
-    int? deliveryFee,
-    int? operationFee,
+    double? deliveryFee,
+    double? operationFee,
   }) =>
       Service(
         id: id ?? this.id,
@@ -687,8 +749,8 @@ class Service {
         id: json["id"],
         serviceName: json["service_name"],
         serviceNameArabic: json["service_name_arabic"],
-        deliveryFee: json["delivery_fee"],
-        operationFee: json["operation_fee"],
+        deliveryFee: json["delivery_fee"]?.toDouble(),
+        operationFee: json["operation_fee"]?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {

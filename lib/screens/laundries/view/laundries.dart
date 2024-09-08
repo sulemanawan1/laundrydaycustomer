@@ -65,18 +65,18 @@ class _LaundriesState extends ConsumerState<Laundries> {
 
     return Scaffold(
       appBar: MyAppBar(
-        title: selectedService!.serviceName.toString(),
+        title: selectedService?.serviceName.toString(),
         iconColor: ColorManager.blackColor,
         backgroundColor: ColorManager.backgroundColor,
       ),
       body: SingleChildScrollView(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          if (selectedService.serviceName!.toLowerCase() == 'carpets')
+          if (selectedService?.serviceName?.toLowerCase() == 'carpets')
             ...[]
           else ...[
             ReusableOrderNowCard(
                 image: getOrderNowImage(
-                        serviceName: selectedService.serviceName!) ??
+                        serviceName: selectedService!.serviceName!) ??
                     "",
                 onPressed: () {
                   serviceTimingController.serviceTimings(
@@ -116,6 +116,10 @@ class _LaundriesState extends ConsumerState<Laundries> {
                       laundryByAreaState.laundryByAreaModel.data![index];
                   return ResuableLaundryTile(
                     onTap: () {
+                      ref
+                          .read(laundriessProvider.notifier)
+                          .selectedLaundryByArea(
+                              selectedLaundryByArea: laundry);
                       serviceTimingController.serviceTimings(
                           serviceId: selectedService.id!);
 

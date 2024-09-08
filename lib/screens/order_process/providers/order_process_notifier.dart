@@ -1,12 +1,14 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:laundryday/screens/order_process/providers/order_process_states.dart';
 import 'package:laundryday/screens/order_process/services/order_service.dart';
 import 'package:laundryday/screens/order_review/data/models/order_model.dart';
 
 class OrderProcessNotifier extends StateNotifier<OrderProcessStates> {
+    late GoogleMapController mapController;
+
   OrderProcessNotifier()
       : super(OrderProcessStates(
             countDownProgress: 0.0,
@@ -47,6 +49,4 @@ class OrderProcessNotifier extends StateNotifier<OrderProcessStates> {
           orderState: OrderStateErrorState(errorMessage: 'An Error Occured'));
     }
   }
-
- 
 }

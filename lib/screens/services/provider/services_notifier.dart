@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:laundryday/helpers/google_helper.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart';
 import 'package:laundryday/screens/services/model/customer_order_model.dart';
@@ -25,16 +24,8 @@ class ServicesNotifier extends StateNotifier<ServicesStates> {
             order: [],
             customerOrderStates: CustomerOrderInititalState(),
             allServicesState: AllServicesInitialState())) {
-    rqPermision();
+    GoogleServices().getLocation();
     allServices();
-  }
-
-  rqPermision() async {
-    bool pe = await GoogleServices().requestLocationPermission();
-
-    if (pe == false) {
-      await Geolocator.openLocationSettings();
-    }
   }
 
   void allServices() async {
