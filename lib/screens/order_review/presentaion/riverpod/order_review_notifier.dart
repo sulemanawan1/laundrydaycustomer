@@ -16,13 +16,16 @@ final orderReviewProvider =
 
 class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
   OrderRepository _orderRepository = OrderRepository();
+
+  
+
   OrderReviewNotifier()
       : super(OrderReviewStates(
+        
           isLoading: false,
           items: [],
           isRecording: false,
-          isPaid: false,
-          total: 0.0,
+          // total: 0.0,
         ));
 
   Future getAllItems() async {

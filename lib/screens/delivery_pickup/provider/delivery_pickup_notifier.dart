@@ -8,10 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/core/image_picker_handler.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_states.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
-import 'package:laundryday/screens/laundries/model/delivery_pickup_laundry_model.dart';
 import 'package:laundryday/config/resources/colors.dart';
 import 'package:laundryday/config/routes/route_names.dart';
-import 'package:laundryday/screens/services/model/services_model.dart' as s;
 
 class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {
   final Ref ref;
@@ -19,6 +17,10 @@ class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {
     required this.ref,
   }) : super(DeliveryPickupStates(
           deliveryfees: 0.0,
+          additionalDeliveryFee: 0.0,
+          additionalOperationFee: 0.0,
+          isBlanketSelected: false,
+          isCarpetSelected: false,
         ));
 
   pickImage(
@@ -65,23 +67,46 @@ class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {
     });
   }
 
-  goToOrderReview(
-      {required BuildContext context,
-      required s.Datum service,
-      required DeliveryPickupLaundryModel laundry}) {
+  goToOrderReview({
+    required BuildContext context,
+  }) {
     if (state.image == null) {
       Fluttertoast.showToast(msg: 'Please select Receipt.');
     } else {
       {}
       context.pushNamed(RouteNames.orderReview, extra: {
         'order_type': OrderType.delivery_pickup,
-        'laundry': laundry,
-        'service': service
       });
     }
   }
 
-  setDeliveryFee({required double distance, required double deliveryfee}) {
-    state = state.copyWith(deliveryfees: distance * deliveryfee);
+
+  void updateFees() {
+    state.additionalOperationFee = (state.isBlanketSelected ? 5.0 : 0.0) +
+        (state.isCarpetSelected ? 5.0 : 0.0);
+    state.additionalDeliveryFee = (state.isBlanketSelected ? 2.0 : 0.0) +
+        (state.isCarpetSelected ? 2.0 : 0.0);
+    state = state.copyWith(
+        additionalDeliveryFee: state.additionalDeliveryFee,
+        additionalOperationFee: state.additionalOperationFee);
   }
+
+  selectCarpet({required bool isSelected}) {
+    state.isCarpetSelected = isSelected;
+
+    state = state.copyWith(isCarpetSelected: state.isCarpetSelected);
+  }
+
+  selectBlanket({required bool isSelected}) {
+    state.isBlanketSelected = isSelected;
+
+    state = state.copyWith(isBlanketSelected: state.isBlanketSelected);
+  }
+
+  // setDeliveryFee(
+  //     {required double distance,
+  //     required double deliveryfee,
+  //     required double operationfee}) {
+  //   state = state.copyWith(deliveryfees: deliveryfee + operationfee);
+  // }
 }

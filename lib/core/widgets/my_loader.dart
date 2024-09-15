@@ -15,7 +15,7 @@ class Loader extends StatelessWidget {
         children: [
           Center(
               child: CircularProgressIndicator(
-            color: ColorManager.primaryColor,
+            color: ColorManager.nprimaryColor,
           )),
         ],
       ),

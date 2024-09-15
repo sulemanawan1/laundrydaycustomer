@@ -49,10 +49,6 @@ class AddressesNotifier extends StateNotifier<AddressessStates> {
       var data = await MyAdderessesService.allAddresses(customerId: customerId);
 
       if (data is MyAddressModel) {
-        // print("------");
-        // print(state.latLng!.latitude);
-        // print("------");
-
         // data.addresses!.add(Address(
         //     addressName: 'my-current-address',
         //     addressDetail: 'my-current-address',

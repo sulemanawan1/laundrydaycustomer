@@ -38,6 +38,8 @@ class RouteNames {
   static final String taxInvoice = "tax_invoice";
   static final String rateCourier = "rate_courier";
   static final String viewImage = "view_image";
+  static final String viewNetworkImage = "view_network_image";
+
   static final String addNewCard = "add_new_card";
   static final String laundryCareGuide = "laundry_care_guide";
   static final String paymentOptions = "payment_options";

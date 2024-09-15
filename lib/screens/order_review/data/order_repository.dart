@@ -39,4 +39,22 @@ class OrderRepository {
       return left('An Error Occured');
     }
   }
+
+
+
+  Future<Either<String, OrderModel>> paymentCollected({required Map data}) async {
+    try {
+      var url = Api.paymentCollected;
+
+      var response = await BaseClientClass.post(url, data);
+
+      if (response is http.Response) {
+        return right(orderModelFromJson(response.body));
+      }
+      return left(response);
+    } catch (e) {
+      debugPrint(e.toString());
+      return left('An Error Occured');
+    }
+  }
 }

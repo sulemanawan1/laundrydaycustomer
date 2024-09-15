@@ -8,7 +8,9 @@ enum OrderStatusesList {
   received,
   atCustomer,
   delivered,
-  collectingFromCustomer
+  collectingFromCustomer,
+  paymentCollected,
+  secondTripAssigned
 }
 
 enum PaymentStatuses {
@@ -53,8 +55,6 @@ String getPickupStatus({required OrderStatusesList orderStatus}) {
     case OrderStatusesList.atCustomer:
       return 'at_customer';
 
-    case OrderStatusesList.delivered:
-      return 'delivered';
     default:
       return 'Unknown status';
   }
@@ -67,11 +67,21 @@ String getRoundTripStatus({required OrderStatusesList orderStatus}) {
 
     case OrderStatusesList.accepted:
       return 'accepted';
+
+    case OrderStatusesList.received:
+      return 'received';
     case OrderStatusesList.collectingFromCustomer:
       return 'collecting-from-customer';
 
     case OrderStatusesList.delivered:
       return 'delivered';
+    case OrderStatusesList.atCustomer:
+      return 'at_customer';
+    case OrderStatusesList.paymentCollected:
+      return 'payment-collected';
+
+    case OrderStatusesList.secondTripAssigned:
+      return 'second-trip-assigned';
     default:
       return 'Unknown status';
   }
@@ -151,6 +161,18 @@ String getRoundTripOrderStatusMessage({required String status}) {
     case 'delivering-to-store':
       return 'The Invoice has been Issued';
 
+    case 'payment-collected':
+      return 'Payment Successful';
+    case 'second-trip-assigned':
+      return "Items servicing";
+    case 'received':
+      return "Item Received";
+
+    case 'at_customer':
+      return "Agent arrived";
+
+    case 'delivered':
+      return 'Your Order is completed, we hope to see you again';
     default:
       return 'Unknown order status';
   }
@@ -168,8 +190,19 @@ String getRoundTripOrderDescription({required String status}) {
     case 'delivering-to-store':
       return 'The Agent will recieve your order when service time is completed';
 
+    case 'payment-collected':
+      return 'Payment Successful';
+    case 'second-trip-assigned':
+      return "Your items have been given to the laundry for servicing.";
+    case 'received':
+      return "The agent has picked up your item from the laundry and will deliver it to you shortly.";
+
+    case 'at_customer':
+      return "The Agent has arrived at your given location.";
+
     case 'delivered':
       return 'Your Order is completed, we hope to see you again';
+
     case 'canceled':
       return 'Order is canceled';
     default:

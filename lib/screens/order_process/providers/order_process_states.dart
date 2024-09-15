@@ -2,6 +2,7 @@ import 'package:laundryday/screens/order_review/data/models/order_model.dart';
 
 class OrderProcessStates {
   OrderState orderState;
+  
   Duration remainingTime;
   double countDownProgress;
   OrderModel orderModel;

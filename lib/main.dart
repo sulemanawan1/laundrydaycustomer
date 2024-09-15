@@ -1,17 +1,55 @@
+import 'dart:developer';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_notification_channel/flutter_notification_channel.dart';
+import 'package:flutter_notification_channel/notification_importance.dart';
+import 'package:flutter_notification_channel/notification_visibility.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:laundryday/core/notifcation_services.dart';
 import 'package:laundryday/firebase_options.dart';
 import 'package:laundryday/config/theme/theme_manager.dart';
 import 'config/routes/app_routes.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+
+  log("Handling a background message: ${message.data['type']}");
+  log("Handling a background message: ${message.data['data']}");
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  var result = await FlutterNotificationChannel.registerNotificationChannel(
+    description: 'Your channel description',
+    id: 'high_importance_channel',
+    importance: NotificationImportance.IMPORTANCE_HIGH,
+    name: 'Popup Notification',
+    visibility: NotificationVisibility.VISIBILITY_PUBLIC,
+  );
+  log(result.toString());
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  await FirebaseMessaging.instance.setAutoInitEnabled(true);
+
+  NotificationServices notificationServices = NotificationServices();
+  notificationServices.requestNotification();
+  notificationServices.fireBaseInit();
+  notificationServices.setupInteractMessage();
+  String? token = await notificationServices.getDeviceToken();
+
+  log("Fcm Token Firebase $token");
+
   runApp(const ProviderScope(child: MyApp()));
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor:

@@ -24,6 +24,7 @@ import 'package:laundryday/screens/laundries/model/laundry_by_area.model.dart'
     as laundrybyareamodel;
 import 'package:laundryday/core/widgets/reuseable_laundry_tile.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
+import 'package:laundryday/screens/services/view/services.dart';
 
 class Laundries extends ConsumerStatefulWidget {
   Laundries({
@@ -263,10 +264,13 @@ class ServiceTimingDialog extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       10.ph,
-                      Image.network(
-                          color: ColorManager.purpleColor,
-                          height: 60,
-                          "${Api.imageUrl}${serviceTiming.image}"),
+                      CustomCacheNetworkImage(
+                          imageUrl: "${Api.imageUrl}${serviceTiming.image}",
+                          height: 60),
+                      // Image.network(
+                      //     color: ColorManager.purpleColor,
+                      //     height: 60,
+                      //     "${Api.imageUrl}${serviceTiming.image}"),
                       10.ph,
                       Text(
                         serviceTiming.name!,

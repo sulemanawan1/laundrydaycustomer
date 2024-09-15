@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/config/routes/route_names.dart';
+import 'package:laundryday/core/utils.dart';
 import 'package:laundryday/core/widgets/reusable_checkout_card.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/laundries/model/services_timings_model.dart';
@@ -22,6 +23,7 @@ import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/widgets/my_loader.dart';
 import 'package:laundryday/core/widgets/reuseable_laundry_detail_banner_card.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
+import 'package:laundryday/screens/services/view/services.dart';
 
 class LaundryItems extends ConsumerStatefulWidget {
   LaundryItems();
@@ -83,7 +85,37 @@ class _BlanketsCategoryState extends ConsumerState<LaundryItems> {
                     ),
                     30.ph,
                     if (selectedService!.serviceName!.toLowerCase() ==
-                        'clothes') ...[AttentionWidget()],
+                        'clothes') ...[
+                      AttentionWidget(
+                        onTap: () {
+                          Utils.showResuableBottomSheet(
+                              context: context,
+                              widget: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  10.ph,
+                                  Text(
+                                    'No leather or wool items are allowed.',
+                                    style: getSemiBoldStyle(
+                                        fontSize: 18,
+                                        color: ColorManager.blackColor),
+                                  ),
+                                  5.ph,
+                                  Text(
+                                    'Our prices are the same as the current laundry prices.All item are completely identical to the prices in the store wihout adding any increase by Laundry Day.',
+                                    style: getSemiBoldStyle(
+                                        fontSize: 16,
+                                        color: ColorManager.greyColor),
+                                  ),
+                                  30.ph,
+                                ],
+                              ),
+                              title: 'Attention');
+                        },
+                        message:
+                            "Attention: No leather or wool items are allowed. Our prices are the same as the current laundry prices.",
+                      )
+                    ],
                     10.ph,
                     if (categoryItemsStates is CategoryItemsIntitialState) ...[
                       Expanded(child: Loader())
@@ -192,10 +224,10 @@ class _BlanketsCategoryState extends ConsumerState<LaundryItems> {
                     ),
                     elevation: AppSize.s1_0,
                     child: Center(
-                        child: Image.network(
-                            Api.imageUrl + blanketItem.image.toString(),
-                            width: AppSize.s65,
-                            height: AppSize.s65)),
+                        child: CustomCacheNetworkImage(
+                      imageUrl: Api.imageUrl + blanketItem.image.toString(),
+                      height: AppSize.s65,
+                    )),
                   ),
                 ),
               ],

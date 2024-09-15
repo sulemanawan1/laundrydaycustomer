@@ -11,8 +11,8 @@ import 'package:laundryday/config/resources/sized_box.dart';
 import 'package:laundryday/core/widgets/heading.dart';
 
 class ScanReceiptWidget extends StatelessWidget {
- final WidgetRef ref;
-   ScanReceiptWidget({super.key,required this.ref});
+  final WidgetRef ref;
+  ScanReceiptWidget({super.key, required this.ref});
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +92,7 @@ class ScanReceiptWidget extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(12)),
           child: Container(
             decoration: BoxDecoration(
-                color: ColorManager.whiteColor,
+                color: ColorManager.silverWhite,
                 borderRadius: BorderRadius.circular(8)),
             height: 180,
             width: double.infinity,

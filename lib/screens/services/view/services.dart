@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -59,9 +60,16 @@ class _ServicesState extends ConsumerState<Services> {
         backgroundColor: const Color.fromRGBO(241, 240, 245, 1),
         leadingWidth: MediaQuery.of(context).size.width * .8,
         leading: GestureDetector(
-          onTap: () {
-            // serviceAddress.getAddress();
-            serviceAddress.allAddresses(customerId: customerId!);
+          onTap: () async {
+            // await Future.wait([
+            //   serviceAddress.getAddress(),
+
+            //   serviceAddress.allAddresses(customerId: customerId!)
+            // ]);
+
+            // await serviceAddress.getAddress();
+            await serviceAddress.allAddresses(customerId: customerId!);
+
             showModalBottomSheet<void>(
               useSafeArea: true,
               isDismissible: false,
@@ -286,13 +294,7 @@ class _ServicesState extends ConsumerState<Services> {
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
                         onTap: () {
-                          // serviceAddress.getAddress();
-
                           serviceAddress.allAddresses(customerId: customerId!);
-
-                          // log("Latitude ${latLng!.latitude.toString()}");
-                          // log("Longitude ${latLng.longitude.toString()}");
-                          // log("District ${district.toString()}");
 
                           showModalBottomSheet<void>(
                             isDismissible: false,
@@ -301,8 +303,8 @@ class _ServicesState extends ConsumerState<Services> {
                             context: context,
                             shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(8),
-                                    topRight: Radius.circular(8))),
+                                    topLeft: Radius.circular(AppSize.s8),
+                                    topRight: Radius.circular(AppSize.s8))),
                             builder: (BuildContext context) {
                               return AddressBottomSheetWidget(
                                 servicesModel:
@@ -322,12 +324,11 @@ class _ServicesState extends ConsumerState<Services> {
                                     borderRadius: const BorderRadius.only(
                                         topLeft: Radius.circular(12),
                                         topRight: Radius.circular(12)),
-                                    child: Image.network(
-                                      width: double.infinity,
-                                      height: 155,
-                                      "${Api.imageUrl}${services.serviceModel.data![index].serviceImage.toString()}"
-                                          .toString(),
+                                    child: CustomCacheNetworkImage(
                                       fit: BoxFit.cover,
+                                      imageUrl:
+                                          "${Api.imageUrl}${services.serviceModel.data![index].serviceImage.toString()}",
+                                      height: 155,
                                     )),
                               ),
                               14.ph,
@@ -417,6 +418,56 @@ class ServiceShimmerEffect extends StatelessWidget {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class CustomCacheNetworkImage extends StatelessWidget {
+  final String imageUrl;
+  final double height;
+  final BoxFit? fit;
+  CustomCacheNetworkImage(
+      {super.key, required this.imageUrl, required this.height, this.fit});
+
+  @override
+  Widget build(BuildContext context) {
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      imageBuilder: (context, imageProvider) => Container(
+        height: height,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: imageProvider,
+            fit: fit,
+          ),
+        ),
+      ),
+      fadeInDuration: Duration(seconds: 1),
+      placeholder: (context, url) => SizedBox(
+        height: height,
+        child: Loader(),
+      ),
+      errorWidget: (context, url, error) => Container(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.broken_image,
+                color: ColorManager.greyColor,
+              ),
+              10.ph,
+              Text(
+                'File Not Found',
+                style: getRegularStyle(color: ColorManager.blackColor),
+              )
+            ],
+          ),
+        ),
+        height: height,
+        width: double.infinity,
       ),
     );
   }

@@ -229,6 +229,13 @@ final goRouterProvider = Provider<GoRouter>((ref) => GoRouter(
             ),
           ),
           GoRoute(
+            name: RouteNames.viewNetworkImage,
+            path: "/view_network_image",
+            builder: (context, state) => ViewNetworkImage(
+              image: state.extra as String?,
+            ),
+          ),
+          GoRoute(
             name: RouteNames.laundryCareGuide,
             path: "/laundry_care_guide",
             builder: (context, state) => LaundryCareGuilde(),

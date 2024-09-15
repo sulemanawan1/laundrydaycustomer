@@ -17,55 +17,56 @@ class AddressDetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        10.ph,
-        Card(
-          elevation: 0,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              10.ph,
-              Row(
-                children: [
-                  const Icon(
-                    Icons.flag,
-                    size: 14,
-                  ),
-                  10.pw,
-                  HeadingMedium(title: 'Pickup From'),
-                ],
+    return Card(
+      color: ColorManager.silverWhite,
+      elevation: 0,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          8.ph,
+          Row(
+            children: [
+              const Icon(
+                Icons.flag,
+                size: 14,
               ),
-              10.ph,
+              10.pw,
               Text(
-                origin,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: getMediumStyle(
-                    color: ColorManager.greyColor, fontSize: FontSize.s12),
-              ),
-              10.ph,
-              Row(
-                children: [
-                  const Icon(Icons.inventory, size: 14),
-                  10.pw,
-                  HeadingMedium(title: 'Delivered To'),
-                ],
-              ),
-              10.ph,
-              Text(
-                destination,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: getMediumStyle(
-                    color: ColorManager.greyColor, fontSize: FontSize.s12),
-              ),
-              10.ph,
-            ]),
+                'Pickup From',
+                style: getMediumStyle(color: ColorManager.blackColor),
+              )
+            ],
           ),
-        ),
-      ],
+          8.ph,
+          Text(
+            origin,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: getMediumStyle(
+                color: ColorManager.greyColor, fontSize: FontSize.s10),
+          ),
+          8.ph,
+          Row(
+            children: [
+              const Icon(Icons.inventory, size: 14),
+              10.pw,
+              Text(
+                'Delivered To',
+                style: getMediumStyle(color: ColorManager.blackColor),
+              )
+            ],
+          ),
+          8.ph,
+          Text(
+            destination,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: getMediumStyle(
+                color: ColorManager.greyColor, fontSize: FontSize.s10),
+          ),
+          8.ph,
+        ]),
+      ),
     );
   }
 }

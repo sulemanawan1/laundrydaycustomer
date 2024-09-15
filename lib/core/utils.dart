@@ -65,9 +65,9 @@ class Utils {
                   children: [
                     Text(title,
                         style: getSemiBoldStyle(
-                            color: ColorManager.blackColor,
-                            fontSize: 18,
-                           )),
+                          color: ColorManager.blackColor,
+                          fontSize: 18,
+                        )),
                     Container(
                       width: 40,
                       height: 40,
@@ -98,8 +98,7 @@ class Utils {
       {required BuildContext context,
       required String message,
       Color color = Colors.green}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       showCloseIcon: true,
       backgroundColor: color,
       content: Text(message),

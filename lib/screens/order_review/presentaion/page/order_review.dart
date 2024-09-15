@@ -6,11 +6,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/config/resources/font_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
+import 'package:laundryday/core/utils.dart';
 import 'package:laundryday/core/widgets/my_loader.dart';
+import 'package:laundryday/core/widgets/payment_summary_widget.dart';
 import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/laundries/provider/laundries_notifier.dart';
+import 'package:laundryday/screens/laundry_items/components/attention_widget.dart';
 import 'package:laundryday/screens/laundry_items/model/item_variation_model.dart';
 import 'package:laundryday/screens/laundry_items/provider/laundry_items.notifier.dart';
 import 'package:laundryday/screens/order_review/presentaion/riverpod/order_review_notifier.dart';
@@ -38,10 +41,10 @@ class OrderReview extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<OrderReview> createState() => _OrderCheckoutState();
+  ConsumerState<OrderReview> createState() => _OrderReviewState();
 }
 
-class _OrderCheckoutState extends ConsumerState<OrderReview> {
+class _OrderReviewState extends ConsumerState<OrderReview> {
   int totalSeconds = 0;
   final record = AudioRecorder();
   File? audioFile;
@@ -130,6 +133,15 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
 
     final isLoading = ref.watch(orderReviewProvider).isLoading;
 
+    final isBlanketSelected =
+        ref.watch(deliverPickupProvider).isBlanketSelected;
+    final isCarpetSelected = ref.watch(deliverPickupProvider).isCarpetSelected;
+    final additionalDeliveryFee =
+        ref.watch(deliverPickupProvider).additionalDeliveryFee;
+    final additionalOperationFee =
+        ref.watch(deliverPickupProvider).additionalOperationFee;
+
+    print('build');
     return Scaffold(
       appBar: MyAppBar(title: 'Review Order'),
       body: Padding(
@@ -146,37 +158,59 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: SingleChildScrollView(
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  5.ph,
-                                  const Heading(
-                                    title: 'Order Details',
-                                  ),
-                                  10.ph,
-                                  Text(
-                                    'Pickup Recipt',
-                                    style: getMediumStyle(
-                                        color: ColorManager.greyColor,
-                                        fontSize: FontSize.s10),
-                                  ),
-                                  10.ph,
-                                  SizedBox(
-                                    height: 200,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Image.file(
-                                        height: 100,
-                                        File(
-                                          deliveryPickupReceipt!.path
-                                              .toString(),
-                                        )),
-                                  )
-                                ],
-                              ),
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    5.ph,
+                                    const Heading(
+                                      title: 'Order Details',
+                                    ),
+                                    10.ph,
+                                    Text(
+                                      'Pickup Recipt',
+                                      style: getMediumStyle(
+                                          color: ColorManager.greyColor,
+                                          fontSize: FontSize.s10),
+                                    ),
+                                    10.ph,
+                                    Container(
+                                      color: ColorManager.silverWhite,
+                                      height: 200,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Image.file(
+                                          height: 100,
+                                          File(
+                                            deliveryPickupReceipt!.path
+                                                .toString(),
+                                          )),
+                                    ),
+                                    5.ph,
+                                    _recording(),
+                                    5.ph,
+                                    if (isCarpetSelected == true ||
+                                        isBlanketSelected == true)
+                                      PaymentSummaryText(
+                                          text1: 'Additional Fee',
+                                          text2:
+                                              '${additionalOperationFee + additionalDeliveryFee}'),
+                                    PaymentSummaryText(
+                                        text1: 'Delivery Fee',
+                                        text2:
+                                            "${(selectedService!.deliveryFee! + selectedService.operationFee!).toStringAsFixed(2)}"),
+                                    PaymentSummaryText(
+                                        text1: 'Vat ',
+                                        text2:
+                                            "${((15 / 100) * (selectedService.deliveryFee! + selectedService.operationFee! + additionalOperationFee + additionalDeliveryFee)).toStringAsFixed(2)}"),
+                                    PaymentSummaryText(
+                                        text1style: getSemiBoldStyle(
+                                            fontSize: 14,
+                                            color: ColorManager.blackColor),
+                                        text1: 'Delivery cost Including VAT ',
+                                        text2:
+                                            "${((selectedService.deliveryFee! + selectedService.operationFee! + additionalOperationFee + additionalDeliveryFee) + ((15 / 100) * (selectedService.deliveryFee! + selectedService.operationFee! + additionalOperationFee + additionalDeliveryFee))).toStringAsFixed(2)}"),
+                                  ]),
                             ),
                           ),
                         ),
-                        _recording(),
-                        10.ph,
                         Card(
                           elevation: 0,
                           child: Padding(
@@ -372,7 +406,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                             ),
                           ),
                         ),
-                        10.ph,
+                        5.ph,
                         isLoading
                             ? Loader()
                             : MyButton(
@@ -389,7 +423,7 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                                     });
                                   }
 
-                                  var total = selectedService!.deliveryFee! +
+                                  var total = selectedService.deliveryFee! +
                                       selectedService.operationFee!;
 
                                   Map data = {
@@ -414,7 +448,9 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                                     "branch_lng": selectedLaundry.lng,
                                     "branch_name": selectedLaundry.name,
                                     "customer_lat": selectedAddress.lat!,
-                                    "customer_lng": selectedAddress.lng!
+                                    "customer_lng": selectedAddress.lng!,
+                                    //  "additional_operation_fee":,
+                                    //  "additional_delivery_fee":
                                   };
                                   ref
                                       .read(orderReviewProvider.notifier)
@@ -424,7 +460,8 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
                                           files: files,
                                           ref: ref);
                                 },
-                              )
+                              ),
+                        20.ph
                       ]),
                 )
               : SingleChildScrollView(
@@ -829,5 +866,3 @@ class _OrderCheckoutState extends ConsumerState<OrderReview> {
     );
   }
 }
-
-

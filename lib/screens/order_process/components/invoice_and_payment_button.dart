@@ -20,7 +20,8 @@ class InvoiceAndPaymentButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return 
+    GestureDetector(
       onTap: () {
         context.pushNamed(RouteNames.orderCheckout, extra: orderModel);
       },
@@ -51,5 +52,7 @@ class InvoiceAndPaymentButton extends StatelessWidget {
             color: ColorManager.nprimaryColor),
       ),
     );
+ 
+ 
   }
 }

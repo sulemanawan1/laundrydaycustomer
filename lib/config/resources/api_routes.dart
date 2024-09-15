@@ -52,6 +52,7 @@ class Api {
   static const String pickupOrder = "${baseUrl}orders/pickup-order";
 
     static const String roundTripOrder = "${baseUrl}orders/round-trip";
+    static const String paymentCollected = "${baseUrl}orders/payment-collected";
 
   static const String order = "${baseUrl}orders/detail?id=";
   static const String customerOrders = "${baseUrl}orders/customer?customer_id=";

@@ -13,7 +13,6 @@ class RoutePaths {
   final String services = "services";
   final String addNewAddress = "add_new_address";
     final String updateAddress = "update_address";
-
   final String myAddresses = "my_addresses";
   final String settings = "settings";
   final String editProfile = "edit_profile";

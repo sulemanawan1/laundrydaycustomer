@@ -6,7 +6,7 @@ import 'package:laundryday/core/widgets/heading.dart';
 import 'package:laundryday/screens/services/model/services_model.dart' as s;
 
 class PaymentSummaryWidget extends ConsumerWidget {
- final s.Datum? service;
+  final s.Datum? service;
 
   PaymentSummaryWidget({
     super.key,
@@ -41,39 +41,35 @@ class PaymentSummaryWidget extends ConsumerWidget {
 class PaymentSummaryText extends StatelessWidget {
   final String text1;
   final String text2;
+  TextStyle? text1style;
 
-  const PaymentSummaryText(
-      {super.key, required this.text1, required this.text2});
+  PaymentSummaryText(
+      {super.key, required this.text1, required this.text2, this.text1style});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 23),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(text1,
-                  style:
-                      getRegularStyle(fontSize: 14, color: Color(0xFF818181))),
-              Text(
-                '${text2} SAR ',
-                style: getMediumStyle(
-                  color: Color(0xFF242424),
-                  fontSize: 14,
-                ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(text1,
+                style: text1style ??
+                    getRegularStyle(fontSize: 14, color: Color(0xFF818181))),
+            Text(
+              '${text2} SAR ',
+              style: getMediumStyle(
+                color: Color(0xFF242424),
+                fontSize: 14,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 23),
-          child: Divider(
-            color: Color(0xFF818181),
-          ),
-        )
+        5.ph,
+        Divider(
+          color: Color(0xFF818181),
+        ),
       ],
     );
   }
