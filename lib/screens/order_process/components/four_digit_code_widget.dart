@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:laundryday/config/resources/assets_manager.dart';
-import 'package:laundryday/config/resources/colors.dart';
-import 'package:laundryday/config/resources/sized_box.dart';
-import 'package:laundryday/config/resources/value_manager.dart';
+import 'package:laundryday/services/resources/assets_manager.dart';
+import 'package:laundryday/services/resources/colors.dart';
+import 'package:laundryday/services/resources/sized_box.dart';
+import 'package:laundryday/services/resources/value_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 
 class FourDigitCode extends StatelessWidget {

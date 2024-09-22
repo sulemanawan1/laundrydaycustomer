@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/services/resources/colors.dart';
 
-class DatePickerHandler {
-  static Future<DateTime?> datePicker(context) async {
+
+
+   Future<DateTime?> datePicker(context) async {
     DateTime? picked = await showDatePicker(
         initialDate: DateTime.now(),
         builder: (context, Widget? child) {
@@ -27,4 +28,4 @@ class DatePickerHandler {
       return null;
     }
   }
-}
+

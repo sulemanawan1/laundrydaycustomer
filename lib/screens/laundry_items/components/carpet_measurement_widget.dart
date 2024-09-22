@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
-import 'package:laundryday/config/resources/colors.dart';
-import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/services/resources/colors.dart';
+import 'package:laundryday/services/resources/sized_box.dart';
 import 'package:laundryday/core/widgets/heading.dart';
 
 class CarpetMeasurementWidget extends StatelessWidget {

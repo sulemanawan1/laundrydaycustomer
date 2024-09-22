@@ -5,10 +5,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:laundryday/core/image_picker_handler.dart';
+import 'package:laundryday/core/image_picker_service.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_states.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
-import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/services/resources/colors.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 
 class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {
@@ -27,7 +27,7 @@ class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {
       {required ImageSource imageSource,
       required BuildContext context,
       required WidgetRef ref}) {
-    ImagePickerHandler.pickImage(imageSource: imageSource).then((value) {
+    ImagePickerService.pickImage(imageSource: imageSource).then((value) {
       log(value.toString());
       if (value != null) {
         ImageCropper().cropImage(
@@ -79,7 +79,6 @@ class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {
       });
     }
   }
-
 
   void updateFees() {
     state.additionalOperationFee = (state.isBlanketSelected ? 5.0 : 0.0) +

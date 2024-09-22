@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:laundryday/core/image_picker_handler.dart';
+import 'package:laundryday/core/image_picker_service.dart';
 import 'package:laundryday/helpers/date_helper.dart';
 import 'package:laundryday/screens/add_laundry/data/repository/add_laundry_repository.dart';
 import 'package:laundryday/screens/home/provider/home_notifier.dart';
@@ -52,32 +52,32 @@ class DeliveryAgentRegistrationNotifier
   final plateNumberLetterFocus = FocusNode();
 
   pickImage({required ImageSource imageSource}) {
-    ImagePickerHandler.pickImage(imageSource: imageSource)
+    ImagePickerService.pickImage(imageSource: imageSource)
         .then((value) => state = state.copyWith(image: value));
   }
 
   pickIdentityImage({required ImageSource imageSource}) {
-    ImagePickerHandler.pickImage(imageSource: imageSource)
+    ImagePickerService.pickImage(imageSource: imageSource)
         .then((value) => state = state.copyWith(identityImage: value));
   }
 
   pickRearImage({required ImageSource imageSource}) {
-    ImagePickerHandler.pickImage(imageSource: imageSource)
+    ImagePickerService.pickImage(imageSource: imageSource)
         .then((value) => state = state.copyWith(rearImage: value));
   }
 
   pickFrontImage({required ImageSource imageSource}) {
-    ImagePickerHandler.pickImage(imageSource: imageSource)
+    ImagePickerService.pickImage(imageSource: imageSource)
         .then((value) => state = state.copyWith(frontImage: value));
   }
 
   pickdrivingLicenceImage({required ImageSource imageSource}) {
-    ImagePickerHandler.pickImage(imageSource: imageSource)
+    ImagePickerService.pickImage(imageSource: imageSource)
         .then((value) => state = state.copyWith(drivingLicenseImage: value));
   }
 
   pickRegistrationeImage({required ImageSource imageSource}) {
-    ImagePickerHandler.pickImage(imageSource: imageSource)
+    ImagePickerService.pickImage(imageSource: imageSource)
         .then((value) => state = state.copyWith(registrationImage: value));
   }
 

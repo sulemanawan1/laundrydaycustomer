@@ -1,8 +1,26 @@
 import 'package:intl/intl.dart';
 
 class DateHelper {
+  static String convertTimeToAmPm(String timestamp) {
+    // Parse the input timestamp string to DateTime
+    DateTime dateTime = DateTime.parse(timestamp);
 
-  
+    // Format the DateTime to only show time in 12-hour format with AM/PM
+    String formattedTime = DateFormat('hh:mm a').format(dateTime);
+
+    return formattedTime; // Return only the formatted time
+  }
+
+  static String formatTimestamp(int timestamp) {
+    // Convert timestamp (milliseconds since epoch) to DateTime
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
+
+    // Format the DateTime to h:mm a (e.g., 2:00 PM)
+    String formattedTime = DateFormat('h:mm a').format(dateTime);
+
+    return formattedTime;
+  }
+
   static String laravelDateToFormattedDate(String laravelDate) {
     // Parse the Laravel date string to a DateTime object
     DateTime date = DateTime.parse(laravelDate);
@@ -59,7 +77,8 @@ class DateHelper {
   }
 
   static String convertDateFormat(String originalDate) {
-    DateTime dateTime = DateTime.parse(originalDate).add(const Duration(hours: 5));
+    DateTime dateTime =
+        DateTime.parse(originalDate).add(const Duration(hours: 5));
     DateFormat dateFormat = DateFormat.yMMMMd('en_US');
     return dateFormat.format(dateTime);
   }

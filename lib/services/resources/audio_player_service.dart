@@ -1,6 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 
-class AudioPlayerHandler {
+class AudioPlayerService {
   AudioPlayer? player;
 
   iniializeAudioPlayer() async {

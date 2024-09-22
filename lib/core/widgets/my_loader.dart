@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/services/resources/colors.dart';
 
 class Loader extends StatelessWidget {
   const Loader({

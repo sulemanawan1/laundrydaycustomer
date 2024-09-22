@@ -2,23 +2,27 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class NotificationServices {
+class NotificationService {
   FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
+
   initFlutterNotificationPlugin(RemoteMessage message) async {
     var androidInitialization =
         const AndroidInitializationSettings("@mipmap/ic_launcher");
+
 
     var iosInitialization = const DarwinInitializationSettings(
         requestAlertPermission: true,
         requestBadgePermission: true,
         requestCriticalPermission: true,
         requestSoundPermission: true);
+
     var initializeSetting = InitializationSettings(
         android: androidInitialization, iOS: iosInitialization);
 
@@ -30,6 +34,9 @@ class NotificationServices {
 
   fireBaseInit() {
     FirebaseMessaging.onMessage.listen((message) {
+
+
+      
       initFlutterNotificationPlugin(message);
       showNotificationFlutter(message);
     });
@@ -93,6 +100,8 @@ class NotificationServices {
   }
 
   requestNotification() async {
+  
+    
     NotificationSettings settings = await firebaseMessaging.requestPermission(
         alert: true,
         announcement: true,
@@ -103,17 +112,18 @@ class NotificationServices {
         provisional: true);
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('permission granted');
-    } else if (settings.authorizationStatus ==
-        AuthorizationStatus.provisional) {
-      print('permission denied');
-      // AppSettings.openAppSettings();
+    }  if (kDebugMode) {
+      print('user granted provisional permission');
+    }
+    else {
+      //appsetting.AppSettings.openNotificationSettings();
+      if (kDebugMode) {
+        print('user denied permission');
+      }
     }
   }
 
   Future<String?> getDeviceToken() async {
-
-    
-
     String? deviceToken = await firebaseMessaging.getToken();
 
     return deviceToken;
@@ -150,7 +160,6 @@ class NotificationServices {
       log(type);
 
       Map datas = jsonDecode(data);
-      
     }
 
     //   Get.toNamed(noticeboardscreen, arguments: [user, resident]);

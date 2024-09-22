@@ -13,9 +13,9 @@ import 'package:laundryday/screens/more/help/agent_registration/provider/deliver
 import 'package:laundryday/models/city_model.dart' as citymodel;
 import 'package:laundryday/models/country_model.dart' as countrymodel;
 import 'package:laundryday/models/region_model.dart' as regionmodel;
-import 'package:laundryday/config/resources/colors.dart';
-import 'package:laundryday/config/resources/font_manager.dart';
-import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/services/resources/colors.dart';
+import 'package:laundryday/services/resources/font_manager.dart';
+import 'package:laundryday/services/resources/sized_box.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/utils.dart';
@@ -156,7 +156,7 @@ class AgentRegistration extends ConsumerWidget {
                         autofillHints: const [AutofillHints.birthday],
                         readOnly: true,
                         onTap: () {
-                          DatePickerHandler.datePicker(context).then((value) {
+                          datePicker(context).then((value) {
                             ref
                                 .read(agentRegistrationNotifier.notifier)
                                 .pickDob(dateTime: value);

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/laundry_items/model/laundry_model.dart';
-import 'package:laundryday/config/resources/colors.dart';
-import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/services/resources/colors.dart';
+import 'package:laundryday/services/resources/sized_box.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ReusabelLaundryDetailBannerCard extends StatelessWidget {

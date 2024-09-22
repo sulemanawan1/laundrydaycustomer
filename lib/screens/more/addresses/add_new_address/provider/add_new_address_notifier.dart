@@ -6,8 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:laundryday/core/image_picker_handler.dart';
-import 'package:laundryday/helpers/google_helper.dart';
+import 'package:laundryday/core/image_picker_service.dart';
+import 'package:laundryday/helpers/google_service.dart';
 import 'package:laundryday/screens/more/addresses/add_new_address/model/add_address_model.dart';
 import 'package:laundryday/screens/more/addresses/add_new_address/provider/add_address_state.dart';
 import 'package:laundryday/screens/more/addresses/add_new_address/service/add_address_service.dart';
@@ -53,7 +53,7 @@ class AddAddressNotifier extends StateNotifier<AddAddressState> {
   }
 
   pickImage({required ImageSource imageSource}) {
-    ImagePickerHandler.pickImage(imageSource: imageSource)
+    ImagePickerService.pickImage(imageSource: imageSource)
         .then((value) => state = state.copyWith(imagePath: value!.path));
   }
 

@@ -7,8 +7,8 @@ import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:laundryday/core/image_picker_handler.dart';
-import 'package:laundryday/helpers/google_helper.dart';
+import 'package:laundryday/core/image_picker_service.dart';
+import 'package:laundryday/helpers/google_service.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/provider/my_addresses_notifier.dart';
 import 'package:laundryday/screens/more/addresses/update_addresses/model/update_address_model.dart';
 import 'package:laundryday/screens/more/addresses/update_addresses/provider/update_address_state.dart';
@@ -41,7 +41,7 @@ class UpdateAddressNotifier extends StateNotifier<UpdateAddressState> {
   }
 
   pickImage({required ImageSource imageSource}) {
-    ImagePickerHandler.pickImage(imageSource: imageSource)
+    ImagePickerService.pickImage(imageSource: imageSource)
         .then((value) => state = state.copyWith(imagePath: value!.path));
   }
 

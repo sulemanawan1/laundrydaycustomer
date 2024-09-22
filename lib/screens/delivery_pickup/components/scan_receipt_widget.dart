@@ -6,8 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
-import 'package:laundryday/config/resources/colors.dart';
-import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/services/resources/colors.dart';
+import 'package:laundryday/services/resources/sized_box.dart';
 import 'package:laundryday/core/widgets/heading.dart';
 
 class ScanReceiptWidget extends StatelessWidget {

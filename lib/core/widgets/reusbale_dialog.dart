@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:laundryday/config/resources/colors.dart';
-import 'package:laundryday/config/resources/font_manager.dart';
+import 'package:laundryday/services/resources/colors.dart';
+import 'package:laundryday/services/resources/font_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 
 class ReusableDialog extends StatelessWidget {

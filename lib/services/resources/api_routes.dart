@@ -56,4 +56,5 @@ class Api {
 
   static const String order = "${baseUrl}orders/detail?id=";
   static const String customerOrders = "${baseUrl}orders/customer?customer_id=";
+  static const String storeFcmToken = "${baseUrl}device_tokens/store-fcm-token";
 }

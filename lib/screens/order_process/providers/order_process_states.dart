@@ -1,25 +1,33 @@
+import 'package:laundryday/models/chat_profile_model.dart';
 import 'package:laundryday/screens/order_review/data/models/order_model.dart';
 
 class OrderProcessStates {
   OrderState orderState;
-  
   Duration remainingTime;
   double countDownProgress;
   OrderModel orderModel;
+
+  ChatProfileModel? chatProfileModel;
+
   OrderProcessStates(
       {required this.countDownProgress,
-        required this.orderState,
+      required this.orderState,
       required this.orderModel,
-      required this.remainingTime});
+      required this.remainingTime,
+      this.chatProfileModel,
+   });
 
   OrderProcessStates copyWith(
-      {  double? countDownProgress,
-
-        OrderState? orderState,
+      {double? countDownProgress,
+      OrderState? orderState,
       OrderModel? orderModel,
-      Duration? remainingTime}) {
+      Duration? remainingTime,
+        ChatProfileModel? chatProfileModel
+
+      }) {
     return OrderProcessStates(
-      countDownProgress: countDownProgress??this.countDownProgress,
+      chatProfileModel: chatProfileModel??this.chatProfileModel,
+        countDownProgress: countDownProgress ?? this.countDownProgress,
         remainingTime: remainingTime ?? this.remainingTime,
         orderModel: orderModel ?? this.orderModel,
         orderState: orderState ?? this.orderState);

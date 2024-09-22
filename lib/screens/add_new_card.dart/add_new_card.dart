@@ -5,10 +5,10 @@ import 'package:laundryday/core/card_utils.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/add_new_card.dart/add_new_card_notifier.dart';
 import 'package:laundryday/screens/add_new_card.dart/add_new_card_states.dart';
-import 'package:laundryday/config/resources/colors.dart';
-import 'package:laundryday/config/resources/font_manager.dart';
-import 'package:laundryday/config/resources/sized_box.dart';
-import 'package:laundryday/config/resources/value_manager.dart';
+import 'package:laundryday/services/resources/colors.dart';
+import 'package:laundryday/services/resources/font_manager.dart';
+import 'package:laundryday/services/resources/sized_box.dart';
+import 'package:laundryday/services/resources/value_manager.dart';
 import 'package:laundryday/core/widgets/my_app_bar.dart';
 import 'package:laundryday/core/widgets/my_button.dart';
 

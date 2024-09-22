@@ -3,10 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:laundryday/config/resources/api_routes.dart';
-import 'package:laundryday/config/resources/assets_manager.dart';
-import 'package:laundryday/config/resources/font_manager.dart';
-import 'package:laundryday/config/resources/value_manager.dart';
+import 'package:laundryday/services/resources/api_routes.dart';
+import 'package:laundryday/services/resources/assets_manager.dart';
+import 'package:laundryday/services/resources/font_manager.dart';
+import 'package:laundryday/services/resources/value_manager.dart';
 import 'package:laundryday/core/widgets/heading.dart';
 import 'package:laundryday/core/widgets/my_button.dart';
 import 'package:laundryday/core/widgets/payment_summary_widget.dart';
@@ -17,9 +17,9 @@ import 'package:laundryday/screens/order_process/components/four_digit_code_widg
 import 'package:laundryday/screens/order_process/components/invoice_and_payment_button.dart';
 import 'package:laundryday/screens/order_process/components/laundry_detail_button.dart';
 import 'package:laundryday/screens/order_process/components/order_id_button.dart';
-import 'package:laundryday/config/resources/colors.dart';
-import 'package:laundryday/config/resources/pusher_handler.dart';
-import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/services/resources/colors.dart';
+import 'package:laundryday/services/resources/pusher_service.dart';
+import 'package:laundryday/services/resources/sized_box.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/utils.dart';
@@ -61,7 +61,7 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
 
       final userModel = ref.read(userProvider).userModel;
 
-      PusherHandler(userModel: userModel!, ref: ref).initCLinet();
+      PusherService(userModel: userModel!, ref: ref).initCLinet();
     });
   }
 
@@ -337,12 +337,14 @@ class _TimerWidgetState extends ConsumerState<TimerWidget> {
   }
 }
 
-class PickupOrder extends StatelessWidget {
+class PickupOrder extends ConsumerWidget {
   final OrderModel orderModel;
   const PickupOrder({super.key, required this.orderModel});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.read(userProvider).userModel;
+
     return Column(
       children: [
         10.85.ph,
@@ -373,6 +375,8 @@ class PickupOrder extends StatelessWidget {
         15.ph,
         if (orderModel.order?.orderDeliveries != null) ...[
           DeliveryAgentCard(
+            ref: ref,
+              userModel: user!,
               orderDeliveries: orderModel.order!.orderDeliveries!),
         ],
         35.ph,
@@ -447,6 +451,8 @@ class RoundTripOrder extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedPaymentMethod =
         ref.watch(PaymentMethodProvider).selectedPaymentMethod;
+    final user = ref.read(userProvider).userModel;
+
     return Column(
       children: [
         10.85.ph,
@@ -841,6 +847,8 @@ class RoundTripOrder extends ConsumerWidget {
           15.ph,
           if (orderModel.order?.orderDeliveries != null) ...[
             DeliveryAgentCard(
+              ref: ref,
+                userModel: user!,
                 orderDeliveries: orderModel.order!.orderDeliveries!),
           ],
           35.ph,

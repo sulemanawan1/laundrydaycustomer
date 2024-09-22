@@ -1,8 +1,7 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundryday/config/resources/api_routes.dart';
+import 'package:laundryday/services/resources/api_routes.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:location/location.dart';
 
@@ -20,34 +19,7 @@ class GoogleServices {
     }
   }
 
-  void _showLocationSettingsDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Enable Location Services"),
-          content: Text(
-              "Location services are required for this feature. Please enable them in settings."),
-          actions: <Widget>[
-            TextButton(
-              child: Text("Go to Settings"),
-              onPressed: () {
-                // Geolocator.openLocationSettings(); // Open location settings.
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text("Cancel"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
+ 
   Future<LocationData?> getLocation() async {
     Location location = Location();
 
@@ -104,4 +76,18 @@ class GoogleServices {
     }
     return null;
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

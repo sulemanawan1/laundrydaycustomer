@@ -1,5 +1,6 @@
 import 'dart:developer';
-
+import 'package:bot_toast/bot_toast.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,9 +9,10 @@ import 'package:flutter_notification_channel/notification_importance.dart';
 import 'package:flutter_notification_channel/notification_visibility.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:laundryday/core/notifcation_services.dart';
+import 'package:laundryday/core/notifcation_service.dart';
 import 'package:laundryday/firebase_options.dart';
 import 'package:laundryday/config/theme/theme_manager.dart';
+import 'package:uuid/uuid.dart';
 import 'config/routes/app_routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -24,11 +26,16 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   log("Handling a background message: ${message.data['data']}");
 }
 
+var uuid = Uuid();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseAppCheck.instance.activate(
+      appleProvider: AppleProvider.debug,
+      androidProvider: AndroidProvider.debug);
 
   var result = await FlutterNotificationChannel.registerNotificationChannel(
     description: 'Your channel description',
@@ -42,7 +49,7 @@ void main() async {
 
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
 
-  NotificationServices notificationServices = NotificationServices();
+  NotificationService notificationServices = NotificationService();
   notificationServices.requestNotification();
   notificationServices.fireBaseInit();
   notificationServices.setupInteractMessage();
@@ -65,6 +72,7 @@ class MyApp extends ConsumerWidget {
     final GoRouter routes = ref.read(goRouterProvider);
 
     return MaterialApp.router(
+      builder: BotToastInit(),
       debugShowCheckedModeBanner: false,
       routerConfig: routes,
       theme: getApplicatonTheme(),

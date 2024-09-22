@@ -185,7 +185,7 @@ final goRouterProvider = Provider<GoRouter>((ref) => GoRouter(
           GoRoute(
             name: RouteNames.orderChat,
             path: "/order_chat",
-            builder: (context, state) => const OrderChat(),
+            builder: (context, state) => OrderChat(),
           ),
           GoRoute(
             name: RouteNames.orderProcess,

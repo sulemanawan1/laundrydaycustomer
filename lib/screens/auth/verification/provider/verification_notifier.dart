@@ -3,11 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart' as firebaseauth;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:laundryday/core/device_info_service.dart';
+import 'package:laundryday/core/notifcation_service.dart';
 import 'package:laundryday/models/my_user_model.dart' as usermodel;
 import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/provider/user_states.dart';
 import 'package:laundryday/screens/auth/login/provider/login_notifier.dart';
 import 'package:laundryday/screens/auth/verification/provider/verification_states.dart';
+import 'package:laundryday/screens/auth/verification/service/device_token_repository.dart';
 import 'package:laundryday/screens/auth/verification/service/verification_service.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/core/session.dart';
@@ -72,6 +75,15 @@ class VerificationNotifier extends StateNotifier<VerificationStates> {
         if (data is usermodel.UserModel) {
           if (data.succcess == true) {
             log(data.token.toString());
+            NotificationService notificationServices = NotificationService();
+
+            String? fcmToken = await notificationServices.getDeviceToken();
+            String deviceId = await DeviceInfoService.getDeviceId();
+
+            await DeviceTokenRepository().storeFcmToken(
+                userId: data.user!.customer!.userId,
+                fcmToken: fcmToken,
+                deviceId: deviceId);
 
             await MySharedPreferences.saveUserSession(user: data);
             userStates.userModel = await MySharedPreferences.getUserSession();

@@ -14,11 +14,11 @@ import 'package:laundryday/screens/laundry_items/model/category_item_model.dart'
 import 'package:laundryday/screens/laundry_items/provider/laundry_item_states.dart';
 import 'package:laundryday/screens/laundry_items/provider/laundry_items.notifier.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
-import 'package:laundryday/config/resources/api_routes.dart';
-import 'package:laundryday/config/resources/colors.dart';
-import 'package:laundryday/config/resources/font_manager.dart';
-import 'package:laundryday/config/resources/sized_box.dart';
-import 'package:laundryday/config/resources/value_manager.dart';
+import 'package:laundryday/services/resources/api_routes.dart';
+import 'package:laundryday/services/resources/colors.dart';
+import 'package:laundryday/services/resources/font_manager.dart';
+import 'package:laundryday/services/resources/sized_box.dart';
+import 'package:laundryday/services/resources/value_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/widgets/my_loader.dart';
 import 'package:laundryday/core/widgets/reuseable_laundry_detail_banner_card.dart';

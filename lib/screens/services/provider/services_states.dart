@@ -5,7 +5,6 @@ import 'package:laundryday/screens/services/model/services_model.dart'
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
 
 class ServicesStates {
-  CustomerOrderStates customerOrderStates;
   List<Order> order;
   AllServicesState? allServicesState;
   String? district;
@@ -16,7 +15,6 @@ class ServicesStates {
       {
         
         required this.order,
-      required this.customerOrderStates,
         this.allServicesState,
       this.district,
       this.latLng,
@@ -25,14 +23,12 @@ class ServicesStates {
   ServicesStates copyWith(
       {List<Order>? order,
 
-    CustomerOrderStates? customerOrderStates,
         servicemodel.Datum? selectedService,
       String? district,
       LatLng? latLng,
       AllServicesState? allServicesState}) {
     return ServicesStates(
       order:order ??this.order ,
-        customerOrderStates: customerOrderStates ?? this.customerOrderStates,
       selectedService: selectedService??this.selectedService,
       district: district ?? this.district,
       latLng: latLng ?? this.latLng,

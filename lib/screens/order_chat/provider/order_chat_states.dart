@@ -1,21 +1,34 @@
-import 'package:image_picker/image_picker.dart';
-
+import 'dart:io';
 class OrderChatStates {
-  XFile? image;
+  File? image;
   bool isRecording;
+  bool uploading;
+  bool hasText;
+  int recordingSeconds;
+  File? audioFile;
 
-  OrderChatStates({
-    this.image,
-    this.isRecording=false
-  });
+  OrderChatStates(
+      {this.image,
+      required this.hasText,
+      required this.uploading,
+      required this.recordingSeconds,
+      required this.isRecording,
+      this.audioFile});
 
   OrderChatStates copyWith({
-    XFile? image,
-    bool isRecording=false,
+    bool? uploading,
+    File? image,
+    bool? hasText,
+    int? recordingSeconds,
+    bool? isRecording,
+    File? audioFile,
   }) {
     return OrderChatStates(
-      image: image ?? image,
-      isRecording: isRecording
-    );
+        hasText: hasText ?? this.hasText,
+        uploading: uploading ?? this.uploading,
+        audioFile: audioFile ?? this.audioFile,
+        recordingSeconds: recordingSeconds ?? this.recordingSeconds,
+        image: image ?? this.image,
+        isRecording: isRecording ?? this.isRecording);
   }
 }

@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:laundryday/core/utils.dart';
+import 'package:laundryday/models/chat_profile_model.dart';
 import 'package:laundryday/screens/order_process/providers/order_process_states.dart';
 import 'package:laundryday/screens/order_process/services/order_service.dart';
 import 'package:laundryday/screens/order_review/data/models/order_model.dart';
@@ -23,6 +24,12 @@ class OrderProcessNotifier extends StateNotifier<OrderProcessStates> {
   OrderRepository _orderRepository = OrderRepository();
   updaterOrder({required OrderModel order}) {
     state = state.copyWith(orderModel: order);
+  }
+
+  
+
+  selectChatProfile({required ChatProfileModel chatProfileModel}) {
+    state = state.copyWith(chatProfileModel: chatProfileModel);
   }
 
   paymentCollected(

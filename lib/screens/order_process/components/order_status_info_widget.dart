@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:laundryday/config/resources/colors.dart';
-import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/services/resources/colors.dart';
+import 'package:laundryday/services/resources/sized_box.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 
 class OrderStatusInfoWidget extends StatelessWidget {

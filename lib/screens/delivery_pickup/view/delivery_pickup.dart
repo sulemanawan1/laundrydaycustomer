@@ -7,9 +7,9 @@ import 'package:laundryday/screens/delivery_pickup/components/scan_receipt_widge
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_notifier.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_states.dart';
 import 'package:laundryday/screens/laundries/model/delivery_pickup_laundry_model.dart';
-import 'package:laundryday/config/resources/colors.dart';
-import 'package:laundryday/config/resources/sized_box.dart';
-import 'package:laundryday/config/resources/value_manager.dart';
+import 'package:laundryday/services/resources/colors.dart';
+import 'package:laundryday/services/resources/sized_box.dart';
+import 'package:laundryday/services/resources/value_manager.dart';
 import 'package:laundryday/core/widgets/address_detail_widget.dart';
 import 'package:laundryday/core/widgets/my_app_bar.dart';
 import 'package:laundryday/core/widgets/my_button.dart';

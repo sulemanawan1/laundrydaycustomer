@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/services/resources/colors.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 
 class NoLaundryFound extends StatelessWidget {

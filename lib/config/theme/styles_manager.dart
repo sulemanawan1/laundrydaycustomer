@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:laundryday/config/resources/font_manager.dart';
+import 'package:laundryday/services/resources/font_manager.dart';
 
 TextStyle _getTextStyle(
     String fontFamily, double fontSize, FontWeight fontWeight, Color color) {

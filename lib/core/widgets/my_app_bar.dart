@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/services/resources/colors.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 
 // ignore: must_be_immutable
@@ -25,7 +25,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
           statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
@@ -39,9 +38,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         title: Text(
           title ?? "",
           style: getSemiBoldStyle(
-              color: ColorManager.blackColor,
-              fontSize: 16,
-              ),
+            color: ColorManager.blackColor,
+            fontSize: 16,
+          ),
         ),
         actions: actions,
         leading: isLeading

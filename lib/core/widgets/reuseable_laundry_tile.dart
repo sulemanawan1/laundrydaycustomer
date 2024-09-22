@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/laundries/model/delivery_pickup_laundry_model.dart';
-import 'package:laundryday/config/resources/colors.dart';
-import 'package:laundryday/config/resources/sized_box.dart';
+import 'package:laundryday/services/resources/colors.dart';
+import 'package:laundryday/services/resources/sized_box.dart';
 import 'package:laundryday/screens/laundries/model/laundry_by_area.model.dart'
     as laundrybyareamodel;
 

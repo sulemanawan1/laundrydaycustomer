@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:laundryday/config/resources/font_manager.dart';
-import 'package:laundryday/config/resources/value_manager.dart';
+import 'package:laundryday/services/resources/font_manager.dart';
+import 'package:laundryday/services/resources/value_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/home/provider/home_notifier.dart';
 import 'package:laundryday/screens/more/more.dart';
 import 'package:laundryday/screens/offers/view/offers.dart';
 import 'package:laundryday/screens/orders/orders.dart';
 import 'package:laundryday/screens/services/view/services.dart';
-import 'package:laundryday/config/resources/colors.dart';
+import 'package:laundryday/services/resources/colors.dart';
 
 class Home extends ConsumerWidget {
   @override

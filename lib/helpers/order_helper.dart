@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:laundryday/config/resources/assets_manager.dart';
-import 'package:laundryday/config/resources/value_manager.dart';
+import 'package:laundryday/services/resources/assets_manager.dart';
+import 'package:laundryday/services/resources/value_manager.dart';
 
 enum OrderStatusesList {
   pending,
