@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:laundryday/helpers/validation_helper.dart';
 import 'package:laundryday/screens/add_laundry/presentation/provider/add_laundry_notifier.dart';
 import 'package:laundryday/screens/add_laundry/presentation/provider/add_laundry_states.dart';
-import 'package:laundryday/services/resources/colors.dart';
-import 'package:laundryday/services/resources/font_manager.dart';
-import 'package:laundryday/services/resources/sized_box.dart';
-import 'package:laundryday/services/resources/value_manager.dart';
+import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/resources/font_manager.dart';
+import 'package:laundryday/resources/sized_box.dart';
+import 'package:laundryday/resources/value_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/core/widgets/heading.dart';
-import 'package:laundryday/core/widgets/resuable_dropdown.dart';
+import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/widgets/resuable_dropdown.dart';
 
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:multi_select_flutter/util/multi_select_list_type.dart';
-import '../../../../core/widgets/my_textform_field.dart';
+import '../../../../widgets/my_textform_field.dart';
 
 final businessInformationFormKey = GlobalKey<FormState>();
 

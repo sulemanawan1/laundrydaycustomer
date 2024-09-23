@@ -8,10 +8,10 @@ import 'package:laundryday/screens/add_laundry/presentation/widgets/contact_info
 import 'package:laundryday/screens/add_laundry/data/models/branch_model.dart';
 import 'package:laundryday/screens/add_laundry/presentation/provider/add_laundry_notifier.dart';
 import 'package:laundryday/screens/add_laundry/presentation/provider/add_laundry_states.dart';
-import 'package:laundryday/services/resources/colors.dart';
+import 'package:laundryday/resources/colors.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/utils.dart';
-import 'package:laundryday/core/widgets/my_app_bar.dart';
+import 'package:laundryday/widgets/my_app_bar.dart';
 
 final addLaundryProvider =
     StateNotifierProvider.autoDispose<AddLaundryNotifier, AddLaundryStates>(

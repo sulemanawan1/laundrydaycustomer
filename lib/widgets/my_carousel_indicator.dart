@@ -1,6 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:laundryday/services/resources/colors.dart';
+import 'package:laundryday/resources/colors.dart';
 
 class MyCarouselIndicator extends StatelessWidget {
   final int dotCount;

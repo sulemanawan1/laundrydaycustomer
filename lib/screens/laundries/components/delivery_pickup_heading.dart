@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:laundryday/services/resources/colors.dart';
-import 'package:laundryday/services/resources/value_manager.dart';
-import 'package:laundryday/core/widgets/heading.dart';
+import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/resources/value_manager.dart';
+import 'package:laundryday/widgets/heading.dart';
 
 class DelieveryPickupHeading extends StatelessWidget {
   const DelieveryPickupHeading({

@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:laundryday/core/image_picker_service.dart';
+import 'package:laundryday/services/image_picker_service.dart';
 import 'package:laundryday/screens/add_laundry/data/models/add_laundry_model.dart';
 import 'package:laundryday/screens/add_laundry/data/models/coordinates.dart';
 import 'package:laundryday/screens/add_laundry/data/models/branch_model.dart';
@@ -15,7 +15,7 @@ import 'package:laundryday/screens/add_laundry/presentation/provider/add_laundry
 import 'package:laundryday/screens/add_laundry/data/repository/add_laundry_repository.dart';
 import 'package:laundryday/screens/services/model/services_model.dart';
 import 'package:laundryday/screens/services/service/services_service.dart';
-import 'package:laundryday/services/resources/colors.dart';
+import 'package:laundryday/resources/colors.dart';
 import 'package:laundryday/core/utils.dart';
 import 'package:laundryday/models/city_model.dart' as citymodel;
 import 'package:laundryday/models/country_model.dart' as countrymodel;

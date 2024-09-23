@@ -296,6 +296,8 @@ class BaseClientClass {
         return 'Unauthorized';
       case 404:
         return 'Not-Found';
+      case 409:
+        return 'Conflict';
       case 500:
         return 'Internal Server Error';
       case 403:

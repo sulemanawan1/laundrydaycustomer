@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:laundryday/services/resources/colors.dart';
-import 'package:laundryday/core/widgets/my_app_bar.dart';
+import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:photo_view/photo_view.dart';
 
 class ViewImage extends StatelessWidget {

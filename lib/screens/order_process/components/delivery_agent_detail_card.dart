@@ -4,11 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/models/chat_profile_model.dart';
 import 'package:laundryday/screens/order_process/view/order_process.dart';
-import 'package:laundryday/services/resources/assets_manager.dart';
-import 'package:laundryday/services/resources/colors.dart';
-import 'package:laundryday/services/resources/font_manager.dart';
-import 'package:laundryday/services/resources/sized_box.dart';
-import 'package:laundryday/services/resources/value_manager.dart';
+import 'package:laundryday/resources/assets_manager.dart';
+import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/resources/font_manager.dart';
+import 'package:laundryday/resources/sized_box.dart';
+import 'package:laundryday/resources/value_manager.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/models/my_user_model.dart';
@@ -96,8 +96,10 @@ class DeliveryAgentCard extends StatelessWidget {
                                     userModel, orderDeliveries.deliveryAgent!);
 
                                 if (chatroomId != null) {
+                                  
                                   ChatProfileModel chatProfileModel =
                                       ChatProfileModel(
+                                          receiverId: orderDeliveries.user!.id!,
                                           chatRoomId: chatroomId,
                                           firstName:
                                               orderDeliveries.user!.firstName!,
@@ -109,7 +111,6 @@ class DeliveryAgentCard extends StatelessWidget {
                                       .read(orderProcessProvider.notifier)
                                       .selectChatProfile(
                                           chatProfileModel: chatProfileModel);
-                               
 
                                   context.pushNamed(
                                     RouteNames.orderChat,

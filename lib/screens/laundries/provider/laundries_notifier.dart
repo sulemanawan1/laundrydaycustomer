@@ -7,7 +7,7 @@ import 'package:laundryday/screens/laundries/model/google_distance_matrix_model.
 import 'package:laundryday/screens/laundries/model/laundry_by_area.model.dart';
 import 'package:laundryday/screens/laundries/provider/laundries_states.dart';
 import 'package:laundryday/screens/laundries/service/laundries_services.dart';
-import 'package:laundryday/services/resources/api_routes.dart';
+import 'package:laundryday/resources/api_routes.dart';
 import 'package:laundryday/screens/laundries/model/services_timings_model.dart'
     as servicetimingmodel;
 import 'dart:math';

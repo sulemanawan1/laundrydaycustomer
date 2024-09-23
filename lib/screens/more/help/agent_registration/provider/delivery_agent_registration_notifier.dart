@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:laundryday/core/image_picker_service.dart';
+import 'package:laundryday/services/image_picker_service.dart';
 import 'package:laundryday/helpers/date_helper.dart';
 import 'package:laundryday/screens/add_laundry/data/repository/add_laundry_repository.dart';
 import 'package:laundryday/screens/home/provider/home_notifier.dart';

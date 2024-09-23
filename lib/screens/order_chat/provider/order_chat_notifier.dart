@@ -5,9 +5,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:laundryday/core/image_picker_service.dart';
+import 'package:laundryday/models/token_model.dart';
+import 'package:laundryday/screens/order_chat/service/order_chat_service.dart';
+import 'package:laundryday/services/image_picker_service.dart';
 import 'package:laundryday/main.dart';
 import 'package:laundryday/models/chat_model.dart';
 import 'package:laundryday/screens/order_chat/provider/order_chat_states.dart';
@@ -17,22 +20,24 @@ import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 
 final orderchatProvider =
-    StateNotifierProvider.autoDispose<OrderChatNotifier, OrderChatStates?>(
+    StateNotifierProvider<OrderChatNotifier, OrderChatStates?>(
         (ref) => OrderChatNotifier());
 
 enum ChatTypes { message, voice, image }
 
 class OrderChatNotifier extends StateNotifier<OrderChatStates> {
+  final OrderChatService _orderChatService = OrderChatService();
   TextEditingController textController = TextEditingController();
   late AudioRecorder audioRecord;
   late Timer timer;
 
   OrderChatNotifier()
       : super(OrderChatStates(
+            tokens: [],
             hasText: false,
             uploading: false,
             recordingSeconds: 0,
-            isRecording: false));
+            isRecording: false)) {}
 
   isHasText({required String val}) {
     if (val.trim().isNotEmpty) {
@@ -127,13 +132,13 @@ class OrderChatNotifier extends StateNotifier<OrderChatStates> {
         Directory documentDirectory = await getApplicationDocumentsDirectory();
 
         String path = join(documentDirectory.path,
-            '${DateTime.now().microsecondsSinceEpoch}.wav');
+            '${DateTime.now().microsecondsSinceEpoch}.aac');
 
         await audioRecord.start(
             const RecordConfig(
-              encoder: AudioEncoder.wav,
-              bitRate: 128000,
-              sampleRate: 44100,
+              encoder: AudioEncoder.aacLc,
+              bitRate: 64000, // Higher quality voice recording
+              sampleRate: 22050,
             ),
             path: path);
 
@@ -178,15 +183,22 @@ class OrderChatNotifier extends StateNotifier<OrderChatStates> {
 
     FirebaseFirestore.instance.collection("messages").add(newMessage.toMap());
 
-    SendNotificationService.sendNotificationUsingApi(
-        token:
-            "cUsGllEaS0yd7QehSrm_o9:APA91bFfJElu0CuJpx8Kjn_VVcnGe6RWHVRsk6DGYZ-Wx4czwT4w8EP4dsZk0q93eR5X7gJItrRXqhRdODEEVhpJrRTGZv85Wf5GSD_rzXzOdB1Y1jpqIP5FXtr9vst9M8idIWhSJA3P",
-        title: ChatTypes.message.name,
-        body: content,
-        type: 'OrderChat',
-        data: newMessage.toMap());
+    log("Messafge Sent!");
 
-    log("Message Sent!");
+    if (state.tokens.isNotEmpty) {
+      for (var token in state.tokens) {
+        log("Tokens");
+
+        log(token);
+        SendNotificationService.sendNotificationUsingApi(
+            token: token,
+            title: ChatTypes.message.name,
+            body: content,
+            type: 'OrderChat',
+            data: newMessage.toMap());
+      }
+    }
+    log("Notification Sent!");
   }
 
   Stream<List<ChatModel>> getMessages(String chatRoomId) {
@@ -201,6 +213,23 @@ class OrderChatNotifier extends StateNotifier<OrderChatStates> {
 
         return ChatModel.fromMap(data);
       }).toList();
+    });
+  }
+
+  fcmTokens({
+    required int userId,
+  }) async {
+    state = state.copyWith(tokens: []);
+
+    Either<String, TokenModel> apiData =
+        await _orderChatService.fcmTokens(userId: userId);
+
+    apiData.fold((l) {
+      log(l.toString());
+
+      state = state.copyWith(tokens: []);
+    }, (r) {
+      state = state.copyWith(tokens: r.tokens);
     });
   }
 }

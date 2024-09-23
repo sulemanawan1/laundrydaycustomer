@@ -5,10 +5,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:laundryday/core/image_picker_service.dart';
+import 'package:laundryday/services/image_picker_service.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_states.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
-import 'package:laundryday/services/resources/colors.dart';
+import 'package:laundryday/resources/colors.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 
 class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {

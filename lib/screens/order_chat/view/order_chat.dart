@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/core/widgets/my_loader.dart';
+import 'package:laundryday/services/just_audio_service.dart';
+import 'package:laundryday/widgets/custom_cache_netowork_image.dart';
+import 'package:laundryday/widgets/my_loader.dart';
 import 'package:laundryday/helpers/date_helper.dart';
 import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/screens/order_chat/provider/order_chat_notifier.dart';
 import 'package:laundryday/screens/order_chat/widgets/chat_textfield.dart';
 import 'package:laundryday/screens/order_process/view/order_process.dart';
 import 'package:laundryday/screens/services/view/services.dart';
-import 'package:laundryday/services/resources/assets_manager.dart';
-import 'package:laundryday/services/resources/font_manager.dart';
-import 'package:laundryday/services/resources/sized_box.dart';
-import 'package:laundryday/services/resources/colors.dart';
-import 'package:laundryday/services/resources/value_manager.dart';
+import 'package:laundryday/resources/assets_manager.dart';
+import 'package:laundryday/resources/font_manager.dart';
+import 'package:laundryday/resources/sized_box.dart';
+import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/resources/value_manager.dart';
 import 'package:voice_message_package/voice_message_package.dart';
 
 class OrderChat extends ConsumerStatefulWidget {
@@ -41,6 +43,12 @@ class _OrderChatState extends ConsumerState<OrderChat>
     super.initState();
 
     ref.read(orderchatProvider.notifier).initlizeAudioRecorder();
+
+    Future.delayed(Duration(seconds: 0), () {
+      final reciverId =
+          ref.read(orderProcessProvider).chatProfileModel!.receiverId;
+      ref.read(orderchatProvider.notifier).fcmTokens(userId: reciverId);
+    });
   }
 
   @override
@@ -333,6 +341,7 @@ class ChatRecoder extends StatelessWidget {
     final userId = ref.read(userProvider).userModel!.user!.id;
     final chatRoomId =
         ref.read(orderProcessProvider).chatProfileModel!.chatRoomId;
+
     return Padding(
       padding: const EdgeInsets.symmetric(
           horizontal: AppPadding.p10, vertical: AppPadding.p10),

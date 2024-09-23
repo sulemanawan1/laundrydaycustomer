@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:laundryday/services/resources/audio_player_service.dart';
-import 'package:laundryday/services/resources/crypto_service.dart';
+import 'package:laundryday/services/audio_player_service.dart';
+import 'package:laundryday/services/crypto_service.dart';
 import 'package:laundryday/models/my_user_model.dart';
 import 'package:laundryday/screens/order_process/view/order_process.dart';
 import 'package:laundryday/screens/order_review/data/models/order_model.dart';

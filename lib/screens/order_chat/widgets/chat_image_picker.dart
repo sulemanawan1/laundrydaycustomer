@@ -4,13 +4,15 @@ import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/screens/order_chat/provider/order_chat_notifier.dart';
 import 'package:laundryday/screens/order_process/view/order_process.dart';
-import 'package:laundryday/services/resources/colors.dart';
-import 'package:laundryday/services/resources/sized_box.dart';
+import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/resources/sized_box.dart';
 
 chatImagePicker(BuildContext context, WidgetRef ref) {
   final userId = ref.read(userProvider).userModel!.user!.id;
   final chatRoomId =
       ref.read(orderProcessProvider).chatProfileModel!.chatRoomId;
+  final receiverId =
+      ref.read(orderProcessProvider).chatProfileModel!.receiverId;
   return showModalBottomSheet(
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(

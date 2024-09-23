@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:laundryday/helpers/google_service.dart';
+import 'package:laundryday/services/google_service.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/service/my_adderesses_service.dart';
 import 'package:laundryday/screens/services/provider/addresses_state.dart';

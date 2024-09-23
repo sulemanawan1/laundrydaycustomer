@@ -1,4 +1,5 @@
 import 'dart:io';
+
 class OrderChatStates {
   File? image;
   bool isRecording;
@@ -6,10 +7,12 @@ class OrderChatStates {
   bool hasText;
   int recordingSeconds;
   File? audioFile;
+  List<String> tokens;
 
   OrderChatStates(
       {this.image,
       required this.hasText,
+      required this.tokens,
       required this.uploading,
       required this.recordingSeconds,
       required this.isRecording,
@@ -22,8 +25,11 @@ class OrderChatStates {
     int? recordingSeconds,
     bool? isRecording,
     File? audioFile,
+      List<String>? tokens
+
   }) {
     return OrderChatStates(
+      tokens: tokens??this.tokens,
         hasText: hasText ?? this.hasText,
         uploading: uploading ?? this.uploading,
         audioFile: audioFile ?? this.audioFile,

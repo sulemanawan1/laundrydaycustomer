@@ -4,7 +4,7 @@ import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/screens/order_chat/provider/order_chat_notifier.dart';
 import 'package:laundryday/screens/order_chat/widgets/chat_image_picker.dart';
 import 'package:laundryday/screens/order_process/view/order_process.dart';
-import 'package:laundryday/services/resources/colors.dart';
+import 'package:laundryday/resources/colors.dart';
 
 class ChatTextField extends StatelessWidget {
   final WidgetRef ref;
@@ -19,6 +19,8 @@ class ChatTextField extends StatelessWidget {
     final userId = ref.read(userProvider).userModel!.user!.id;
     final chatRoomId =
         ref.read(orderProcessProvider).chatProfileModel!.chatRoomId;
+    final receiverId =
+        ref.read(orderProcessProvider).chatProfileModel!.receiverId;
 
     final hasText = ref.watch(orderchatProvider)!.hasText;
 

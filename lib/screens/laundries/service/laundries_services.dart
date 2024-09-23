@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:laundryday/screens/laundries/model/laundry_by_area.model.dart';
 import 'package:laundryday/core/base_client_class.dart';
-import 'package:laundryday/services/resources/api_routes.dart';
+import 'package:laundryday/resources/api_routes.dart';
 
 class LaundriesServices {
 

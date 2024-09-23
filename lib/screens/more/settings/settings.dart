@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/more/settings/settings_notifier.dart';
-import 'package:laundryday/services/resources/colors.dart';
-import 'package:laundryday/services/resources/sized_box.dart';
-import 'package:laundryday/services/resources/value_manager.dart';
-import 'package:laundryday/core/widgets/my_app_bar.dart';
-import 'package:laundryday/core/widgets/heading.dart';
+import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/resources/sized_box.dart';
+import 'package:laundryday/resources/value_manager.dart';
+import 'package:laundryday/widgets/my_app_bar.dart';
+import 'package:laundryday/widgets/heading.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});

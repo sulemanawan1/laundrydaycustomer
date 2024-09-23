@@ -1,12 +1,16 @@
 import 'dart:convert';
+
 class ChatProfileModel {
   final String chatRoomId;
+  final int receiverId;
 
   final String firstName;
   final String lastName;
   final String? image;
+
   ChatProfileModel({
     required this.chatRoomId,
+    required this.receiverId,
     required this.firstName,
     required this.lastName,
     this.image,
@@ -14,12 +18,14 @@ class ChatProfileModel {
 
   ChatProfileModel copyWith({
     String? chatRoomId,
+    int? receiverId,
     String? firstName,
     String? lastName,
     String? image,
   }) {
     return ChatProfileModel(
       chatRoomId: chatRoomId ?? this.chatRoomId,
+      receiverId: receiverId ?? this.receiverId,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       image: image ?? this.image,
@@ -29,6 +35,7 @@ class ChatProfileModel {
   Map<String, dynamic> toMap() {
     return {
       'chatRoomId': chatRoomId,
+      'receiverId': receiverId,
       'firstName': firstName,
       'lastName': lastName,
       'image': image,
@@ -38,6 +45,7 @@ class ChatProfileModel {
   factory ChatProfileModel.fromMap(Map<String, dynamic> map) {
     return ChatProfileModel(
       chatRoomId: map['chatRoomId'] ?? '',
+      receiverId: map['receiverId']?.toInt() ?? 0,
       firstName: map['firstName'] ?? '',
       lastName: map['lastName'] ?? '',
       image: map['image'],
@@ -51,7 +59,7 @@ class ChatProfileModel {
 
   @override
   String toString() {
-    return 'ChatProfileModel(chatRoomId: $chatRoomId, firstName: $firstName, lastName: $lastName, image: $image)';
+    return 'ChatProfileModel(chatRoomId: $chatRoomId, receiverId: $receiverId, firstName: $firstName, lastName: $lastName, image: $image)';
   }
 
   @override
@@ -60,6 +68,7 @@ class ChatProfileModel {
 
     return other is ChatProfileModel &&
         other.chatRoomId == chatRoomId &&
+        other.receiverId == receiverId &&
         other.firstName == firstName &&
         other.lastName == lastName &&
         other.image == image;
@@ -68,6 +77,7 @@ class ChatProfileModel {
   @override
   int get hashCode {
     return chatRoomId.hashCode ^
+        receiverId.hashCode ^
         firstName.hashCode ^
         lastName.hashCode ^
         image.hashCode;

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:laundryday/helpers/google_service.dart';
+import 'package:laundryday/services/google_service.dart';
 import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart';
 import 'package:laundryday/screens/services/model/customer_order_model.dart';
@@ -22,9 +22,12 @@ final customerOrderProvider =
       .customerOrders(cutstomerId: userModel!.user!.id!);
 });
 
-final serviceProvider =
-    StateNotifierProvider.autoDispose<ServicesNotifier, ServicesStates>(
-        (ref) => ServicesNotifier());
+final servicesApi = Provider((ref) {
+  return ServicesService();
+});
+
+final serviceProvider = StateNotifierProvider<ServicesNotifier, ServicesStates>(
+    (ref) => ServicesNotifier());
 
 class ServicesNotifier extends StateNotifier<ServicesStates> {
   servicemodel.ServiceModel servicesModel = servicemodel.ServiceModel();
@@ -32,8 +35,7 @@ class ServicesNotifier extends StateNotifier<ServicesStates> {
 
   ServicesNotifier()
       : super(ServicesStates(
-            order: [],
-            allServicesState: AllServicesInitialState())) {
+            order: [], allServicesState: AllServicesInitialState())) {
     GoogleServices().getLocation();
     allServices();
   }
@@ -63,8 +65,4 @@ class ServicesNotifier extends StateNotifier<ServicesStates> {
   selectedService({required servicemodel.Datum selectedService}) {
     state = state.copyWith(selectedService: selectedService);
   }
-
-
 }
-
-

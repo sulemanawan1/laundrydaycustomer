@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:laundryday/services/resources/sized_box.dart';
+import 'package:laundryday/resources/sized_box.dart';
 
 class InvoiceTextWidget extends StatelessWidget {
   final String? title;

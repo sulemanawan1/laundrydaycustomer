@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:laundryday/services/resources/assets_manager.dart';
-import 'package:laundryday/services/resources/value_manager.dart';
+import 'package:laundryday/resources/assets_manager.dart';
+import 'package:laundryday/resources/value_manager.dart';
 
 enum OrderStatusesList {
   pending,
@@ -229,3 +229,21 @@ String getOrderDescription({required String status}) {
       return 'Unknown order status';
   }
 }
+ String getOrderStatusMessage({required String status}) {
+    switch (status) {
+      case 'pending':
+        return 'Searching for Courier';
+      case 'accepted':
+        return 'Delivery Agent arrived to Laundry.';
+      case 'received':
+        return 'Delivery Agent Recived the order.';
+      case 'at_customer':
+        return 'Delivery Agent near you';
+      case 'delivered':
+        return 'Order is delivered';
+      case 'canceled':
+        return 'Order is canceled';
+      default:
+        return 'Unknown order status';
+    }
+  }

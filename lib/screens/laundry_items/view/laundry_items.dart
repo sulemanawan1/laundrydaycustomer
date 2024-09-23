@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/core/utils.dart';
-import 'package:laundryday/core/widgets/reusable_checkout_card.dart';
+import 'package:laundryday/widgets/custom_cache_netowork_image.dart';
+import 'package:laundryday/widgets/reusable_checkout_card.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/laundries/model/services_timings_model.dart';
 import 'package:laundryday/screens/laundries/provider/laundries_notifier.dart';
@@ -14,16 +15,15 @@ import 'package:laundryday/screens/laundry_items/model/category_item_model.dart'
 import 'package:laundryday/screens/laundry_items/provider/laundry_item_states.dart';
 import 'package:laundryday/screens/laundry_items/provider/laundry_items.notifier.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
-import 'package:laundryday/services/resources/api_routes.dart';
-import 'package:laundryday/services/resources/colors.dart';
-import 'package:laundryday/services/resources/font_manager.dart';
-import 'package:laundryday/services/resources/sized_box.dart';
-import 'package:laundryday/services/resources/value_manager.dart';
+import 'package:laundryday/resources/api_routes.dart';
+import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/resources/font_manager.dart';
+import 'package:laundryday/resources/sized_box.dart';
+import 'package:laundryday/resources/value_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/core/widgets/my_loader.dart';
-import 'package:laundryday/core/widgets/reuseable_laundry_detail_banner_card.dart';
+import 'package:laundryday/widgets/my_loader.dart';
+import 'package:laundryday/widgets/reuseable_laundry_detail_banner_card.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
-import 'package:laundryday/screens/services/view/services.dart';
 
 class LaundryItems extends ConsumerStatefulWidget {
   LaundryItems();

@@ -47,7 +47,7 @@ class SendNotificationService {
       }
     };
 
-    //hit api
+  
     final http.Response response = await http.post(
       Uri.parse(url),
       headers: headers,
@@ -61,4 +61,5 @@ class SendNotificationService {
       print("Notification not send!");
     }
   }
+  
 }

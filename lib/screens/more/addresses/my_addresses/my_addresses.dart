@@ -4,12 +4,12 @@ import 'package:go_router/go_router.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/provider/my_addresses_notifier.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
-import 'package:laundryday/services/resources/colors.dart';
-import 'package:laundryday/services/resources/sized_box.dart';
+import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/resources/sized_box.dart';
 import 'package:laundryday/config/routes/route_names.dart';
-import 'package:laundryday/core/widgets/heading.dart';
-import 'package:laundryday/core/widgets/my_app_bar.dart';
-import 'package:laundryday/core/widgets/my_button.dart';
+import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/widgets/my_app_bar.dart';
+import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
     as myaddressmodel;
 

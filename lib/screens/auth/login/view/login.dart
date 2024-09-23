@@ -5,14 +5,14 @@ import 'package:laundryday/helpers/validation_helper.dart';
 import 'package:laundryday/screens/auth/login/provider/login_notifier.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/auth/verification/provider/verification_notifier.dart';
-import 'package:laundryday/services/resources/colors.dart';
-import 'package:laundryday/services/resources/font_manager.dart';
-import 'package:laundryday/services/resources/sized_box.dart';
-import 'package:laundryday/services/resources/value_manager.dart';
+import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/resources/font_manager.dart';
+import 'package:laundryday/resources/sized_box.dart';
+import 'package:laundryday/resources/value_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/core/widgets/heading.dart';
-import 'package:laundryday/core/widgets/my_button.dart';
-import 'package:laundryday/core/widgets/my_textform_field.dart';
+import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/widgets/my_button.dart';
+import 'package:laundryday/widgets/my_textform_field.dart';
 
 class Login extends ConsumerWidget {
   @override

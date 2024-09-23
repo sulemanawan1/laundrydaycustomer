@@ -9,7 +9,7 @@ import 'package:flutter_notification_channel/notification_importance.dart';
 import 'package:flutter_notification_channel/notification_visibility.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:laundryday/core/notifcation_service.dart';
+import 'package:laundryday/services/notifcation_service.dart';
 import 'package:laundryday/firebase_options.dart';
 import 'package:laundryday/config/theme/theme_manager.dart';
 import 'package:uuid/uuid.dart';

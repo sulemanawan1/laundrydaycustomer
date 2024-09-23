@@ -1,28 +1,23 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:laundryday/services/resources/assets_manager.dart';
-import 'package:laundryday/services/resources/font_manager.dart';
-import 'package:laundryday/config/routes/route_names.dart';
-import 'package:laundryday/core/widgets/my_button.dart';
-import 'package:laundryday/core/widgets/my_loader.dart';
-import 'package:laundryday/models/my_user_model.dart';
+import 'package:laundryday/screens/services/components/customer_on_going_order_card.dart';
+import 'package:laundryday/screens/services/components/service_shimmer_effect.dart';
+import 'package:laundryday/widgets/custom_cache_netowork_image.dart';
+import 'package:laundryday/widgets/my_loader.dart';
 import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/screens/services/components/address_bottom_sheet_widget.dart';
 import 'package:laundryday/screens/services/model/customer_order_model.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
 import 'package:laundryday/screens/services/provider/services_states.dart';
-import 'package:laundryday/services/resources/api_routes.dart';
-import 'package:laundryday/services/resources/colors.dart';
-import 'package:laundryday/services/resources/sized_box.dart';
+import 'package:laundryday/resources/api_routes.dart';
+import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/resources/sized_box.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
     as myaddressmodel;
-import 'package:laundryday/services/resources/value_manager.dart';
+import 'package:laundryday/resources/value_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:shimmer/shimmer.dart';
 
 class Services extends ConsumerStatefulWidget {
   const Services({super.key});
@@ -61,13 +56,6 @@ class _ServicesState extends ConsumerState<Services> {
         leadingWidth: MediaQuery.of(context).size.width * .8,
         leading: GestureDetector(
           onTap: () async {
-            // await Future.wait([
-            //   serviceAddress.getAddress(),
-
-            //   serviceAddress.allAddresses(customerId: customerId!)
-            // ]);
-
-            // await serviceAddress.getAddress();
             await serviceAddress.allAddresses(customerId: customerId!);
 
             showModalBottomSheet<void>(
@@ -165,124 +153,15 @@ class _ServicesState extends ConsumerState<Services> {
                       return Text(l);
                     }, (r) {
                       List<Order> orders = r.order!;
-
-                      return ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: orders.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: () {
-                              context.pushReplacementNamed(
-                                  RouteNames.orderProcess,
-                                  extra: orders[index].id);
-                            },
-                            child: Card(
-                              color: ColorManager.silverWhite,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    5.ph,
-                                    ListTile(
-                                      title: Text(
-                                          orders[index].branchName.toString()),
-                                      leading: Image.asset(
-                                        AssetImages.laundryIcon,
-                                        width: 40,
-                                      ),
-                                      trailing: Text(
-                                        orders[index].id.toString(),
-                                        style: getSemiBoldStyle(
-                                            color: ColorManager.greyColor,
-                                            fontSize: FontSize.s12),
-                                      ),
-                                    ),
-                                    5.ph,
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: orders[index]
-                                            .orderStatuses!
-                                            .map((e) => (e.status ==
-                                                            'pending' ||
-                                                        e.status ==
-                                                            'accepted') ||
-                                                    e.status == 'received' ||
-                                                    e.status == 'at_customer'
-                                                ? Expanded(
-                                                    flex:
-                                                        orders[index].status ==
-                                                                e.status
-                                                            ? 2
-                                                            : 1,
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              right: AppPadding
-                                                                  .p6),
-                                                      child: Container(
-                                                        height: 5,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        AppSize
-                                                                            .s4),
-                                                            color: orders[index]
-                                                                        .status ==
-                                                                    e.status
-                                                                ? Color(0xFF7862EB)
-                                                                    .withOpacity(
-                                                                        0.3)
-                                                                : Color(
-                                                                    0xFF7862EB)),
-                                                      ),
-                                                    ),
-                                                  )
-                                                : Expanded(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              right: AppPadding
-                                                                  .p6),
-                                                      child: Container(
-                                                        width: 30,
-                                                        height: 5,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        AppSize
-                                                                            .s4),
-                                                            color: Color(
-                                                                0xFFD9D9D9)),
-                                                      ),
-                                                    ),
-                                                  ))
-                                            .toList()),
-                                    5.ph,
-                                    Text(
-                                      getOrderStatusMessage(
-                                          status: orders[index].status!),
-                                      style: getSemiBoldStyle(
-                                          color: ColorManager.nprimaryColor,
-                                          fontSize: FontSize.s12),
-                                    ),
-                                    5.ph
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      );
+                      return CustomerOnGoingOrderCard(orders: orders);
                     });
                   },
                   error: (e, err) => Text(e.toString()),
                   loading: () => Loader()),
+
+
+
+
               if (services is AllServicesInitialState) ...[
                 ServiceShimmerEffect()
               ] else if (services is AllServicesLoadingState) ...[
@@ -290,6 +169,8 @@ class _ServicesState extends ConsumerState<Services> {
               ] else if (services is AllServicesErrorState) ...[
                 ServiceShimmerEffect()
               ] else if (services is AllServicesLoadedState) ...[
+
+                
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: GridView.builder(
@@ -364,121 +245,6 @@ class _ServicesState extends ConsumerState<Services> {
                 ServiceShimmerEffect()
               ]
             ])),
-      ),
-    );
-  }
-
-  String getOrderStatusMessage({required String status}) {
-    switch (status) {
-      case 'pending':
-        return 'Searching for Courier';
-      case 'accepted':
-        return 'Delivery Agent arrived to Laundry.';
-      case 'received':
-        return 'Delivery Agent Recived the order.';
-      case 'at_customer':
-        return 'Delivery Agent near you';
-      case 'delivered':
-        return 'Order is delivered';
-      case 'canceled':
-        return 'Order is canceled';
-      default:
-        return 'Unknown order status';
-    }
-  }
-}
-
-class ServiceShimmerEffect extends StatelessWidget {
-  const ServiceShimmerEffect({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 15.0,
-            mainAxisSpacing: 15.0,
-            mainAxisExtent: 220),
-        itemCount: 4,
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {},
-            child: Card(
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              child: Column(
-                children: [
-                  GridTile(
-                      child: ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(12),
-                              topRight: Radius.circular(12)),
-                          child: SizedBox())),
-                  14.ph,
-                  SizedBox()
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class CustomCacheNetworkImage extends StatelessWidget {
-  final String imageUrl;
-  final double height;
-  final BoxFit? fit;
-  CustomCacheNetworkImage(
-      {super.key, required this.imageUrl, required this.height, this.fit});
-
-  @override
-  Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: imageUrl,
-      imageBuilder: (context, imageProvider) => Container(
-        height: height,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: imageProvider,
-            fit: fit,
-          ),
-        ),
-      ),
-      fadeInDuration: Duration(seconds: 1),
-      placeholder: (context, url) => SizedBox(
-        height: height,
-        child: Loader(),
-      ),
-      errorWidget: (context, url, error) => Container(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.broken_image,
-                color: ColorManager.greyColor,
-              ),
-              10.ph,
-              Text(
-                'File Not Found',
-                style: getRegularStyle(color: ColorManager.blackColor),
-              )
-            ],
-          ),
-        ),
-        height: height,
-        width: double.infinity,
       ),
     );
   }

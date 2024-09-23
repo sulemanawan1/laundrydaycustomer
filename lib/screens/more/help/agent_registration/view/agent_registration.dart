@@ -13,18 +13,18 @@ import 'package:laundryday/screens/more/help/agent_registration/provider/deliver
 import 'package:laundryday/models/city_model.dart' as citymodel;
 import 'package:laundryday/models/country_model.dart' as countrymodel;
 import 'package:laundryday/models/region_model.dart' as regionmodel;
-import 'package:laundryday/services/resources/colors.dart';
-import 'package:laundryday/services/resources/font_manager.dart';
-import 'package:laundryday/services/resources/sized_box.dart';
+import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/resources/font_manager.dart';
+import 'package:laundryday/resources/sized_box.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/utils.dart';
-import 'package:laundryday/core/widgets/heading.dart';
-import 'package:laundryday/core/widgets/my_app_bar.dart';
-import 'package:laundryday/core/widgets/my_button.dart';
-import 'package:laundryday/core/widgets/resuable_dropdown.dart';
+import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/widgets/my_app_bar.dart';
+import 'package:laundryday/widgets/my_button.dart';
+import 'package:laundryday/widgets/resuable_dropdown.dart';
 
-import '../../../../../core/widgets/my_textform_field.dart';
+import '../../../../../widgets/my_textform_field.dart';
 
 final agentRegistrationNotifier = StateNotifierProvider.autoDispose<
     DeliveryAgentRegistrationNotifier,

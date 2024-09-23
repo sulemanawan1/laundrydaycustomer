@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-import 'package:laundryday/services/resources/colors.dart';
-import 'package:laundryday/services/resources/sized_box.dart';
-import 'package:laundryday/services/resources/value_manager.dart';
+import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/resources/sized_box.dart';
+import 'package:laundryday/resources/value_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/core/widgets/reusbale_dialog.dart';
+import 'package:laundryday/widgets/reusbale_dialog.dart';
 
 class Utils {
   static showToast(

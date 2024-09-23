@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:laundryday/services/resources/sized_box.dart';
+import 'package:laundryday/resources/sized_box.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/core/widgets/heading.dart';
+import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/screens/services/model/services_model.dart' as s;
 
 class PaymentSummaryWidget extends ConsumerWidget {
