@@ -2,176 +2,118 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
+import 'package:laundryday/resources/font_manager.dart';
+import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/provider/my_addresses_notifier.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
 import 'package:laundryday/resources/colors.dart';
 import 'package:laundryday/resources/sized_box.dart';
 import 'package:laundryday/config/routes/route_names.dart';
-import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
-import 'package:laundryday/widgets/my_button.dart';
-import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
-    as myaddressmodel;
+import 'package:laundryday/widgets/my_loader.dart';
 
 class MyAddresses extends ConsumerWidget {
   const MyAddresses({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(myAddresesProvider).addressModel;
-    myaddressmodel.Address? selectedAddress =
-        ref.watch(selectedAddressProvider);
+    final addresses = ref.watch(addressesProvider);
+
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add_location),
+        backgroundColor: ColorManager.nprimaryColor,
+        onPressed: () {
+          GoRouter.of(context).pushNamed(RouteNames.addNewAddress);
+        },
+      ),
       appBar: MyAppBar(title: 'My Addresses'),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Heading(title: "My addresses"),
-              data == null
-                  ? SizedBox()
-                  : (data.addresses!.length == 0)
-                      ? SizedBox()
-                      : TextButton.icon(
-                          style: ButtonStyle(
-                            iconColor: WidgetStateColor.resolveWith(
-                              (Set<WidgetState> states) {
-                                return ColorManager
-                                    .primaryColor; // Cor quando focado
-                                // Cor padrão
-                              },
-                            ),
-                          ),
-                          label: Text(
-                            'Add Address',
-                            style: getSemiBoldStyle(
-                              color: ColorManager.primaryColor,
-                              fontSize: 16,
-                            ),
-                          ),
-                          icon: Icon(Icons.add_location),
-                          onPressed: () {
-                            GoRouter.of(context)
-                                .pushNamed(RouteNames.addNewAddress);
-                          },
-                        ),
-            ],
+          Text(
+            'Addresses',
+            style: getSemiBoldStyle(
+                color: ColorManager.blackColor, fontSize: FontSize.s14),
           ),
-          10.ph,
-          data == null
-              ? Center(
-                  child: CircularProgressIndicator(
-                  color: ColorManager.primaryColor,
-                ))
-              : (data.addresses!.length == 0)
-                  ? Expanded(
-                      child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(height: 100, 'assets/my_addresses.png'),
-                            10.ph,
-                            Text(
-                              textAlign: TextAlign.center,
-                              data.message.toString(),
-                              style: getSemiBoldStyle(
-                                  fontSize: 16, color: ColorManager.blackColor),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ))
-                  : Expanded(
-                      child: ListView.separated(
-                        separatorBuilder: ((context, index) => 10.ph),
-                        itemCount: data.addresses!.length,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6),
-                                border: Border.all(
-                                    color: ColorManager.primaryColor)),
-                            child: ListTile(
-                              onTap: () {
-                                ref
-                                    .read(selectedAddressProvider.notifier)
-                                    .onAddressTap(data.addresses![index]);
-                              },
-                              tileColor:
-                                  selectedAddress == data.addresses![index]
-                                      ? ColorManager.primaryColorOpacity10
-                                      : null,
-                              isThreeLine: false,
-                              leading: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: Icon(
-                                  Icons.radio_button_checked,
-                                  color: ColorManager.primaryColor,
-                                ),
-                              ),
-                              title: Text(
-                                data.addresses![index].addressName.toString(),
-                                style: getSemiBoldStyle(
-                                    color: ColorManager.blackColor),
-                                maxLines: 1,
-                              ),
-                              subtitle: Text(
-                                data.addresses![index].addressDetail.toString(),
-                                style: getSemiBoldStyle(
-                                    color: ColorManager.greyColor),
-                                maxLines: 1,
-                              ),
-                              trailing: Wrap(children: [
-                                IconButton(
+          20.ph,
+          addresses.when(
+              data: (data) {
+                return data.fold((l) => Text(l.toString()), (r) {
+                  List<Address>? addresses = r.addresses;
+
+                  return ListView.separated(
+                    shrinkWrap: true,
+                    reverse: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    separatorBuilder: ((context, index) => 18.ph),
+                    itemCount: addresses!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      Address adddress = addresses[index];
+
+                      return Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(color: ColorManager.greyColor)),
+                        child: ListTile(
+                          isThreeLine: true,
+                          trailing: SizedBox(
+                            width: 100,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: 30,
+                                  child: IconButton(
                                     onPressed: () {
                                       context.pushNamed(
                                           RouteNames.updateAddress,
-                                          extra: data.addresses![index]);
+                                          extra: adddress);
                                     },
-                                    icon: Icon(
-                                      Icons.edit,
-                                      color: ColorManager.primaryColor,
-                                    )),
-                                IconButton(
+                                    icon: Center(
+                                      child: Icon(
+                                        Icons.edit,
+                                        color: ColorManager.purpleColor,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                20.pw,
+                                SizedBox(
+                                  width: 30,
+                                  child: IconButton(
                                     onPressed: () {
                                       showDeleteAddressDialog(
                                           context: context,
                                           ref: ref,
-                                          addressId:
-                                              data.addresses![index].id!);
+                                          addressId: addresses[index].id!);
                                     },
-                                    icon: const Icon(
+                                    icon: Icon(
                                       Icons.delete,
-                                      color: Colors.red,
-                                    ))
-                              ]),
+                                      color: ColorManager.redColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          );
-                        },
-                      ),
-                    ),
-          10.ph,
-          data == null
-              ? SizedBox()
-              : (data.addresses!.length == 0)
-                  ? MyButton(
-                      title: "Add Address",
-                      onPressed: () {
-                        GoRouter.of(context)
-                            .pushNamed(RouteNames.addNewAddress);
-                      },
-                    )
-                  : MyButton(
-                      title: 'Select',
-                      onPressed: () {},
-                    ),
-          30.ph
+                          ),
+                          title: Text(
+                            adddress.addressName.toString(),
+                            style: getMediumStyle(
+                                color: Colors.black, fontSize: 14),
+                          ),
+                          subtitle: Text(
+                            adddress.googleMapAddress.toString(),
+                            maxLines: 2,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                });
+              },
+              error: (e, s) => Text(e.toString()),
+              loading: () => Loader()),
         ]),
       ),
     );

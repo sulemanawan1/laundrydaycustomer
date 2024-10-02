@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:laundryday/models/address_model.dart';
 import 'package:laundryday/services/google_service.dart';
 import 'package:laundryday/helpers/validation_helper.dart';
 import 'package:laundryday/provider/user_notifier.dart';
@@ -192,23 +193,18 @@ class AddNewAddress extends ConsumerWidget {
                           title: 'Save',
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              // log(customerId.toString());
-                              // log(states.address.toString());
-                              // log(states.selectedCameraPos.target.latitude
-                              //     .toString());
-                              // log(states.selectedCameraPos.target.longitude
-                              //     .toString());
-
-                              String? district = await GoogleServices()
-                                  .getDistrict(
+                              AddressModel? addressModel =
+                                  await GoogleServices().getAddress(
                                       states.selectedCameraPos.target.latitude,
                                       states
                                           .selectedCameraPos.target.longitude);
 
-                              log(district.toString());
+                              log(addressModel!.country.toString());
+                              log(addressModel.city.toString());
+                              log(addressModel.district.toString());
 
                               controller.addAddress(
-                                district: district ?? "NA",
+                                district: addressModel.district,
                                 file: states.imagePath,
                                 ref: ref,
                                 customerId: customerId!,

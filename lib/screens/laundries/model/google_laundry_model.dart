@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class DeliveryPickupLaundryModel {
+class GoogleLaundryModel {
   dynamic name;
   dynamic rating;
   dynamic openingHours;
@@ -11,7 +11,7 @@ class DeliveryPickupLaundryModel {
   dynamic originAddresses;
   dynamic destinationAddresses;
   double distanceInKm;
-  DeliveryPickupLaundryModel({
+  GoogleLaundryModel({
     required this.name,
     required this.rating,
     required this.openingHours,
@@ -24,7 +24,7 @@ class DeliveryPickupLaundryModel {
     required this.distanceInKm,
   });
 
-  DeliveryPickupLaundryModel copyWith({
+  GoogleLaundryModel copyWith({
     dynamic name,
     dynamic rating,
     dynamic openingHours,
@@ -36,7 +36,7 @@ class DeliveryPickupLaundryModel {
     dynamic destinationAddresses,
     double? distanceInKm,
   }) {
-    return DeliveryPickupLaundryModel(
+    return GoogleLaundryModel(
       name: name ?? this.name,
       rating: rating ?? this.rating,
       openingHours: openingHours ?? this.openingHours,
@@ -65,8 +65,8 @@ class DeliveryPickupLaundryModel {
     };
   }
 
-  factory DeliveryPickupLaundryModel.fromMap(Map<String, dynamic> map) {
-    return DeliveryPickupLaundryModel(
+  factory GoogleLaundryModel.fromMap(Map<String, dynamic> map) {
+    return GoogleLaundryModel(
       name: map['name'] ?? null,
       rating: map['rating'] ?? null,
       openingHours: map['openingHours'] ?? null,
@@ -82,8 +82,8 @@ class DeliveryPickupLaundryModel {
 
   String toJson() => json.encode(toMap());
 
-  factory DeliveryPickupLaundryModel.fromJson(String source) =>
-      DeliveryPickupLaundryModel.fromMap(json.decode(source));
+  factory GoogleLaundryModel.fromJson(String source) =>
+      GoogleLaundryModel.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -94,7 +94,7 @@ class DeliveryPickupLaundryModel {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is DeliveryPickupLaundryModel &&
+    return other is GoogleLaundryModel &&
         other.name == name &&
         other.rating == rating &&
         other.openingHours == openingHours &&

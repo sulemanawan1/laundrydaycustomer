@@ -1,8 +1,12 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:laundryday/screens/laundry_items/model/category_item_model.dart';
 import 'package:laundryday/screens/laundry_items/model/item_variation_model.dart';
+import 'package:laundryday/screens/laundry_items/model/item_variation_size_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:laundryday/screens/laundry_items/model/item_variation_size_model.dart'
+    as itemv;
 
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
@@ -13,7 +17,7 @@ class DatabaseHelper {
   Future<Database> get database async {
     if (_database != null) return _database!;
 
-    _database = await _initDB('item_variations.db');
+    _database = await _initDB('laundryday.db');
     return _database!;
   }
 
@@ -56,22 +60,28 @@ class DatabaseHelper {
   );
   ''';
 
+    const itemVariationSizeTable = '''
+  CREATE TABLE item_variation_size (
+    id INTEGER PRIMARY KEY,
+    item_variation_id INTEGER,
+    prefix_length INTEGER,
+    prefix_width INTEGER,
+    postfix_length INTEGER,
+    postfix_width INTEGER,
+    created_at TEXT,
+    updated_at TEXT
+  );
+  ''';
 
-
-  
-
+    await db.execute(itemTable);
     await db.execute(itemVariationTable);
-      await db.execute(itemTable);
-
-
+    await db.execute(itemVariationSizeTable);
   }
 
   Future<int> insertItemVariation(ItemVariation itemVariation) async {
     final db = await instance.database;
     return await db.insert('item_variations', itemVariation.toJson());
   }
-
-
 
   Future<void> updateItemVariations(List<ItemVariation> itemVariations) async {
     final db = await database;
@@ -122,8 +132,7 @@ class DatabaseHelper {
     return result.map((json) => ItemVariation.fromJson(json)).toList();
   }
 
-
-    Future<List<ItemVariation>> itemVariationsFromDB(
+  Future<List<ItemVariation>> itemVariationsFromDB(
       int serviceTimingId, int itemId) async {
     final db = await database;
 
@@ -147,7 +156,6 @@ class DatabaseHelper {
     );
   }
 
-
   Future<int> deleteItemVariation(int id) async {
     final db = await instance.database;
 
@@ -158,8 +166,6 @@ class DatabaseHelper {
     );
   }
 
-
-
   Future<int> deleteItemVariationTable() async {
     final db = await instance.database;
 
@@ -168,19 +174,12 @@ class DatabaseHelper {
     return res;
   }
 
-
   // Item Summary
 
-
-  
-
-  
- 
   Future<int> insertItem(Item item) async {
     final db = await instance.database;
     return await db.insert('item', item.toJson());
   }
-
 
   Future<int> updateItem(Item item) async {
     final db = await instance.database;
@@ -192,6 +191,7 @@ class DatabaseHelper {
       whereArgs: [item.id],
     );
   }
+
   Future<List<Item>> getAllItems() async {
     final db = await instance.database;
 
@@ -199,14 +199,67 @@ class DatabaseHelper {
 
     return result.map((json) => Item.fromJson(json)).toList();
   }
-  
 
- 
   Future close() async {
     final db = await instance.database;
 
     db.close();
   }
+
+  Future<int> insertOrUpdateItemVariationSize(
+      ItemVariationSizeModel itemVariationSize) async {
+    final db = await instance.database;
+
+    // Insert or replace the record if it already exists
+    return await db.insert(
+      ItemVariationSize.tableName,
+      itemVariationSize.itemVariationSize!.toJson(),
+      conflictAlgorithm:
+          ConflictAlgorithm.replace, // This will insert or update
+    );
+  }
+
+  Future<itemv.ItemVariationSize?> getItemVariationSize(
+      int itemVariationId) async {
+    final db = await instance.database;
+
+    final maps = await db.query(
+      ItemVariationSize.tableName,
+      columns: ItemVariationSize.values,
+      where: 'item_variation_id = ?',
+      whereArgs: [itemVariationId],
+    );
+
+    if (maps.isNotEmpty) {
+      log(maps.first.toString());
+      return itemv.ItemVariationSize.fromJson(maps.first);
+    } else {
+      return null;
+    }
+  }
+}
+
+class ItemVariationSize {
+  static const String tableName = 'item_variation_size';
+  static const String columnId = 'id';
+  static const String columnItemVariationId = 'item_variation_id';
+  static const String columnPrefixLength = 'prefix_length';
+  static const String columnPrefixWidth = 'prefix_width';
+  static const String columnPostfixLength = 'postfix_length';
+  static const String columnPostfixWidth = 'postfix_width';
+  static const String columnCreatedAt = 'created_at';
+  static const String columnUpdatedAt = 'updated_at';
+
+  static const List<String> values = [
+    columnId,
+    columnItemVariationId,
+    columnPrefixLength,
+    columnPrefixWidth,
+    columnPostfixLength,
+    columnPostfixWidth,
+    columnCreatedAt,
+    columnUpdatedAt
+  ];
 }
 
 class ItemVariationl {
@@ -236,7 +289,4 @@ class ItemVariationl {
     columnCreatedAt,
     columnUpdatedAt
   ];
-
 }
-
-

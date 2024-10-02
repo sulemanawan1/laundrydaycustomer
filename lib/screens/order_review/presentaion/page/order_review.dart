@@ -6,14 +6,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/resources/font_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/core/utils.dart';
+import 'package:laundryday/screens/laundries/view/laundries.dart';
 import 'package:laundryday/widgets/my_loader.dart';
 import 'package:laundryday/widgets/payment_summary_widget.dart';
 import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/laundries/provider/laundries_notifier.dart';
-import 'package:laundryday/screens/laundry_items/components/attention_widget.dart';
 import 'package:laundryday/screens/laundry_items/model/item_variation_model.dart';
 import 'package:laundryday/screens/laundry_items/provider/laundry_items.notifier.dart';
 import 'package:laundryday/screens/order_review/presentaion/riverpod/order_review_notifier.dart';
@@ -132,7 +131,8 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
         ref.watch(PaymentMethodProvider).selectedPaymentMethod;
 
     final isLoading = ref.watch(orderReviewProvider).isLoading;
-
+    final count = ref.watch(laundryItemProver).count;
+    final total = ref.watch(laundryItemProver).total;
     final isBlanketSelected =
         ref.watch(deliverPickupProvider).isBlanketSelected;
     final isCarpetSelected = ref.watch(deliverPickupProvider).isCarpetSelected;
@@ -710,40 +710,82 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                           : MyButton(
                               title: 'Order',
                               onPressed: () async {
-                                Map data = {
-                                  "customer_id": cutomerId,
-                                  "service_id": selectedService!.id,
-                                  "shop_address":
-                                      selectedLaundryByArea.branch!.address,
-                                  "customer_address":
-                                      selectedAddress!.googleMapAddress,
-                                  "payment_method": selectedPaymentMethod.name,
-                                  "item_total_price": 0,
-                                  "total_items": 0,
-                                  "delivery_fee": selectedService.deliveryFee,
-                                  "operation_fee": selectedService.operationFee,
-                                  "country": "Saudia Arabia",
-                                  "city": "Riyadh",
-                                  "area": selectedAddress.district,
-                                  "branch_lat":
-                                      selectedLaundryByArea.branch!.lat,
-                                  "branch_lng":
-                                      selectedLaundryByArea.branch!.lng,
-                                  "branch_name": selectedLaundryByArea.name,
-                                  "customer_lat": selectedAddress.lat!,
-                                  "customer_lng": selectedAddress.lng!,
-                                  "category_id": selectedCategory!.id!,
-                                  "service_timing_id": serviceTiming!.id!,
-                                  'branch_id': selectedLaundryByArea.id,
-                                  'total_price': 20,
-                                  "items": items
-                                      .map((e) => {
-                                            "item_variation_id": e.id,
-                                            "price": e.price,
-                                            "quantity": e.quantity
-                                          })
-                                      .toList(),
-                                };
+                                Map data = {};
+
+                                if (selectedService!.serviceName!
+                                        .toLowerCase() ==
+                                    ServiceTypes.carpets.name) {
+                                  data = {
+                                    "customer_id": cutomerId,
+                                    "service_id": selectedService.id,
+                                    "shop_address":
+                                        selectedLaundry!.destinationAddresses!,
+                                    "customer_address":
+                                        selectedAddress!.googleMapAddress,
+                                    "payment_method":
+                                        selectedPaymentMethod.name,
+                                    "item_total_price": total,
+                                    "total_items": count,
+                                    "delivery_fee": selectedService.deliveryFee,
+                                    "operation_fee":
+                                        selectedService.operationFee,
+                                    "country": "Saudia Arabia",
+                                    "city": "Riyadh",
+                                    "area": selectedAddress.district,
+                                    "branch_lat": selectedLaundry.lat,
+                                    "branch_lng": selectedLaundry.lng,
+                                    "branch_name": selectedLaundry.name,
+                                    "customer_lat": selectedAddress.lat!,
+                                    "customer_lng": selectedAddress.lng!,
+                                    "category_id": selectedCategory!.id!,
+                                    "service_timing_id": serviceTiming!.id!,
+                                    'total_price': 0,
+                                    "items": items
+                                        .map((e) => {
+                                              "item_variation_id": e.id,
+                                              "price": e.price,
+                                              "quantity": e.quantity
+                                            })
+                                        .toList(),
+                                  };
+                                } else {
+                                  data = {
+                                    "customer_id": cutomerId,
+                                    "service_id": selectedService.id,
+                                    "shop_address":
+                                        selectedLaundryByArea.branch!.address,
+                                    "customer_address":
+                                        selectedAddress!.googleMapAddress,
+                                    "payment_method":
+                                        selectedPaymentMethod.name,
+                                    "item_total_price": total,
+                                    "total_items": count,
+                                    "delivery_fee": selectedService.deliveryFee,
+                                    "operation_fee":
+                                        selectedService.operationFee,
+                                    "country": "Saudia Arabia",
+                                    "city": "Riyadh",
+                                    "area": selectedAddress.district,
+                                    "branch_lat":
+                                        selectedLaundryByArea.branch!.lat,
+                                    "branch_lng":
+                                        selectedLaundryByArea.branch!.lng,
+                                    "branch_name": selectedLaundryByArea.name,
+                                    "customer_lat": selectedAddress.lat!,
+                                    "customer_lng": selectedAddress.lng!,
+                                    "category_id": selectedCategory!.id!,
+                                    "service_timing_id": serviceTiming!.id!,
+                                    'branch_id': selectedLaundryByArea.id,
+                                    'total_price': 0,
+                                    "items": items
+                                        .map((e) => {
+                                              "item_variation_id": e.id,
+                                              "price": e.price,
+                                              "quantity": e.quantity
+                                            })
+                                        .toList(),
+                                  };
+                                }
 
                                 ref
                                     .read(orderReviewProvider.notifier)

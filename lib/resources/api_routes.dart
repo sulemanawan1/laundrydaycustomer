@@ -58,4 +58,11 @@ class Api {
   static const String customerOrders = "${baseUrl}orders/customer?customer_id=";
   static const String storeFcmToken = "${baseUrl}device_tokens/store-fcm-token";
   static const String fcmTokens = "${baseUrl}device_tokens/fcm-tokens";
+  static const String itemVariationSizes = "${baseUrl}item_variation_sizes/size?item_variation_id=";
+
+
+  static const String nearByAgents = "${baseUrl}delivery_agents/near-by-agents";
+
+
+
 }

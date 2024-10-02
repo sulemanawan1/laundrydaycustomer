@@ -18,6 +18,16 @@ enum PaymentStatuses {
   unpaid,
 }
 
+  String? getOrderNowImage({required String serviceName}) {
+    if (serviceName.toLowerCase() == 'clothes') {
+      return "assets/order_now_clothes.jpeg";
+    } else if (serviceName.toLowerCase() == 'blankets') {
+      return "assets/order_now_blankets.jpeg";
+    }
+    return null;
+  }
+
+
 enum OrderType { pickup, roundTrip, unknown }
 
 getOrderType({required String orderType}) {

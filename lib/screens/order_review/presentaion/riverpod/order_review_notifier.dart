@@ -9,6 +9,7 @@ import 'package:laundryday/screens/laundry_items/model/item_variation_model.dart
 import 'package:laundryday/screens/order_review/data/models/order_model.dart';
 import 'package:laundryday/screens/order_review/data/order_repository.dart';
 import 'package:laundryday/screens/order_review/presentaion/riverpod/order_review_states.dart';
+import 'package:laundryday/screens/services/provider/services_notifier.dart';
 
 final orderReviewProvider =
     StateNotifierProvider.autoDispose<OrderReviewNotifier, OrderReviewStates>(
@@ -17,11 +18,8 @@ final orderReviewProvider =
 class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
   OrderRepository _orderRepository = OrderRepository();
 
-  
-
   OrderReviewNotifier()
       : super(OrderReviewStates(
-        
           isLoading: false,
           items: [],
           isRecording: false,
@@ -77,6 +75,7 @@ class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
             context: context);
       }
     }, (r) {
+      ref.invalidate(customerOrderProvider);
       context.pushReplacementNamed(RouteNames.orderProcess,
           extra: r.order!.id!);
       state = state.copyWith(isLoading: false);

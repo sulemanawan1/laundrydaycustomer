@@ -1,63 +1,55 @@
+import 'package:fpdart/fpdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:laundryday/screens/laundry_items/model/category_item_model.dart';
 import 'package:laundryday/screens/laundry_items/model/item_variation_model.dart';
-import 'package:laundryday/screens/laundry_items/model/laundry_model.dart';
 import 'package:laundryday/core/base_client_class.dart';
 import 'package:laundryday/resources/api_routes.dart';
+import 'package:laundryday/screens/laundry_items/model/item_variation_size_model.dart';
 
-class LaundryItemService{
-
-
-   static Future<dynamic> nearestBranch({
-    required int serviceId,
-    required double userLat,
-    required double radius,
-    required double userLng,
-  }) async {
+class CategoryService {
+  Future<Either<String, CategoryItemModel>> categoriesWithItems(
+      {required int serviceId}) async {
     try {
-      Map data = {
-        "service_id": serviceId,
-        "user_lat": userLat,
-        "user_lng": userLng,
-        "radius": radius
-      };
-
-      var url = Api.nearstBranch;
-
-      var response = await BaseClientClass.postFormReq(url, data);
-
-      if (response is http.Response) {
-        if (response.statusCode == 200) {
-          return nearestLaundryModelFromJson(response.body);
-        }
-      }
-    } catch (e) {
-      return e;
-    }
-  }
-
-
-   static Future<dynamic> categoriesWithItems({required int serviceId}) async {
-    try {
-      var url = Api.categoriesWithItems+serviceId.toString();
+      var url = Api.categoriesWithItems + serviceId.toString();
 
       var response = await BaseClientClass.get(url, '');
 
       if (response is http.Response) {
-        return categoryItemModelFromJson(response.body);
+        return right(categoryItemModelFromJson(response.body));
       } else {
-        return response;
+        return left(response);
       }
     } catch (e) {
-      return e;
+      return left(e.toString());
     }
   }
+}
 
-
-   static Future<dynamic> itemVariations({required int itemId,
-    required int serviceTimingId}) async {
+class ItemVariationService {
+  Future<Either<String, ItemVariationSizeModel>> getItemVariationSize(
+      {required int itemVariationId}) async {
     try {
-      var url = "${Api.itemVariations}item_id=${itemId}&service_timing_id=${serviceTimingId}";
+      var url = Api.itemVariationSizes + itemVariationId.toString();
+
+      var response = await BaseClientClass.get(url, '');
+
+      if (response is http.Response) {
+        return right(itemVariationSizeModelFromJson(response.body));
+      } else {
+        return left(response.toString());
+      }
+    } catch (e) {
+      return left(e.toString());
+    }
+  }
+}
+
+class LaundryItemService {
+  static Future<dynamic> itemVariations(
+      {required int itemId, required int serviceTimingId}) async {
+    try {
+      var url =
+          "${Api.itemVariations}item_id=${itemId}&service_timing_id=${serviceTimingId}";
 
       var response = await BaseClientClass.get(url, '');
 
@@ -70,6 +62,4 @@ class LaundryItemService{
       return e;
     }
   }
-
-
 }

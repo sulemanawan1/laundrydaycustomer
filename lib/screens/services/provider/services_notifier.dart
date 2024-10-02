@@ -15,15 +15,21 @@ final customerOrdersApi = Provider((ref) {
 });
 
 final customerOrderProvider =
-    FutureProvider.autoDispose<Either<String, CustomerOrderModel>>((ref) {
+    FutureProvider.autoDispose<Either<String, CustomerOrderModel>>((ref) async {
   final userModel = ref.read(userProvider).userModel;
-  return ref
+  return await ref
       .read(customerOrdersApi)
       .customerOrders(cutstomerId: userModel!.user!.id!);
 });
 
 final servicesApi = Provider((ref) {
   return ServicesService();
+});
+
+final servicesProvider =
+    FutureProvider.autoDispose<Either<String, servicemodel.ServiceModel>>(
+        (ref) async {
+  return await ref.read(servicesApi).allService();
 });
 
 final serviceProvider = StateNotifierProvider<ServicesNotifier, ServicesStates>(
@@ -33,33 +39,8 @@ class ServicesNotifier extends StateNotifier<ServicesStates> {
   servicemodel.ServiceModel servicesModel = servicemodel.ServiceModel();
   MyAddressModel? myAddressModel;
 
-  ServicesNotifier()
-      : super(ServicesStates(
-            order: [], allServicesState: AllServicesInitialState())) {
+  ServicesNotifier() : super(ServicesStates(order: [])) {
     GoogleServices().getLocation();
-    allServices();
-  }
-
-  void allServices() async {
-    try {
-      state = state.copyWith(allServicesState: AllServicesLoadingState());
-
-      var data = await ServicesService.allService();
-
-      if (data is servicemodel.ServiceModel) {
-        servicesModel = data;
-        state = state.copyWith(
-            allServicesState:
-                AllServicesLoadedState(serviceModel: servicesModel));
-      } else {
-        state = state.copyWith(
-            allServicesState:
-                AllServicesErrorState(errorMessage: data.toString()));
-      }
-    } catch (e) {
-      state = state.copyWith(
-          allServicesState: AllServicesErrorState(errorMessage: e.toString()));
-    }
   }
 
   selectedService({required servicemodel.Datum selectedService}) {

@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/screens/laundry_items/model/laundry_model.dart';
+import 'package:laundryday/resources/assets_manager.dart';
 import 'package:laundryday/resources/colors.dart';
 import 'package:laundryday/resources/sized_box.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ReusabelLaundryDetailBannerCard extends StatelessWidget {
-  final NearestLaundryModel nearestLaundryModel;
+  final String serviceName;
+  final String branchName;
+  final String rating;
+  final String duration;
+  final String distance;
+
+  final String address;
+
   ReusabelLaundryDetailBannerCard({
-    required this.nearestLaundryModel,
+    required this.serviceName,
+    required this.branchName,
+    required this.rating,
+    required this.duration,
+    required this.distance,
+    required this.address,
     super.key,
   });
 
@@ -19,9 +31,7 @@ class ReusabelLaundryDetailBannerCard extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Image.asset(
-          getBanner(
-              serviceName: nearestLaundryModel.data!.services!.first.serviceName
-                  .toString()),
+          getBanner(serviceName: serviceName),
           height: 250,
           fit: BoxFit.fitWidth,
           width: double.infinity,
@@ -62,7 +72,7 @@ class ReusabelLaundryDetailBannerCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        nearestLaundryModel.data?.name ?? "",
+                        branchName,
                         style: getSemiBoldStyle(
                           color: ColorManager.blackColor,
                           fontSize: 16,
@@ -79,8 +89,7 @@ class ReusabelLaundryDetailBannerCard extends StatelessWidget {
                             color: Colors.amber,
                           ),
                           2.pw,
-                          Text(nearestLaundryModel.data?.rating.toString() ??
-                              ""),
+                          Text(rating.toString()),
                           4.pw,
                           Text(
                             'Reviews',
@@ -99,21 +108,15 @@ class ReusabelLaundryDetailBannerCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        // SvgPicture.asset(
-                        //   'assets/delivery_agent.svg',
-                        //   height: 18,
-                        //   color: ColorManager.primaryColor,
-                        // ),
                         10.pw,
                         Text(
-                          nearestLaundryModel.data?.duration ?? "",
-                          style: getRegularStyle(
-                              color: ColorManager.greyColor),
+                          duration,
+                          style: getRegularStyle(color: ColorManager.greyColor),
                         ),
                       ],
                     ),
                     Text(
-                      '${nearestLaundryModel.data?.distance ?? ""}',
+                      '${distance}',
                       style: getRegularStyle(color: ColorManager.greyColor),
                     ),
                   ],
@@ -129,10 +132,8 @@ class ReusabelLaundryDetailBannerCard extends StatelessWidget {
                     10.pw,
                     Expanded(
                       child: Text(
-                        nearestLaundryModel.data?.branch?.googleMapAddress ??
-                            "",
-                        style:
-                            getRegularStyle(color: ColorManager.greyColor),
+                        address,
+                        style: getRegularStyle(color: ColorManager.greyColor),
                         overflow: TextOverflow.ellipsis,
                       ),
                     )
@@ -152,6 +153,8 @@ class ReusabelLaundryDetailBannerCard extends StatelessWidget {
       return "assets/category_banner/clothes_banner.jpg";
     } else if (serviceName.toLowerCase() == 'blankets') {
       return "assets/blanket_and_linen_banner.jpg";
+    } else if (serviceName.toLowerCase() == 'carpets') {
+      return AssetImages.carpet;
     }
     return '';
   }

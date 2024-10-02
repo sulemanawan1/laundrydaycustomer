@@ -11,7 +11,6 @@ class ChatRoomModel {
     this.participents,
     this.lastMessage,
   });
- 
 
   ChatRoomModel copyWith({
     ValueGetter<String?>? chatRoomId,
@@ -43,21 +42,24 @@ class ChatRoomModel {
 
   String toJson() => json.encode(toMap());
 
-  factory ChatRoomModel.fromJson(String source) => ChatRoomModel.fromMap(json.decode(source));
+  factory ChatRoomModel.fromJson(String source) =>
+      ChatRoomModel.fromMap(json.decode(source));
 
   @override
-  String toString() => 'ChatRoomModel(chatRoomId: $chatRoomId, participents: $participents, lastMessage: $lastMessage)';
+  String toString() =>
+      'ChatRoomModel(chatRoomId: $chatRoomId, participents: $participents, lastMessage: $lastMessage)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is ChatRoomModel &&
-      other.chatRoomId == chatRoomId &&
-      mapEquals(other.participents, participents) &&
-      other.lastMessage == lastMessage;
+        other.chatRoomId == chatRoomId &&
+        mapEquals(other.participents, participents) &&
+        other.lastMessage == lastMessage;
   }
 
   @override
-  int get hashCode => chatRoomId.hashCode ^ participents.hashCode ^ lastMessage.hashCode;
+  int get hashCode =>
+      chatRoomId.hashCode ^ participents.hashCode ^ lastMessage.hashCode;
 }

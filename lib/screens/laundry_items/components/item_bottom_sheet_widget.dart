@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
+import 'package:laundryday/screens/laundry_items/components/carpet_measurement_widget.dart';
+import 'package:laundryday/screens/services/provider/services_notifier.dart';
 import 'package:laundryday/widgets/my_loader.dart';
 import 'package:laundryday/resources/colors.dart';
 import 'package:laundryday/resources/sized_box.dart';
@@ -14,14 +16,15 @@ import 'package:laundryday/screens/laundry_items/provider/laundry_item_states.da
 import 'package:laundryday/screens/laundry_items/provider/laundry_items.notifier.dart';
 
 class ItemBottomSheet extends ConsumerWidget {
-  final Item? selectedItem;
-  ItemBottomSheet({super.key, this.selectedItem});
+  final Item selectedItem;
+  ItemBottomSheet({super.key, required this.selectedItem});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final itemVariationStates =
         ref.watch(laundryItemProver).itemVariationStates;
     final itemVariationList = ref.watch(laundryItemProver).itemVariationList;
+    final selectedService = ref.read(serviceProvider).selectedService;
 
     if (itemVariationStates is ItemVariationIntitialState) {
       return Loader();
@@ -38,7 +41,6 @@ class ItemBottomSheet extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // HeadingMedium(title: itemModel.name.toString()),
                   IconButton(
                       onPressed: () {
                         context.pop();
@@ -61,17 +63,66 @@ class ItemBottomSheet extends ConsumerWidget {
                       elevation: 6,
                       child: Column(
                         children: [
+                          if (itemVariation.hasSize == 1) ...[
+                            GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Dialog(
+                                      insetPadding: EdgeInsets.all(9),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      elevation: 16,
+                                      child: Padding(
+                                          padding: const EdgeInsets.all(20),
+                                          child: CarpetMeasurementWidget(
+                                            itemVariationId: itemVariation.id!,
+                                          )),
+                                    );
+                                  },
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    10.ph,
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Select Size :  ",
+                                          style: getSemiBoldStyle(
+                                              color: ColorManager.blackColor,
+                                              fontSize: 14),
+                                        ),
+                                        Icon(
+                                          Icons.edit,
+                                          size: 18,
+                                        )
+                                      ],
+                                    ),
+                                    10.ph,
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
                           ListTile(
                             trailing: quantityAddRemoveCard(
                                 onTapAddQuantity: () {
                                   ref
                                       .read(laundryItemProver.notifier)
-                                      .quantityIncrement(id: itemVariation.id);
+                                      .quantityIncrement(
+                                          id: itemVariation.id,
+                                          selectedService: selectedService);
 
                                   ref
                                       .read(laundryItemProver.notifier)
                                       .totalItemPrice(
-                                          selectedItem: selectedItem!);
+                                          selectedItem: selectedItem);
                                 },
                                 context: context,
                                 blankets: itemVariation,
@@ -83,7 +134,7 @@ class ItemBottomSheet extends ConsumerWidget {
                                   ref
                                       .read(laundryItemProver.notifier)
                                       .totalItemPrice(
-                                          selectedItem: selectedItem!);
+                                          selectedItem: selectedItem);
                                 }),
                             title: Text(
                               itemVariation.name.toString(),
@@ -118,10 +169,10 @@ class ItemBottomSheet extends ConsumerWidget {
 
                               ref
                                   .read(laundryItemProver.notifier)
-                                  .totalItemCount(selectedItem: selectedItem!);
+                                  .totalItemCount(selectedItem: selectedItem);
 
                               await DatabaseHelper.instance
-                                  .insertItem(selectedItem!);
+                                  .insertItem(selectedItem);
 
                               ref.read(laundryItemProver.notifier).getCount();
                               ref.read(laundryItemProver.notifier).getTotal();
@@ -144,15 +195,9 @@ class ItemBottomSheet extends ConsumerWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    // Heading(
-                                    //   title: itemsTotalPrice
-                                    //       .abs()
-                                    //       .toStringAsFixed(2),
-                                    //   color: ColorManager.whiteColor,
-                                    // ),
                                     Heading(
-                                      title: selectedItem!.total_price != null
-                                          ? selectedItem!.total_price!
+                                      title: selectedItem.total_price != null
+                                          ? selectedItem.total_price!
                                               .abs()
                                               .toStringAsFixed(2)
                                           : "00.00",
@@ -174,9 +219,9 @@ class ItemBottomSheet extends ConsumerWidget {
                             .updateItemVariations(itemVariationList);
                         ref
                             .read(laundryItemProver.notifier)
-                            .totalItemCount(selectedItem: selectedItem!);
+                            .totalItemCount(selectedItem: selectedItem);
 
-                        await DatabaseHelper.instance.updateItem(selectedItem!);
+                        await DatabaseHelper.instance.updateItem(selectedItem);
 
                         ref.read(laundryItemProver.notifier).getCount();
                         ref.read(laundryItemProver.notifier).getTotal();
@@ -201,8 +246,8 @@ class ItemBottomSheet extends ConsumerWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Heading(
-                                      title: selectedItem!.total_price != null
-                                          ? selectedItem!.total_price!
+                                      title: selectedItem.total_price != null
+                                          ? selectedItem.total_price!
                                               .abs()
                                               .toStringAsFixed(2)
                                           : "0.0",
@@ -219,37 +264,6 @@ class ItemBottomSheet extends ConsumerWidget {
                       ),
                     ),
               20.ph,
-
-              // MyButton(
-              //   title: 'Item',
-              //   onPressed: () async {
-              //     List<Item> item = await DatabaseHelper.instance.getAllItems();
-
-              //     print(item.map((e) => e.count));
-              //     print(item.map((e) => e.total_price));
-              //   },
-              // )
-              // MyButton(
-              //   title: 'Delete',
-              //   onPressed: () async {
-              //     int rows =
-              //         await DatabaseHelper.instance.deleteItemVariationTable();
-              //     print("${rows} Record  deleted");
-              //   },
-              // ),
-              // 10.ph,
-              // MyButton(
-              //   title: 'Get',
-              //   onPressed: () async {
-              //     List<ItemVariation> items =
-              //         await DatabaseHelper.instance.getAllItemVariations();
-
-              //     for (int i = 0; i < items.length; i++) {
-              //       print(items[i].quantity);
-              //     }
-              //   },
-              // ),
-              // 10.ph,
             ],
           ));
     }

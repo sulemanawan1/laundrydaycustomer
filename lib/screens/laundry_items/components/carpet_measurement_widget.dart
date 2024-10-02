@@ -1,105 +1,145 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:laundryday/helpers/db_helper.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/resources/colors.dart';
 import 'package:laundryday/resources/sized_box.dart';
+import 'package:laundryday/screens/laundry_items/model/item_variation_size_model.dart';
+import 'package:laundryday/screens/laundry_items/provider/laundry_items.notifier.dart';
 import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/widgets/my_button.dart';
+import 'package:laundryday/widgets/my_loader.dart';
+import 'package:laundryday/screens/laundry_items/model/item_variation_size_model.dart'
+    as itemv;
 
-class CarpetMeasurementWidget extends StatelessWidget {
-  // ItemModel itemModel;
-  CarpetMeasurementWidget({super.key});
+class CarpetMeasurementWidget extends ConsumerWidget {
+  final int itemVariationId;
+  CarpetMeasurementWidget({super.key, required this.itemVariationId});
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer(builder: (context, ref, child) {
-      return SizedBox(
-        width: 300,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     myWheelListScroller(
-              //         title: "Length",
-              //         initialValueSmallList:  0,
-              //         initialValueLargeList:  0,
-              //         prefixSelectedItemChanged: (v) {
-              //           itemModel.prefixLength = v;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final itemVariationSizefetch =
+        ref.watch(itemvariationSizeProvider(itemVariationId));
+    var itemSize = ref.watch(laundryItemProver).itemVariationSize;
 
-              //           itemModel.length = double.parse(
-              //               "${itemModel.prefixLength}.${itemModel.postfixLength}");
-              //         },
-              //         postfixSelectedItemChanged: (v) {
-              //           String formattedNumber = v.toString().padLeft(2, '0');
+    return itemVariationSizefetch.when(
+        data: (data) {
+          return data.fold((l) {
+            return Text(l.toString());
+          }, (r) {
+            Future.delayed(Duration(seconds: 0), () async {
+              ref.read(laundryItemProver.notifier).setItemVariationSize(
+                  itemVariationSize: r.itemVariationSize!);
+            });
 
-              //           itemModel.postfixLength = v;
+            return SizedBox(
+              width: 300,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        myWheelListScroller(
+                            title: "Length",
+                            initialValueSmallList: itemSize!.prefixLength!,
+                            initialValueLargeList: itemSize.postfixLength!,
+                            prefixSelectedItemChanged: (v) {
+                              log("Prefix Length $v");
 
-              //           itemModel.length = double.parse(
-              //               "${itemModel.prefixLength}.$formattedNumber");
-              //         },
-              //         smallList: 4,
-              //         largeList: 100),
-              //     myWheelListScroller(
-              //         initialValueSmallList: itemModel.prefixWidth ?? 0,
-              //         initialValueLargeList: itemModel.postfixWidth ?? 0,
-              //         title: "Width",
-              //         prefixSelectedItemChanged: (v) {
-              //           itemModel.prefixWidth = v;
-              //           itemModel.width = double.parse(
-              //               "${itemModel.prefixWidth}.${itemModel.postfixWidth}");
-              //         },
-              //         postfixSelectedItemChanged: (v) {
-              //           String formattedNumber = v.toString().padLeft(2, '0');
+                              ref
+                                  .read(laundryItemProver.notifier)
+                                  .setPrefixLength(prefixLength: v);
+                            },
+                            postfixSelectedItemChanged: (v) {
+                              log("Postfix Length $v");
+                              ref
+                                  .read(laundryItemProver.notifier)
+                                  .setPostFixLength(postFixLength: v);
+                            },
+                            smallList: 4,
+                            largeList: 100),
+                        myWheelListScroller(
+                            initialValueSmallList: itemSize.prefixWidth!,
+                            initialValueLargeList: itemSize.postfixWidth!,
+                            title: "Width",
+                            prefixSelectedItemChanged: (v) {
+                              log("PreFix Width $v");
 
-              //           itemModel.postfixWidth = v;
-              //           itemModel.width = double.parse(
-              //               "${itemModel.prefixWidth}.$formattedNumber");
-              //         },
-              //         smallList: 4,
-              //         largeList: 100),
-              //   ],
-              // ),
-              // 10.ph,
-              // const Divider(),
-              // 10.ph,
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Heading(
-              //       title:
-              //           "(${itemModel.prefixLength}.${itemModel.postfixLength.toString().padLeft(2, '0')})m",
-              //       color: ColorManager.primaryColor,
-              //     ),
-              //     Heading(
-              //       title:
-              //           "(${itemModel.prefixWidth}.${itemModel.postfixWidth.toString().padLeft(2, '0')})m",
-              //       color: ColorManager.primaryColor,
-              //     ),
-              //   ],
-              // ),
-              // 20.ph,
-              // MyButton(
-              //   title: 'Ok',
-              //   onPressed: () {
-              //     GoRouter.of(context).pop();
-              //   },
-              // ),
-              // 10.ph,
-              // MyButton(
-              //   title: 'Cancel',
-              //   onPressed: () {
-              //     GoRouter.of(context).pop();
-              //   },
-              //   isBorderButton: true,
-              // )
-            
-            
-            ],
-          ),
-        ),
-      );
-    });
+                              ref
+                                  .read(laundryItemProver.notifier)
+                                  .setPrefixWidth(prefixWidth: v);
+                            },
+                            postfixSelectedItemChanged: (v) {
+                              log("PostFix Width $v");
+
+                              ref
+                                  .read(laundryItemProver.notifier)
+                                  .setPostFixWidth(postFixWidth: v);
+                            },
+                            smallList: 4,
+                            largeList: 100),
+                      ],
+                    ),
+                    10.ph,
+                    const Divider(),
+                    10.ph,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Heading(
+                          title:
+                              "(${itemSize.prefixLength}.${itemSize.postfixLength.toString().padLeft(2, '0')})m",
+                          color: ColorManager.primaryColor,
+                        ),
+                        Heading(
+                          title:
+                              "(${itemSize.prefixWidth}.${itemSize.postfixWidth.toString().padLeft(2, '0')})m",
+                          color: ColorManager.primaryColor,
+                        ),
+                      ],
+                    ),
+                    20.ph,
+                    MyButton(
+                      title: 'Ok',
+                      onPressed: () async {
+                        int result = await DatabaseHelper.instance
+                            .insertOrUpdateItemVariationSize(
+                                ItemVariationSizeModel(
+                                    success: true,
+                                    message: 'item size updated successfully',
+                                    itemVariationSize: itemSize));
+
+                        if (result == 1) {
+                          log('Size updated');
+                          context.pop();
+                        }
+                      },
+                    ),
+                    10.ph,
+                    MyButton(
+                      title: 'Cancel',
+                      onPressed: () async {
+                        itemv.ItemVariationSize? itemVariationSize =
+                            await DatabaseHelper.instance
+                                .getItemVariationSize(itemVariationId);
+
+                        log(itemVariationSize!.postfixLength.toString());
+                        GoRouter.of(context).pop();
+                      },
+                      isBorderButton: true,
+                    ),
+                    10.ph,
+                  ],
+                ),
+              ),
+            );
+          });
+        },
+        error: (e, s) => Text(e.toString()),
+        loading: () => Loader());
   }
 }
 

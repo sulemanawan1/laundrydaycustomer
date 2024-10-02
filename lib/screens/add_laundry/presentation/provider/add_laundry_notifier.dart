@@ -72,7 +72,7 @@ class AddLaundryNotifier extends StateNotifier<AddLaundryStates> {
             image: null,
             categoryType: null,
             placeList: [])) {
-    allServices();
+    // allServices();
     countries();
   }
 
@@ -240,23 +240,23 @@ class AddLaundryNotifier extends StateNotifier<AddLaundryStates> {
     state = state.copyWith(markers: state.markers);
   }
 
-  void allServices() async {
-    var data = await ServicesService.allService();
-    if (kDebugMode) {
-      print("Data $data");
-    }
+  // void allServices() async {
+  //   var data = await ServicesService.allService();
+  //   if (kDebugMode) {
+  //     print("Data $data");
+  //   }
 
-    if (data is ServiceModel) {
-      servicesModel = data;
-      state = state.copyWith(
-        servicesModel: servicesModel,
-      );
-    } else {
-      state = state.copyWith(
-        servicesModel: null,
-      );
-    }
-  }
+  //   if (data is ServiceModel) {
+  //     servicesModel = data;
+  //     state = state.copyWith(
+  //       servicesModel: servicesModel,
+  //     );
+  //   } else {
+  //     state = state.copyWith(
+  //       servicesModel: null,
+  //     );
+  //   }
+  // }
 
   void addServiceIds({required List<Datum> values}) async {
     state.serviceIds.clear();

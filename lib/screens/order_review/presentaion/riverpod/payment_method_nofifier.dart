@@ -11,8 +11,9 @@ class PaymentMethodNofifier extends StateNotifier<PaymentMethodStates> {
   PaymentMethodNofifier()
       : super(PaymentMethodStates(
             paymentMethods: [
+              
               PaymentMethods(
-                  id: 1, icon: 'assets/icons/apple_pay.png', name: 'apple pay'),
+                  id: 1, icon: 'assets/icons/apple_pay.png', name: 'applepay'),
               PaymentMethods(
                   id: 2, icon: 'assets/icons/stc_pay.png', name: 'stc'),
               PaymentMethods(

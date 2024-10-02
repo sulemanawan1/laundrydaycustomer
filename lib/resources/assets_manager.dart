@@ -20,4 +20,8 @@ class AssetImages {
   static const String rating = '${assetBaseUrl}rating.png';
   static const String car = '${assetBaseUrl}car.png';
   static const String user = '${assetBaseUrl}user.png';
+  static const String carpet = '${assetBaseUrl}carpet.jpg';
+  static const String noteIcon = '${assetBaseUrl}note_icon.png';
+  static const String laundry = '${assetBaseUrl}laundry.png';
+  static const String address = '${assetBaseUrl}address.png';
 }

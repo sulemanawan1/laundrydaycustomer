@@ -6,12 +6,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
 import 'package:laundryday/services/image_picker_service.dart';
 import 'package:laundryday/services/google_service.dart';
 import 'package:laundryday/screens/more/addresses/add_new_address/model/add_address_model.dart';
 import 'package:laundryday/screens/more/addresses/add_new_address/provider/add_address_state.dart';
 import 'package:laundryday/screens/more/addresses/add_new_address/service/add_address_service.dart';
-import 'package:laundryday/screens/more/addresses/my_addresses/provider/my_addresses_notifier.dart';
 import 'package:laundryday/core/utils.dart';
 import 'package:location/location.dart';
 
@@ -93,7 +93,7 @@ class AddAddressNotifier extends StateNotifier<AddAddressState> {
     if (data is AddAddressModel) {
       Utils.showToast(msg: data.message);
 
-      ref.invalidate(myAddresesProvider);
+      ref.invalidate(addressesProvider);
       context.pop();
     } else {
       Utils.showToast(msg: data);
@@ -103,16 +103,20 @@ class AddAddressNotifier extends StateNotifier<AddAddressState> {
 
   intitilzeAddress() async {
     LocationData? position = await GoogleServices().getLocation();
-    if (position != null) {
-      coordinateToAddress(
-          taget: LatLng(position.latitude!, position.longitude!));
 
+    if (position != null) {
       final newCameraPosition = CameraPosition(
         target: LatLng(position.latitude!, position.longitude!),
         zoom: 16,
       );
       state =
           state.copyWith(isLoading: false, initialCameraPos: newCameraPosition);
+
+      await coordinateToAddress(
+          taget: LatLng(position.latitude!, position.longitude!));
+
+
+
     }
   }
 }

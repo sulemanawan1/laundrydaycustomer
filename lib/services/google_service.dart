@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:laundryday/models/address_model.dart';
 import 'package:laundryday/resources/api_routes.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:location/location.dart';
@@ -19,7 +20,6 @@ class GoogleServices {
     }
   }
 
- 
   Future<LocationData?> getLocation() async {
     Location location = Location();
 
@@ -45,49 +45,55 @@ class GoogleServices {
     return location.getLocation();
   }
 
-  Future<String?> getDistrict(double latitude, double longitude) async {
-    final url = Uri.parse(
-        'https://maps.google.com/maps/api/geocode/json?latlng=$latitude,$longitude&sensor=false&key=$apiKey');
-
-    final response = await http.get(url);
+  Future<AddressModel?> getAddress(double latitude, double longitude) async {
+    final url =
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&sensor=false&key=$apiKey&language=ar';
+    final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
-      final Map<String, dynamic> data = json.decode(response.body);
-      return _parseDistrict(data);
-    } else {
-      throw Exception('Failed to load geocode data');
-    }
-  }
-
-  String? _parseDistrict(Map<String, dynamic> data) {
-    if (data['status'] == 'OK') {
-      for (var result in data['results']) {
-        for (var component in result['address_components']) {
-          if (component['types'].contains('sublocality')) {
-            return component['long_name'];
-          } else if (component['types'].contains('sublocality_level_1')) {
-            return component['long_name'];
-          } else if (component['types']
-              .contains('administrative_area_level_2')) {
-            return component['long_name'];
-          }
-        }
+      final json = jsonDecode(response.body);
+      if (json['status'] == 'OK' && json['results'].isNotEmpty) {
+        return AddressModel.fromJson(json);
+      } else {
+        print('No address found');
+        return null;
       }
+    } else {
+      print('Failed to fetch address');
+      return null;
     }
-    return null;
   }
 
+  // Future<String?> getAddress(double latitude, double longitude) async {
+  //   final url = Uri.parse(
+  //       'https://maps.google.com/maps/api/geocode/json?latlng=$latitude,$longitude&sensor=false&key=$apiKey');
 
+  //   final response = await http.get(url);
 
+  //   if (response.statusCode == 200) {
+  //     final Map<String, dynamic> data = json.decode(response.body);
+  //     return _parseDistrict(data);
+  //   } else {
+  //     throw Exception('Failed to load geocode data');
+  //   }
+  // }
 
+  // String? _parseDistrict(Map<String, dynamic> data) {
+  //   if (data['status'] == 'OK') {
+  //     for (var result in data['results']) {
+  //       for (var component in result['address_components']) {
 
-
-
-
-
-
-
-
-
-
+  //         if (component['types'].contains('sublocality')) {
+  //           return component['long_name'];
+  //         } else if (component['types'].contains('sublocality_level_1')) {
+  //           return component['long_name'];
+  //         } else if (component['types']
+  //             .contains('administrative_area_level_2')) {
+  //           return component['long_name'];
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return null;
+  // }
 }

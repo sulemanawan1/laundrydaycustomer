@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/screens/laundries/model/delivery_pickup_laundry_model.dart';
+import 'package:laundryday/screens/laundries/model/google_laundry_model.dart';
 import 'package:laundryday/resources/colors.dart';
 import 'package:laundryday/resources/sized_box.dart';
 import 'package:laundryday/screens/laundries/model/laundry_by_area.model.dart'
@@ -125,7 +125,7 @@ class ResuableLaundryTile extends StatelessWidget {
 }
 
 class ResuableDeliveryPickuPLaundryTile extends StatelessWidget {
-  final DeliveryPickupLaundryModel laundry;
+  final GoogleLaundryModel laundry;
   final void Function()? onTap;
   const ResuableDeliveryPickuPLaundryTile(
       {super.key, required this.laundry, this.onTap});

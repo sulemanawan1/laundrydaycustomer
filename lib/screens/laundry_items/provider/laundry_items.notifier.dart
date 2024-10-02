@@ -1,11 +1,19 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:laundryday/helpers/db_helper.dart';
+import 'package:laundryday/screens/laundries/view/laundries.dart';
 import 'package:laundryday/screens/laundry_items/model/category_item_model.dart';
 import 'package:laundryday/screens/laundry_items/model/item_variation_model.dart';
-import 'package:laundryday/screens/laundry_items/model/laundry_model.dart';
+import 'package:laundryday/screens/laundry_items/model/item_variation_size_model.dart';
+import 'package:laundryday/screens/laundry_items/model/item_variation_size_model.dart'
+    as itemsize;
+
 import 'package:laundryday/screens/laundry_items/provider/laundry_item_states.dart';
 import 'package:laundryday/screens/laundry_items/service/laundry_item_service.dart';
+import 'package:laundryday/screens/services/model/services_model.dart';
+import 'package:laundryday/screens/services/provider/services_notifier.dart';
+import 'package:laundryday/screens/laundry_items/model/category_item_model.dart'
+    as categorymodel;
 
 final laundryItemProver =
     StateNotifierProvider.autoDispose<LaundryItemsNotifier, LaundryItemStates>(
@@ -13,70 +21,97 @@ final laundryItemProver =
   return LaundryItemsNotifier();
 });
 
+// Categories
+
+final categoryApi = Provider((ref) {
+  return CategoryService();
+});
+
+final categoriesProvider =
+    FutureProvider.autoDispose<Either<String, CategoryItemModel>>((ref) async {
+  final selectedService = ref.read(serviceProvider).selectedService;
+  return await ref
+      .read(categoryApi)
+      .categoriesWithItems(serviceId: selectedService!.id!);
+});
+
+// Item Variation Size
+
+final itemVariationSizeApi = Provider((ref) {
+  return ItemVariationService();
+});
+
+final itemvariationSizeProvider = FutureProvider.family
+    .autoDispose<Either<String, ItemVariationSizeModel>, int>(
+        (ref, itemVariationId) async {
+  return await ref
+      .read(itemVariationSizeApi)
+      .getItemVariationSize(itemVariationId: itemVariationId);
+});
+
 class LaundryItemsNotifier extends StateNotifier<LaundryItemStates> {
   LaundryItemsNotifier()
       : super(LaundryItemStates(
-            selectedItem: null,
-            total: 0.0,
-            count: 0,
-            selecteditemVariationList: [],
-            itemVariationList: [],
-            itemVariationStates: ItemVariationIntitialState(),
-            selectedCategory: null,
-            categoryItemsStates: CategoryItemsIntitialState(),
-            nearestLaundryStates: NearestLaundryIntitialState())) {}
+          itemVariationSize: null,
+          selectedItem: null,
+          total: 0.0,
+          count: 0,
+          selecteditemVariationList: [],
+          itemVariationList: [],
+          itemVariationStates: ItemVariationIntitialState(),
+          selectedCategory: null,
+        )) {}
 
-  Future nearestLaundries(
-      {required int serviceId,
-      required WidgetRef ref,
-      required double userLat,
-      required double userLng,
-      required BuildContext context}) async {
-    try {
-      state =
-          state.copyWith(nearestLaundryStates: NearestLaundryLoadingState());
+  // Future categoriesWithItems({required int serviceId}) async {
+  //   try {
 
-      var data = await LaundryItemService.nearestBranch(
-        serviceId: serviceId,
-        radius: 3.5,
-        userLat: userLat,
-        userLng: userLng,
-      );
+  //     var data =
+  //         await LaundryItemService.categoriesWithItems(serviceId: serviceId);
 
-      if (data is NearestLaundryModel) {
-        state = state.copyWith(
-            nearestLaundryStates:
-                NearestLaundryLoadedState(laundryModel: data));
-      }
-    } catch (e) {
-      state = state.copyWith(
-          nearestLaundryStates:
-              NearestLaundryErrorState(errorMessage: e.toString()));
-    }
+  //     if (data is CategoryItemModel) {
+  //       // state = state.copyWith(
+  //       //     categoryItemsStates:
+  //       //         CategoryItemsLoadedState(categoryItemModel: data),
+  //       //     selectedCategory: data.data!.first);
+  //     } else {
+
+  //     }
+  //   } catch (e) {
+
+  //   }
+  // }
+
+  setItemVariationSize(
+      {required itemsize.ItemVariationSize itemVariationSize}) {
+    state = state.copyWith(itemVariationSize: itemVariationSize);
   }
 
-  Future categoriesWithItems({required int serviceId}) async {
-    try {
-      state = state.copyWith(categoryItemsStates: CategoryItemsLoadingState());
+  setPrefixLength({required int prefixLength}) {
+    state.itemVariationSize!.prefixLength = prefixLength;
 
-      var data =
-          await LaundryItemService.categoriesWithItems(serviceId: serviceId);
+    state = state.copyWith(itemVariationSize: state.itemVariationSize);
+  }
 
-      if (data is CategoryItemModel) {
-        state = state.copyWith(
-            categoryItemsStates:
-                CategoryItemsLoadedState(categoryItemModel: data),
-            selectedCategory: data.data!.first);
-      } else {
-        state = state.copyWith(
-            categoryItemsStates:
-                CategoryItemsErrorState(errorMessage: data.toString()));
-      }
-    } catch (e) {
-      state = state.copyWith(
-          categoryItemsStates:
-              CategoryItemsErrorState(errorMessage: e.toString()));
-    }
+  setPrefixWidth({required int prefixWidth}) {
+    state.itemVariationSize!.prefixWidth = prefixWidth;
+
+    state = state.copyWith(itemVariationSize: state.itemVariationSize);
+  }
+
+  setPostFixLength({required int postFixLength}) {
+    state.itemVariationSize!.postfixLength = postFixLength;
+
+    state = state.copyWith(itemVariationSize: state.itemVariationSize);
+  }
+
+  setPostFixWidth({required int postFixWidth}) {
+    state.itemVariationSize!.postfixWidth = postFixWidth;
+
+    state = state.copyWith(itemVariationSize: state.itemVariationSize);
+  }
+
+  selectCategory({required categorymodel.Item item}) {
+    state = state.copyWith(selectedCategory: item);
   }
 
   void itemVariations(
@@ -153,12 +188,30 @@ class LaundryItemsNotifier extends StateNotifier<LaundryItemStates> {
     state = state.copyWith(selectedCategory: catregory);
   }
 
-  quantityIncrement({required id}) {
+  quantityIncrement({required id, required Datum? selectedService}) {
     ItemVariation itemVariation =
         state.itemVariationList.firstWhere((item) => item.id == id);
 
-    if (itemVariation.quantity! <= 9) {
-      itemVariation.quantity = itemVariation.quantity! + 1;
+    if (selectedService!.serviceName!.toLowerCase() ==
+        ServiceTypes.carpets.name) {
+      if (itemVariation.quantity! < 1) {
+        itemVariation.quantity = itemVariation.quantity! + 1;
+      }
+    } else if (selectedService.serviceName!.toLowerCase() ==
+        ServiceTypes.clothes.name) {
+      if (itemVariation.quantity! < 5) {
+        itemVariation.quantity = itemVariation.quantity! + 1;
+      }
+    } else if (selectedService.serviceName!.toLowerCase() ==
+        ServiceTypes.blankets.name) {
+      if (itemVariation.quantity! < 2) {
+        itemVariation.quantity = itemVariation.quantity! + 1;
+      } else if (selectedService.serviceName!.toLowerCase() ==
+          ServiceTypes.furniture.name) {
+        if (itemVariation.quantity! < 10) {
+          itemVariation.quantity = itemVariation.quantity! + 1;
+        }
+      }
     }
 
     state = state.copyWith(itemVariationList: state.itemVariationList);

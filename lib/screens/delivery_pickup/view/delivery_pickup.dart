@@ -6,7 +6,7 @@ import 'package:laundryday/widgets/payment_summary_widget.dart';
 import 'package:laundryday/screens/delivery_pickup/components/scan_receipt_widget.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_notifier.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_states.dart';
-import 'package:laundryday/screens/laundries/model/delivery_pickup_laundry_model.dart';
+import 'package:laundryday/screens/laundries/model/google_laundry_model.dart';
 import 'package:laundryday/resources/colors.dart';
 import 'package:laundryday/resources/sized_box.dart';
 import 'package:laundryday/resources/value_manager.dart';
@@ -142,7 +142,7 @@ class _DeliveryPickupState extends ConsumerState<DeliveryPickup> {
 }
 
 class LaundryDetailCard extends StatelessWidget {
-  final DeliveryPickupLaundryModel laundry;
+  final GoogleLaundryModel laundry;
   LaundryDetailCard({super.key, required this.laundry});
 
   @override

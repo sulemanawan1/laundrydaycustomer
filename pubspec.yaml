@@ -60,9 +60,7 @@ dependencies:
   googleapis_auth: ^1.6.0
   firebase_storage: ^12.3.1
   flutter_image_compress: ^2.3.0
-  firebase_app_check: ^0.3.1+2
   just_audio: ^0.9.40
-  # chat_bubbles: ^1.6.0
 
 
 

@@ -7,6 +7,8 @@ import 'package:laundryday/screens/more/addresses/my_addresses/provider/my_addre
 import 'package:laundryday/screens/more/addresses/my_addresses/service/my_adderesses_service.dart';
 import 'package:laundryday/core/utils.dart';
 
+import '../../../../services/provider/addresses_notifier.dart';
+
 final myAddresesProvider =
     StateNotifierProvider.autoDispose<MyAddressesNotifier, MyAddressesStates>(
         (ref) {
@@ -18,29 +20,15 @@ final myAddresesProvider =
 class MyAddressesNotifier extends StateNotifier<MyAddressesStates> {
   final int customerId;
   MyAddressModel? myAddressModel;
-  MyAddressesNotifier({required this.customerId}) : super(MyAddressesStates()) {
-    allAddresses(customerId: customerId);
-  }
-  Future<dynamic> allAddresses({
-    required int customerId,
-  }) async {
-    var data = await MyAdderessesService.allAddresses(customerId: customerId);
-
-    if (data is MyAddressModel) {
-      log("Success");
-      state = state.copyWith(addressModel: data);
-    } else {
-      Utils.showToast(msg: '$data');
-      throw Exception(data);
-    }
-  }
+  MyAddressesNotifier({required this.customerId})
+      : super(MyAddressesStates()) {}
 
   Future<dynamic> deleteAddress(
       {required int addressId, required WidgetRef ref}) async {
-    var data = await MyAdderessesService.deleteAddress(addressId: addressId);
+    var data = await AdderessesService.deleteAddress(addressId: addressId);
 
     if (data == true) {
-      ref.invalidate(myAddresesProvider);
+      ref.invalidate(addressesProvider);
     } else {
       Utils.showToast(msg: '$data');
       throw Exception(data);

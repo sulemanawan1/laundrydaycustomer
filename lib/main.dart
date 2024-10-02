@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:bot_toast/bot_toast.dart';
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,18 +32,13 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseAppCheck.instance.activate(
-      appleProvider: AppleProvider.debug,
-      androidProvider: AndroidProvider.debug);
-
-  var result = await FlutterNotificationChannel.registerNotificationChannel(
+  await FlutterNotificationChannel.registerNotificationChannel(
     description: 'Your channel description',
     id: 'high_importance_channel',
     importance: NotificationImportance.IMPORTANCE_HIGH,
     name: 'Popup Notification',
     visibility: NotificationVisibility.VISIBILITY_PUBLIC,
   );
-  log(result.toString());
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
@@ -73,6 +67,8 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp.router(
       builder: BotToastInit(),
+      
+      
       debugShowCheckedModeBanner: false,
       routerConfig: routes,
       theme: getApplicatonTheme(),

@@ -368,14 +368,14 @@ class PickupOrder extends ConsumerWidget {
         ),
         10.ph,
         OrderIdButton(orderId: orderModel.order!.id!),
-        10.ph,
-        if (orderModel.order!.paymentStatus == PaymentStatuses.unpaid.name) ...[
-          InvoiceAndPaymentButton(orderModel: orderModel),
-        ],
+        // if (orderModel.order!.paymentStatus == PaymentStatuses.unpaid.name) ...[
+        //   10.ph,
+        //   InvoiceAndPaymentButton(orderModel: orderModel),
+        // ],
         15.ph,
         if (orderModel.order?.orderDeliveries != null) ...[
           DeliveryAgentCard(
-            ref: ref,
+              ref: ref,
               userModel: user!,
               orderDeliveries: orderModel.order!.orderDeliveries!),
         ],
@@ -847,7 +847,7 @@ class RoundTripOrder extends ConsumerWidget {
           15.ph,
           if (orderModel.order?.orderDeliveries != null) ...[
             DeliveryAgentCard(
-              ref: ref,
+                ref: ref,
                 userModel: user!,
                 orderDeliveries: orderModel.order!.orderDeliveries!),
           ],

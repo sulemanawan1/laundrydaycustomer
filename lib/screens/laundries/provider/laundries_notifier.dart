@@ -1,8 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
+import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:laundryday/core/utils.dart';
-import 'package:laundryday/screens/laundries/model/delivery_pickup_laundry_model.dart';
+import 'package:laundryday/screens/laundries/model/google_laundry_model.dart';
 import 'package:laundryday/screens/laundries/model/google_distance_matrix_model.dart';
 import 'package:laundryday/screens/laundries/model/laundry_by_area.model.dart';
 import 'package:laundryday/screens/laundries/provider/laundries_states.dart';
@@ -13,52 +17,70 @@ import 'package:laundryday/screens/laundries/model/services_timings_model.dart'
 import 'dart:math';
 import 'package:laundryday/screens/laundries/model/laundry_by_area.model.dart'
     as laundrybyareamodel;
+import 'package:laundryday/screens/laundries/service/service_timing_service.dart';
+import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
+import 'package:laundryday/screens/services/provider/services_notifier.dart';
+import 'package:laundryday/screens/services/model/services_model.dart'
+    as servicemodel;
+
+final laundriesServicesProvider = Provider((ref) {
+  return LaundriesServices();
+});
+
+final branchbyAreaProvider =
+    FutureProvider.autoDispose<Either<String, LaundryByAreaModel>>((ref) async {
+  final selectedAddress = ref.read(selectedAddressProvider);
+  final servicemodel.Datum? selectedService =
+      ref.read(serviceProvider).selectedService;
+  return await ref.read(laundriesServicesProvider).branchByArea(
+      serviceId: selectedService?.id ?? 0,
+      userLat: selectedAddress!.lat ?? 0.0,
+      userLng: selectedAddress.lng ?? 0.0);
+});
+
+final serviceTimingApi = Provider((ref) {
+  return ServiceTimingService();
+});
+
+final serviceTimingProvider = FutureProvider.autoDispose<
+    Either<String, servicetimingmodel.ServiceTimingModel>>((ref) async {
+  final selectedService = ref.read(serviceProvider).selectedService;
+
+  return await ref
+      .read(serviceTimingApi)
+      .serviceTimings(serviceId: selectedService!.id!);
+});
 
 final laundriessProvider =
-    StateNotifierProvider.autoDispose<LaundriesNotifier, LaundriesStates>(
+    StateNotifierProvider<LaundriesNotifier, LaundriesStates>(
         (ref) => LaundriesNotifier());
+
+final aljabrAndAlrahdenLaundryProvider =
+    FutureProvider.autoDispose<Either<String, List<GoogleLaundryModel>>>(
+        (ref) async {
+  final selectedAddress = ref.read(selectedAddressProvider);
+  return await ref
+      .read(laundriessProvider.notifier)
+      .fetchAljabrAndAlrahdenLaundries(
+          userLat: selectedAddress!.lat!, userLng: selectedAddress.lng!);
+});
+
+final pickupLaundriesProvider =
+    FutureProvider.autoDispose<Either<String, List<GoogleLaundryModel>>>(
+        (ref) async {
+  final selectedAddress = ref.read(selectedAddressProvider);
+  return await ref.read(laundriessProvider.notifier).deliveryPickupLaundries(
+      userLat: selectedAddress!.lat!, userLng: selectedAddress.lng!);
+});
 
 class LaundriesNotifier extends StateNotifier<LaundriesStates> {
   LaundriesNotifier()
       : super(LaundriesStates(
-            selectedLaundryByArea: Datum(),
-            deliveryPickupLaundryState: DeliveryPickupLaundryIntitialState(),
-            laundryByAreaState: LaundryByAreaIntitialState())) {}
+          selectedLaundryByArea: Datum(),
+        ));
 
-  void branchByArea({
-    required int serviceId,
-    required String district,
-    required double userLat,
-    required double userLng,
-  }) async {
-    print(serviceId);
-    print(district);
-    print(userLat);
-    print(userLng);
-
-    try {
-      state = state.copyWith(laundryByAreaState: LaundryByAreaLoadingState());
-      var data = await LaundriesServices.branchByArea(
-          district: district,
-          serviceId: serviceId,
-          userLat: userLat,
-          userLng: userLng);
-
-      if (data is LaundryByAreaModel) {
-        state = state.copyWith(
-            laundryByAreaState:
-                LaundryByAreaLoadedState(laundryByAreaModel: data));
-      } else {
-        state = state.copyWith(
-            laundryByAreaState: LaundryByAreaErrorState(errorMessage: data));
-      }
-    } catch (e) {
-      state = state.copyWith(
-          laundryByAreaState:
-              LaundryByAreaErrorState(errorMessage: e.toString()));
-      throw Exception(e);
-    }
-  }
+  DeliveryAgentsAvailibilityService _deliveryAgentsAvailibilityService =
+      DeliveryAgentsAvailibilityService();
 
   selectedServiceTiming({required servicetimingmodel.Datum serviceTiming}) {
     state = state.copyWith(serviceTiming: serviceTiming);
@@ -71,7 +93,7 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
     state = state.copyWith(selectedLaundryByArea: selectedLaundryByArea);
   }
 
-  Future<void> deliveryPickupLaundries({
+  Future<Either<String, List<GoogleLaundryModel>>> deliveryPickupLaundries({
     required double userLat,
     required double userLng,
   }) async {
@@ -79,7 +101,7 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
     print(userLng);
 
     try {
-      List<DeliveryPickupLaundryModel> laundries = [];
+      List<GoogleLaundryModel> laundries = [];
 
       final placesResponse = await _fetchNearbyLaundries(userLat, userLng);
 
@@ -112,7 +134,7 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
 
           if (distanceMatrixResult != null) {
             laundries.add(
-              DeliveryPickupLaundryModel(
+              GoogleLaundryModel(
                 distanceInKm: distanceMatrixResult.distanceInMeter,
                 destinationAddresses:
                     distanceMatrixResult.destination_addresses,
@@ -139,28 +161,107 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
           'vechile'
         ];
 
-        List<DeliveryPickupLaundryModel> filteredLaundry =
-            laundries.where((item) {
+        List<GoogleLaundryModel> filteredLaundry = laundries.where((item) {
           return !excludeWords.any(
                   (word) => item.name.toString().toLowerCase().contains(word))
               //     &&
               // item.distanceInKm <= 3.0
               ;
         }).toList();
-        state = state.copyWith(
-          deliveryPickupLaundryState: DeliveryPickupLaundryLoadedState(
-              deliveryPickupLaundryModel: filteredLaundry),
-        );
+
+        return right(filteredLaundry);
       } else {
         throw Exception('Failed to load laundries');
       }
     } catch (e) {
       print(e);
-      state = state.copyWith(
-        deliveryPickupLaundryState: DeliveryPickupLaundryErrorState(
-          errorMessage: "Failed to load laundries: $e",
-        ),
-      );
+      return left('Failed to load laundries');
+    }
+  }
+
+  Future<Either<String, List<GoogleLaundryModel>>>
+      fetchAljabrAndAlrahdenLaundries({
+    required double userLat,
+    required double userLng,
+  }) async {
+    print(userLat);
+    print(userLng);
+
+    try {
+      List<GoogleLaundryModel> laundries = [];
+
+      final placesResponse = await _fetchNearbyLaundries(userLat, userLng);
+
+      if (placesResponse.statusCode == 200) {
+        final data = jsonDecode(placesResponse.body);
+        List<dynamic> laundryList = data['results'];
+
+        // Prepare distance matrix requests
+        List<Future<DistanceMatrixResponse?>> distanceMatrixFutures =
+            laundryList.map((laundry) async {
+          final lat = laundry['geometry']['location']['lat'];
+          final lng = laundry['geometry']['location']['lng'];
+
+          return await _fetchDistanceMatrix(
+            laundryLat: lat,
+            laundryLng: lng,
+            userLat: userLat,
+            userLng: userLng,
+          );
+        }).toList();
+
+        // Execute all distance matrix requests in parallel
+        List<DistanceMatrixResponse?> distanceMatrixResults =
+            await Future.wait(distanceMatrixFutures);
+
+        // Process the results
+        for (int i = 0; i < laundryList.length; i++) {
+          var laundry = laundryList[i];
+          var distanceMatrixResult = distanceMatrixResults[i];
+
+          if (distanceMatrixResult != null) {
+            laundries.add(
+              GoogleLaundryModel(
+                distanceInKm: distanceMatrixResult.distanceInMeter,
+                destinationAddresses:
+                    distanceMatrixResult.destination_addresses,
+                originAddresses: distanceMatrixResult.originAddresses,
+                name: laundry['name'],
+                rating: laundry['rating'],
+                openingHours: laundry['opening_hours'] != null
+                    ? laundry['opening_hours']['open_now']
+                    : false,
+                lat: laundry['geometry']['location']['lat'],
+                lng: laundry['geometry']['location']['lng'],
+                duration: distanceMatrixResult.durationText,
+                distance: distanceMatrixResult.distanceText,
+              ),
+            );
+          }
+        }
+        List<String> excludeWords = [
+          'سيارات',
+          'سيارة',
+          'car',
+          'cars',
+          'vechiles',
+          'vechile'
+        ];
+
+        List<GoogleLaundryModel> filteredLaundry = laundries.where((item) {
+          return !excludeWords.any((word) =>
+                      item.name.toString().toLowerCase().contains(word)) &&
+                  item.name.toString().toLowerCase().trim().contains('الجبر') ||
+              (item.name.toString().toLowerCase().trim().contains('الرهدن'));
+        }).toList();
+
+        return right(filteredLaundry);
+      } else {
+        throw Exception('Failed to load laundries');
+      }
+    } catch (e) {
+      print(e);
+      return left('Failed to load laundries');
     }
   }
 
@@ -201,7 +302,9 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
     return null;
   }
 
-  selectedLaundry({required DeliveryPickupLaundryModel selectedLaundry}) {
+  selectedLaundry({required GoogleLaundryModel selectedLaundry}) {
+    print(selectedLaundry.name.toString());
+
     state = state.copyWith(selectedLaundry: selectedLaundry);
   }
 
@@ -220,5 +323,46 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
 
   double _degreesToRadians(double degrees) {
     return degrees * pi / 180;
+  }
+
+  Future<bool> nearByAgents(
+      {required double latitude,
+      required double longitude,
+      required WidgetRef ref,
+      required BuildContext context}) async {
+    bool isAgentAvailable = false;
+
+    try {
+      Either<String, Map> apiData = await _deliveryAgentsAvailibilityService
+          .nearByAgents(latitude: latitude, longitude: longitude);
+
+      apiData.fold((l) {
+        if (l == 'Not-Found') {
+          BotToast.showNotification(
+            leading: (cancelFunc) => Icon(Icons.info),
+            backgroundColor: Colors.orange,
+            title: (title) {
+              print(l);
+              return Text("Sorry There is no Delivery Agent in your Area");
+            },
+          );
+        } else {
+          BotToast.showNotification(
+            leading: (cancelFunc) => Icon(Icons.info),
+            backgroundColor: Colors.orange,
+            title: (title) {
+              return Text(l);
+            },
+          );
+        }
+        isAgentAvailable = false;
+      }, (r) {
+        isAgentAvailable = true;
+      });
+      return isAgentAvailable;
+    } on Exception catch (e) {
+      print(e.toString());
+      return false;
+    }
   }
 }
