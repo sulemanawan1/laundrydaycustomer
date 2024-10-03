@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/core/utils.dart';
 import 'package:laundryday/helpers/db_helper.dart';
+import 'package:laundryday/resources/assets_manager.dart';
 import 'package:laundryday/screens/laundry_items/model/item_variation_model.dart';
 import 'package:laundryday/screens/order_review/data/models/order_model.dart';
 import 'package:laundryday/screens/order_review/data/order_repository.dart';
@@ -20,6 +21,18 @@ class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
 
   OrderReviewNotifier()
       : super(OrderReviewStates(
+          deliveryTypes: [
+            DelivertTypeModel(
+                title: 'Drop & Pickup',
+                description: 'From Home',
+                deliveryType: 'drop_and_pickup_from_home',
+                image: AssetImages.fromHome),
+            DelivertTypeModel(
+                title: 'Drop & Pickup',
+                description: 'From Laundry',
+                deliveryType: 'drop_and_pickup_from_store',
+                image: AssetImages.fromLaundry),
+          ],
           isLoading: false,
           items: [],
           isRecording: false,
@@ -33,6 +46,10 @@ class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
     items.removeWhere((item) => item.quantity == 0 || item.price == 0.0);
 
     state = state.copyWith(items: items);
+  }
+
+  selectDeliveryType({required DelivertTypeModel deliveryTypeModel}) {
+    state = state.copyWith(selecteddeliveryType: deliveryTypeModel);
   }
 
   pickupOrder(

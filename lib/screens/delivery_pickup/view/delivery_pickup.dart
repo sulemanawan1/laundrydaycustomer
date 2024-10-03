@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/utils.dart';
+import 'package:laundryday/screens/laundries/view/laundries.dart';
 import 'package:laundryday/widgets/payment_summary_widget.dart';
 import 'package:laundryday/screens/delivery_pickup/components/scan_receipt_widget.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_notifier.dart';
@@ -64,67 +65,72 @@ class _DeliveryPickupState extends ConsumerState<DeliveryPickup> {
               ScanReceiptWidget(
                 ref: ref,
               ),
-              10.ph,
-              AttentionWidget(
-                  onTap: () {
-                    Utils.showResuableBottomSheet(
-                        context: context,
-                        widget: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            10.ph,
-                            Text(
-                              'If your order includes any additional services besides this one, please make sure to select them.',
-                              style: getSemiBoldStyle(
-                                  fontSize: 18, color: ColorManager.blackColor),
-                            ),
-                            5.ph,
-                            Text(
-                              'By selecting an additional service, 10 SAR will be added to the total for each service selected.',
-                              style: getSemiBoldStyle(
-                                  fontSize: 16, color: ColorManager.greyColor),
-                            ),
-                            30.ph,
-                          ],
-                        ),
-                        title: 'Note');
+              20.ph,
+              if (selectedService!.serviceName!.toLowerCase() ==
+                  ServiceTypes.clothes.name) ...[
+                AttentionWidget(
+                    onTap: () {
+                      Utils.showResuableBottomSheet(
+                          context: context,
+                          widget: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              10.ph,
+                              Text(
+                                'If your order includes any additional services besides this one, please make sure to select them.',
+                                style: getSemiBoldStyle(
+                                    fontSize: 18,
+                                    color: ColorManager.blackColor),
+                              ),
+                              5.ph,
+                              Text(
+                                'By selecting an additional service, 10 SAR will be added to the total for each service selected.',
+                                style: getSemiBoldStyle(
+                                    fontSize: 16,
+                                    color: ColorManager.greyColor),
+                              ),
+                              30.ph,
+                            ],
+                          ),
+                          title: 'Note');
+                    },
+                    message:
+                        'Note : If your order includes any additional services besides this one, please make sure to select them'),
+                10.ph,
+                CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(
+                    'Blanket  Included',
+                    style: getSemiBoldStyle(color: ColorManager.blackColor),
+                  ),
+                  value: isBlanketSelected,
+                  onChanged: (bool? value) {
+                    ref
+                        .read(deliverPickupProvider.notifier)
+                        .selectBlanket(isSelected: value!);
+                    ref.read(deliverPickupProvider.notifier).updateFees();
                   },
-                  message:
-                      'Note : If your order includes any additional services besides this one, please make sure to select them'),
-              10.ph,
-              CheckboxListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  'Blanket  Included',
-                  style: getSemiBoldStyle(color: ColorManager.blackColor),
                 ),
-                value: isBlanketSelected,
-                onChanged: (bool? value) {
-                  ref
-                      .read(deliverPickupProvider.notifier)
-                      .selectBlanket(isSelected: value!);
-                  ref.read(deliverPickupProvider.notifier).updateFees();
-                },
-              ),
-              CheckboxListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  'Carpet  Included',
-                  style: getSemiBoldStyle(color: ColorManager.blackColor),
+                CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(
+                    'Carpet  Included',
+                    style: getSemiBoldStyle(color: ColorManager.blackColor),
+                  ),
+                  value: isCarpetSelected,
+                  onChanged: (bool? value) {
+                    ref
+                        .read(deliverPickupProvider.notifier)
+                        .selectCarpet(isSelected: value!);
+                    ref.read(deliverPickupProvider.notifier).updateFees();
+                  },
                 ),
-                value: isCarpetSelected,
-                onChanged: (bool? value) {
-                  ref
-                      .read(deliverPickupProvider.notifier)
-                      .selectCarpet(isSelected: value!);
-                  ref.read(deliverPickupProvider.notifier).updateFees();
-                },
-              ),
-              10.ph,
+                10.ph,
+              ],
               PaymentSummaryText(
                   text1: 'Delivery Fee',
                   text2:
-                      "${(selectedService!.deliveryFee! + selectedService.operationFee!).toStringAsFixed(2)}"),
+                      "${(selectedService.deliveryFee! + selectedService.operationFee!).toStringAsFixed(2)}"),
               10.ph,
               MyButton(
                 title: 'Next',

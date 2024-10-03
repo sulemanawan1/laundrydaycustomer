@@ -29,14 +29,12 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
 
-
-    
-
-
     <application
         android:label="laundryday"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/launcher_icon"
+        android:enableOnBackInvokedCallback="false"
+    >
 
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
 <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">

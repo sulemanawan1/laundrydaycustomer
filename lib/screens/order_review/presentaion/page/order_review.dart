@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -131,6 +132,10 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
         ref.watch(PaymentMethodProvider).selectedPaymentMethod;
 
     final isLoading = ref.watch(orderReviewProvider).isLoading;
+    final deliveryTypes = ref.watch(orderReviewProvider).deliveryTypes;
+    final selecteddeliveryType =
+        ref.watch(orderReviewProvider).selecteddeliveryType;
+
     final count = ref.watch(laundryItemProver).count;
     final total = ref.watch(laundryItemProver).total;
     final isBlanketSelected =
@@ -141,7 +146,6 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
     final additionalOperationFee =
         ref.watch(deliverPickupProvider).additionalOperationFee;
 
-    print('build');
     return Scaffold(
       appBar: MyAppBar(title: 'Review Order'),
       body: Padding(
@@ -449,8 +453,10 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                                     "branch_name": selectedLaundry.name,
                                     "customer_lat": selectedAddress.lat!,
                                     "customer_lng": selectedAddress.lng!,
-                                    //  "additional_operation_fee":,
-                                    //  "additional_delivery_fee":
+                                    "additional_operation_fee":
+                                        additionalOperationFee,
+                                    "additional_delivery_fee":
+                                        additionalDeliveryFee
                                   };
                                   ref
                                       .read(orderReviewProvider.notifier)
@@ -468,6 +474,87 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        "Delivery Type",
+                        style: getSemiBoldStyle(
+                            color: ColorManager.blackColor,
+                            fontSize: FontSize.s16),
+                      ),
+                      20.ph,
+                      GridView.builder(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 15.0,
+                                mainAxisExtent: 148
+                                // mainAxisSpacing: 15.0,
+                                ),
+                        itemCount: deliveryTypes.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            onTap: () {
+                              ref
+                                  .read(orderReviewProvider.notifier)
+                                  .selectDeliveryType(
+                                      deliveryTypeModel: deliveryTypes[index]);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 0.1,
+                                  // color: selecteddeliveryType == null
+                                  //     ? ColorManager.amber
+                                  //     : ColorManager.greyColor
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                                color:
+                                    selecteddeliveryType == deliveryTypes[index]
+                                        ? ColorManager.nprimaryColor
+                                        : ColorManager.whiteColor,
+                              ),
+                              child: Column(
+                                children: [
+                                  26.ph,
+                                  Image.asset(
+                                    deliveryTypes[index].image,
+                                    height: 34,
+                                    color: selecteddeliveryType ==
+                                            deliveryTypes[index]
+                                        ? ColorManager.whiteColor
+                                        : ColorManager.blackColor,
+                                  ),
+                                  12.12.ph,
+                                  Text(
+                                    deliveryTypes[index].title,
+                                    style: getMediumStyle(
+                                        color: selecteddeliveryType ==
+                                                deliveryTypes[index]
+                                            ? ColorManager.whiteColor
+                                            : ColorManager.blackColor,
+                                        fontSize: 16),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  5.ph,
+                                  Text(
+                                    deliveryTypes[index].description,
+                                    style: getRegularStyle(
+                                        color: selecteddeliveryType ==
+                                                deliveryTypes[index]
+                                            ? ColorManager.whiteColor
+                                            : ColorManager.blackColor,
+                                        fontSize: 14),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      30.ph,
                       ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -710,89 +797,110 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                           : MyButton(
                               title: 'Order',
                               onPressed: () async {
-                                Map data = {};
-
-                                if (selectedService!.serviceName!
-                                        .toLowerCase() ==
-                                    ServiceTypes.carpets.name) {
-                                  data = {
-                                    "customer_id": cutomerId,
-                                    "service_id": selectedService.id,
-                                    "shop_address":
-                                        selectedLaundry!.destinationAddresses!,
-                                    "customer_address":
-                                        selectedAddress!.googleMapAddress,
-                                    "payment_method":
-                                        selectedPaymentMethod.name,
-                                    "item_total_price": total,
-                                    "total_items": count,
-                                    "delivery_fee": selectedService.deliveryFee,
-                                    "operation_fee":
-                                        selectedService.operationFee,
-                                    "country": "Saudia Arabia",
-                                    "city": "Riyadh",
-                                    "area": selectedAddress.district,
-                                    "branch_lat": selectedLaundry.lat,
-                                    "branch_lng": selectedLaundry.lng,
-                                    "branch_name": selectedLaundry.name,
-                                    "customer_lat": selectedAddress.lat!,
-                                    "customer_lng": selectedAddress.lng!,
-                                    "category_id": selectedCategory!.id!,
-                                    "service_timing_id": serviceTiming!.id!,
-                                    'total_price': 0,
-                                    "items": items
-                                        .map((e) => {
-                                              "item_variation_id": e.id,
-                                              "price": e.price,
-                                              "quantity": e.quantity
-                                            })
-                                        .toList(),
-                                  };
+                                if (selecteddeliveryType == null) {
+                                  BotToast.showNotification(
+                                      leading: (leading) => Icon(
+                                            Icons.info,
+                                            color: ColorManager.whiteColor,
+                                          ),
+                                      backgroundColor: ColorManager.redColor,
+                                      title: (t) => Text(
+                                            'Select Delivery Type',
+                                            style: getRegularStyle(
+                                                color: ColorManager.whiteColor),
+                                          ));
                                 } else {
-                                  data = {
-                                    "customer_id": cutomerId,
-                                    "service_id": selectedService.id,
-                                    "shop_address":
-                                        selectedLaundryByArea.branch!.address,
-                                    "customer_address":
-                                        selectedAddress!.googleMapAddress,
-                                    "payment_method":
-                                        selectedPaymentMethod.name,
-                                    "item_total_price": total,
-                                    "total_items": count,
-                                    "delivery_fee": selectedService.deliveryFee,
-                                    "operation_fee":
-                                        selectedService.operationFee,
-                                    "country": "Saudia Arabia",
-                                    "city": "Riyadh",
-                                    "area": selectedAddress.district,
-                                    "branch_lat":
-                                        selectedLaundryByArea.branch!.lat,
-                                    "branch_lng":
-                                        selectedLaundryByArea.branch!.lng,
-                                    "branch_name": selectedLaundryByArea.name,
-                                    "customer_lat": selectedAddress.lat!,
-                                    "customer_lng": selectedAddress.lng!,
-                                    "category_id": selectedCategory!.id!,
-                                    "service_timing_id": serviceTiming!.id!,
-                                    'branch_id': selectedLaundryByArea.id,
-                                    'total_price': 0,
-                                    "items": items
-                                        .map((e) => {
-                                              "item_variation_id": e.id,
-                                              "price": e.price,
-                                              "quantity": e.quantity
-                                            })
-                                        .toList(),
-                                  };
-                                }
+                                  Map data = {};
 
-                                ref
-                                    .read(orderReviewProvider.notifier)
-                                    .roundTripOrder(
-                                        context: context, data: data, ref: ref);
-                              },
-                            )
+                                  if (selectedService!.serviceName!
+                                          .toLowerCase() ==
+                                      ServiceTypes.carpets.name) {
+                                    data = {
+                                      "customer_id": cutomerId,
+                                      "service_id": selectedService.id,
+                                      "shop_address": selectedLaundry!
+                                          .destinationAddresses!,
+                                      "customer_address":
+                                          selectedAddress!.googleMapAddress,
+                                      "payment_method":
+                                          selectedPaymentMethod.name,
+                                      "item_total_price": total,
+                                      "total_items": count,
+                                      "delivery_fee":
+                                          selectedService.deliveryFee,
+                                      "operation_fee":
+                                          selectedService.operationFee,
+                                      "country": "Saudia Arabia",
+                                      "city": "Riyadh",
+                                      "area": selectedAddress.district,
+                                      "branch_lat": selectedLaundry.lat,
+                                      "branch_lng": selectedLaundry.lng,
+                                      "branch_name": selectedLaundry.name,
+                                      "customer_lat": selectedAddress.lat!,
+                                      "customer_lng": selectedAddress.lng!,
+                                      "category_id": selectedCategory!.id!,
+                                      "service_timing_id": serviceTiming!.id!,
+                                      'total_price': 0,
+                                      "delivery_type":
+                                          selecteddeliveryType.deliveryType,
+                                      "items": items
+                                          .map((e) => {
+                                                "item_variation_id": e.id,
+                                                "price": e.price,
+                                                "quantity": e.quantity
+                                              })
+                                          .toList(),
+                                    };
+                                  } else {
+                                    data = {
+                                      "customer_id": cutomerId,
+                                      "service_id": selectedService.id,
+                                      "shop_address":
+                                          selectedLaundryByArea.branch!.address,
+                                      "customer_address":
+                                          selectedAddress!.googleMapAddress,
+                                      "payment_method":
+                                          selectedPaymentMethod.name,
+                                      "item_total_price": total,
+                                      "total_items": count,
+                                      "delivery_fee":
+                                          selectedService.deliveryFee,
+                                      "operation_fee":
+                                          selectedService.operationFee,
+                                      "country": "Saudia Arabia",
+                                      "city": "Riyadh",
+                                      "area": selectedAddress.district,
+                                      "branch_lat":
+                                          selectedLaundryByArea.branch!.lat,
+                                      "branch_lng":
+                                          selectedLaundryByArea.branch!.lng,
+                                      "branch_name": selectedLaundryByArea.name,
+                                      "customer_lat": selectedAddress.lat!,
+                                      "customer_lng": selectedAddress.lng!,
+                                      "category_id": selectedCategory!.id!,
+                                      "service_timing_id": serviceTiming!.id!,
+                                      'branch_id': selectedLaundryByArea.id,
+                                      'total_price': 0,
+                                      "delivery_type":
+                                          selecteddeliveryType.deliveryType,
+                                      "items": items
+                                          .map((e) => {
+                                                "item_variation_id": e.id,
+                                                "price": e.price,
+                                                "quantity": e.quantity
+                                              })
+                                          .toList(),
+                                    };
+                                  }
+
+                                  ref
+                                      .read(orderReviewProvider.notifier)
+                                      .roundTripOrder(
+                                          context: context,
+                                          data: data,
+                                          ref: ref);
+                                }
+                              })
                     ],
                   ),
                 );

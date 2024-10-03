@@ -24,4 +24,6 @@ class AssetImages {
   static const String noteIcon = '${assetBaseUrl}note_icon.png';
   static const String laundry = '${assetBaseUrl}laundry.png';
   static const String address = '${assetBaseUrl}address.png';
+  static const String fromHome = '${assetBaseUrl}from_home.png';
+  static const String fromLaundry = '${assetBaseUrl}from_laundry.png';
 }

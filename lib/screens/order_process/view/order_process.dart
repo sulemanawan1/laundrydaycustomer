@@ -74,78 +74,91 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
       orderType = getOrderType(orderType: orderModel.order!.type.toString());
     }
 
-    return Scaffold(
-        appBar: MyAppBar(
-          onPressed: () {
-            Future.delayed(Duration(seconds: 0), () {
-              ref.invalidate(serviceProvider);
+    return PopScope(
+      canPop: false, //When false, blocks the current route from being popped.
+      onPopInvoked: (didpop) async {
+        if (didpop) {
+          return;
+        }
+        Future.delayed(Duration(seconds: 0), () {
+          ref.invalidate(serviceProvider);
 
+          context.goNamed(RouteNames.home);
+        });
+      },
+      child: Scaffold(
+          appBar: MyAppBar(
+            onPressed: () {
               context.goNamed(RouteNames.home);
-            });
-          },
-          title: 'order',
-          actions: [
-            PopupMenuButton(
-              iconColor: ColorManager.blackColor,
-              icon: const Icon(Icons.more_vert),
-              onSelected: (value) {
-                // your logic
-              },
-              itemBuilder: (BuildContext bc) {
-                return [
-                  PopupMenuItem(
-                    value: 'support',
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.height * 0.2,
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text("Support"), Icon(Icons.support_agent)],
+            },
+            title: 'order',
+            actions: [
+              PopupMenuButton(
+                iconColor: ColorManager.blackColor,
+                icon: const Icon(Icons.more_vert),
+                onSelected: (value) {
+                  // your logic
+                },
+                itemBuilder: (BuildContext bc) {
+                  return [
+                    PopupMenuItem(
+                      value: 'support',
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.height * 0.2,
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Support"),
+                            Icon(Icons.support_agent)
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  PopupMenuItem(
-                    value: 'cancel order',
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.height * 0.2,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Cancel Order",
-                            style: getRegularStyle(color: Colors.red),
-                          ),
-                          const Icon(
-                            Icons.cancel,
-                            color: Colors.red,
-                          )
-                        ],
+                    PopupMenuItem(
+                      value: 'cancel order',
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.height * 0.2,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Cancel Order",
+                              style: getRegularStyle(color: Colors.red),
+                            ),
+                            const Icon(
+                              Icons.cancel,
+                              color: Colors.red,
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ];
-              },
-            )
-          ],
-        ),
-        body: SingleChildScrollView(
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            if (orderState is OrderStateInitialState) ...[
-              Loader()
-            ] else if (orderState is OrderStateLoadingState) ...[
-              Loader()
-            ] else if (orderState is OrderStateLoadedState) ...[
-              if (orderType == OrderType.pickup)
-                PickupOrder(orderModel: orderModel)
-              else if (orderType == OrderType.roundTrip)
-                RoundTripOrder(
-                  orderModel: orderModel,
-                )
-            ] else if (orderState is OrderStateErrorState) ...[
-              Text(orderState.errorMessage)
-            ]
-          ]),
-        ));
+                  ];
+                },
+              )
+            ],
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (orderState is OrderStateInitialState) ...[
+                    Loader()
+                  ] else if (orderState is OrderStateLoadingState) ...[
+                    Loader()
+                  ] else if (orderState is OrderStateLoadedState) ...[
+                    if (orderType == OrderType.pickup)
+                      PickupOrder(orderModel: orderModel)
+                    else if (orderType == OrderType.roundTrip)
+                      RoundTripOrder(
+                        orderModel: orderModel,
+                      )
+                  ] else if (orderState is OrderStateErrorState) ...[
+                    Text(orderState.errorMessage)
+                  ]
+                ]),
+          )),
+    );
   }
 
   Future<void> showMyDialog() async {
@@ -368,10 +381,6 @@ class PickupOrder extends ConsumerWidget {
         ),
         10.ph,
         OrderIdButton(orderId: orderModel.order!.id!),
-        // if (orderModel.order!.paymentStatus == PaymentStatuses.unpaid.name) ...[
-        //   10.ph,
-        //   InvoiceAndPaymentButton(orderModel: orderModel),
-        // ],
         15.ph,
         if (orderModel.order?.orderDeliveries != null) ...[
           DeliveryAgentCard(
@@ -379,64 +388,6 @@ class PickupOrder extends ConsumerWidget {
               userModel: user!,
               orderDeliveries: orderModel.order!.orderDeliveries!),
         ],
-        35.ph,
-        // SizedBox(
-        //   height: 200,
-        //   child: GoogleMap(
-        //     // ignore: prefer_collection_literals
-        //     gestureRecognizers: Set()
-        //       ..add(Factory<PanGestureRecognizer>(() => PanGestureRecognizer()))
-        //       ..add(Factory<ScaleGestureRecognizer>(
-        //           () => ScaleGestureRecognizer()))
-        //       ..add(Factory<TapGestureRecognizer>(() => TapGestureRecognizer()))
-        //       ..add(Factory<VerticalDragGestureRecognizer>(
-        //           () => VerticalDragGestureRecognizer())),
-        //     markers: {
-        //       Marker(
-        //         markerId: const MarkerId('You'),
-        //         position: LatLng(
-        //           currentLocation.latitude!,
-        //           currentLocation.longitude!,
-        //         ),
-        //         icon: youIcon,
-        //         infoWindow: const InfoWindow(title: 'You'),
-        //       ),
-        //       Marker(
-        //         markerId: const MarkerId('Agent'),
-        //         position: LatLng(
-        //           orderModel.order!.orderDeliveries.deliveryAgent.!,
-        //           orderModel.order!.customerLng!,
-        //         ),
-        //         icon: customerIcon,
-        //         infoWindow: const InfoWindow(title: 'Customer'),
-        //       ),
-        //       Marker(
-        //         markerId: const MarkerId('store'),
-        //         position: LatLng(
-        //           orderModel.order!.branchLat!,
-        //           orderModel.order!.branchLng!,
-        //         ),
-        //         icon: storeIcon,
-        //         infoWindow: const InfoWindow(title: 'Store'),
-        //       ),
-        //     },
-        //     initialCameraPosition: CameraPosition(
-        //         zoom: 14,
-        //         target: LatLng(
-        //           orderModel.order!.branchLat!,
-        //           orderModel.order!.branchLng!,
-        //         )),
-        //     compassEnabled: false,
-        //     myLocationEnabled: true,
-        //     zoomControlsEnabled: false,
-        //     myLocationButtonEnabled: false,
-        //     mapToolbarEnabled: false,
-        //     onMapCreated: (GoogleMapController gcontroller) {
-        //       ref.read(orderProcessProvider.notifier).mapController =
-        //           gcontroller;
-        //     },
-        //   ),
-        // ),
       ],
     );
   }

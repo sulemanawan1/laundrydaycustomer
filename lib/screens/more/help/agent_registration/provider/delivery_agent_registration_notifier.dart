@@ -42,7 +42,6 @@ class DeliveryAgentRegistrationNotifier
   TextEditingController regionController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController districtController = TextEditingController();
-
   TextEditingController serialNumberController = TextEditingController();
   TextEditingController typeController = TextEditingController();
   TextEditingController classificationController = TextEditingController();

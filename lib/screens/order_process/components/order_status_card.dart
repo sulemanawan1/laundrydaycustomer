@@ -137,7 +137,7 @@ class OrderStatuesCard extends StatelessWidget {
               ),
               17.ph
             ] else if (orderType == OrderType.roundTrip &&
-                firstTripStatus == 'incomplete') ...[
+                firstTripStatus == null) ...[
               17.ph,
               Row(
                   mainAxisAlignment: MainAxisAlignment.start,
