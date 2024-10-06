@@ -19,7 +19,7 @@ final customerOrderProvider =
   final userModel = ref.read(userProvider).userModel;
   return await ref
       .read(customerOrdersApi)
-      .customerOrders(cutstomerId: userModel!.user!.id!);
+      .customerOrders(userId: userModel!.user!.id!);
 });
 
 final servicesApi = Provider((ref) {

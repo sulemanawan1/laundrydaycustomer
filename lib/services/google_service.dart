@@ -8,6 +8,7 @@ import 'package:location/location.dart';
 
 class GoogleServices {
   final String apiKey = Api.googleKey;
+  final String googleBaseUrl = Api.googleBaseUrl;
 
   Future<String?> coordinateToAddress({required LatLng taget}) async {
     List<geocoding.Placemark> place = await geocoding.placemarkFromCoordinates(
@@ -47,10 +48,12 @@ class GoogleServices {
 
   Future<AddressModel?> getAddress(double latitude, double longitude) async {
     final url =
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&sensor=false&key=$apiKey&language=ar';
+        'https://${googleBaseUrl}/maps/api/geocode/json?latlng=$latitude,$longitude&sensor=false&key=$apiKey&language=ar';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
+      print(response.body);
+
       final json = jsonDecode(response.body);
       if (json['status'] == 'OK' && json['results'].isNotEmpty) {
         return AddressModel.fromJson(json);
@@ -64,36 +67,5 @@ class GoogleServices {
     }
   }
 
-  // Future<String?> getAddress(double latitude, double longitude) async {
-  //   final url = Uri.parse(
-  //       'https://maps.google.com/maps/api/geocode/json?latlng=$latitude,$longitude&sensor=false&key=$apiKey');
-
-  //   final response = await http.get(url);
-
-  //   if (response.statusCode == 200) {
-  //     final Map<String, dynamic> data = json.decode(response.body);
-  //     return _parseDistrict(data);
-  //   } else {
-  //     throw Exception('Failed to load geocode data');
-  //   }
-  // }
-
-  // String? _parseDistrict(Map<String, dynamic> data) {
-  //   if (data['status'] == 'OK') {
-  //     for (var result in data['results']) {
-  //       for (var component in result['address_components']) {
-
-  //         if (component['types'].contains('sublocality')) {
-  //           return component['long_name'];
-  //         } else if (component['types'].contains('sublocality_level_1')) {
-  //           return component['long_name'];
-  //         } else if (component['types']
-  //             .contains('administrative_area_level_2')) {
-  //           return component['long_name'];
-  //         }
-  //       }
-  //     }
-  //   }
-  //   return null;
-  // }
+  
 }

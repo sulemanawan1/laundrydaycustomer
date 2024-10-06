@@ -70,7 +70,7 @@ class AddressBottomSheetWidget extends ConsumerWidget {
                                   Border.all(color: ColorManager.greyColor)),
                           child: ListTile(
                               isThreeLine: true,
-                              trailing: adddress.addressName!.toLowerCase() ==
+                              trailing: adddress.addressDetail!.toLowerCase() ==
                                       'my-current-address'
                                   ? null
                                   : IconButton(
@@ -89,7 +89,7 @@ class AddressBottomSheetWidget extends ConsumerWidget {
                                   ? ColorManager.primaryColorOpacity10
                                   : null,
                               title: Text(
-                                adddress.addressName.toString(),
+                                adddress.addressDetail.toString(),
                                 style: getMediumStyle(
                                     color: Colors.black, fontSize: 14),
                               ),

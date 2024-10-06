@@ -51,26 +51,26 @@ class MyAddressModel {
 
 class Address {
   int? id;
-  int? customerId;
+  int? userId;
   String? googleMapAddress;
-  String? addressName;
   String? addressDetail;
-  String? addressPhoto;
   double? lat;
   double? lng;
+  String? country;
+  String? city;
   String? district;
   DateTime? createdAt;
   DateTime? updatedAt;
 
   Address({
     this.id,
-    this.customerId,
+    this.userId,
     this.googleMapAddress,
-    this.addressName,
     this.addressDetail,
-    this.addressPhoto,
     this.lat,
     this.lng,
+    this.country,
+    this.city,
     this.district,
     this.createdAt,
     this.updatedAt,
@@ -78,26 +78,26 @@ class Address {
 
   Address copyWith({
     int? id,
-    int? customerId,
+    int? userId,
     String? googleMapAddress,
-    String? addressName,
     String? addressDetail,
-    String? addressPhoto,
     double? lat,
     double? lng,
+    String? country,
+    String? city,
     String? district,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) =>
       Address(
         id: id ?? this.id,
-        customerId: customerId ?? this.customerId,
+        userId: userId ?? this.userId,
         googleMapAddress: googleMapAddress ?? this.googleMapAddress,
-        addressName: addressName ?? this.addressName,
         addressDetail: addressDetail ?? this.addressDetail,
-        addressPhoto: addressPhoto ?? this.addressPhoto,
         lat: lat ?? this.lat,
         lng: lng ?? this.lng,
+        country: country ?? this.country,
+        city: city ?? this.city,
         district: district ?? this.district,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
@@ -105,13 +105,13 @@ class Address {
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
         id: json["id"],
-        customerId: json["customer_id"],
+        userId: json["user_id"],
         googleMapAddress: json["google_map_address"],
-        addressName: json["address_name"],
         addressDetail: json["address_detail"],
-        addressPhoto: json["address_photo"],
         lat: json["lat"]?.toDouble(),
         lng: json["lng"]?.toDouble(),
+        country: json["country"],
+        city: json["city"],
         district: json["district"],
         createdAt: json["created_at"] == null
             ? null
@@ -123,13 +123,13 @@ class Address {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "customer_id": customerId,
+        "user_id": userId,
         "google_map_address": googleMapAddress,
-        "address_name": addressName,
         "address_detail": addressDetail,
-        "address_photo": addressPhoto,
         "lat": lat,
         "lng": lng,
+        "country": country,
+        "city": city,
         "district": district,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),

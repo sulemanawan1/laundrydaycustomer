@@ -117,7 +117,7 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
 
   @override
   Widget build(BuildContext context) {
-    final cutomerId = ref.watch(userProvider).userModel!.user!.id;
+    final userId = ref.watch(userProvider).userModel!.user!.id;
     final deliveryPickupReceipt = ref.watch(deliverPickupProvider).image;
     final items = ref.watch(orderReviewProvider).items;
     final selectedService = ref.watch(serviceProvider).selectedService;
@@ -431,7 +431,7 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                                       selectedService.operationFee!;
 
                                   Map data = {
-                                    "customer_id": cutomerId,
+                                    "user_id": userId,
                                     "service_id": selectedService.id,
                                     "shop_address":
                                         selectedLaundry!.destinationAddresses,
@@ -445,9 +445,9 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                                     "delivery_fee": selectedService.deliveryFee,
                                     "operation_fee":
                                         selectedService.operationFee,
-                                    "country": "Saudia Arabia",
-                                    "city": "Riyadh",
-                                    "area": selectedAddress!.district,
+                                    "country": selectedAddress!.country,
+                                    "city": selectedAddress.city,
+                                    "area": selectedAddress.district,
                                     "branch_lat": selectedLaundry.lat,
                                     "branch_lng": selectedLaundry.lng,
                                     "branch_name": selectedLaundry.name,
@@ -816,7 +816,7 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                                           .toLowerCase() ==
                                       ServiceTypes.carpets.name) {
                                     data = {
-                                      "customer_id": cutomerId,
+                                      "user_id": userId,
                                       "service_id": selectedService.id,
                                       "shop_address": selectedLaundry!
                                           .destinationAddresses!,
@@ -830,8 +830,8 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                                           selectedService.deliveryFee,
                                       "operation_fee":
                                           selectedService.operationFee,
-                                      "country": "Saudia Arabia",
-                                      "city": "Riyadh",
+                                      "country": selectedAddress.country,
+                                      "city": selectedAddress.city,
                                       "area": selectedAddress.district,
                                       "branch_lat": selectedLaundry.lat,
                                       "branch_lng": selectedLaundry.lng,
@@ -853,7 +853,7 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                                     };
                                   } else {
                                     data = {
-                                      "customer_id": cutomerId,
+                                      "user_id": userId,
                                       "service_id": selectedService.id,
                                       "shop_address":
                                           selectedLaundryByArea.branch!.address,
@@ -867,8 +867,8 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                                           selectedService.deliveryFee,
                                       "operation_fee":
                                           selectedService.operationFee,
-                                      "country": "Saudia Arabia",
-                                      "city": "Riyadh",
+                                      "country": selectedAddress.country,
+                                      "city": selectedAddress.city,
                                       "area": selectedAddress.district,
                                       "branch_lat":
                                           selectedLaundryByArea.branch!.lat,

@@ -73,45 +73,42 @@ class VerificationNotifier extends StateNotifier<VerificationStates> {
         log("--------------------------");
 
         if (data is usermodel.UserModel) {
-          if (data.succcess == true) {
-            log(data.token.toString());
-            NotificationService notificationServices = NotificationService();
+          log(data.token.toString());
+          NotificationService notificationServices = NotificationService();
 
-            String? fcmToken = await notificationServices.getDeviceToken();
-            String deviceId = await DeviceInfoService.getDeviceId();
+          String? fcmToken = await notificationServices.getDeviceToken();
+          String deviceId = await DeviceInfoService.getDeviceId();
 
-            await DeviceTokenRepository().storeFcmToken(
-                userId: data.user!.customer!.userId,
-                fcmToken: fcmToken,
-                deviceId: deviceId);
+          await DeviceTokenRepository().storeFcmToken(
+              userId: data.user!.id!, fcmToken: fcmToken, deviceId: deviceId);
 
-            await MySharedPreferences.saveUserSession(user: data);
-            userStates.userModel = await MySharedPreferences.getUserSession();
 
-            log("--------- Share Prefrences -----------");
-            log(userStates.userModel!.user!.firstName.toString());
-            log(userStates.userModel!.user!.lastName.toString());
-            log("-----------------------");
-            userStates = userStates.copyWith(userModel: userStates.userModel);
+          await MySharedPreferences.saveUserSession(user: data);
+          userStates.userModel = await MySharedPreferences.getUserSession();
 
-            // state = state.copyWith(userModel: userStates.userModel);
+          log("--------- Share Prefrences -----------");
+          log(userStates.userModel!.user!.firstName.toString());
+          log(userStates.userModel!.user!.lastName.toString());
+          log("-----------------------");
+          userStates = userStates.copyWith(userModel: userStates.userModel);
 
-            context.pushReplacementNamed(RouteNames.home);
-          } else {
-            log('Use does not exist');
-            context.pushReplacementNamed(RouteNames.signUp,
-                extra: user.phoneNumber);
-          }
+          // state = state.copyWith(userModel: userStates.userModel);
+
+          context.pushReplacementNamed(RouteNames.home);
         } else {
-          Utils.showToast(msg: 'Something Went Wrong');
+          log('Use does not exist');
+          context.pushReplacementNamed(RouteNames.signUp,
+              extra: user.phoneNumber);
         }
+      } else {
+        Utils.showToast(msg: 'Something Went Wrong');
       }
 
       state = state.copyWith(isLoading: false);
 
       // Handle signed in user
-    } catch (e) {
-      print('Error: $e');
+    } catch (e, s) {
+      print('Error: $s');
 
       showDialog(
         context: context,

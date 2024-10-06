@@ -56,7 +56,6 @@ class MyAddresses extends ConsumerWidget {
                             borderRadius: BorderRadius.circular(6),
                             border: Border.all(color: ColorManager.greyColor)),
                         child: ListTile(
-                          isThreeLine: true,
                           trailing: SizedBox(
                             width: 100,
                             child: Row(
@@ -98,11 +97,6 @@ class MyAddresses extends ConsumerWidget {
                             ),
                           ),
                           title: Text(
-                            adddress.addressName.toString(),
-                            style: getMediumStyle(
-                                color: Colors.black, fontSize: 14),
-                          ),
-                          subtitle: Text(
                             adddress.googleMapAddress.toString(),
                             maxLines: 2,
                           ),

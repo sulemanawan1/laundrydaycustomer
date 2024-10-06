@@ -1,11 +1,13 @@
 class Api {
   static const String baseUrl = 'http://192.168.1.3:8000/api/';
   static const String imageUrl = 'http://192.168.1.3:8000/storage/';
-  static const String googleKey = "AIzaSyADOyZQM-g74gad7B-kU4OtuX5cMsJm79M";
+  static const String googleBaseUrl = "maps.gomaps.pro";
+
+  static const String googleKey = "AlzaSyR1nIdGY-BJhcLkX4MznrQkHs10ljL0mag";
   //Auth
   static const String checkUserByMobileNumber =
       "${baseUrl}check-user-by-mobile-number";
-  static const String registerCustomer = "${baseUrl}registerCustomer";
+  static const String registerUser = "${baseUrl}register-user";
   // Services
   static const String allService = "${baseUrl}allService";
 
@@ -55,14 +57,11 @@ class Api {
   static const String paymentCollected = "${baseUrl}orders/payment-collected";
 
   static const String order = "${baseUrl}orders/detail?id=";
-  static const String customerOrders = "${baseUrl}orders/customer?customer_id=";
+  static const String customerOrders = "${baseUrl}orders/customer?user_id=";
   static const String storeFcmToken = "${baseUrl}device_tokens/store-fcm-token";
   static const String fcmTokens = "${baseUrl}device_tokens/fcm-tokens";
-  static const String itemVariationSizes = "${baseUrl}item_variation_sizes/size?item_variation_id=";
-
+  static const String itemVariationSizes =
+      "${baseUrl}item_variation_sizes/size?item_variation_id=";
 
   static const String nearByAgents = "${baseUrl}delivery_agents/near-by-agents";
-
-
-
 }

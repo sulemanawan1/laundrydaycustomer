@@ -13,116 +13,127 @@ String addAddressModelToJson(AddAddressModel data) =>
 class AddAddressModel {
   bool? success;
   String? message;
-  Data? data;
+  List<Address>? addresses;
 
   AddAddressModel({
     this.success,
     this.message,
-    this.data,
+    this.addresses,
   });
 
   AddAddressModel copyWith({
     bool? success,
     String? message,
-    Data? data,
+    List<Address>? addresses,
   }) =>
       AddAddressModel(
         success: success ?? this.success,
         message: message ?? this.message,
-        data: data ?? this.data,
+        addresses: addresses ?? this.addresses,
       );
 
   factory AddAddressModel.fromJson(Map<String, dynamic> json) =>
       AddAddressModel(
         success: json["success"],
         message: json["message"],
-        data: json["data"] == null ? null : Data.fromJson(json["data"]),
+        addresses: json["addresses"] == null
+            ? []
+            : List<Address>.from(
+                json["addresses"]!.map((x) => Address.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "success": success,
         "message": message,
-        "data": data?.toJson(),
+        "addresses": addresses == null
+            ? []
+            : List<dynamic>.from(addresses!.map((x) => x.toJson())),
       };
 }
 
-class Data {
-  int? customerId;
+class Address {
+  int? id;
+  int? userId;
   String? googleMapAddress;
-  String? addressName;
+  String? addressDetail;
   double? lat;
   double? lng;
-  String? addressDetail;
-  String? addressPhoto;
-  DateTime? updatedAt;
+  String? country;
+  String? city;
+  String? district;
   DateTime? createdAt;
-  int? id;
+  DateTime? updatedAt;
 
-  Data({
-    this.customerId,
+  Address({
+    this.id,
+    this.userId,
     this.googleMapAddress,
-    this.addressName,
+    this.addressDetail,
     this.lat,
     this.lng,
-    this.addressDetail,
-    this.addressPhoto,
-    this.updatedAt,
+    this.country,
+    this.city,
+    this.district,
     this.createdAt,
-    this.id,
+    this.updatedAt,
   });
 
-  Data copyWith({
-    int? customerId,
+  Address copyWith({
+    int? id,
+    int? userId,
     String? googleMapAddress,
-    String? addressName,
+    String? addressDetail,
     double? lat,
     double? lng,
-    String? addressDetail,
-    String? addressPhoto,
-    DateTime? updatedAt,
+    String? country,
+    String? city,
+    String? district,
     DateTime? createdAt,
-    int? id,
+    DateTime? updatedAt,
   }) =>
-      Data(
-        customerId: customerId ?? this.customerId,
+      Address(
+        id: id ?? this.id,
+        userId: userId ?? this.userId,
         googleMapAddress: googleMapAddress ?? this.googleMapAddress,
-        addressName: addressName ?? this.addressName,
+        addressDetail: addressDetail ?? this.addressDetail,
         lat: lat ?? this.lat,
         lng: lng ?? this.lng,
-        addressDetail: addressDetail ?? this.addressDetail,
-        addressPhoto: addressPhoto ?? this.addressPhoto,
-        updatedAt: updatedAt ?? this.updatedAt,
+        country: country ?? this.country,
+        city: city ?? this.city,
+        district: district ?? this.district,
         createdAt: createdAt ?? this.createdAt,
-        id: id ?? this.id,
+        updatedAt: updatedAt ?? this.updatedAt,
       );
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        customerId: json["customer_id"],
+  factory Address.fromJson(Map<String, dynamic> json) => Address(
+        id: json["id"],
+        userId: json["user_id"],
         googleMapAddress: json["google_map_address"],
-        addressName: json["address_name"],
+        addressDetail: json["address_detail"],
         lat: json["lat"]?.toDouble(),
         lng: json["lng"]?.toDouble(),
-        addressDetail: json["address_detail"],
-        addressPhoto: json["address_photo"],
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
+        country: json["country"],
+        city: json["city"],
+        district: json["district"],
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
-        id: json["id"],
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "customer_id": customerId,
+        "id": id,
+        "user_id": userId,
         "google_map_address": googleMapAddress,
-        "address_name": addressName,
+        "address_detail": addressDetail,
         "lat": lat,
         "lng": lng,
-        "address_detail": addressDetail,
-        "address_photo": addressPhoto,
-        "updated_at": updatedAt?.toIso8601String(),
+        "country": country,
+        "city": city,
+        "district": district,
         "created_at": createdAt?.toIso8601String(),
-        "id": id,
+        "updated_at": updatedAt?.toIso8601String(),
       };
 }

@@ -30,8 +30,6 @@ class DeliveryAgentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Container(
       child: Column(
         children: [
@@ -95,10 +93,9 @@ class DeliveryAgentCard extends StatelessWidget {
                           GestureDetector(
                               onTap: () async {
                                 String? chatroomId = await createChatRoom(
-                                    userModel, orderDeliveries.deliveryAgent!);
+                                    userModel, orderDeliveries);
 
                                 if (chatroomId != null) {
-                                  
                                   ChatProfileModel chatProfileModel =
                                       ChatProfileModel(
                                           receiverId: orderDeliveries.user!.id!,
@@ -124,7 +121,7 @@ class DeliveryAgentCard extends StatelessWidget {
                           GestureDetector(
                               onTap: () async {
                                 var uri = Uri.parse(
-                                    "tel://${orderDeliveries.deliveryAgent!.mobileNumber}");
+                                    "tel://${orderDeliveries.user!.mobileNumber}");
 
                                 try {
                                   await launchUrl(uri);
@@ -194,7 +191,7 @@ class DeliveryAgentCard extends StatelessWidget {
 }
 
 Future<String?> createChatRoom(
-    UserModel userModel, ordermodel.DeliveryAgent deliveryAgent) async {
+    UserModel userModel, ordermodel.OrderDeliveries deliveryAgent) async {
   CollectionReference chatRooms =
       FirebaseFirestore.instance.collection('chatrooms');
 

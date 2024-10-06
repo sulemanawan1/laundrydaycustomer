@@ -7,9 +7,7 @@ class VerificationService {
   static Future<dynamic> checkUserByMobileNumber(
       {required String mobile_number}) async {
     try {
-      Map data = {
-        "mobile_number": mobile_number,
-      };
+      Map data = {"mobile_number": mobile_number, "role": "customer"};
       var url = Api.checkUserByMobileNumber;
 
       var response = await BaseClientClass.post(url, data);
@@ -32,9 +30,10 @@ class VerificationService {
       Map data = {
         "mobile_number": mobile_number,
         "first_name": firstName,
-        "last_name": lastName
+        "last_name": lastName,
+        "role": 'customer',
       };
-      var url = Api.registerCustomer;
+      var url = Api.registerUser;
 
       var response = await BaseClientClass.post(url, data);
 

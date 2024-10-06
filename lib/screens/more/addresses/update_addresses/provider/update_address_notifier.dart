@@ -86,16 +86,14 @@ class UpdateAddressNotifier extends StateNotifier<UpdateAddressState> {
       required WidgetRef ref,
       String? file,
       required String googleAddress,
-      required String addressName,
       required String addressDetail,
       required double lat,
       required double lng,
       required BuildContext context}) async {
     var data = await UpdateAddressService.updateAddress(
         addressId: addressId,
-        customerId: customerId,
+        userId: customerId,
         file: file,
-        addressName: addressName,
         addressDetail: addressDetail,
         lat: lat,
         lng: lng,
@@ -115,7 +113,6 @@ class UpdateAddressNotifier extends StateNotifier<UpdateAddressState> {
   }
 
   intitilzeAddress({required myaddressesmodel.Address address}) {
-    addressNameController.text = address.addressName!;
     addressDetailController.text = address.addressDetail!;
     state.address = address.googleMapAddress;
 

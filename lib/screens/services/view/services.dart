@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:laundryday/models/address_model.dart';
 import 'package:laundryday/screens/services/components/customer_on_going_order_card.dart';
 import 'package:laundryday/screens/services/components/services_shimmer_effect.dart';
 import 'package:laundryday/screens/services/components/services_card.dart';
@@ -90,14 +88,14 @@ class _ServicesState extends ConsumerState<Services> {
                       ),
                       Expanded(
                         child: Text(
-                          selectedAddress?.addressName == 'my-current-address'
+                          selectedAddress?.addressDetail == 'my-current-address'
                               ? 'Current Location'
                               : selectedAddress?.googleMapAddress ??
                                   "Current Location",
                           overflow: TextOverflow.ellipsis,
                           style: getRegularStyle(
                             fontSize: 13,
-                            color: selectedAddress?.addressName ==
+                            color: selectedAddress?.addressDetail ==
                                     'my-current-address'
                                 ? ColorManager.amber
                                 : ColorManager.blackColor,

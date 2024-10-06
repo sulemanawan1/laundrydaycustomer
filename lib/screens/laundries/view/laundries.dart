@@ -125,6 +125,7 @@ class _LaundriesState extends ConsumerState<Laundries> {
                     borderRadius: BorderRadius.circular(8)),
               ),
             ),
+           
             20.ph,
             Padding(
               padding: const EdgeInsets.only(left: 29),

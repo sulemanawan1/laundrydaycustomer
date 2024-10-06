@@ -65,7 +65,7 @@ class SignUp extends ConsumerWidget {
                 : MyButton(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        controller.registerCustomer(
+                        controller.registerUser(
                             context: context,
                             mobileNumber: mobileNumber,
                             firstName: controller.firstNameController.text,

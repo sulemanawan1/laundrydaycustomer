@@ -5,30 +5,27 @@ import 'package:http/http.dart' as http;
 
 class UpdateAddressService {
   static Future<dynamic> updateAddress({
-    required int customerId,
+    required int userId,
     String? file,
-        required int addressId,
-
+    required int addressId,
     required String googleAddress,
-    required String addressName,
     required String addressDetail,
     required double lat,
     required double lng,
   }) async {
     try {
       Map data = {
-        "customer_id": customerId,
+        "user_id": userId,
         "google_map_address": googleAddress,
-        "address_name": addressName,
         "address_detail": addressDetail,
         "lat": lat,
         "lng": lng,
-        "id":addressId
+        "id": addressId
       };
 
       var url = Api.updateAddress;
 
-      var response = await BaseClientClass.postFormReq(url, data,file:  file);
+      var response = await BaseClientClass.postFormReq(url, data, file: file);
 
       if (response is http.Response) {
         return updateAddressModelFromJson(response.body);

@@ -1,11 +1,8 @@
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:image_picker/image_picker.dart';
 
 import 'package:laundryday/helpers/validation_helper.dart';
 import 'package:laundryday/provider/user_notifier.dart';
@@ -16,7 +13,6 @@ import 'package:laundryday/screens/more/addresses/update_addresses/provider/upda
 import 'package:laundryday/resources/colors.dart';
 import 'package:laundryday/resources/sized_box.dart';
 import 'package:laundryday/resources/value_manager.dart';
-import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/my_textform_field.dart';
@@ -145,124 +141,10 @@ class _UpdateAddressState extends ConsumerState<UpdateAddress> {
                       ),
                       20.ph,
                       MyTextFormField(
-                        controller: controller.addressNameController,
-                        validator: AppValidator.emptyStringValidator,
-                        hintText: 'Ex: Home',
-                        labelText: 'Address Name',
-                      ),
-                      10.ph,
-                      MyTextFormField(
                         controller: controller.addressDetailController,
                         validator: AppValidator.emptyStringValidator,
                         hintText: 'Ex: Building no',
                         labelText: 'Address Details',
-                      ),
-                      10.ph,
-                      Heading(title: 'Address Photo'),
-                      10.ph,
-                      GestureDetector(
-                        onTap: () {
-                          showModalBottomSheet(
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(AppSize.s12),
-                                topRight: Radius.circular(AppSize.s12),
-                              ),
-                            ),
-                            context: context,
-                            builder: (context) {
-                              return SizedBox(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    10.ph,
-                                    const Text(
-                                      'Choose Photo',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    10.ph,
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: <Widget>[
-                                        ElevatedButton.icon(
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor:
-                                                ColorManager.primaryColor,
-                                          ),
-                                          icon: const Icon(Icons.camera),
-                                          onPressed: () {
-                                            controller.pickImage(
-                                              imageSource: ImageSource.camera,
-                                            );
-                                            context.pop();
-                                          },
-                                          label: const Text('Camera'),
-                                        ),
-                                        ElevatedButton.icon(
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor:
-                                                ColorManager.primaryColor,
-                                          ),
-                                          icon: const Icon(Icons.image),
-                                          onPressed: () {
-                                            controller.pickImage(
-                                              imageSource: ImageSource.gallery,
-                                            );
-                                            context.pop();
-                                          },
-                                          label: const Text('Gallery'),
-                                        ),
-                                      ],
-                                    ),
-                                    10.ph,
-                                  ],
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Container(
-                              width: 80,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                image: states.imagePath == null
-                                    ? null
-                                    : DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: FileImage(
-                                            File(states.imagePath.toString())),
-                                      ),
-                                color: ColorManager.mediumWhiteColor,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            Positioned(
-                              left: 60,
-                              top: 40,
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.camera_alt,
-                                    color: ColorManager.primaryColor,
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
                       ),
                       10.ph,
                       Padding(
@@ -282,8 +164,6 @@ class _UpdateAddressState extends ConsumerState<UpdateAddress> {
                                 ref: ref,
                                 customerId: customerId!,
                                 googleAddress: states.address!,
-                                addressName:
-                                    controller.addressNameController.text,
                                 addressDetail:
                                     controller.addressDetailController.text,
                                 lat: states.selectedCameraPos.target.latitude,

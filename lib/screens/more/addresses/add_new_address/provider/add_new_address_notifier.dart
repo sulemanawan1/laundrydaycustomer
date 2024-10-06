@@ -68,21 +68,24 @@ class AddAddressNotifier extends StateNotifier<AddAddressState> {
   }
 
   void addAddress(
-      {required int customerId,
+      {required int userId,
       required WidgetRef ref,
       String? file,
       required String district,
+            required String country,
+            required String city,
+
       required String googleAddress,
-      required String addressName,
       required String addressDetail,
       required double lat,
       required double lng,
       required BuildContext context}) async {
     var data = await AddAddressService.addAddress(
+      city:city ,
+      country: country,
         district: district,
-        customerId: customerId,
+        user_id: userId,
         file: file,
-        addressName: addressName,
         addressDetail: addressDetail,
         lat: lat,
         lng: lng,
@@ -114,9 +117,6 @@ class AddAddressNotifier extends StateNotifier<AddAddressState> {
 
       await coordinateToAddress(
           taget: LatLng(position.latitude!, position.longitude!));
-
-
-
     }
   }
 }

@@ -26,7 +26,7 @@ class SignupNotifier extends StateNotifier<SignupStates> {
   SignupNotifier({required this.userStates})
       : super(SignupStates(isLoading: false));
 
-  void registerCustomer(
+  void registerUser(
       {required String mobileNumber,
       required String firstName,
       required String lastName,
@@ -40,7 +40,7 @@ class SignupNotifier extends StateNotifier<SignupStates> {
     log("Data $data");
 
     if (data is usermodel.UserModel) {
-      if (data.succcess == true) {
+      
         log(data.token.toString());
 
         await MySharedPreferences.saveUserSession(user: data);
@@ -55,7 +55,7 @@ class SignupNotifier extends StateNotifier<SignupStates> {
         context.pushReplacementNamed(RouteNames.home);
         state.isLoading = false;
         state = state.copyWith(isLoading: state.isLoading);
-      }
+      
     } else {
       log(data.toString());
       state.isLoading = false;

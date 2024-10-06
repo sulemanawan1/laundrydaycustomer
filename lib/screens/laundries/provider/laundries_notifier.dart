@@ -267,7 +267,7 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
 
   Future<http.Response> _fetchNearbyLaundries(double lat, double lng) async {
     final url = Uri.parse(
-      'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$lat,$lng&radius=3000&type=laundry&key=${Api.googleKey}&language=ar',
+      'https://${Api.googleBaseUrl}/maps/api/place/nearbysearch/json?location=$lat,$lng&radius=800&type=laundry&key=${Api.googleKey}&language=ar',
     );
     return await http.get(url);
   }
@@ -279,7 +279,7 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
     required double userLng,
   }) async {
     final url = Uri.parse(
-      'https://maps.googleapis.com/maps/api/distancematrix/json?origins=$userLat,$userLng&destinations=$laundryLat,$laundryLng&key=${Api.googleKey}&language=ar',
+      'https://${Api.googleBaseUrl}/maps/api/distancematrix/json?origins=$userLat,$userLng&destinations=$laundryLat,$laundryLng&key=${Api.googleKey}&language=ar',
     );
 
     final response = await http.get(url);

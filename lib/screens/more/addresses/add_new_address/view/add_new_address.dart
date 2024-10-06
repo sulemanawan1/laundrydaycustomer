@@ -1,10 +1,6 @@
-import 'dart:developer';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/models/address_model.dart';
 import 'package:laundryday/services/google_service.dart';
 import 'package:laundryday/helpers/validation_helper.dart';
@@ -14,7 +10,6 @@ import 'package:laundryday/screens/more/addresses/add_new_address/provider/add_n
 import 'package:laundryday/resources/colors.dart';
 import 'package:laundryday/resources/sized_box.dart';
 import 'package:laundryday/resources/value_manager.dart';
-import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/my_textform_field.dart';
@@ -28,7 +23,7 @@ class AddNewAddress extends ConsumerWidget {
     final selectedCameraPos = ref.watch(addAddressNotifier).selectedCameraPos;
     final controller = ref.read(addAddressNotifier.notifier);
     final reader = ref.read(addAddressNotifier);
-    final customerId = ref.read(userProvider).userModel!.user!.id;
+    final userId = ref.read(userProvider).userModel!.user!.id;
 
     return Scaffold(
       appBar: MyAppBar(title: "Add New Address"),
@@ -115,76 +110,10 @@ class AddNewAddress extends ConsumerWidget {
                       ),
                       20.ph,
                       MyTextFormField(
-                        controller: controller.addressNameController,
-                        validator: AppValidator.emptyStringValidator,
-                        hintText: 'Ex: Home',
-                        labelText: 'Address Name',
-                      ),
-                      10.ph,
-                      MyTextFormField(
                         controller: controller.addressDetailController,
                         validator: AppValidator.emptyStringValidator,
                         hintText: 'Ex: Building no',
                         labelText: 'Address Details',
-                      ),
-                      10.ph,
-                      Heading(title: 'Address Photo'),
-                      10.ph,
-                      GestureDetector(
-                        onTap: () {
-                          resuableCameraGalleryBottomSheet(
-                              context: context,
-                              onCamerButtonPressed: () {
-                                controller.pickImage(
-                                  imageSource: ImageSource.camera,
-                                );
-                                context.pop();
-                              },
-                              onGalleryButtonPressed: () {
-                                controller.pickImage(
-                                  imageSource: ImageSource.camera,
-                                );
-                                context.pop();
-                              });
-                        },
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Container(
-                              width: 80,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                image: states.imagePath == null
-                                    ? null
-                                    : DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: FileImage(
-                                            File(states.imagePath.toString())),
-                                      ),
-                                color: ColorManager.mediumWhiteColor,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            Positioned(
-                              left: 60,
-                              top: 40,
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.camera_alt,
-                                    color: ColorManager.primaryColor,
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
                       ),
                       10.ph,
                       Padding(
@@ -199,24 +128,23 @@ class AddNewAddress extends ConsumerWidget {
                                       states
                                           .selectedCameraPos.target.longitude);
 
-                              log(addressModel!.country.toString());
-                              log(addressModel.city.toString());
-                              log(addressModel.district.toString());
-
-                              controller.addAddress(
-                                district: addressModel.district,
-                                file: states.imagePath,
-                                ref: ref,
-                                customerId: customerId!,
-                                googleAddress: states.address!,
-                                addressName:
-                                    controller.addressNameController.text,
-                                addressDetail:
-                                    controller.addressDetailController.text,
-                                lat: states.selectedCameraPos.target.latitude,
-                                lng: states.selectedCameraPos.target.longitude,
-                                context: context,
-                              );
+                              if (addressModel != null) {
+                                controller.addAddress(
+                                  country: addressModel.country,
+                                  city: addressModel.city,
+                                  district: addressModel.district,
+                                  ref: ref,
+                                  userId: userId!,
+                                  googleAddress: states.address!,
+                                  
+                                  addressDetail:
+                                      controller.addressDetailController.text,
+                                  lat: states.selectedCameraPos.target.latitude,
+                                  lng:
+                                      states.selectedCameraPos.target.longitude,
+                                  context: context,
+                                );
+                              }
                             }
                           },
                         ),
