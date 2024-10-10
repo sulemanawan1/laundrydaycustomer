@@ -120,18 +120,10 @@ class DeliveryAgentCard extends StatelessWidget {
                           16.pw,
                           GestureDetector(
                               onTap: () async {
-                                var uri = Uri.parse(
-                                    "tel://${orderDeliveries.user!.mobileNumber}");
-
-                                try {
-                                  await launchUrl(uri);
-
-                                  // ignore: use_build_context_synchronously
-                                  context.pop();
-                                } catch (e) {
-                                  Utils.showToast(
-                                      msg: e.toString(), isNegative: true);
-                                }
+                                Utils.directCallBottomSheeet(
+                                    context: context,
+                                    mobileNumber:
+                                        orderDeliveries.user!.mobileNumber!);
                               },
                               child: Image.asset(width: 40, AssetImages.call)),
                         ],

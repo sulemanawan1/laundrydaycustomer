@@ -34,15 +34,15 @@ class OrderRepository {
         return right(orderModelFromJson(response.body));
       }
       return left(response);
-    } catch (e) {
+    } catch (e, s) {
       debugPrint(e.toString());
+      debugPrint(s.toString());
       return left('An Error Occured');
     }
   }
 
-
-
-  Future<Either<String, OrderModel>> paymentCollected({required Map data}) async {
+  Future<Either<String, OrderModel>> paymentCollected(
+      {required Map data}) async {
     try {
       var url = Api.paymentCollected;
 

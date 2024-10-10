@@ -172,6 +172,7 @@ class OrderChatNotifier extends StateNotifier<OrderChatStates> {
       required ChatTypes chatType,
       required String content}) async {
     state = state.copyWith(hasText: false);
+    
     ChatModel newMessage = ChatModel(
         id: uuid.v1(),
         chatRoomId: chatRoomId,

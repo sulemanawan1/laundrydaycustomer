@@ -60,22 +60,33 @@ class _LaundriesState extends ConsumerState<Laundries> {
       body: SingleChildScrollView(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           if (selectedService?.serviceName?.toLowerCase() == 'carpets') ...[
-            25.ph,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 29),
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16), // Circular shape
-                  child: Image.asset(
-                    width: screenWidth,
-                    AssetImages.carpet,
-                    height: 199, // Replace with your image path
-                    fit: BoxFit.fill, // Ensures the image covers the area
-                  ),
+            AspectRatio(
+              aspectRatio: 16 / 13,
+              child: ClipRRect(
+                // borderRadius: BorderRadius.circular(16), // Circular shape
+                child: Image.asset(
+                  width: screenWidth,
+                  AssetImages.carpet,
+                  height: 284, // Replace with your image path
+                  fit: BoxFit.fitWidth, // Ensures the image covers the area
                 ),
               ),
             ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 29),
+            //   child: AspectRatio(
+            //     aspectRatio: 16 / 9,
+            //     child: ClipRRect(
+            //       borderRadius: BorderRadius.circular(16), // Circular shape
+            //       child: Image.asset(
+            //         width: screenWidth,
+            //         AssetImages.carpet,
+            //         height: 199, // Replace with your image path
+            //         fit: BoxFit.fill, // Ensures the image covers the area
+            //       ),
+            //     ),
+            //   ),
+            // ),
             20.ph,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 29),
@@ -125,7 +136,7 @@ class _LaundriesState extends ConsumerState<Laundries> {
                     borderRadius: BorderRadius.circular(8)),
               ),
             ),
-           
+
             20.ph,
             Padding(
               padding: const EdgeInsets.only(left: 29),

@@ -5,6 +5,7 @@ import 'package:laundryday/resources/colors.dart';
 import 'package:laundryday/resources/sized_box.dart';
 import 'package:laundryday/resources/value_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
+import 'package:laundryday/services/flutter_phone_direct_caller.dart';
 import 'package:laundryday/widgets/reusbale_dialog.dart';
 
 class Utils {
@@ -162,5 +163,58 @@ class Utils {
 
   static metertoKilometer(int meter) {
     return meter / 1000;
+  }
+
+
+ static  directCallBottomSheeet(
+      {required BuildContext context, required String mobileNumber}) {
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(8), topRight: Radius.circular(8))),
+      builder: (BuildContext context) {
+        const ShapeBorder shapeBorder = RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        );
+
+        const TextAlign textAlign = TextAlign.center;
+        return SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            shrinkWrap: true,
+            children: [
+              ListTile(
+                onTap: () {
+                  callNumber(mobileNumber: mobileNumber);
+                  context.pop();
+                },
+                shape: shapeBorder,
+                tileColor: ColorManager.whiteColor,
+                title: Text(
+                  mobileNumber.toString(),
+                  textAlign: textAlign,
+                ),
+                trailing: const Icon(Icons.call),
+              ),
+              10.ph,
+              ListTile(
+                shape: shapeBorder,
+                onTap: () {
+                  context.pop();
+                },
+                tileColor: ColorManager.whiteColor,
+                title: const Text(
+                  'Cancel',
+                  textAlign: textAlign,
+                ),
+              ),
+              10.ph,
+            ],
+          ),
+        );
+      },
+    );
   }
 }

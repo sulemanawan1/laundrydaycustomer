@@ -47,6 +47,7 @@ class OrderModel {
 class Order {
   int? id;
   int? userId;
+  int? paidBy;
   int? serviceId;
   int? categoryId;
   int? serviceTimingId;
@@ -62,6 +63,7 @@ class Order {
   String? deliveryType;
   String? paymentStatus;
   String? paymentMethod;
+  String? paymentOption;
   double? itemTotalPrice;
   int? totalItems;
   double? totalPrice;
@@ -72,6 +74,7 @@ class Order {
   String? recording;
   String? status;
   String? pickupInvoice;
+  String? paymentInvoice;
   DateTime? countDownStart;
   DateTime? countDownEnd;
   String? firstTripStatus;
@@ -94,6 +97,7 @@ class Order {
   Order({
     this.id,
     this.userId,
+    this.paidBy,
     this.serviceId,
     this.categoryId,
     this.serviceTimingId,
@@ -109,6 +113,7 @@ class Order {
     this.deliveryType,
     this.paymentStatus,
     this.paymentMethod,
+    this.paymentOption,
     this.itemTotalPrice,
     this.totalItems,
     this.totalPrice,
@@ -119,6 +124,7 @@ class Order {
     this.recording,
     this.status,
     this.pickupInvoice,
+    this.paymentInvoice,
     this.countDownStart,
     this.countDownEnd,
     this.firstTripStatus,
@@ -142,6 +148,7 @@ class Order {
   Order copyWith({
     int? id,
     int? userId,
+    int? paidBy,
     int? serviceId,
     int? categoryId,
     int? serviceTimingId,
@@ -157,6 +164,7 @@ class Order {
     String? deliveryType,
     String? paymentStatus,
     String? paymentMethod,
+    String? paymentOption,
     double? itemTotalPrice,
     int? totalItems,
     double? totalPrice,
@@ -167,6 +175,7 @@ class Order {
     String? recording,
     String? status,
     String? pickupInvoice,
+    String? paymentInvoice,
     DateTime? countDownStart,
     DateTime? countDownEnd,
     String? firstTripStatus,
@@ -189,6 +198,7 @@ class Order {
       Order(
         id: id ?? this.id,
         userId: userId ?? this.userId,
+        paidBy: paidBy ?? this.paidBy,
         serviceId: serviceId ?? this.serviceId,
         categoryId: categoryId ?? this.categoryId,
         serviceTimingId: serviceTimingId ?? this.serviceTimingId,
@@ -204,6 +214,7 @@ class Order {
         deliveryType: deliveryType ?? this.deliveryType,
         paymentStatus: paymentStatus ?? this.paymentStatus,
         paymentMethod: paymentMethod ?? this.paymentMethod,
+        paymentOption: paymentOption ?? this.paymentOption,
         itemTotalPrice: itemTotalPrice ?? this.itemTotalPrice,
         totalItems: totalItems ?? this.totalItems,
         totalPrice: totalPrice ?? this.totalPrice,
@@ -214,6 +225,7 @@ class Order {
         recording: recording ?? this.recording,
         status: status ?? this.status,
         pickupInvoice: pickupInvoice ?? this.pickupInvoice,
+        paymentInvoice: paymentInvoice ?? this.paymentInvoice,
         countDownStart: countDownStart ?? this.countDownStart,
         countDownEnd: countDownEnd ?? this.countDownEnd,
         firstTripStatus: firstTripStatus ?? this.firstTripStatus,
@@ -239,6 +251,7 @@ class Order {
   factory Order.fromJson(Map<String, dynamic> json) => Order(
         id: json["id"],
         userId: json["user_id"],
+        paidBy: json["paid_by"],
         serviceId: json["service_id"],
         categoryId: json["category_id"],
         serviceTimingId: json["service_timing_id"],
@@ -254,6 +267,7 @@ class Order {
         deliveryType: json["delivery_type"],
         paymentStatus: json["payment_status"],
         paymentMethod: json["payment_method"],
+        paymentOption: json["payment_option"],
         itemTotalPrice: json["item_total_price"]?.toDouble(),
         totalItems: json["total_items"],
         totalPrice: json["total_price"]?.toDouble(),
@@ -264,6 +278,7 @@ class Order {
         recording: json["recording"],
         status: json["status"],
         pickupInvoice: json["pickup_invoice"],
+        paymentInvoice: json["payment_invoice"],
         countDownStart: json["count_down_start"] == null
             ? null
             : DateTime.parse(json["count_down_start"]),
@@ -305,6 +320,7 @@ class Order {
   Map<String, dynamic> toJson() => {
         "id": id,
         "user_id": userId,
+        "paid_by": paidBy,
         "service_id": serviceId,
         "category_id": categoryId,
         "service_timing_id": serviceTimingId,
@@ -320,6 +336,7 @@ class Order {
         "delivery_type": deliveryType,
         "payment_status": paymentStatus,
         "payment_method": paymentMethod,
+        "payment_option": paymentOption,
         "item_total_price": itemTotalPrice,
         "total_items": totalItems,
         "total_price": totalPrice,
@@ -330,6 +347,7 @@ class Order {
         "recording": recording,
         "status": status,
         "pickup_invoice": pickupInvoice,
+        "payment_invoice": paymentInvoice,
         "count_down_start": countDownStart?.toIso8601String(),
         "count_down_end": countDownEnd?.toIso8601String(),
         "first_trip_status": firstTripStatus,
@@ -460,7 +478,7 @@ class Item {
         itemVariationId: json["item_variation_id"],
         price: json["price"]?.toDouble(),
         quantity: json["quantity"],
-        total: json["total"],
+        total: json["total"]?.toDouble(),
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),

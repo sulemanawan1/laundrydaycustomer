@@ -60,52 +60,52 @@ class CustomerOnGoingOrderCard extends StatelessWidget {
                         ),
                       ),
                       5.ph,
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: orders[index]
-                              .orderStatuses!
-                              .map((e) => (e.status == 'pending' ||
-                                          e.status == 'accepted') ||
-                                      e.status == 'received' ||
-                                      e.status == 'at_customer'
-                                  ? Expanded(
-                                      flex: orders[index].status == e.status
-                                          ? 2
-                                          : 1,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: AppPadding.p6),
-                                        child: Container(
-                                          height: 5,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      AppSize.s4),
-                                              color: orders[index].status ==
-                                                      e.status
-                                                  ? Color(0xFF7862EB)
-                                                      .withOpacity(0.3)
-                                                  : Color(0xFF7862EB)),
-                                        ),
-                                      ),
-                                    )
-                                  : Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: AppPadding.p6),
-                                        child: Container(
-                                          width: 30,
-                                          height: 5,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      AppSize.s4),
-                                              color: Color(0xFFD9D9D9)),
-                                        ),
-                                      ),
-                                    ))
-                              .toList()),
-                      5.ph,
+                      // Row(
+                      //     mainAxisAlignment: MainAxisAlignment.start,
+                      //     children: orders[index]
+                      //         .orderStatuses!
+                      //         .map((e) => (e.status == 'pending' ||
+                      //                     e.status == 'accepted') ||
+                      //                 e.status == 'received' ||
+                      //                 e.status == 'at_customer'
+                      //             ? Expanded(
+                      //                 flex: orders[index].status == e.status
+                      //                     ? 2
+                      //                     : 1,
+                      //                 child: Padding(
+                      //                   padding: const EdgeInsets.only(
+                      //                       right: AppPadding.p6),
+                      //                   child: Container(
+                      //                     height: 5,
+                      //                     decoration: BoxDecoration(
+                      //                         borderRadius:
+                      //                             BorderRadius.circular(
+                      //                                 AppSize.s4),
+                      //                         color: orders[index].status ==
+                      //                                 e.status
+                      //                             ? Color(0xFF7862EB)
+                      //                                 .withOpacity(0.3)
+                      //                             : Color(0xFF7862EB)),
+                      //                   ),
+                      //                 ),
+                      //               )
+                      //             : Expanded(
+                      //                 child: Padding(
+                      //                   padding: const EdgeInsets.only(
+                      //                       right: AppPadding.p6),
+                      //                   child: Container(
+                      //                     width: 30,
+                      //                     height: 5,
+                      //                     decoration: BoxDecoration(
+                      //                         borderRadius:
+                      //                             BorderRadius.circular(
+                      //                                 AppSize.s4),
+                      //                         color: Color(0xFFD9D9D9)),
+                      //                   ),
+                      //                 ),
+                      //               ))
+                      //         .toList()),
+                      // 5.ph,
                       Text(
                         getOrderStatusMessage(status: orders[index].status!),
                         style: getSemiBoldStyle(
