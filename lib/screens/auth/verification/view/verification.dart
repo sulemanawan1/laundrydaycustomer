@@ -11,7 +11,7 @@ import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:pinput/pinput.dart';
 
-class Verification extends ConsumerWidget {
+class Verification extends ConsumerWidget  {
   final String verificationId;
   Verification({super.key, required this.verificationId});
   @override
@@ -20,7 +20,8 @@ class Verification extends ConsumerWidget {
     final isLoading = ref.watch(verificationProvider).isLoading;
     final key = GlobalKey<FormState>();
 
-    return Scaffold(
+    return 
+    Scaffold(
       body: Form(
         key: key,
         child: Padding(
@@ -62,8 +63,6 @@ class Verification extends ConsumerWidget {
                                 borderRadius: BorderRadius.circular(8),
                                 color: const Color.fromRGBO(241, 240, 245, 1))),
                         errorTextStyle: getRegularStyle(color: Colors.red),
-                        androidSmsAutofillMethod:
-                            AndroidSmsAutofillMethod.smsUserConsentApi,
                         validator: AppValidator.otpValidator,
                         length: 6,
                         onCompleted: (val) {
@@ -98,5 +97,8 @@ class Verification extends ConsumerWidget {
         ),
       ),
     );
+  
+  
+  
   }
 }

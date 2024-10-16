@@ -146,6 +146,11 @@ class _LaundryItemsState extends ConsumerState<LaundryItems> {
                   return ItemCard(
                       item: selectedCategory.items![index],
                       onTap: () {
+                        
+
+                        
+
+
                         ref
                             .read(laundryItemProver.notifier)
                             .itemVariationsFromDB(

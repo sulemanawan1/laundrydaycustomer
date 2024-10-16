@@ -64,4 +64,11 @@ class Api {
       "${baseUrl}item_variation_sizes/size?item_variation_id=";
 
   static const String nearByAgents = "${baseUrl}delivery_agents/near-by-agents";
+  static const String registerDeliveryAgents =
+      "${baseUrl}delivery_agents/register";
+
+  static const String fetchUser = "${baseUrl}users/";
+  static const String updateUser = "${baseUrl}users/update";
+  static const String updateUserMobileNumber =
+      "${baseUrl}users/update-mobile-number";
 }

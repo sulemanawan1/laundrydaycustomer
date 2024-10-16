@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,6 +30,8 @@ var uuid = Uuid();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -51,7 +54,12 @@ void main() async {
 
   log("Fcm Token Firebase $token");
 
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(ProviderScope(
+      child: EasyLocalization(
+          supportedLocales: [Locale('en'), Locale('ar')],
+          path: 'assets/translations',
+          fallbackLocale: Locale('en'),
+          child: MyApp())));
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor:
         Color.fromRGBO(242, 242, 242, 1), // Set the status bar color here
@@ -66,12 +74,26 @@ class MyApp extends ConsumerWidget {
     final GoRouter routes = ref.read(goRouterProvider);
 
     return MaterialApp.router(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       builder: BotToastInit(),
-      
-      
       debugShowCheckedModeBanner: false,
       routerConfig: routes,
       theme: getApplicatonTheme(),
     );
   }
 }
+
+
+
+
+
+
+// Thursday	9 AM–2 PM, 4–11:30 PM
+// Friday	12:30–11:30 PM
+// Saturday	9 AM–2 PM, 4–11:30 PM
+// Sunday	9 AM–2 PM, 4–11:30 PM
+// Monday	9 AM–2 PM, 4–11:30 PM
+// Tuesday	9 AM–2 PM, 4–11:30 PM
+// Suggest new hours

@@ -1,16 +1,16 @@
+import 'dart:developer';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/helpers/validation_helper.dart';
-import 'package:laundryday/screens/auth/login/provider/login_notifier.dart';
-import 'package:laundryday/screens/auth/signup/signup.dart';
-import 'package:laundryday/screens/auth/verification/provider/verification_notifier.dart';
+import 'package:laundryday/resources/app_strings.dart';
 import 'package:laundryday/resources/colors.dart';
 import 'package:laundryday/resources/font_manager.dart';
 import 'package:laundryday/resources/sized_box.dart';
 import 'package:laundryday/resources/value_manager.dart';
-import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/widgets/heading.dart';
+import 'package:laundryday/screens/auth/login/provider/login_notifier.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/my_textform_field.dart';
 
@@ -19,9 +19,6 @@ class Login extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.read(loginProvider.notifier);
     final isLoading = ref.watch(loginProvider).isLoading;
-
-    final codeController =
-        ref.read(verificationProvider.notifier).codeController;
 
     final key = GlobalKey<FormState>();
 
@@ -45,20 +42,22 @@ class Login extends ConsumerWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
                 child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Heading(
-                        title: 'Laundry DAY',
-                        color: ColorManager.whiteColor,
-                      ),
+                      Text(
+                        AppStrings.loginTitle1,
+                        style: getSemiBoldStyle(
+                            color: ColorManager.whiteColor,
+                            fontSize: FontSize.s20),
+                      ).tr(),
                       14.ph,
-                      HeadingMedium(
-                        textAlign: TextAlign.center,
-                        title:
-                            "Add your Mobile number. We'll send you a \n verification code",
-                        color: ColorManager.whiteColor,
-                      ),
+                      Text(
+                        AppStrings.loginTitle2,
+                        style: getSemiBoldStyle(
+                            color: ColorManager.whiteColor,
+                            fontSize: FontSize.s14),
+                      ).tr(),
                       10.ph,
                       MyTextFormField(
                         textInputType: TextInputType.number,
@@ -76,7 +75,7 @@ class Login extends ConsumerWidget {
                           AutofillHints.telephoneNumberLocalSuffix
                         ],
                         hintText: '5xxxxxxxx',
-                        labelText: 'Mobile Number',
+                        labelText: '',
                         prefixIcon: ConstrainedBox(
                           constraints: BoxConstraints(
                             maxHeight: 40,
@@ -98,15 +97,28 @@ class Login extends ConsumerWidget {
                           size: AppSize.s14,
                         ),
                       ),
-                      10.ph,
+                      20.ph,
                       isLoading
                           ? CircularProgressIndicator()
                           : MyButton(
-                              title: 'Continue',
-                              onPressed: () {
+                              title: context.tr(AppStrings.next),
+                              onPressed: () async {
+
+                                // log(lng!.languageCode.toString());
+
                                 if (key.currentState!.validate()) {
+                                  // final smartAuth = SmartAuth();
+
+                                  // String? appSignatureID =
+                                  //     await smartAuth.getAppSignature();
+
+                                  // if (appSignatureID != null) {
+                                  //   log(appSignatureID.toString());
+                                  //   log(controller.phoneController.text
+                                  //       .toString());
+                                  // }
+
                                   controller.verifyPhoneNumber(
-                                      codeController: codeController,
                                       context: context);
                                 }
                               },

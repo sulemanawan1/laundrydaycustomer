@@ -1,8 +1,9 @@
 
 class LoginStates {
   bool isLoading;
-
   String? verificationId;
+
+  
   LoginStates({
     required this.isLoading,
     this.verificationId,

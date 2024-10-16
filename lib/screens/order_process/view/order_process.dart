@@ -307,6 +307,13 @@ class _TimerWidgetState extends ConsumerState<TimerWidget> {
   late Timer timer;
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    timer.cancel();
+  }
+
+  @override
   void initState() {
     super.initState();
 

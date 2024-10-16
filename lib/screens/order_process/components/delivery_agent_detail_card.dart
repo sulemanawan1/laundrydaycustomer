@@ -11,7 +11,7 @@ import 'package:laundryday/resources/sized_box.dart';
 import 'package:laundryday/resources/value_manager.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/models/my_user_model.dart';
+import 'package:laundryday/models/user_model.dart';
 import 'package:laundryday/screens/order_review/data/models/order_model.dart'
     as ordermodel;
 import 'package:url_launcher/url_launcher.dart';

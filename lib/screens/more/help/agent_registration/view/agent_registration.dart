@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/core/date_picker_handler.dart';
 import 'package:laundryday/helpers/validation_helper.dart';
+import 'package:laundryday/resources/assets_manager.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/home/provider/home_notifier.dart';
 import 'package:laundryday/screens/more/help/agent_registration/provider/delivery_agent_registartion_states.dart';
@@ -19,6 +20,7 @@ import 'package:laundryday/resources/sized_box.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/utils.dart';
+import 'package:laundryday/screens/more/help/agent_registration/widgets/agent_document_picker.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
@@ -87,7 +89,7 @@ class AgentRegistration extends ConsumerWidget {
                               image: states.image?.path == null
                                   ? DecorationImage(
                                       fit: BoxFit.cover,
-                                      image: AssetImage('assets/user.png'))
+                                      image: AssetImage(AssetImages.user))
                                   : DecorationImage(
                                       fit: BoxFit.cover,
                                       image: FileImage(
@@ -371,7 +373,7 @@ class AgentRegistration extends ConsumerWidget {
                         20.ph,
                         Heading(title: 'Documents'),
                         20.ph,
-                        _agentDoucmentPicker(
+                        AgentDocumentPicker(
                             onTap: () {
                               Utils().resuableCameraGalleryBottomSheet(
                                   context: context,
@@ -391,7 +393,7 @@ class AgentRegistration extends ConsumerWidget {
                             imageFile: states.identityImage,
                             title: "National / Iqama Id"),
                         10.ph,
-                        _agentDoucmentPicker(
+                        AgentDocumentPicker(
                             imageFile: states.drivingLicenseImage,
                             onTap: () {
                               Utils().resuableCameraGalleryBottomSheet(
@@ -411,7 +413,7 @@ class AgentRegistration extends ConsumerWidget {
                             },
                             title: "Driver's Licence Image"),
                         10.ph,
-                        _agentDoucmentPicker(
+                        AgentDocumentPicker(
                             imageFile: states.registrationImage,
                             onTap: () {
                               Utils().resuableCameraGalleryBottomSheet(
@@ -431,7 +433,7 @@ class AgentRegistration extends ConsumerWidget {
                             },
                             title: "Vechile Registation"),
                         10.ph,
-                        _agentDoucmentPicker(
+                        AgentDocumentPicker(
                             imageFile: states.frontImage,
                             onTap: () {
                               Utils().resuableCameraGalleryBottomSheet(
@@ -451,7 +453,7 @@ class AgentRegistration extends ConsumerWidget {
                             },
                             title: "Front Vechile Image"),
                         10.ph,
-                        _agentDoucmentPicker(
+                        AgentDocumentPicker(
                             imageFile: states.rearImage,
                             onTap: () {
                               Utils().resuableCameraGalleryBottomSheet(
@@ -475,202 +477,171 @@ class AgentRegistration extends ConsumerWidget {
                     ),
                   ),
                   10.ph,
-                  if (buttonState is DeliveryAgentButtonInitialState) ...[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: MyButton(
-                        title: 'Submit',
-                        onPressed: () async {
-                          if (_key.currentState!.validate()) {
-                            if (states.selectedCountry == null) {
-                              Utils.showSnackBar(
-                                  color: ColorManager.redColor,
-                                  context: context,
-                                  message: 'Country Required');
-                            } else if (states.selectedRegion == null) {
-                              Utils.showSnackBar(
-                                  color: ColorManager.redColor,
-                                  context: context,
-                                  message: 'Region Required');
-                            } else if (states.selectedCity == null) {
-                              Utils.showSnackBar(
-                                  color: ColorManager.redColor,
-                                  context: context,
-                                  message: 'City Required');
-                            }
 
-                            //  else if (states.selectedDistrict == null) {
-                            //   Utils.showSnackBar(
-                            //       color: ColorManager.redColor,
-                            //       context: context,
-                            //       message: 'District Required');
-                            // }
-
-                            else if (states.image == null) {
-                              Utils.showSnackBar(
-                                  color: ColorManager.redColor,
-                                  context: context,
-                                  message: 'Profile Image Required');
-                            } else if (states.identityImage == null) {
-                              Utils.showSnackBar(
-                                  color: ColorManager.redColor,
-                                  context: context,
-                                  message: 'National / Iqama ID Required');
-                            } else if (states.drivingLicenseImage == null) {
-                              Utils.showSnackBar(
-                                  color: ColorManager.redColor,
-                                  context: context,
-                                  message: 'Driving Licence Image Required');
-                            } else if (states.registrationImage == null) {
-                              Utils.showSnackBar(
-                                  color: ColorManager.redColor,
-                                  context: context,
-                                  message:
-                                      'Vechile Registration Image Required');
-                            } else if (states.frontImage == null) {
-                              Utils.showSnackBar(
-                                  color: ColorManager.redColor,
-                                  context: context,
-                                  message: 'Vechile Rear Image Required');
-                            } else if (states.frontImage == null) {
-                              Utils.showSnackBar(
-                                  color: ColorManager.redColor,
-                                  context: context,
-                                  message: 'Vechile Front Image Required');
-                            } else {
-                              // log("....................................................\n");
-                              // log("Image: ${states.image!.path}");
-                              // log("First Name : ${controller.firstNameController.text}");
-                              // log("Last Name : ${controller.lastNameController.text}");
-                              // log("Date of Birth  : ${controller.dobController.text}");
-                              // log("Identity Type  : ${controller.identityTypeController.text}");
-                              // log("Identity Number  : ${controller.identityNumberController.text}");
-                              // log("Country Id : ${states.selectedCountry!.id}");
-                              // log("Region Id : ${states.selectedRegion!.id}");
-                              // log("City Id : ${states.selectedCity!.id}");
-                              // log("District Id : ${states.selectedDistrict!.id}");
-                              // log("Serial Number : ${controller.serialNumberController.text}");
-                              // log("Type : ${controller.typeController.text}");
-                              // log("Classification : ${controller.classificationController.text}");
-                              // log("Model : ${controller.modelController.text}");
-                              // log("Plate Number : ${controller.plateNumberController.text}");
-                              // log("....................................................\n");
-                              print(states.image!.readAsBytes());
-
-                              Map<String, String> files = {
-                                'image': states.image!.path.toString(),
-                                'identity_image':
-                                    states.identityImage!.path.toString(),
-                                'front_image':
-                                    states.frontImage!.path.toString(),
-                                'rear_image': states.rearImage!.path.toString(),
-                                'driving_license_image':
-                                    states.drivingLicenseImage!.path.toString(),
-                                'registration_image':
-                                    states.registrationImage!.path.toString(),
-                              };
-
-                              Map<String, String> data = {
-                                'first_name':
-                                    controller.firstNameController.text,
-                                'last_name': controller.lastNameController.text,
-                                'date_of_birth': controller.dobController.text,
-                                'identity_type':
-                                    controller.identityTypeController.text,
-                                'identity_number':
-                                    controller.identityNumberController.text,
-                                'country_id':
-                                    states.selectedCountry!.id.toString(),
-                                'region_id':
-                                    states.selectedRegion!.id.toString(),
-                                'city_id': states.selectedCity!.id.toString(),
-                                // 'district_id':
-                                //     states.selectedDistrict!.id.toString(),
-                                'serial_number':
-                                    controller.serialNumberController.text,
-                                'brand': controller.brandController.text,
-                                'type': controller.typeController.text,
-                                'classification':
-                                    controller.classificationController.text,
-                                'model': controller.modelController.text,
-                                'plate_number':
-                                    "${controller.plateNumberDigitsController.text}-${controller.plateNumberLettersController.text}",
-                                'mobile_number': '+9666655555'
-                              };
-
-                              controller.registerDeliveryAgent(
-                                  context: context,
-                                  files: files,
-                                  data: data,
-                                  ref: ref);
-                            }
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: MyButton(
+                      title: 'Submit',
+                      onPressed: () async {
+                        if (_key.currentState!.validate()) {
+                          if (states.selectedCountry == null) {
+                            Utils.showSnackBar(
+                                color: ColorManager.redColor,
+                                context: context,
+                                message: 'Country Required');
+                          } else if (states.selectedRegion == null) {
+                            Utils.showSnackBar(
+                                color: ColorManager.redColor,
+                                context: context,
+                                message: 'Region Required');
+                          } else if (states.selectedCity == null) {
+                            Utils.showSnackBar(
+                                color: ColorManager.redColor,
+                                context: context,
+                                message: 'City Required');
                           }
-                        },
-                      ),
-                    )
-                  ] else if (buttonState
-                      is DeliveryAgentButtonLoadingState) ...[
-                    Center(child: CircularProgressIndicator()),
-                  ] else if (buttonState is DeliveryAgentButtonLoadedState) ...[
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              buttonState.deliveryAgentRegistrationModel.message
-                                  .toString(),
-                              style: getSemiBoldStyle(
-                                  color: ColorManager.amber,
-                                  fontSize: FontSize.s14),
-                            ),
-                            10.ph,
-                            OutlinedButton(
-                                onPressed: () {
-                                  ref
-                                      .read(homeProvider.notifier)
-                                      .changeIndex(index: 0, ref: ref);
 
-                                  context.pushReplacementNamed(RouteNames.home);
-                                },
-                                child: Text('Go to homen sccreen.'))
-                          ],
-                        ),
-                      ),
+                          //  else if (states.selectedDistrict == null) {
+                          //   Utils.showSnackBar(
+                          //       color: ColorManager.redColor,
+                          //       context: context,
+                          //       message: 'District Required');
+                          // }
+
+                          else if (states.image == null) {
+                            Utils.showSnackBar(
+                                color: ColorManager.redColor,
+                                context: context,
+                                message: 'Profile Image Required');
+                          } else if (states.identityImage == null) {
+                            Utils.showSnackBar(
+                                color: ColorManager.redColor,
+                                context: context,
+                                message: 'National / Iqama ID Required');
+                          } else if (states.drivingLicenseImage == null) {
+                            Utils.showSnackBar(
+                                color: ColorManager.redColor,
+                                context: context,
+                                message: 'Driving Licence Image Required');
+                          } else if (states.registrationImage == null) {
+                            Utils.showSnackBar(
+                                color: ColorManager.redColor,
+                                context: context,
+                                message: 'Vechile Registration Image Required');
+                          } else if (states.frontImage == null) {
+                            Utils.showSnackBar(
+                                color: ColorManager.redColor,
+                                context: context,
+                                message: 'Vechile Rear Image Required');
+                          } else if (states.frontImage == null) {
+                            Utils.showSnackBar(
+                                color: ColorManager.redColor,
+                                context: context,
+                                message: 'Vechile Front Image Required');
+                          } else {
+                            // log("....................................................\n");
+                            // log("Image: ${states.image!.path}");
+                            // log("First Name : ${controller.firstNameController.text}");
+                            // log("Last Name : ${controller.lastNameController.text}");
+                            // log("Date of Birth  : ${controller.dobController.text}");
+                            // log("Identity Type  : ${controller.identityTypeController.text}");
+                            // log("Identity Number  : ${controller.identityNumberController.text}");
+                            // log("Country Id : ${states.selectedCountry!.id}");
+                            // log("Region Id : ${states.selectedRegion!.id}");
+                            // log("City Id : ${states.selectedCity!.id}");
+                            // log("District Id : ${states.selectedDistrict!.id}");
+                            // log("Serial Number : ${controller.serialNumberController.text}");
+                            // log("Type : ${controller.typeController.text}");
+                            // log("Classification : ${controller.classificationController.text}");
+                            // log("Model : ${controller.modelController.text}");
+                            // log("Plate Number : ${controller.plateNumberController.text}");
+                            // log("....................................................\n");
+
+                            Map<String, String> files = {
+                              'image': states.image!.path.toString(),
+                              'identity_image':
+                                  states.identityImage!.path.toString(),
+                              'front_image': states.frontImage!.path.toString(),
+                              'rear_image': states.rearImage!.path.toString(),
+                              'driving_license_image':
+                                  states.drivingLicenseImage!.path.toString(),
+                              'registration_image':
+                                  states.registrationImage!.path.toString(),
+                            };
+
+                            Map<String, String> data = {
+                              'first_name': controller.firstNameController.text,
+                              'last_name': controller.lastNameController.text,
+                              'date_of_birth': controller.dobController.text,
+                              'identity_type':
+                                  controller.identityTypeController.text,
+                              'identity_number':
+                                  controller.identityNumberController.text,
+                              'country_id':
+                                  states.selectedCountry!.id.toString(),
+                              'region_id': states.selectedRegion!.id.toString(),
+                              'city_id': states.selectedCity!.id.toString(),
+                              // 'district_id':
+                              //     states.selectedDistrict!.id.toString(),
+                              'serial_number':
+                                  controller.serialNumberController.text,
+                              'brand': controller.brandController.text,
+                              'type': controller.typeController.text,
+                              'classification':
+                                  controller.classificationController.text,
+                              'model': controller.modelController.text,
+                              'plate_number':
+                                  "${controller.plateNumberDigitsController.text}-${controller.plateNumberLettersController.text}",
+                              'mobile_number': '+9666655555'
+                            };
+
+                            controller.registerDeliveryAgent(
+                                context: context,
+                                files: files,
+                                data: data,
+                                ref: ref);
+                          }
+                        }
+                      },
                     ),
-                  ] else if (buttonState is DeliveryAgentButtonErrorState) ...[
-                    Text(buttonState.errorMessage.toString())
-                  ],
-                  20.ph,
+                  )
+
+                  // ] else if (buttonState
+                  //     is DeliveryAgentButtonLoadingState) ...[
+                  //   Center(child: CircularProgressIndicator()),
+                  // ] else if (buttonState is DeliveryAgentButtonLoadedState) ...[
+                  //   Center(
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.symmetric(horizontal: 20),
+                  //       child: Column(
+                  //         crossAxisAlignment: CrossAxisAlignment.start,
+                  //         children: [
+                  //           Text(
+                  //             buttonState.deliveryAgentRegistrationModel.message
+                  //                 .toString(),
+                  //             style: getSemiBoldStyle(
+                  //                 color: ColorManager.amber,
+                  //                 fontSize: FontSize.s14),
+                  //           ),
+                  //           10.ph,
+                  //           OutlinedButton(
+                  //               onPressed: () {
+                  //                 ref
+                  //                     .read(homeProvider.notifier)
+                  //                     .changeIndex(index: 0, ref: ref);
+
+                  //                 context.pushReplacementNamed(RouteNames.home);
+                  //               },
+                  //               child: Text('Go to homen sccreen.'))
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ] else if (buttonState is DeliveryAgentButtonErrorState) ...[
+                  //   Text(buttonState.errorMessage.toString())
+                  // ],
                 ]),
           ),
         ));
-  }
-
-  Widget _agentDoucmentPicker(
-      {void Function()? onTap, XFile? imageFile, required String? title}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title ?? "",
-            style: getSemiBoldStyle(
-                fontSize: 14,
-                color: imageFile?.path == null
-                    ? Colors.blue
-                    : ColorManager.primaryColor),
-          ),
-          Icon(
-            imageFile?.path == null ? Icons.upload : Icons.check,
-            color: imageFile?.path == null
-                ? ColorManager.greyColor
-                : ColorManager.primaryColor,
-          )
-        ],
-      ),
-    );
   }
 }

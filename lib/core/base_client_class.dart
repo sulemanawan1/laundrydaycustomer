@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundryday/models/my_user_model.dart';
+import 'package:laundryday/models/user_model.dart';
 import 'package:laundryday/core/session.dart';
 
 class BaseClientClass {
@@ -259,9 +259,9 @@ class BaseClientClass {
       return handleResponse(response);
     } on SocketException {
       if (kDebugMode) {
-        print('No internet connection');
+        print('Connection Problem');
       }
-      return 'No internet connection';
+      return 'Connection Problem';
     } on TimeoutException {
       if (kDebugMode) {
         print('Connection timed out');
@@ -291,7 +291,7 @@ class BaseClientClass {
       case 201:
         return response;
       case 400:
-        return 'Bad Request';
+        return response;
       case 401:
         return 'Unauthorized';
       case 404:

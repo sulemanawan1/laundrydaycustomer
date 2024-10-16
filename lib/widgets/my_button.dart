@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:laundryday/resources/colors.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
@@ -54,7 +55,7 @@ class MyButton extends StatelessWidget {
                         : ColorManager.whiteColor,
                     fontSize: 16,
                   ),
-                ),
+                ).tr(),
               ),
         ),
       ),

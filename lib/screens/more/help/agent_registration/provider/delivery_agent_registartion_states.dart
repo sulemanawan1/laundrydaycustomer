@@ -99,7 +99,7 @@ class DeliveryAgentButtonInitialState extends DeliveryAgentButtonState {}
 class DeliveryAgentButtonLoadingState extends DeliveryAgentButtonState {}
 
 class DeliveryAgentButtonLoadedState extends DeliveryAgentButtonState {
-  DeliveryAgentRegistrationModel deliveryAgentRegistrationModel;
+  DeliveryAgentModel deliveryAgentRegistrationModel;
 
   DeliveryAgentButtonLoadedState(
       {required this.deliveryAgentRegistrationModel});

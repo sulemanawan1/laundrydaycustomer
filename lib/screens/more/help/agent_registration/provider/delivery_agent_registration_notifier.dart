@@ -1,10 +1,15 @@
 import 'dart:convert';
-
+import 'dart:developer';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
+import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/screens/more/help/agent_registration/service/agent_registration_service.dart';
 import 'package:laundryday/services/image_picker_service.dart';
 import 'package:laundryday/helpers/date_helper.dart';
 import 'package:laundryday/screens/add_laundry/data/repository/add_laundry_repository.dart';
@@ -18,6 +23,10 @@ import 'package:laundryday/models/region_model.dart' as regionmodel;
 import 'package:http/http.dart' as http;
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/core/utils.dart';
+
+final getDeliveryAgentApi = Provider((ref) {
+  return AgentRegistrationService();
+});
 
 class DeliveryAgentRegistrationNotifier
     extends StateNotifier<DeliveryAgentStates> {
@@ -181,7 +190,7 @@ class DeliveryAgentRegistrationNotifier
     }
   }
 
-  Future<void> registerDeliveryAgent(
+  Future<void> registerDeliveryAgents(
       {required Map<String, String> files,
       required Map<String, String> data,
       required WidgetRef ref,
@@ -211,8 +220,8 @@ class DeliveryAgentRegistrationNotifier
         String responseBody = await response.stream.bytesToString();
         print(responseBody);
 
-        DeliveryAgentRegistrationModel _deliveryAgentRegistrationModel =
-            deliveryAgentRegistrationModelFromJson(responseBody);
+        DeliveryAgentModel _deliveryAgentRegistrationModel =
+            deliveryAgentModelFromJson(responseBody);
 
         Utils.showReusableDialog(
             description: _deliveryAgentRegistrationModel.message.toString(),
@@ -246,11 +255,81 @@ class DeliveryAgentRegistrationNotifier
           }
         });
       }
-    } catch (e) {
-      print(e);
+    } catch (e, s) {
+      print(s);
       state = state.copyWith(
           deliveryAgentButtonStates:
               DeliveryAgentButtonErrorState(errorMessage: 'An Error Occured'));
     }
+  }
+
+  Future<void> registerDeliveryAgent(
+      {required Map<String, String> files,
+      required Map<String, String> data,
+      required WidgetRef ref,
+      required BuildContext context}) async {
+    Either<String, DeliveryAgentModel> apiData = await ref
+        .read(getDeliveryAgentApi)
+        .registerDeliveryAgent(data: data, files: files);
+    apiData.fold((l) {
+      log(l.toString());
+
+      if (l.contains('errors')) {
+        final data = jsonDecode(l.toString());
+
+        Map<String, dynamic> errors = data['errors'];
+
+        errors.forEach((key, value) {
+          (value as List).forEach((v) {
+            BotToast.showNotification(
+              leading: (cancelFunc) => Icon(
+                Icons.info,
+                color: ColorManager.whiteColor,
+              ),
+              backgroundColor: Colors.red,
+              title: (title) {
+                return Text(
+                  v.toString(),
+                  style: getRegularStyle(
+                      color: ColorManager.whiteColor, fontSize: 14),
+                );
+              },
+            );
+          });
+        });
+      } else {
+        BotToast.showNotification(
+          leading: (cancelFunc) => Icon(
+            Icons.info,
+            color: ColorManager.whiteColor,
+          ),
+          backgroundColor: Colors.red,
+          title: (title) {
+            return Text(
+              l.toString(),
+              style:
+                  getRegularStyle(color: ColorManager.whiteColor, fontSize: 14),
+            );
+          },
+        );
+        // log("Left Side $l");
+      }
+    }, (r) {
+      BotToast.showNotification(
+        leading: (cancelFunc) => Icon(
+          Icons.info,
+          color: ColorManager.whiteColor,
+        ),
+        backgroundColor: Colors.blue,
+        title: (title) {
+          return Text(
+            r.message.toString(),
+            style:
+                getRegularStyle(color: ColorManager.whiteColor, fontSize: 14),
+          );
+        },
+      );
+      log("Right Side $r");
+    });
   }
 }

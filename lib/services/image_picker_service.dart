@@ -18,8 +18,10 @@ class ImagePickerService {
   static Future<List<XFile?>> pickMultipleImages() async {
     final ImagePicker picker = ImagePicker();
 
-    List<XFile> images = await picker.pickMultiImage();
+    List<XFile> images =
+        await picker.pickMultiImage(limit: 9, requestFullMetadata: true);
 
+   
     return images;
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
+import 'package:laundryday/core/utils.dart';
 import 'package:laundryday/screens/laundry_items/components/carpet_measurement_widget.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
 import 'package:laundryday/widgets/my_loader.dart';
@@ -215,6 +216,14 @@ class ItemBottomSheet extends ConsumerWidget {
                     )
                   : GestureDetector(
                       onTap: () async {
+              
+
+
+
+
+
+
+
                         DatabaseHelper.instance
                             .updateItemVariations(itemVariationList);
                         ref

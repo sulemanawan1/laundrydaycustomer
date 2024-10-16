@@ -20,17 +20,15 @@ class LoginNotifier extends StateNotifier<LoginStates> {
 
   void verifyPhoneNumber(
       {required BuildContext context,
-      required TextEditingController codeController}) async {
+      }) async {
     state = state.copyWith(isLoading: true);
 
     await auth.verifyPhoneNumber(
       phoneNumber: "+966${phoneController.text}",
       verificationCompleted: (PhoneAuthCredential credential) async {
         log("----Code------");
-        log(codeController.text);
         log("----Code------");
 
-        codeController.setText(credential.smsCode!);
         // await auth.signInWithCredential(credential);
 
         state = state.copyWith(isLoading: false);
@@ -78,4 +76,7 @@ class LoginNotifier extends StateNotifier<LoginStates> {
       },
     );
   }
+
+
+
 }

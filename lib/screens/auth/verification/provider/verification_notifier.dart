@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/services/device_info_service.dart';
 import 'package:laundryday/services/notifcation_service.dart';
-import 'package:laundryday/models/my_user_model.dart' as usermodel;
+import 'package:laundryday/models/user_model.dart' as usermodel;
 import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/provider/user_states.dart';
 import 'package:laundryday/screens/auth/login/provider/login_notifier.dart';
@@ -49,6 +49,9 @@ class VerificationNotifier extends StateNotifier<VerificationStates> {
     }
     return data;
   }
+
+
+
 
   void signInWithPhoneNumber(
       {required String SmsCode,
@@ -132,3 +135,4 @@ class VerificationNotifier extends StateNotifier<VerificationStates> {
     }
   }
 }
+

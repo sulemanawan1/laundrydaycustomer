@@ -1,4 +1,4 @@
-import 'package:laundryday/models/my_user_model.dart';
+import 'package:laundryday/models/user_model.dart';
 
 class UserStates {
   UserModel? userModel;

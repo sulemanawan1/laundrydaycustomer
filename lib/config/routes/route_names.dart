@@ -7,7 +7,6 @@ class RouteNames {
   static final String splash = "splash";
   static final String profile = "profile";
   static final String carpetsScreen = "carpets";
-  static final String furnitureScreen = "furniture";
   static final String serviceDetail = "service_detail";
   static final String more = "more";
   static final String services = "services";
@@ -36,7 +35,7 @@ class RouteNames {
   static final String orderCheckout = "order_checkout";
   static final String invoice = "invoice";
   static final String taxInvoice = "tax_invoice";
-  static final String rateCourier = "rate_courier";
+  static final String ratingAndReview = "rating_and_review";
   static final String viewImage = "view_image";
   static final String viewNetworkImage = "view_network_image";
 
@@ -44,4 +43,7 @@ class RouteNames {
   static final String laundryCareGuide = "laundry_care_guide";
   static final String paymentOptions = "payment_options";
   static final String addLaundry = "add_laundry";
+  static final String changeMobileNumber = "change_mobile_number";
+  static final String changeMobileNumberVerification =
+      "change_mobile_number_verfication";
 }

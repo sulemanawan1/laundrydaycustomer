@@ -1,41 +1,39 @@
 // To parse this JSON data, do
 //
-//     final deliveryAgentRegistrationModel = deliveryAgentRegistrationModelFromJson(jsonString);
+//     final deliveryAgentModel = deliveryAgentModelFromJson(jsonString);
 
 import 'dart:convert';
 
-DeliveryAgentRegistrationModel deliveryAgentRegistrationModelFromJson(
-        String str) =>
-    DeliveryAgentRegistrationModel.fromJson(json.decode(str));
+DeliveryAgentModel deliveryAgentModelFromJson(String str) =>
+    DeliveryAgentModel.fromJson(json.decode(str));
 
-String deliveryAgentRegistrationModelToJson(
-        DeliveryAgentRegistrationModel data) =>
+String deliveryAgentModelToJson(DeliveryAgentModel data) =>
     json.encode(data.toJson());
 
-class DeliveryAgentRegistrationModel {
+class DeliveryAgentModel {
   bool? success;
   String? message;
   DeliveryAgent? deliveryAgent;
 
-  DeliveryAgentRegistrationModel({
+  DeliveryAgentModel({
     this.success,
     this.message,
     this.deliveryAgent,
   });
 
-  DeliveryAgentRegistrationModel copyWith({
+  DeliveryAgentModel copyWith({
     bool? success,
     String? message,
     DeliveryAgent? deliveryAgent,
   }) =>
-      DeliveryAgentRegistrationModel(
+      DeliveryAgentModel(
         success: success ?? this.success,
         message: message ?? this.message,
         deliveryAgent: deliveryAgent ?? this.deliveryAgent,
       );
 
-  factory DeliveryAgentRegistrationModel.fromJson(Map<String, dynamic> json) =>
-      DeliveryAgentRegistrationModel(
+  factory DeliveryAgentModel.fromJson(Map<String, dynamic> json) =>
+      DeliveryAgentModel(
         success: json["success"],
         message: json["message"],
         deliveryAgent: json["delivery_agent"] == null
@@ -57,10 +55,14 @@ class DeliveryAgent {
   String? identityType;
   String? identityNumber;
   String? identityImage;
+  int? totalOrders;
   int? deliveryAgentId;
   double? latitude;
   double? longitude;
   String? status;
+  String? activityStatus;
+  String? bagsStatus;
+  String? securityFeesStatus;
   DateTime? createdAt;
   DateTime? updatedAt;
   User? user;
@@ -74,10 +76,14 @@ class DeliveryAgent {
     this.identityType,
     this.identityNumber,
     this.identityImage,
+    this.totalOrders,
     this.deliveryAgentId,
     this.latitude,
     this.longitude,
     this.status,
+    this.activityStatus,
+    this.bagsStatus,
+    this.securityFeesStatus,
     this.createdAt,
     this.updatedAt,
     this.user,
@@ -92,10 +98,14 @@ class DeliveryAgent {
     String? identityType,
     String? identityNumber,
     String? identityImage,
+    int? totalOrders,
     int? deliveryAgentId,
     double? latitude,
     double? longitude,
     String? status,
+    String? activityStatus,
+    String? bagsStatus,
+    String? securityFeesStatus,
     DateTime? createdAt,
     DateTime? updatedAt,
     User? user,
@@ -109,10 +119,14 @@ class DeliveryAgent {
         identityType: identityType ?? this.identityType,
         identityNumber: identityNumber ?? this.identityNumber,
         identityImage: identityImage ?? this.identityImage,
+        totalOrders: totalOrders ?? this.totalOrders,
         deliveryAgentId: deliveryAgentId ?? this.deliveryAgentId,
         latitude: latitude ?? this.latitude,
         longitude: longitude ?? this.longitude,
         status: status ?? this.status,
+        activityStatus: activityStatus ?? this.activityStatus,
+        bagsStatus: bagsStatus ?? this.bagsStatus,
+        securityFeesStatus: securityFeesStatus ?? this.securityFeesStatus,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         user: user ?? this.user,
@@ -129,10 +143,14 @@ class DeliveryAgent {
         identityType: json["identity_type"],
         identityNumber: json["identity_number"],
         identityImage: json["identity_image"],
+        totalOrders: json["total_orders"],
         deliveryAgentId: json["delivery_agent_id"],
         latitude: json["latitude"]?.toDouble(),
         longitude: json["longitude"]?.toDouble(),
         status: json["status"],
+        activityStatus: json["activity_status"],
+        bagsStatus: json["bags_status"],
+        securityFeesStatus: json["security_fees_status"],
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
@@ -156,10 +174,14 @@ class DeliveryAgent {
         "identity_type": identityType,
         "identity_number": identityNumber,
         "identity_image": identityImage,
+        "total_orders": totalOrders,
         "delivery_agent_id": deliveryAgentId,
         "latitude": latitude,
         "longitude": longitude,
         "status": status,
+        "activity_status": activityStatus,
+        "bags_status": bagsStatus,
+        "security_fees_status": securityFeesStatus,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
         "user": user?.toJson(),
@@ -177,7 +199,7 @@ class AddressInfo {
   City? country;
   City? city;
   City? region;
-  District? district;
+  City? district;
 
   AddressInfo({
     this.deliveryAgentId,
@@ -200,7 +222,7 @@ class AddressInfo {
     City? country,
     City? city,
     City? region,
-    District? district,
+    City? district,
   }) =>
       AddressInfo(
         deliveryAgentId: deliveryAgentId ?? this.deliveryAgentId,
@@ -224,9 +246,8 @@ class AddressInfo {
             json["country"] == null ? null : City.fromJson(json["country"]),
         city: json["city"] == null ? null : City.fromJson(json["city"]),
         region: json["region"] == null ? null : City.fromJson(json["region"]),
-        district: json["district"] == null
-            ? null
-            : District.fromJson(json["district"]),
+        district:
+            json["district"] == null ? null : City.fromJson(json["district"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -271,53 +292,17 @@ class City {
       };
 }
 
-class District {
-  int? id;
-  String? name;
-  double? lat;
-  double? lng;
-
-  District({
-    this.id,
-    this.name,
-    this.lat,
-    this.lng,
-  });
-
-  District copyWith({
-    int? id,
-    String? name,
-    double? lat,
-    double? lng,
-  }) =>
-      District(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        lat: lat ?? this.lat,
-        lng: lng ?? this.lng,
-      );
-
-  factory District.fromJson(Map<String, dynamic> json) => District(
-        id: json["id"],
-        name: json["name"],
-        lat: json["lat"]?.toDouble(),
-        lng: json["lng"]?.toDouble(),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "lat": lat,
-        "lng": lng,
-      };
-}
-
 class User {
   int? id;
   String? firstName;
   String? lastName;
   String? image;
-  dynamic userName;
+  String? userName;
+  String? mobileNumber;
+  String? email;
+  String? gender;
+  DateTime? dateOfBirth;
+  String? status;
   String? role;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -328,6 +313,11 @@ class User {
     this.lastName,
     this.image,
     this.userName,
+    this.mobileNumber,
+    this.email,
+    this.gender,
+    this.dateOfBirth,
+    this.status,
     this.role,
     this.createdAt,
     this.updatedAt,
@@ -338,7 +328,12 @@ class User {
     String? firstName,
     String? lastName,
     String? image,
-    dynamic userName,
+    String? userName,
+    String? mobileNumber,
+    String? email,
+    String? gender,
+    DateTime? dateOfBirth,
+    String? status,
     String? role,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -349,6 +344,11 @@ class User {
         lastName: lastName ?? this.lastName,
         image: image ?? this.image,
         userName: userName ?? this.userName,
+        mobileNumber: mobileNumber ?? this.mobileNumber,
+        email: email ?? this.email,
+        gender: gender ?? this.gender,
+        dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+        status: status ?? this.status,
         role: role ?? this.role,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
@@ -360,6 +360,13 @@ class User {
         lastName: json["last_name"],
         image: json["image"],
         userName: json["user_name"],
+        mobileNumber: json["mobile_number"],
+        email: json["email"],
+        gender: json["gender"],
+        dateOfBirth: json["date_of_birth"] == null
+            ? null
+            : DateTime.parse(json["date_of_birth"]),
+        status: json["status"],
         role: json["role"],
         createdAt: json["created_at"] == null
             ? null
@@ -375,6 +382,12 @@ class User {
         "last_name": lastName,
         "image": image,
         "user_name": userName,
+        "mobile_number": mobileNumber,
+        "email": email,
+        "gender": gender,
+        "date_of_birth":
+            "${dateOfBirth!.year.toString().padLeft(4, '0')}-${dateOfBirth!.month.toString().padLeft(2, '0')}-${dateOfBirth!.day.toString().padLeft(2, '0')}",
+        "status": status,
         "role": role,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
@@ -387,6 +400,7 @@ class VechileInfo {
   String? type;
   String? classification;
   String? model;
+  String? brand;
   String? plateNumber;
   String? frontImage;
   String? rearImage;
@@ -402,6 +416,7 @@ class VechileInfo {
     this.type,
     this.classification,
     this.model,
+    this.brand,
     this.plateNumber,
     this.frontImage,
     this.rearImage,
@@ -418,6 +433,7 @@ class VechileInfo {
     String? type,
     String? classification,
     String? model,
+    String? brand,
     String? plateNumber,
     String? frontImage,
     String? rearImage,
@@ -433,6 +449,7 @@ class VechileInfo {
         type: type ?? this.type,
         classification: classification ?? this.classification,
         model: model ?? this.model,
+        brand: brand ?? this.brand,
         plateNumber: plateNumber ?? this.plateNumber,
         frontImage: frontImage ?? this.frontImage,
         rearImage: rearImage ?? this.rearImage,
@@ -449,6 +466,7 @@ class VechileInfo {
         type: json["type"],
         classification: json["classification"],
         model: json["model"],
+        brand: json["brand"],
         plateNumber: json["plate_number"],
         frontImage: json["front_image"],
         rearImage: json["rear_image"],
@@ -469,6 +487,7 @@ class VechileInfo {
         "type": type,
         "classification": classification,
         "model": model,
+        "brand": brand,
         "plate_number": plateNumber,
         "front_image": frontImage,
         "rear_image": rearImage,
