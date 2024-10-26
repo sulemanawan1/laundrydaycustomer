@@ -239,6 +239,7 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
             );
           }
         }
+
         List<String> excludeWords = [
           'سيارات',
           'سيارة',

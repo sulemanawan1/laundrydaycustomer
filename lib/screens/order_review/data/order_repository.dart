@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:laundryday/resources/api_routes.dart';
@@ -15,6 +17,7 @@ class OrderRepository {
           await BaseClientClass.postFormReq2(url, data, files: files);
 
       if (response is http.Response) {
+        log(response.body);
         return right(orderModelFromJson(response.body));
       }
       return left(response);

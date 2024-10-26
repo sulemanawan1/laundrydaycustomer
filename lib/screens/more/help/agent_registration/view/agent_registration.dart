@@ -6,18 +6,16 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/core/date_picker_handler.dart';
 import 'package:laundryday/helpers/validation_helper.dart';
+import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/resources/assets_manager.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
-import 'package:laundryday/screens/home/provider/home_notifier.dart';
 import 'package:laundryday/screens/more/help/agent_registration/provider/delivery_agent_registartion_states.dart';
 import 'package:laundryday/screens/more/help/agent_registration/provider/delivery_agent_registration_notifier.dart';
 import 'package:laundryday/models/city_model.dart' as citymodel;
 import 'package:laundryday/models/country_model.dart' as countrymodel;
 import 'package:laundryday/models/region_model.dart' as regionmodel;
 import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/resources/font_manager.dart';
 import 'package:laundryday/resources/sized_box.dart';
-import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/utils.dart';
 import 'package:laundryday/screens/more/help/agent_registration/widgets/agent_document_picker.dart';
@@ -38,11 +36,8 @@ class AgentRegistration extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.read(agentRegistrationNotifier.notifier);
     final states = ref.watch(agentRegistrationNotifier);
-    DeliveryAgentButtonState buttonState =
-        ref.watch(agentRegistrationNotifier).deliveryAgentButtonState;
 
-    // final mobileNumber =
-    //     ref.read(userProvider).userModel!.user!.customer!.mobileNumber;
+    final mobileNumber = ref.read(userProvider).userModel!.user!.mobileNumber!;
 
     return Scaffold(
         appBar: MyAppBar(
@@ -501,12 +496,7 @@ class AgentRegistration extends ConsumerWidget {
                                 message: 'City Required');
                           }
 
-                          //  else if (states.selectedDistrict == null) {
-                          //   Utils.showSnackBar(
-                          //       color: ColorManager.redColor,
-                          //       context: context,
-                          //       message: 'District Required');
-                          // }
+                        
 
                           else if (states.image == null) {
                             Utils.showSnackBar(
@@ -581,8 +571,7 @@ class AgentRegistration extends ConsumerWidget {
                                   states.selectedCountry!.id.toString(),
                               'region_id': states.selectedRegion!.id.toString(),
                               'city_id': states.selectedCity!.id.toString(),
-                              // 'district_id':
-                              //     states.selectedDistrict!.id.toString(),
+                              
                               'serial_number':
                                   controller.serialNumberController.text,
                               'brand': controller.brandController.text,
@@ -592,7 +581,7 @@ class AgentRegistration extends ConsumerWidget {
                               'model': controller.modelController.text,
                               'plate_number':
                                   "${controller.plateNumberDigitsController.text}-${controller.plateNumberLettersController.text}",
-                              'mobile_number': '+9666655555'
+                              'mobile_number': mobileNumber
                             };
 
                             controller.registerDeliveryAgent(
@@ -606,40 +595,7 @@ class AgentRegistration extends ConsumerWidget {
                     ),
                   )
 
-                  // ] else if (buttonState
-                  //     is DeliveryAgentButtonLoadingState) ...[
-                  //   Center(child: CircularProgressIndicator()),
-                  // ] else if (buttonState is DeliveryAgentButtonLoadedState) ...[
-                  //   Center(
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.symmetric(horizontal: 20),
-                  //       child: Column(
-                  //         crossAxisAlignment: CrossAxisAlignment.start,
-                  //         children: [
-                  //           Text(
-                  //             buttonState.deliveryAgentRegistrationModel.message
-                  //                 .toString(),
-                  //             style: getSemiBoldStyle(
-                  //                 color: ColorManager.amber,
-                  //                 fontSize: FontSize.s14),
-                  //           ),
-                  //           10.ph,
-                  //           OutlinedButton(
-                  //               onPressed: () {
-                  //                 ref
-                  //                     .read(homeProvider.notifier)
-                  //                     .changeIndex(index: 0, ref: ref);
-
-                  //                 context.pushReplacementNamed(RouteNames.home);
-                  //               },
-                  //               child: Text('Go to homen sccreen.'))
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ] else if (buttonState is DeliveryAgentButtonErrorState) ...[
-                  //   Text(buttonState.errorMessage.toString())
-                  // ],
+                
                 ]),
           ),
         ));

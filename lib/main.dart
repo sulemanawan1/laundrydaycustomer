@@ -90,10 +90,3 @@ class MyApp extends ConsumerWidget {
 
 
 
-// Thursday	9 AM–2 PM, 4–11:30 PM
-// Friday	12:30–11:30 PM
-// Saturday	9 AM–2 PM, 4–11:30 PM
-// Sunday	9 AM–2 PM, 4–11:30 PM
-// Monday	9 AM–2 PM, 4–11:30 PM
-// Tuesday	9 AM–2 PM, 4–11:30 PM
-// Suggest new hours

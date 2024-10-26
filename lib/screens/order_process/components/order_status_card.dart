@@ -5,7 +5,7 @@ import 'package:laundryday/resources/sized_box.dart';
 import 'package:laundryday/resources/value_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/helpers/order_helper.dart';
-import 'package:laundryday/screens/order_process/view/order_process.dart';
+import 'package:laundryday/screens/order_process/components/order_count_down.dart';
 import 'package:laundryday/screens/order_review/data/models/order_model.dart'
     as ordermodel;
 

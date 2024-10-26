@@ -3,7 +3,7 @@ class Api {
   static const String imageUrl = 'http://192.168.1.3:8000/storage/';
   static const String googleBaseUrl = "maps.gomaps.pro";
 
-  static const String googleKey = "AlzaSyR1nIdGY-BJhcLkX4MznrQkHs10ljL0mag";
+  static const String googleKey = "AlzaSyhZDjl1rS7DRcv0rw_ZOYKacj08QpvG_6F";
   //Auth
   static const String checkUserByMobileNumber =
       "${baseUrl}check-user-by-mobile-number";

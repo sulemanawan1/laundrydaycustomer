@@ -2,17 +2,14 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:laundryday/helpers/db_helper.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/resources/colors.dart';
 import 'package:laundryday/resources/sized_box.dart';
-import 'package:laundryday/screens/laundry_items/model/item_variation_size_model.dart';
 import 'package:laundryday/screens/laundry_items/provider/laundry_items.notifier.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/my_loader.dart';
-import 'package:laundryday/screens/laundry_items/model/item_variation_size_model.dart'
-    as itemv;
+
 
 class CarpetMeasurementWidget extends ConsumerWidget {
   final int itemVariationId;
@@ -105,28 +102,28 @@ class CarpetMeasurementWidget extends ConsumerWidget {
                     MyButton(
                       title: 'Ok',
                       onPressed: () async {
-                        int result = await DatabaseHelper.instance
-                            .insertOrUpdateItemVariationSize(
-                                ItemVariationSizeModel(
-                                    success: true,
-                                    message: 'item size updated successfully',
-                                    itemVariationSize: itemSize));
+                        // int result = await DatabaseHelper.instance
+                        //     .insertOrUpdateItemVariationSize(
+                        //         ItemVariationSizeModel(
+                        //             success: true,
+                        //             message: 'item size updated successfully',
+                        //             itemVariationSize: itemSize));
 
-                        if (result == 1) {
-                          log('Size updated');
-                          context.pop();
-                        }
+                        // if (result == 1) {
+                        //   log('Size updated');
+                        //   context.pop();
+                        // }
                       },
                     ),
                     10.ph,
                     MyButton(
                       title: 'Cancel',
                       onPressed: () async {
-                        itemv.ItemVariationSize? itemVariationSize =
-                            await DatabaseHelper.instance
-                                .getItemVariationSize(itemVariationId);
+                        // itemv.ItemVariationSize? itemVariationSize =
+                        //     await DatabaseHelper.instance
+                        //         .getItemVariationSize(itemVariationId);
 
-                        log(itemVariationSize!.postfixLength.toString());
+                        // log(itemVariationSize!.postfixLength.toString());
                         GoRouter.of(context).pop();
                       },
                       isBorderButton: true,

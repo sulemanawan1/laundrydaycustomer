@@ -5,9 +5,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:laundryday/helpers/order_helper.dart';
 import 'package:laundryday/services/image_picker_service.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_states.dart';
-import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/resources/colors.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 
@@ -16,12 +16,13 @@ class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {
   DeliveryPickupNotifier({
     required this.ref,
   }) : super(DeliveryPickupStates(
-          deliveryfees: 0.0,
-          additionalDeliveryFee: 0.0,
-          additionalOperationFee: 0.0,
-          isBlanketSelected: false,
-          isCarpetSelected: false,
-        ));
+            itemsExempt: false,
+            deliveryfees: 0.0,
+            additionalDeliveryFee: 0.0,
+            additionalOperationFee: 0.0,
+            isBlanketSelected: false,
+            isCarpetSelected: false,
+            itemIncluded: false));
 
   pickImage(
       {required ImageSource imageSource,
@@ -73,9 +74,8 @@ class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {
     if (state.image == null) {
       Fluttertoast.showToast(msg: 'Please select Receipt.');
     } else {
-      {}
       context.pushNamed(RouteNames.orderReview, extra: {
-        'order_type': OrderType.delivery_pickup,
+        'order_type': OrderScreenType.delivery_pickup,
       });
     }
   }
@@ -102,10 +102,11 @@ class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {
     state = state.copyWith(isBlanketSelected: state.isBlanketSelected);
   }
 
-  // setDeliveryFee(
-  //     {required double distance,
-  //     required double deliveryfee,
-  //     required double operationfee}) {
-  //   state = state.copyWith(deliveryfees: deliveryfee + operationfee);
-  // }
+  selectitemIncluded({required bool itemIncluded}) {
+    state = state.copyWith(itemIncluded: itemIncluded);
+  }
+
+  itemsExempt({required bool itemsExempt}) {
+    state = state.copyWith(itemsExempt: itemsExempt);
+  }
 }

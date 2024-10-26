@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/core/utils.dart';
+import 'package:laundryday/helpers/order_helper.dart';
 import 'package:laundryday/screens/laundry_items/components/category_tabbar.dart';
 import 'package:laundryday/screens/laundry_items/components/item_card.dart';
 import 'package:laundryday/widgets/reusable_checkout_card.dart';
-import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/laundries/provider/laundries_notifier.dart';
 import 'package:laundryday/screens/laundry_items/components/attention_widget.dart';
 import 'package:laundryday/screens/laundry_items/components/item_bottom_sheet_widget.dart';
@@ -146,11 +146,6 @@ class _LaundryItemsState extends ConsumerState<LaundryItems> {
                   return ItemCard(
                       item: selectedCategory.items![index],
                       onTap: () {
-                        
-
-                        
-
-
                         ref
                             .read(laundryItemProver.notifier)
                             .itemVariationsFromDB(
@@ -178,7 +173,7 @@ class _LaundryItemsState extends ConsumerState<LaundryItems> {
           ? ReusableCheckOutCard(
               onPressed: () {
                 context.pushNamed(RouteNames.orderReview, extra: {
-                  'order_type': OrderType.normal,
+                  'order_type': OrderScreenType.normal,
                   'laundry': null,
                   'service': selectedService
                 });

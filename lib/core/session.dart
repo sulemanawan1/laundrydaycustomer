@@ -13,11 +13,11 @@ class MySharedPreferences {
       value.remove(roleSPKEY);
       value.remove(tokenSPKEY);
       value.remove(userNameSPKEY);
+      value.remove(mobileNumberSPKEY);
     });
   }
 
   static saveUserSession({UserModel? user}) async {
-
     await SharedPreferences.getInstance().then((value) {
       value.setInt(userIdSPKey, user?.user?.id ?? 0);
       value.setString(firstNameSPKey, user?.user?.firstName ?? '');
@@ -25,7 +25,7 @@ class MySharedPreferences {
       value.setString(roleSPKEY, user?.user?.role ?? '');
       value.setString(tokenSPKEY, user?.token ?? '');
       value.setString(userNameSPKEY, user?.user?.userName ?? '');
-      // value.setString(fcmTokenSPKEY, fcmToken ?? '');
+      value.setString(mobileNumberSPKEY, user?.user?.mobileNumber ?? '');
     });
   }
 
@@ -41,6 +41,7 @@ class MySharedPreferences {
           lastName: value.getString(lastNameSPKey),
           role: value.getString(roleSPKEY),
           userName: value.getString(providerSPKEY),
+          mobileNumber: value.getString(mobileNumberSPKEY)
         ),
       );
     });

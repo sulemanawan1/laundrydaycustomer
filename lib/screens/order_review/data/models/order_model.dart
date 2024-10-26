@@ -64,6 +64,7 @@ class Order {
   String? paymentStatus;
   String? paymentMethod;
   String? paymentOption;
+  DateTime? paymentAt;
   double? itemTotalPrice;
   int? totalItems;
   double? totalPrice;
@@ -86,6 +87,7 @@ class Order {
   double? customerLng;
   double? additionalOperationFee;
   double? additionalDeliveryFee;
+  String? message;
   DateTime? createdAt;
   DateTime? updatedAt;
   Service? service;
@@ -114,6 +116,7 @@ class Order {
     this.paymentStatus,
     this.paymentMethod,
     this.paymentOption,
+    this.paymentAt,
     this.itemTotalPrice,
     this.totalItems,
     this.totalPrice,
@@ -136,6 +139,7 @@ class Order {
     this.customerLng,
     this.additionalOperationFee,
     this.additionalDeliveryFee,
+    this.message,
     this.createdAt,
     this.updatedAt,
     this.service,
@@ -165,9 +169,11 @@ class Order {
     String? paymentStatus,
     String? paymentMethod,
     String? paymentOption,
+    DateTime? paymentAt,
     double? itemTotalPrice,
     int? totalItems,
     double? totalPrice,
+    bool? itemsExempt,
     double? deliveryFee,
     double? vat,
     double? operationFee,
@@ -187,6 +193,7 @@ class Order {
     double? customerLng,
     double? additionalOperationFee,
     double? additionalDeliveryFee,
+    String? message,
     DateTime? createdAt,
     DateTime? updatedAt,
     Service? service,
@@ -215,6 +222,7 @@ class Order {
         paymentStatus: paymentStatus ?? this.paymentStatus,
         paymentMethod: paymentMethod ?? this.paymentMethod,
         paymentOption: paymentOption ?? this.paymentOption,
+        paymentAt: paymentAt ?? this.paymentAt,
         itemTotalPrice: itemTotalPrice ?? this.itemTotalPrice,
         totalItems: totalItems ?? this.totalItems,
         totalPrice: totalPrice ?? this.totalPrice,
@@ -239,6 +247,7 @@ class Order {
             additionalOperationFee ?? this.additionalOperationFee,
         additionalDeliveryFee:
             additionalDeliveryFee ?? this.additionalDeliveryFee,
+        message: message ?? this.message,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         service: service ?? this.service,
@@ -268,6 +277,9 @@ class Order {
         paymentStatus: json["payment_status"],
         paymentMethod: json["payment_method"],
         paymentOption: json["payment_option"],
+        paymentAt: json["payment_at"] == null
+            ? null
+            : DateTime.parse(json["payment_at"]),
         itemTotalPrice: json["item_total_price"]?.toDouble(),
         totalItems: json["total_items"],
         totalPrice: json["total_price"]?.toDouble(),
@@ -294,6 +306,7 @@ class Order {
         customerLng: json["customer_lng"]?.toDouble(),
         additionalOperationFee: json["additional_operation_fee"]?.toDouble(),
         additionalDeliveryFee: json["additional_delivery_fee"]?.toDouble(),
+        message: json["message"],
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
@@ -337,6 +350,7 @@ class Order {
         "payment_status": paymentStatus,
         "payment_method": paymentMethod,
         "payment_option": paymentOption,
+        "payment_at": paymentAt?.toIso8601String(),
         "item_total_price": itemTotalPrice,
         "total_items": totalItems,
         "total_price": totalPrice,
@@ -359,6 +373,7 @@ class Order {
         "customer_lng": customerLng,
         "additional_operation_fee": additionalOperationFee,
         "additional_delivery_fee": additionalDeliveryFee,
+        "message": message,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
         "service": service?.toJson(),
@@ -433,6 +448,9 @@ class Item {
   double? price;
   int? quantity;
   double? total;
+  String? customItemName;
+  int? excessCount;
+  double? excessDeliveryFees;
   DateTime? createdAt;
   DateTime? updatedAt;
   ItemVariations? itemVariations;
@@ -444,6 +462,9 @@ class Item {
     this.price,
     this.quantity,
     this.total,
+    this.customItemName,
+    this.excessCount,
+    this.excessDeliveryFees,
     this.createdAt,
     this.updatedAt,
     this.itemVariations,
@@ -456,6 +477,9 @@ class Item {
     double? price,
     int? quantity,
     double? total,
+    String? customItemName,
+    int? excessCount,
+    double? excessDeliveryFees,
     DateTime? createdAt,
     DateTime? updatedAt,
     ItemVariations? itemVariations,
@@ -467,6 +491,9 @@ class Item {
         price: price ?? this.price,
         quantity: quantity ?? this.quantity,
         total: total ?? this.total,
+        customItemName: customItemName ?? this.customItemName,
+        excessCount: excessCount ?? this.excessCount,
+        excessDeliveryFees: excessDeliveryFees ?? this.excessDeliveryFees,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         itemVariations: itemVariations ?? this.itemVariations,
@@ -479,6 +506,9 @@ class Item {
         price: json["price"]?.toDouble(),
         quantity: json["quantity"],
         total: json["total"]?.toDouble(),
+        customItemName: json["custom_item_name"],
+        excessCount: json["excess_count"],
+        excessDeliveryFees: json["excess_delivery_fees"]?.toDouble(),
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
@@ -497,6 +527,9 @@ class Item {
         "price": price,
         "quantity": quantity,
         "total": total,
+        "custom_item_name": customItemName,
+        "excess_count": excessCount,
+        "excess_delivery_fees": excessDeliveryFees,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
         "item_variations": itemVariations?.toJson(),
@@ -737,8 +770,8 @@ class Service {
   int? id;
   String? serviceName;
   String? serviceNameArabic;
-  int? deliveryFee;
-  int? operationFee;
+  double? deliveryFee;
+  double? operationFee;
 
   Service({
     this.id,
@@ -752,8 +785,8 @@ class Service {
     int? id,
     String? serviceName,
     String? serviceNameArabic,
-    int? deliveryFee,
-    int? operationFee,
+    double? deliveryFee,
+    double? operationFee,
   }) =>
       Service(
         id: id ?? this.id,
@@ -767,8 +800,8 @@ class Service {
         id: json["id"],
         serviceName: json["service_name"],
         serviceNameArabic: json["service_name_arabic"],
-        deliveryFee: json["delivery_fee"],
-        operationFee: json["operation_fee"],
+        deliveryFee: json["delivery_fee"]?.toDouble(),
+        operationFee: json["operation_fee"]?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {

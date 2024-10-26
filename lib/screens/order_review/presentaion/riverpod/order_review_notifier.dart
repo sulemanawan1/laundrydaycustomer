@@ -8,19 +8,29 @@ import 'package:laundryday/helpers/db_helper.dart';
 import 'package:laundryday/resources/assets_manager.dart';
 import 'package:laundryday/screens/laundry_items/model/item_variation_model.dart';
 import 'package:laundryday/screens/order_review/data/models/order_model.dart';
+import 'package:laundryday/screens/order_review/data/models/payment_option_model.dart';
 import 'package:laundryday/screens/order_review/data/order_repository.dart';
 import 'package:laundryday/screens/order_review/presentaion/riverpod/order_review_states.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
 
 final orderReviewProvider =
     StateNotifierProvider.autoDispose<OrderReviewNotifier, OrderReviewStates>(
-        (ref) => OrderReviewNotifier());
+        (ref) {
+
+  
+
+  return OrderReviewNotifier();
+});
 
 class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
   OrderRepository _orderRepository = OrderRepository();
 
   OrderReviewNotifier()
       : super(OrderReviewStates(
+          paymentOptions: [
+            PaymentOptionModel(title: 'Yes Paid', paymentOption: 'pay_now'),
+            PaymentOptionModel(title: 'Not Paid', paymentOption: 'pay_later'),
+          ],
           deliveryTypes: [
             DelivertTypeModel(
                 title: 'Drop & Pickup',
@@ -36,8 +46,9 @@ class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
           isLoading: false,
           items: [],
           isRecording: false,
-          // total: 0.0,
-        ));
+        )) {
+    
+  }
 
   Future getAllItems() async {
     List<ItemVariation> items =
@@ -144,5 +155,9 @@ class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
           extra: r.order!.id!);
       state = state.copyWith(isLoading: false);
     });
+  }
+
+  selectPaymentOption({required PaymentOptionModel selectedPaymentOption}) {
+    state = state.copyWith(selectedPaymentOption: selectedPaymentOption);
   }
 }

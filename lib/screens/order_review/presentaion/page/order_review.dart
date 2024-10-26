@@ -5,6 +5,9 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:laundryday/core/fees_calculations.dart';
+import 'package:laundryday/core/utils.dart';
+import 'package:laundryday/helpers/order_helper.dart';
 import 'package:laundryday/resources/font_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/laundries/view/laundries.dart';
@@ -33,7 +36,7 @@ import 'package:record/record.dart';
 import 'package:voice_message_package/voice_message_package.dart';
 
 class OrderReview extends ConsumerStatefulWidget {
-  final OrderType orderType;
+  final OrderScreenType orderType;
 
   OrderReview({
     required this.orderType,
@@ -110,7 +113,7 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
   void initState() {
     super.initState();
 
-    if (widget.orderType == OrderType.normal) {
+    if (widget.orderType == OrderScreenType.normal) {
       ref.read(orderReviewProvider.notifier).getAllItems();
     }
   }
@@ -127,15 +130,13 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
     final serviceTiming = ref.watch(laundriessProvider).serviceTiming;
     final selectedLaundryByArea =
         ref.watch(laundriessProvider).selectedLaundryByArea;
-
     final selectedPaymentMethod =
         ref.watch(PaymentMethodProvider).selectedPaymentMethod;
-
     final isLoading = ref.watch(orderReviewProvider).isLoading;
+
     final deliveryTypes = ref.watch(orderReviewProvider).deliveryTypes;
     final selecteddeliveryType =
         ref.watch(orderReviewProvider).selecteddeliveryType;
-
     final count = ref.watch(laundryItemProver).count;
     final total = ref.watch(laundryItemProver).total;
     final isBlanketSelected =
@@ -151,7 +152,7 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: LayoutBuilder(builder: (context, cx) {
-          return widget.orderType == OrderType.delivery_pickup
+          return widget.orderType == OrderScreenType.delivery_pickup
               ? SingleChildScrollView(
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,14 +169,7 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                                     const Heading(
                                       title: 'Order Details',
                                     ),
-                                    10.ph,
-                                    Text(
-                                      'Pickup Recipt',
-                                      style: getMediumStyle(
-                                          color: ColorManager.greyColor,
-                                          fontSize: FontSize.s10),
-                                    ),
-                                    10.ph,
+                                    8.ph,
                                     Container(
                                       color: ColorManager.silverWhite,
                                       height: 200,
@@ -187,30 +181,103 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                                                 .toString(),
                                           )),
                                     ),
-                                    5.ph,
+                                    8.ph,
                                     _recording(),
-                                    5.ph,
+                                    8.ph,
                                     if (isCarpetSelected == true ||
                                         isBlanketSelected == true)
                                       PaymentSummaryText(
                                           text1: 'Additional Fee',
                                           text2:
                                               '${additionalOperationFee + additionalDeliveryFee}'),
-                                    PaymentSummaryText(
-                                        text1: 'Delivery Fee',
-                                        text2:
-                                            "${(selectedService!.deliveryFee! + selectedService.operationFee!).toStringAsFixed(2)}"),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                Utils.showReusableDialog(
+                                                    context: context,
+                                                    title: 'Note',
+                                                    description:
+                                                        '''Your delivery fee will increase if the number of items exceeds 7. If the items are clothes, an additional 1 SAR will be added to the delivery fee for each item. In the case of carpets and blankets, if the number exceeds 2, an extra 2 SAR will be added to the delivery fee for each type of carpet or blanket. ''',
+                                                    buttons: [
+                                                      OutlinedButton(
+                                                          onPressed: () {
+                                                            context.pop();
+                                                          },
+                                                          child: Text('Okay'))
+                                                    ]);
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text('Delivery Fee',
+                                                          style: getRegularStyle(
+                                                              fontSize: 14,
+                                                              color: Color(
+                                                                  0xFF818181))),
+                                                      10.pw,
+                                                      Text(
+                                                        'Will be Change',
+                                                        style: getMediumStyle(
+                                                            color: ColorManager
+                                                                .blackColor),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  4.pw,
+                                                  IconButton(
+                                                    splashRadius: 20,
+                                                    onPressed: null,
+                                                    icon: Icon(
+                                                      Icons.info,
+                                                      color: ColorManager.amber,
+                                                    ),
+                                                    iconSize: 20,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Text(
+                                              "${getTotal(deliveryFee: selectedService!.deliveryFee!, operationFee: selectedService.operationFee!).toStringAsFixed(2)} SAR",
+                                              style: getMediumStyle(
+                                                color: Color(0xFF242424),
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        5.ph,
+                                        Divider(
+                                          color: Color(0xFF818181),
+                                        ),
+                                      ],
+                                    ),
                                     PaymentSummaryText(
                                         text1: 'Vat ',
                                         text2:
-                                            "${((15 / 100) * (selectedService.deliveryFee! + selectedService.operationFee! + additionalOperationFee + additionalDeliveryFee)).toStringAsFixed(2)}"),
+                                            "${getVat(deliveryFee: selectedService.deliveryFee!, operationFee: selectedService.operationFee!).toStringAsFixed(2)}"),
                                     PaymentSummaryText(
-                                        text1style: getSemiBoldStyle(
-                                            fontSize: 14,
-                                            color: ColorManager.blackColor),
-                                        text1: 'Delivery cost Including VAT ',
-                                        text2:
-                                            "${((selectedService.deliveryFee! + selectedService.operationFee! + additionalOperationFee + additionalDeliveryFee) + ((15 / 100) * (selectedService.deliveryFee! + selectedService.operationFee! + additionalOperationFee + additionalDeliveryFee))).toStringAsFixed(2)}"),
+                                      text1style: getSemiBoldStyle(
+                                          fontSize: 14,
+                                          color: ColorManager.blackColor),
+                                      text1: 'Delivery cost Including VAT ',
+                                      text2: getTotalIncludedVat(
+                                              deliveryFee:
+                                                  selectedService.deliveryFee!,
+                                              operationFee:
+                                                  selectedService.operationFee!)
+                                          .toStringAsFixed(2),
+                                    )
                                   ]),
                             ),
                           ),
@@ -426,7 +493,6 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                                       'recording': audioFile!.path,
                                     });
                                   }
-
                                   var total = selectedService.deliveryFee! +
                                       selectedService.operationFee!;
 
@@ -456,7 +522,7 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                                     "additional_operation_fee":
                                         additionalOperationFee,
                                     "additional_delivery_fee":
-                                        additionalDeliveryFee
+                                        additionalDeliveryFee,
                                   };
                                   ref
                                       .read(orderReviewProvider.notifier)
@@ -489,9 +555,7 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                             const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 15.0,
-                                mainAxisExtent: 148
-                                // mainAxisSpacing: 15.0,
-                                ),
+                                mainAxisExtent: 148),
                         itemCount: deliveryTypes.length,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
@@ -505,9 +569,6 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   width: 0.1,
-                                  // color: selecteddeliveryType == null
-                                  //     ? ColorManager.amber
-                                  //     : ColorManager.greyColor
                                 ),
                                 borderRadius: BorderRadius.circular(12),
                                 color:
@@ -911,6 +972,7 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
 
   Card _recording() {
     return Card(
+      color: ColorManager.silverWhite,
       child: Column(
         children: [
           Row(
@@ -1016,3 +1078,102 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
     );
   }
 }
+
+class Schedule {
+  final String day;
+  final int dayNumber; // 1 = Monday, 7 = Sunday
+  final List<TimeRange> openHours;
+
+  Schedule(
+      {required this.day, required this.dayNumber, required this.openHours});
+}
+
+class TimeRange {
+  final TimeOfDay start;
+  final TimeOfDay end;
+
+  TimeRange({required this.start, required this.end});
+}
+
+List<Schedule> storeSchedule = [
+  Schedule(
+    day: 'Thursday',
+    dayNumber: 4,
+    openHours: [
+      TimeRange(
+        start: TimeOfDay(hour: 9, minute: 0),
+        end: TimeOfDay(hour: 14, minute: 0),
+      ),
+      TimeRange(
+        start: TimeOfDay(hour: 16, minute: 0),
+        end: TimeOfDay(hour: 23, minute: 30),
+      ),
+    ],
+  ),
+  Schedule(
+    day: 'Friday',
+    dayNumber: 5,
+    openHours: [
+      TimeRange(
+        start: TimeOfDay(hour: 12, minute: 30),
+        end: TimeOfDay(hour: 23, minute: 30),
+      ),
+    ],
+  ),
+  Schedule(
+    day: 'Saturday',
+    dayNumber: 6,
+    openHours: [
+      TimeRange(
+        start: TimeOfDay(hour: 9, minute: 0),
+        end: TimeOfDay(hour: 14, minute: 0),
+      ),
+      TimeRange(
+        start: TimeOfDay(hour: 16, minute: 0),
+        end: TimeOfDay(hour: 23, minute: 30),
+      ),
+    ],
+  ),
+  Schedule(
+    day: 'Sunday',
+    dayNumber: 7,
+    openHours: [
+      TimeRange(
+        start: TimeOfDay(hour: 9, minute: 0),
+        end: TimeOfDay(hour: 14, minute: 0),
+      ),
+      TimeRange(
+        start: TimeOfDay(hour: 16, minute: 0),
+        end: TimeOfDay(hour: 23, minute: 30),
+      ),
+    ],
+  ),
+  Schedule(
+    day: 'Monday',
+    dayNumber: 1,
+    openHours: [
+      TimeRange(
+        start: TimeOfDay(hour: 9, minute: 0),
+        end: TimeOfDay(hour: 14, minute: 0),
+      ),
+      TimeRange(
+        start: TimeOfDay(hour: 16, minute: 0),
+        end: TimeOfDay(hour: 23, minute: 30),
+      ),
+    ],
+  ),
+  Schedule(
+    day: 'Tuesday',
+    dayNumber: 2,
+    openHours: [
+      TimeRange(
+        start: TimeOfDay(hour: 9, minute: 0),
+        end: TimeOfDay(hour: 14, minute: 0),
+      ),
+      TimeRange(
+        start: TimeOfDay(hour: 16, minute: 0),
+        end: TimeOfDay(hour: 23, minute: 30),
+      ),
+    ],
+  ),
+];
