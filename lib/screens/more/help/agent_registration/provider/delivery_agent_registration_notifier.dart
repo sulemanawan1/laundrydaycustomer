@@ -106,8 +106,8 @@ class DeliveryAgentRegistrationNotifier
     }
   }
 
-  void regions({required int countryId}) async {
-    var data = await AddLaundryRepository.regions(countryId: countryId);
+  void regions() async {
+    var data = await AddLaundryRepository.regions();
 
     if (kDebugMode) {
       print("Data $data");

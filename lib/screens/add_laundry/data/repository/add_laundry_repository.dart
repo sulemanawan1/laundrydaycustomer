@@ -25,9 +25,9 @@ class AddLaundryRepository {
     }
   }
 
-  static Future<dynamic> regions({required int countryId}) async {
+  static Future<dynamic> regions() async {
     try {
-      var url = "${Api.regions}/$countryId";
+      var url = "${Api.regions}";
 
       var response = await BaseClientClass.get(url, '');
 

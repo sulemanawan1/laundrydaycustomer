@@ -25,6 +25,7 @@ import 'package:laundryday/screens/order_process/view/order_process.dart';
 import 'package:laundryday/screens/order_summary/order_summary.dart';
 import 'package:laundryday/screens/rating_and_review/rating_and_review.dart';
 import 'package:laundryday/screens/splash/splash.dart';
+import 'package:laundryday/screens/subscription_laundry/view/subscription_laundry.dart';
 import 'package:laundryday/screens/tax_invoice/view/tax_invoice.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/screens/more/addresses/add_new_address/view/add_new_address.dart';
@@ -259,6 +260,13 @@ final goRouterProvider = Provider<GoRouter>((ref) => GoRouter(
         path: "/change_mobile_number_verfication",
         builder: (context, state) => ChangeMobileNumberVerification(
           verificationId: state.extra as String,
+        ),
+      ),
+      GoRoute(
+        name: RouteNames.subscriptionLaundry,
+        path: "/subscription_laundry",
+        builder: (context, state) => SubscriptionLaundry(
+          districtName: state.extra as String,
         ),
       ),
     ]));

@@ -14,7 +14,6 @@ import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/models/user_model.dart';
 import 'package:laundryday/screens/order_review/data/models/order_model.dart'
     as ordermodel;
-import 'package:url_launcher/url_launcher.dart';
 import '../../../core/utils.dart';
 
 class DeliveryAgentCard extends StatelessWidget {

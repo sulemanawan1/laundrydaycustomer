@@ -42,52 +42,42 @@ class CityModel {
 }
 
 class Datum {
-  int? id;
-  String? name;
+  int? cityId;
   int? regionId;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  String? nameAr;
+  String? nameEn;
 
   Datum({
-    this.id,
-    this.name,
+    this.cityId,
     this.regionId,
-    this.createdAt,
-    this.updatedAt,
+    this.nameAr,
+    this.nameEn,
   });
 
   Datum copyWith({
-    int? id,
-    String? name,
+    int? cityId,
     int? regionId,
-    DateTime? createdAt,
-    DateTime? updatedAt,
+    String? nameAr,
+    String? nameEn,
   }) =>
       Datum(
-        id: id ?? this.id,
-        name: name ?? this.name,
+        cityId: cityId ?? this.cityId,
         regionId: regionId ?? this.regionId,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
+        nameAr: nameAr ?? this.nameAr,
+        nameEn: nameEn ?? this.nameEn,
       );
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        id: json["id"],
-        name: json["name"],
+        cityId: json["city_id"],
         regionId: json["region_id"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
+        nameAr: json["name_ar"],
+        nameEn: json["name_en"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
+        "city_id": cityId,
         "region_id": regionId,
-        "created_at": createdAt?.toIso8601String(),
-        "updated_at": updatedAt?.toIso8601String(),
+        "name_ar": nameAr,
+        "name_en": nameEn,
       };
 }

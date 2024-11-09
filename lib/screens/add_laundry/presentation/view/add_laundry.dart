@@ -150,8 +150,8 @@ class _LaundriesState extends ConsumerState<AddLaundry> {
                       print("*" * 20);
                       print('Step 3');
                       print("Country ${states.selectedCountry!.id}");
-                      print("Region ${states.selectedRegion!.id}");
-                      print("City ${states.selectedCity!.id}");
+                      print("Region ${states.selectedRegion!.regionId}");
+                      print("City ${states.selectedCity!.cityId}");
                       print("District ${states.selectedDistrict!.id}");
                       print("Google Map Address ${states.googleMapAdress}");
                       print("Latitiude ${states.coordinates!.lat!}");
@@ -193,8 +193,9 @@ class _LaundriesState extends ConsumerState<AddLaundry> {
                         i++) {
                       branch.add({
                         "country_id": states.selectedBranchModel[i].country!.id,
-                        "region_id": states.selectedBranchModel[i].region!.id,
-                        "city_id": states.selectedBranchModel[i].city!.id,
+                        "region_id":
+                            states.selectedBranchModel[i].region!.regionId,
+                        "city_id": states.selectedBranchModel[i].city!.cityId,
                         "district_id":
                             states.selectedBranchModel[i].district!.id,
                         "postal_code": "",

@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/screens/auth/login/provider/login_states.dart';
 import 'package:laundryday/config/routes/route_names.dart';
-import 'package:pinput/pinput.dart';
 
 final loginProvider =
     StateNotifierProvider.autoDispose<LoginNotifier, LoginStates>(
@@ -29,7 +28,6 @@ class LoginNotifier extends StateNotifier<LoginStates> {
         log("----Code------");
         log("----Code------");
 
-        // await auth.signInWithCredential(credential);
 
         state = state.copyWith(isLoading: false);
       },

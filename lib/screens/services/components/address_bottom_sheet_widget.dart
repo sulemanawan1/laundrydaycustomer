@@ -154,7 +154,6 @@ class AddressBottomSheetWidget extends ConsumerWidget {
                 },
                 error: (e, s) => Text(e.toString()),
                 loading: () => Loader()),
-          
             10.ph,
             MyButton(
               title: 'Add Address',

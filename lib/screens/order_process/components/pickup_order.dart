@@ -4,6 +4,7 @@ import 'package:laundryday/helpers/order_helper.dart';
 import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/resources/colors.dart';
 import 'package:laundryday/resources/sized_box.dart';
+import 'package:laundryday/resources/value_manager.dart';
 import 'package:laundryday/screens/order_process/components/delivery_agent_detail_card.dart';
 import 'package:laundryday/screens/order_process/components/four_digit_code_widget.dart';
 import 'package:laundryday/screens/order_process/components/laundry_detail_button.dart';
@@ -40,7 +41,7 @@ class PickupOrder extends ConsumerWidget {
                   getPickupStatus(orderStatus: OrderStatusesList.received)) ...[
             10.ph,
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: AppPadding.p20),
               child: MyButton(
                 color: ColorManager.nprimaryColor,
                 title: 'Pay Now',
@@ -50,8 +51,8 @@ class PickupOrder extends ConsumerWidget {
                     context: context,
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
-                            topRight: Radius.circular(8))),
+                            topLeft: Radius.circular(AppSize.s8),
+                            topRight: Radius.circular(AppSize.s8))),
                     builder: (BuildContext context) {
                       return PaymentWidget(
                         orderModel: orderModel,
@@ -67,7 +68,7 @@ class PickupOrder extends ConsumerWidget {
           if (orderModel.order!.paymentStatus ==
               PaymentStatuses.unpaid.name) ...[
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.symmetric(horizontal: AppPadding.p10),
               child: MyButton(
                 color: ColorManager.nprimaryColor,
                 title: 'Pay Now',
@@ -77,8 +78,8 @@ class PickupOrder extends ConsumerWidget {
                     context: context,
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
-                            topRight: Radius.circular(8))),
+                            topLeft: Radius.circular(AppSize.s8),
+                            topRight: Radius.circular(AppSize.s8))),
                     builder: (BuildContext context) {
                       return PaymentWidget(
                         orderModel: orderModel,
@@ -87,7 +88,8 @@ class PickupOrder extends ConsumerWidget {
                   );
                 },
               ),
-            )
+            ),
+            10.ph,
           ]
         ],
         if (orderModel.order!.status ==
@@ -100,7 +102,7 @@ class PickupOrder extends ConsumerWidget {
         ),
         10.ph,
         OrderIdButton(orderId: orderModel.order!.id!),
-        15.ph,
+        10.ph,
         if (orderModel.order?.orderDeliveries != null) ...[
           DeliveryAgentCard(
               ref: ref,

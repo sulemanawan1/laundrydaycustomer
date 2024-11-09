@@ -289,7 +289,7 @@ class AddLaundryNotifier extends StateNotifier<AddLaundryStates> {
   }
 
   void regions({required int countryId}) async {
-    var data = await AddLaundryRepository.regions(countryId: countryId);
+    var data = await AddLaundryRepository.regions();
 
     if (kDebugMode) {
       print("Data $data");

@@ -1,6 +1,6 @@
 class Api {
-  static const String baseUrl = 'http://192.168.1.3:8000/api/';
-  static const String imageUrl = 'http://192.168.1.3:8000/storage/';
+  static const String baseUrl = 'http://192.168.1.5:8000/api/';
+  static const String imageUrl = 'http://192.168.1.5:8000/storage/';
   static const String googleBaseUrl = "maps.gomaps.pro";
 
   static const String googleKey = "AlzaSyhZDjl1rS7DRcv0rw_ZOYKacj08QpvG_6F";
@@ -71,4 +71,13 @@ class Api {
   static const String updateUser = "${baseUrl}users/update";
   static const String updateUserMobileNumber =
       "${baseUrl}users/update-mobile-number";
+        static const String subscriptionPlans = "${baseUrl}subscription_plans/type";
+
+  static const String createUserSubscriptions =
+      "${baseUrl}user_subscriptions/create";
+
+  static const String activeUserSubscription =
+      "${baseUrl}user_subscriptions/active/";
+        static const String cancelUserSubscription =
+      "${baseUrl}user_subscriptions/cancel/";
 }

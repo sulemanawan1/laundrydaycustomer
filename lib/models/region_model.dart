@@ -43,52 +43,42 @@ class RegionModel {
 }
 
 class Datum {
-  int? id;
-  String? name;
-  int? countryId;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  int? regionId;
+  String? nameAr;
+  String? nameEn;
+  int? capitalCityId;
 
   Datum({
-    this.id,
-    this.name,
-    this.countryId,
-    this.createdAt,
-    this.updatedAt,
+    this.regionId,
+    this.nameAr,
+    this.nameEn,
+    this.capitalCityId,
   });
 
   Datum copyWith({
-    int? id,
-    String? name,
-    int? countryId,
-    DateTime? createdAt,
-    DateTime? updatedAt,
+    int? regionId,
+    String? nameAr,
+    String? nameEn,
+    int? capitalCityId,
   }) =>
       Datum(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        countryId: countryId ?? this.countryId,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
+        regionId: regionId ?? this.regionId,
+        nameAr: nameAr ?? this.nameAr,
+        nameEn: nameEn ?? this.nameEn,
+        capitalCityId: capitalCityId ?? this.capitalCityId,
       );
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        id: json["id"],
-        name: json["name"],
-        countryId: json["country_id"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
+        regionId: json["region_id"],
+        nameAr: json["name_ar"],
+        nameEn: json["name_en"],
+        capitalCityId: json["capital_city_id"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "country_id": countryId,
-        "created_at": createdAt?.toIso8601String(),
-        "updated_at": updatedAt?.toIso8601String(),
+        "region_id": regionId,
+        "name_ar": nameAr,
+        "name_en": nameEn,
+        "capital_city_id": capitalCityId,
       };
 }

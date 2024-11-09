@@ -6,7 +6,6 @@ import 'package:laundryday/resources/assets_manager.dart';
 import 'package:laundryday/resources/colors.dart';
 import 'package:laundryday/resources/font_manager.dart';
 import 'package:laundryday/resources/sized_box.dart';
-import 'package:laundryday/resources/value_manager.dart';
 import 'package:laundryday/screens/services/model/customer_order_model.dart';
 
 class CustomerOnGoingOrderCard extends StatelessWidget {

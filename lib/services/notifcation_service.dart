@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -11,11 +12,9 @@ class NotificationService {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-
   initFlutterNotificationPlugin(RemoteMessage message) async {
     var androidInitialization =
         const AndroidInitializationSettings("@mipmap/ic_launcher");
-
 
     var iosInitialization = const DarwinInitializationSettings(
         requestAlertPermission: true,
@@ -34,9 +33,6 @@ class NotificationService {
 
   fireBaseInit() {
     FirebaseMessaging.onMessage.listen((message) {
-
-
-      
       initFlutterNotificationPlugin(message);
       showNotificationFlutter(message);
     });
@@ -100,8 +96,6 @@ class NotificationService {
   }
 
   requestNotification() async {
-  
-    
     NotificationSettings settings = await firebaseMessaging.requestPermission(
         alert: true,
         announcement: true,
@@ -112,10 +106,10 @@ class NotificationService {
         provisional: true);
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('permission granted');
-    }  if (kDebugMode) {
-      print('user granted provisional permission');
     }
-    else {
+    if (kDebugMode) {
+      print('user granted provisional permission');
+    } else {
       //appsetting.AppSettings.openNotificationSettings();
       if (kDebugMode) {
         print('user denied permission');
@@ -124,9 +118,13 @@ class NotificationService {
   }
 
   Future<String?> getDeviceToken() async {
-    String? deviceToken = await firebaseMessaging.getToken();
+    try {
+      String? deviceToken = await firebaseMessaging.getToken();
 
-    return deviceToken;
+      return deviceToken;
+    } catch (e) {
+      return null;
+    }
   }
 
   refreshDeviceToken() async {

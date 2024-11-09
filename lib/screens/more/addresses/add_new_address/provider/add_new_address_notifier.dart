@@ -105,6 +105,7 @@ class AddAddressNotifier extends StateNotifier<AddAddressState> {
   }
 
   intitilzeAddress() async {
+    
     LocationData? position = await GoogleServices().getLocation();
 
     if (position != null) {

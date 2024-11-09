@@ -57,7 +57,7 @@ Widget addressInformation(BuildContext context,
                         onSelected: (selectedRegion) {
                           laundryNotifier.selectedRegion(
                               selectedRegion: selectedRegion!);
-                          laundryNotifier.cities(regionId: selectedRegion.id!);
+                          laundryNotifier.cities(regionId: selectedRegion.regionId!);
                         },
                         list: List.generate(
                             states.regionModel == null
@@ -65,7 +65,7 @@ Widget addressInformation(BuildContext context,
                                 : states.regionModel!.data!.length,
                             (index) => DropdownMenuEntry(
                                 label:
-                                    states.regionModel!.data![index].name ?? "",
+                                    states.regionModel!.data![index].nameEn ?? "",
                                 value: states.regionModel!.data![index]))),
                     8.ph,
                     ReusableDropMenu<citymodel.Datum?>(
@@ -74,7 +74,7 @@ Widget addressInformation(BuildContext context,
                         onSelected: (selectedCity) {
                           laundryNotifier.selectedCity(
                               selectedCity: selectedCity!);
-                          laundryNotifier.districts(cityId: selectedCity.id!);
+                          laundryNotifier.districts(cityId: selectedCity.cityId !);
                         },
                         list: List.generate(
                             states.cityModel == null
@@ -82,7 +82,7 @@ Widget addressInformation(BuildContext context,
                                 : states.cityModel!.data!.length,
                             (index) => DropdownMenuEntry(
                                 label:
-                                    states.cityModel!.data![index].name ?? "",
+                                    states.cityModel!.data![index].nameEn ?? "",
                                 value: states.cityModel!.data![index]))),
                     8.ph,
                     ReusableDropMenu<districtmodel.Datum?>(
@@ -253,7 +253,7 @@ Widget addressInformation(BuildContext context,
                                     ),
                                     5.ph,
                                     SubHeading(
-                                      title: laundry.region?.name ?? "",
+                                      title: laundry.region?.nameEn ?? "",
                                       color: ColorManager.greyColor,
                                     ),
                                     5.ph,
@@ -263,7 +263,7 @@ Widget addressInformation(BuildContext context,
                                     ),
                                     5.ph,
                                     SubHeading(
-                                      title: laundry.city?.name ?? "",
+                                      title: laundry.city?.nameEn ?? "",
                                       color: ColorManager.greyColor,
                                     ),
                                     Heading(
@@ -339,8 +339,8 @@ Widget addressInformation(BuildContext context,
                                   print('Step 2');
                                   print(
                                       "Country ${states.selectedCountry!.id}");
-                                  print("Region ${states.selectedRegion!.id}");
-                                  print("City ${states.selectedCity!.id}");
+                                  print("Region ${states.selectedRegion!.regionId}");
+                                  print("City ${states.selectedCity!.cityId}");
                                   print(
                                       "District ${states.selectedDistrict!.id}");
                                   print(

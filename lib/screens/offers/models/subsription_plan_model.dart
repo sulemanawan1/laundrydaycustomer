@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 class SubscriptionPlan {
   final String name;
   final String price;

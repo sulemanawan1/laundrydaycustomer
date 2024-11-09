@@ -9,40 +9,40 @@ UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
 String userModelToJson(UserModel data) => json.encode(data.toJson());
 
 class UserModel {
-  bool? succcess;
+  bool? success;
   String? message;
   User? user;
   String? token;
 
   UserModel({
-    this.succcess,
+    this.success,
     this.message,
     this.user,
     this.token,
   });
 
   UserModel copyWith({
-    bool? succcess,
+    bool? success,
     String? message,
     User? user,
     String? token,
   }) =>
       UserModel(
-        succcess: succcess ?? this.succcess,
+        success: success ?? this.success,
         message: message ?? this.message,
         user: user ?? this.user,
         token: token ?? this.token,
       );
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        succcess: json["succcess"],
+        success: json["success"],
         message: json["message"],
         user: json["user"] == null ? null : User.fromJson(json["user"]),
         token: json["token"],
       );
 
   Map<String, dynamic> toJson() => {
-        "succcess": succcess,
+        "success": success,
         "message": message,
         "user": user?.toJson(),
         "token": token,
@@ -58,8 +58,9 @@ class User {
   String? mobileNumber;
   String? email;
   String? gender;
-  String? dateOfBirth;
+  DateTime? dateOfBirth;
   String? status;
+  String? subscriptionStatus;
   String? role;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -75,6 +76,7 @@ class User {
     this.gender,
     this.dateOfBirth,
     this.status,
+    this.subscriptionStatus,
     this.role,
     this.createdAt,
     this.updatedAt,
@@ -89,8 +91,9 @@ class User {
     String? mobileNumber,
     String? email,
     String? gender,
-    String? dateOfBirth,
+    DateTime? dateOfBirth,
     String? status,
+    String? subscriptionStatus,
     String? role,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -106,6 +109,7 @@ class User {
         gender: gender ?? this.gender,
         dateOfBirth: dateOfBirth ?? this.dateOfBirth,
         status: status ?? this.status,
+        subscriptionStatus: subscriptionStatus ?? this.subscriptionStatus,
         role: role ?? this.role,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
@@ -120,8 +124,11 @@ class User {
         mobileNumber: json["mobile_number"],
         email: json["email"],
         gender: json["gender"],
-        dateOfBirth: json["date_of_birth"],
+        dateOfBirth: json["date_of_birth"] == null
+            ? null
+            : DateTime.parse(json["date_of_birth"]),
         status: json["status"],
+        subscriptionStatus: json["subscription_status"],
         role: json["role"],
         createdAt: json["created_at"] == null
             ? null
@@ -140,8 +147,10 @@ class User {
         "mobile_number": mobileNumber,
         "email": email,
         "gender": gender,
-        "date_of_birth": dateOfBirth,
+        "date_of_birth":
+            "${dateOfBirth!.year.toString().padLeft(4, '0')}-${dateOfBirth!.month.toString().padLeft(2, '0')}-${dateOfBirth!.day.toString().padLeft(2, '0')}",
         "status": status,
+        "subscription_status": subscriptionStatus,
         "role": role,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),

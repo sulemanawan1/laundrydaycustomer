@@ -194,7 +194,7 @@ class AgentRegistration extends ConsumerWidget {
                       onSelected: (selectedCoutry) {
                         controller.selectedCountry(
                             selectedCoutry: selectedCoutry!);
-                        controller.regions(countryId: selectedCoutry.id!);
+                        controller.regions();
                       },
                       list: List.generate(
                           states.countryModel == null
@@ -211,7 +211,7 @@ class AgentRegistration extends ConsumerWidget {
                       onSelected: (selectedRegion) {
                         controller.selectedRegion(
                             selectedRegion: selectedRegion!);
-                        controller.cities(regionId: selectedRegion.id!);
+                        controller.cities(regionId: selectedRegion.regionId!);
                       },
                       list: List.generate(
                           states.regionModel == null
@@ -219,7 +219,7 @@ class AgentRegistration extends ConsumerWidget {
                               : states.regionModel!.data!.length,
                           (index) => DropdownMenuEntry(
                               label:
-                                  states.regionModel!.data![index].name ?? "",
+                                  states.regionModel!.data![index].nameEn ?? "",
                               value: states.regionModel!.data![index]))),
                   8.ph,
                   ReusableDropMenu<citymodel.Datum?>(
@@ -234,7 +234,8 @@ class AgentRegistration extends ConsumerWidget {
                               ? 0
                               : states.cityModel!.data!.length,
                           (index) => DropdownMenuEntry(
-                              label: states.cityModel!.data![index].name ?? "",
+                              label:
+                                  states.cityModel!.data![index].nameEn ?? "",
                               value: states.cityModel!.data![index]))),
                   8.ph,
                   // ReusableDropMenu<districtmodel.Datum?>(
@@ -494,11 +495,7 @@ class AgentRegistration extends ConsumerWidget {
                                 color: ColorManager.redColor,
                                 context: context,
                                 message: 'City Required');
-                          }
-
-                        
-
-                          else if (states.image == null) {
+                          } else if (states.image == null) {
                             Utils.showSnackBar(
                                 color: ColorManager.redColor,
                                 context: context,
@@ -569,9 +566,9 @@ class AgentRegistration extends ConsumerWidget {
                                   controller.identityNumberController.text,
                               'country_id':
                                   states.selectedCountry!.id.toString(),
-                              'region_id': states.selectedRegion!.id.toString(),
-                              'city_id': states.selectedCity!.id.toString(),
-                              
+                              'region_id':
+                                  states.selectedRegion!.regionId.toString(),
+                              'city_id': states.selectedCity!.cityId.toString(),
                               'serial_number':
                                   controller.serialNumberController.text,
                               'brand': controller.brandController.text,
@@ -594,8 +591,6 @@ class AgentRegistration extends ConsumerWidget {
                       },
                     ),
                   )
-
-                
                 ]),
           ),
         ));
