@@ -3,16 +3,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/models/address_model.dart';
+import 'package:laundryday/helpers/date_helper.dart';
 import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/resources/font_manager.dart';
 import 'package:laundryday/resources/sized_box.dart';
+import 'package:laundryday/resources/value_manager.dart';
 import 'package:laundryday/screens/offers/provider/offers_notifier.dart';
-import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
-import 'package:laundryday/services/google_service.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
+import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/my_loader.dart';
-import 'package:location/location.dart';
+import 'package:laundryday/widgets/my_textform_field.dart';
+
+import '../../../core/utils.dart';
 
 class Offers extends ConsumerWidget {
   Offers({super.key});
@@ -21,6 +24,9 @@ class Offers extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userDetails = ref.watch(fetchUserProvider);
     final subscriptionPlans = ref.watch(subscriptionPlanProvider);
+    final subscriptionPlanModel =
+        ref.watch(offerProvider).subscriptionPlanModel;
+    var activeSubscription = ref.watch(activeUserSubscriptionProvider);
 
     return Scaffold(
         appBar: MyAppBar(
@@ -57,16 +63,23 @@ class Offers extends ConsumerWidget {
                                     physics: NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
+                                        horizontal: AppPadding.p10),
                                     itemCount: r.data!.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       var plan = r.data![index];
                                       return GestureDetector(
-                                        onTap: () async {
-                                          context.pushNamed(
+                                        onTap: () {
+                                          ref
+                                              .read(offerProvider.notifier)
+                                              .selectSubscription(
+                                                  selectedSubscription: plan);
+
+                                          if (subscriptionPlanModel != null) {
+                                            context.pushNamed(
                                               RouteNames.subscriptionLaundry,
-                                              extra: 'Alhazm');
+                                            );
+                                          }
                                         },
                                         child: Card(
                                           elevation: 0,
@@ -208,7 +221,289 @@ class Offers extends ConsumerWidget {
                       },
                       loading: () => const Loader());
                 } else {
-                  return Text("You are Subscriber");
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        activeSubscription.when(
+                            data: (data) => data.fold((l) => Text(l), (r) {
+                                  var activeSubscription = r.data;
+
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: AppPadding.p10),
+                                    child: Column(
+                                      children: [
+                                        // SizedBox(
+                                        //   height: 300,
+                                        //   child: GoogleMap(
+                                        //     initialCameraPosition:
+                                        //         CameraPosition(
+                                        //             target: initialPosition,
+                                        //             zoom: 14),
+                                        //     polygons: polygons,
+                                        //     onMapCreated: (GoogleMapController
+                                        //         gcontroller) {
+                                        //       googleMapController = gcontroller;
+                                        //     },
+                                        //   ),
+                                        // ),
+                                        20.ph,
+
+                                        Card(
+                                          color: ColorManager.silverWhite,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  20.ph,
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        'Plan',
+                                                        style: getSemiBoldStyle(
+                                                            color: ColorManager
+                                                                .blackColor,
+                                                            fontSize:
+                                                                FontSize.s12),
+                                                      ),
+                                                      Text(
+                                                        activeSubscription!
+                                                            .subscriptionPlan!
+                                                            .name
+                                                            .toString(),
+                                                        style: getMediumStyle(
+                                                            color: ColorManager
+                                                                .blackColor),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  20.ph,
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        'Type',
+                                                        style: getSemiBoldStyle(
+                                                            color: ColorManager
+                                                                .blackColor,
+                                                            fontSize:
+                                                                FontSize.s12),
+                                                      ),
+                                                      Text(
+                                                        activeSubscription
+                                                            .subscriptionPlan!
+                                                            .subscriptionType!
+                                                            .toString(),
+                                                        style: getMediumStyle(
+                                                            color: ColorManager
+                                                                .blackColor),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  20.ph,
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        'Start Date',
+                                                        style: getSemiBoldStyle(
+                                                            color: ColorManager
+                                                                .blackColor,
+                                                            fontSize:
+                                                                FontSize.s12),
+                                                      ),
+                                                      Text(
+                                                        DateHelper.formatDate(
+                                                            activeSubscription
+                                                                .startTime!
+                                                                .toString()),
+                                                        style: getMediumStyle(
+                                                            color: ColorManager
+                                                                .blackColor),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  20.ph,
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        'End Date',
+                                                        style: getSemiBoldStyle(
+                                                            color: ColorManager
+                                                                .blackColor,
+                                                            fontSize:
+                                                                FontSize.s12),
+                                                      ),
+                                                      Text(
+                                                        DateHelper.formatDate(
+                                                            activeSubscription
+                                                                .endTime!
+                                                                .toString()),
+                                                        style: getMediumStyle(
+                                                            color: ColorManager
+                                                                .blackColor),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  20.ph,
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        'Status',
+                                                        style: getSemiBoldStyle(
+                                                            color: ColorManager
+                                                                .blackColor,
+                                                            fontSize:
+                                                                FontSize.s12),
+                                                      ),
+                                                      Text(
+                                                        activeSubscription
+                                                            .status
+                                                            .toString()
+                                                            .toUpperCase(),
+                                                        style: getMediumStyle(
+                                                            color: ColorManager
+                                                                .blackColor),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  20.ph,
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        'Next Billing Date\n${DateHelper.formatDate(DateHelper.getNextMonthDate(activeSubscription.endTime!).toString())}',
+                                                        style: getSemiBoldStyle(
+                                                            color: ColorManager
+                                                                .blackColor,
+                                                            fontSize:
+                                                                FontSize.s12),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          // Utils.showReusableDialog(
+                                                          //     context: context,
+                                                          //     title: 'Are you sure you want to cancel subscription?',
+                                                          //     widget: Column(
+                                                          //       mainAxisSize:
+                                                          //           MainAxisSize
+                                                          //               .min,
+                                                          //       children: [
+                                                          //         10.ph,
+                                                          //         Text(
+                                                          //           'Your Subscription will be cancelled immediately.',
+                                                          //           style: getMediumStyle(
+                                                          //               color: ColorManager
+                                                          //                   .greyColor,
+                                                          //               fontSize:
+                                                          //                   FontSize.s10),
+                                                          //         ),
+                                                          //         20.ph,
+                                                          //         MyButton(
+                                                          //             color: ColorManager
+                                                          //                 .lightGrey,
+                                                          //             textColor:
+                                                          //                 ColorManager
+                                                          //                     .blackColor,
+                                                          //             onPressed:
+                                                          //                 () {
+                                                          //               context
+                                                          //                   .pop();
+                                                          //             },
+                                                          //             title:
+                                                          //                 'Keep Subscription'),
+                                                          //         20.ph,
+                                                          //         MyButton(
+                                                          //             color: ColorManager
+                                                          //                 .redColor,
+                                                          //             onPressed:
+                                                          //                 () {
+                                                          //               // ref.read(yourAreaController.notifier).cancelSubscription(
+                                                          //               //     planId: activeSubscription
+                                                          //               //         .id!,
+                                                          //               //     context:
+                                                          //               //         context,
+                                                          //               //     ref:
+                                                          //               //         ref);
+                                                          //             },
+                                                          //             title:
+                                                          //                 'Cancel Subscription'),
+                                                          //         20.ph,
+                                                          //       ],
+                                                          //     ));
+                                                        },
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Text(
+                                                            'Cancel Subscription',
+                                                            style: getSemiBoldStyle(
+                                                                color:
+                                                                    ColorManager
+                                                                        .redColor,
+                                                                fontSize:
+                                                                    FontSize
+                                                                        .s10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  20.ph,
+                                                ]),
+                                          ),
+                                        ),
+
+                                        20.ph,
+                                        // if (selectDistrict != null) ...[
+                                        //   MyButton(
+                                        //       onPressed: () {
+                                        //         var data = {
+                                        //           "district_id":
+                                        //               selectDistrict.districtId,
+                                        //           "id": activeSubscription.id
+                                        //         };
+
+                                        //         ref
+                                        //             .read(yourAreaController
+                                        //                 .notifier)
+                                        //             .updateDistrict(
+                                        //                 data: data,
+                                        //                 ref: ref,
+                                        //                 context: context);
+                                        //       },
+                                        //       title: 'Update Area')
+                                        // ],
+                                      ],
+                                    ),
+                                  );
+                                }),
+                            error: (error, s) => Text(error.toString()),
+                            loading: () => const Loader()),
+                      ],
+                    ),
+                  );
                 }
               });
             },

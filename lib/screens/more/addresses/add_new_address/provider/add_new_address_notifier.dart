@@ -62,7 +62,7 @@ class AddAddressNotifier extends StateNotifier<AddAddressState> {
   }
 
   Future coordinateToAddress({required LatLng taget}) async {
-    String? address = await GoogleServices().coordinateToAddress(taget: taget);
+    String? address = await GoogleServices().coordinateToAddress(latLng: taget);
     log(address.toString());
     state = state.copyWith(address: address);
   }
@@ -72,17 +72,16 @@ class AddAddressNotifier extends StateNotifier<AddAddressState> {
       required WidgetRef ref,
       String? file,
       required String district,
-            required String country,
-            required String city,
-
+      required String country,
+      required String city,
       required String googleAddress,
       required String addressDetail,
       required double lat,
       required double lng,
       required BuildContext context}) async {
     var data = await AddAddressService.addAddress(
-      city:city ,
-      country: country,
+        city: city,
+        country: country,
         district: district,
         user_id: userId,
         file: file,
@@ -105,7 +104,6 @@ class AddAddressNotifier extends StateNotifier<AddAddressState> {
   }
 
   intitilzeAddress() async {
-    
     LocationData? position = await GoogleServices().getLocation();
 
     if (position != null) {

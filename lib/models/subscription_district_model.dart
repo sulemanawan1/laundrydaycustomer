@@ -1,48 +1,46 @@
 // To parse this JSON data, do
 //
-//     final districtModel = districtModelFromJson(jsonString);
+//     final subscriptionDistrictModel = subscriptionDistrictModelFromJson(jsonString);
 
 import 'dart:convert';
 
-DistrictModel districtModelFromJson(String str) =>
-    DistrictModel.fromJson(json.decode(str));
+SubscriptionDistrictModel subscriptionDistrictModelFromJson(String str) =>
+    SubscriptionDistrictModel.fromJson(json.decode(str));
 
-String districtModelToJson(DistrictModel data) => json.encode(data.toJson());
+String subscriptionDistrictModelToJson(SubscriptionDistrictModel data) =>
+    json.encode(data.toJson());
 
-class DistrictModel {
+class SubscriptionDistrictModel {
   String? message;
-  List<Datum>? data;
+  Data? data;
 
-  DistrictModel({
+  SubscriptionDistrictModel({
     this.message,
     this.data,
   });
 
-  DistrictModel copyWith({
+  SubscriptionDistrictModel copyWith({
     String? message,
-    List<Datum>? data,
+    Data? data,
   }) =>
-      DistrictModel(
+      SubscriptionDistrictModel(
         message: message ?? this.message,
         data: data ?? this.data,
       );
 
-  factory DistrictModel.fromJson(Map<String, dynamic> json) => DistrictModel(
+  factory SubscriptionDistrictModel.fromJson(Map<String, dynamic> json) =>
+      SubscriptionDistrictModel(
         message: json["message"],
-        data: json["data"] == null
-            ? []
-            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+        data: json["data"] == null ? null : Data.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
         "message": message,
-        "data": data == null
-            ? []
-            : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "data": data?.toJson(),
       };
 }
 
-class Datum {
+class Data {
   int? districtId;
   String? nameAr;
   String? nameEn;
@@ -50,7 +48,7 @@ class Datum {
   int? regionId;
   String? boundaries;
 
-  Datum({
+  Data({
     this.districtId,
     this.nameAr,
     this.nameEn,
@@ -59,7 +57,7 @@ class Datum {
     this.boundaries,
   });
 
-  Datum copyWith({
+  Data copyWith({
     int? districtId,
     String? nameAr,
     String? nameEn,
@@ -67,7 +65,7 @@ class Datum {
     int? regionId,
     String? boundaries,
   }) =>
-      Datum(
+      Data(
         districtId: districtId ?? this.districtId,
         nameAr: nameAr ?? this.nameAr,
         nameEn: nameEn ?? this.nameEn,
@@ -76,7 +74,7 @@ class Datum {
         boundaries: boundaries ?? this.boundaries,
       );
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
         districtId: json["district_id"],
         nameAr: json["name_ar"],
         nameEn: json["name_en"],

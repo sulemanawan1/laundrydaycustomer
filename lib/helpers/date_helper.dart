@@ -1,6 +1,35 @@
 import 'package:intl/intl.dart';
 
 class DateHelper {
+  static DateTime getNextMonthDate(DateTime currentDate) {
+    // Start with the next month and the same day
+    int nextMonth = currentDate.month + 1;
+    int year = currentDate.year;
+
+    // Adjust the year if needed
+    if (nextMonth > 12) {
+      nextMonth = 1;
+      year++;
+    }
+
+    // Calculate the day, ensuring it doesn't exceed the last day of the next month
+    int day = currentDate.day;
+    int lastDayOfNextMonth = DateTime(year, nextMonth + 1, 0).day;
+    if (day > lastDayOfNextMonth) {
+      day = lastDayOfNextMonth;
+    }
+
+    return DateTime(year, nextMonth, day);
+  }
+
+  static String formatDateTime(String isoDateString) {
+    // Parse the ISO 8601 date string to a DateTime object
+    DateTime dateTime = DateTime.parse(isoDateString);
+
+    // Format the DateTime object into the desired format
+    return DateFormat('yyyy-MM-dd hh:mm:ss a').format(dateTime);
+  }
+
   static String convertTimeToAmPm(String timestamp) {
     // Parse the input timestamp string to DateTime
     DateTime dateTime = DateTime.parse(timestamp);
@@ -9,16 +38,6 @@ class DateHelper {
     String formattedTime = DateFormat('hh:mm a').format(dateTime);
 
     return formattedTime; // Return only the formatted time
-  }
-
-  static String formatTimestamp(int timestamp) {
-    // Convert timestamp (milliseconds since epoch) to DateTime
-    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
-
-    // Format the DateTime to h:mm a (e.g., 2:00 PM)
-    String formattedTime = DateFormat('h:mm a').format(dateTime);
-
-    return formattedTime;
   }
 
   static String laravelDateToFormattedDate(String laravelDate) {
@@ -44,8 +63,7 @@ class DateHelper {
     return formattedDate;
   }
 
-  // ignore: non_constant_identifier_names
-  static String Hour12formatTime(String inputTime) {
+  static String hour12formatTime(String inputTime) {
     try {
       // Parse the input time string
       DateTime dateTime = DateFormat("HH:mm:ss").parse(inputTime);

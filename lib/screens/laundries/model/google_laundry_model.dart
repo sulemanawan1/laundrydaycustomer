@@ -8,10 +8,13 @@ class GoogleLaundryModel {
   dynamic lng;
   dynamic distance;
   dynamic duration;
+  dynamic vicinity;
+
   dynamic originAddresses;
   dynamic destinationAddresses;
   double distanceInKm;
   GoogleLaundryModel({
+  
     required this.name,
     required this.rating,
     required this.openingHours,
@@ -19,6 +22,7 @@ class GoogleLaundryModel {
     required this.lng,
     required this.distance,
     required this.duration,
+    required this.vicinity,
     required this.originAddresses,
     required this.destinationAddresses,
     required this.distanceInKm,
@@ -32,11 +36,14 @@ class GoogleLaundryModel {
     dynamic lng,
     dynamic distance,
     dynamic duration,
-    dynamic originAddresses,
+        dynamic originAddresses,
+
+    dynamic vicinity,
     dynamic destinationAddresses,
     double? distanceInKm,
   }) {
     return GoogleLaundryModel(
+      vicinity: vicinity??this.vicinity,
       name: name ?? this.name,
       rating: rating ?? this.rating,
       openingHours: openingHours ?? this.openingHours,
@@ -52,6 +59,7 @@ class GoogleLaundryModel {
 
   Map<String, dynamic> toMap() {
     return {
+      'vicinity':vicinity,
       'name': name,
       'rating': rating,
       'openingHours': openingHours,
@@ -67,6 +75,7 @@ class GoogleLaundryModel {
 
   factory GoogleLaundryModel.fromMap(Map<String, dynamic> map) {
     return GoogleLaundryModel(
+      vicinity: map['vicinity'] ?? null ,
       name: map['name'] ?? null,
       rating: map['rating'] ?? null,
       openingHours: map['openingHours'] ?? null,
@@ -87,7 +96,7 @@ class GoogleLaundryModel {
 
   @override
   String toString() {
-    return 'DeliveryPickupLaundryModel(name: $name, rating: $rating, openingHours: $openingHours, lat: $lat, lng: $lng, distance: $distance, duration: $duration, originAddresses: $originAddresses, destinationAddresses: $destinationAddresses, distanceInKm: $distanceInKm)';
+    return 'DeliveryPickupLaundryModel(name: $name, rating: $rating, openingHours: $openingHours, lat: $lat, lng: $lng, distance: $distance, duration: $duration, duration: $vicinity,originAddresses: $originAddresses, destinationAddresses: $destinationAddresses, distanceInKm: $distanceInKm)';
   }
 
   @override
@@ -102,6 +111,7 @@ class GoogleLaundryModel {
         other.lng == lng &&
         other.distance == distance &&
         other.duration == duration &&
+        other.vicinity==vicinity&&
         other.originAddresses == originAddresses &&
         other.destinationAddresses == destinationAddresses &&
         other.distanceInKm == distanceInKm;
@@ -116,6 +126,7 @@ class GoogleLaundryModel {
         lng.hashCode ^
         distance.hashCode ^
         duration.hashCode ^
+        vicinity.hashCode^
         originAddresses.hashCode ^
         destinationAddresses.hashCode ^
         distanceInKm.hashCode;

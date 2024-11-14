@@ -26,4 +26,6 @@ class AssetImages {
   static const String address = '${assetBaseUrl}address.png';
   static const String fromHome = '${assetBaseUrl}from_home.png';
   static const String fromLaundry = '${assetBaseUrl}from_laundry.png';
+  static const String marker = '${assetBaseUrl}marker.png';
+  static const String selectedMarker = '${assetBaseUrl}selected_marker.png';
 }

@@ -49,6 +49,7 @@ class RoutePaths {
   static final String changeMobileNumberVerification =
       "change_mobile_number_verfication";
 static final String subscriptionLaundry = "subscription_laundry";
+  static final String subscription = "subscription";
 
 
 }

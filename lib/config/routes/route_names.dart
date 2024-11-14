@@ -49,5 +49,6 @@ class RouteNames {
       
   static final String subscriptionLaundry =
       "subscription_laundry";
+       static final String subscription = "subscription";
       
 }

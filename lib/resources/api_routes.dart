@@ -29,6 +29,7 @@ class Api {
 
   //Districts
   static const String districts = "${baseUrl}districts";
+  static const String district = "${baseUrl}districts/district";
 
   //Branches
 

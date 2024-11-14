@@ -134,7 +134,7 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
 
           if (distanceMatrixResult != null) {
             laundries.add(
-              GoogleLaundryModel(
+              GoogleLaundryModel(vicinity: '',
                 distanceInKm: distanceMatrixResult.distanceInMeter,
                 destinationAddresses:
                     distanceMatrixResult.destination_addresses,
@@ -222,6 +222,7 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
           if (distanceMatrixResult != null) {
             laundries.add(
               GoogleLaundryModel(
+                vicinity: '',
                 distanceInKm: distanceMatrixResult.distanceInMeter,
                 destinationAddresses:
                     distanceMatrixResult.destination_addresses,

@@ -98,7 +98,7 @@ Widget addressInformation(BuildContext context,
                                 : states.districtModel!.data!.length,
                             (index) => DropdownMenuEntry(
                                 label:
-                                    states.districtModel!.data![index].name ??
+                                    states.districtModel!.data![index].nameEn ??
                                         "",
                                 value: states.districtModel!.data![index]))),
                     8.ph,
@@ -272,7 +272,7 @@ Widget addressInformation(BuildContext context,
                                     ),
                                     5.ph,
                                     SubHeading(
-                                      title: laundry.district?.name ?? "",
+                                      title: laundry.district?.nameEn ?? "",
                                       color: ColorManager.greyColor,
                                     ),
                                     5.ph,
@@ -342,7 +342,7 @@ Widget addressInformation(BuildContext context,
                                   print("Region ${states.selectedRegion!.regionId}");
                                   print("City ${states.selectedCity!.cityId}");
                                   print(
-                                      "District ${states.selectedDistrict!.id}");
+                                      "District ${states.selectedDistrict!.districtId}");
                                   print(
                                       "Google Map Address ${states.googleMapAdress}");
                                   print(
