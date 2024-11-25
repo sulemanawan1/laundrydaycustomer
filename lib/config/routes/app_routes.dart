@@ -2,7 +2,6 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/models/user_model.dart';
-import 'package:laundryday/screens/add_laundry/presentation/view/add_laundry.dart';
 import 'package:laundryday/screens/add_new_card.dart/add_new_card.dart';
 import 'package:laundryday/screens/auth/login/view/login.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
@@ -26,6 +25,7 @@ import 'package:laundryday/screens/order_summary/order_summary.dart';
 import 'package:laundryday/screens/rating_and_review/rating_and_review.dart';
 import 'package:laundryday/screens/splash/splash.dart';
 import 'package:laundryday/screens/subscription/view/subscription.dart';
+import 'package:laundryday/screens/subscription_laundry/provider/subscription_laundry_states.dart';
 import 'package:laundryday/screens/subscription_laundry/view/subscription_laundry.dart';
 import 'package:laundryday/screens/tax_invoice/view/tax_invoice.dart';
 import 'package:laundryday/config/routes/route_names.dart';
@@ -160,11 +160,7 @@ final goRouterProvider = Provider<GoRouter>((ref) => GoRouter(
         path: "/help",
         builder: (context, state) => const Help(),
       ),
-      GoRoute(
-        name: RouteNames.addLaundry,
-        path: "/add_laundry",
-        builder: (context, state) => const AddLaundry(),
-      ),
+     
       GoRoute(
         name: RouteNames.laundries,
         path: "/laundries",
@@ -266,11 +262,9 @@ final goRouterProvider = Provider<GoRouter>((ref) => GoRouter(
       GoRoute(
         name: RouteNames.subscriptionLaundry,
         path: "/subscription_laundry",
-        builder: (context, state) => SubscriptionLaundry(
-         
-        ),
+        builder: (context, state) => SubscriptionLaundry(screenType:  state.extra as SubscriptionLaundryScreenType,),
       ),
-       GoRoute(
+      GoRoute(
         name: RouteNames.subscription,
         path: "/subscription",
         builder: (context, state) => Subscription(),

@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/resources/font_manager.dart';
-import 'package:laundryday/resources/value_manager.dart';
+import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/font_manager.dart';
+import 'package:laundryday/constants/value_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 
 final reusableOrderNowCardProvider =

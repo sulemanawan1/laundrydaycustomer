@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:laundryday/core/card_utils.dart';
+import 'package:laundryday/core/card_formatter.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/add_new_card.dart/add_new_card_notifier.dart';
 import 'package:laundryday/screens/add_new_card.dart/add_new_card_states.dart';
-import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/resources/font_manager.dart';
-import 'package:laundryday/resources/sized_box.dart';
-import 'package:laundryday/resources/value_manager.dart';
+import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/font_manager.dart';
+import 'package:laundryday/constants/sized_box.dart';
+import 'package:laundryday/constants/value_manager.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
 
@@ -123,7 +123,7 @@ class _AddNewCardState extends ConsumerState<AddNewCard> {
                                       color: ColorManager.greyColor)),
                               hintText: '0000 0000 0000 0000',
                             ),
-                            validator: CardUtils.validateCardNum,
+                            validator: CardFormatter.validateCardNum,
                           ),
                           20.ph,
                           const CardLabel(label: 'Name'),
@@ -221,7 +221,7 @@ class _AddNewCardState extends ConsumerState<AddNewCard> {
                                             color: ColorManager.greyColor)),
                                     hintText: 'MM   |   YY',
                                   ),
-                                  validator: CardUtils.validateDate,
+                                  validator: CardFormatter.validateDate,
                                 ),
                               ),
                               10.pw,
@@ -264,7 +264,7 @@ class _AddNewCardState extends ConsumerState<AddNewCard> {
                                             color: ColorManager.greyColor)),
                                     hintText: 'CVV',
                                   ),
-                                  validator: CardUtils.validateCVV,
+                                  validator: CardFormatter.validateCVV,
                                 ),
                               ),
                             ],
@@ -331,8 +331,8 @@ class _AddNewCardState extends ConsumerState<AddNewCard> {
 
   void getCardTypeFrmNumber() {
     if (cardNumberController.text.length <= 6) {
-      String input = CardUtils.getCleanedNumber(cardNumberController.text);
-      CardType type = CardUtils.getCardTypeFrmNumber(input);
+      String input = CardFormatter.getCleanedNumber(cardNumberController.text);
+      CardType type = CardFormatter.getCardTypeFrmNumber(input);
       if (type != cardType) {
         setState(() {
           cardType = type;

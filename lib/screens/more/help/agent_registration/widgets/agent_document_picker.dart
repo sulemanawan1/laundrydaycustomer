@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/constants/colors.dart';
 
 class AgentDocumentPicker extends StatelessWidget {
 

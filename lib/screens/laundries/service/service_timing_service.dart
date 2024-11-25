@@ -1,8 +1,8 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundryday/screens/laundries/model/services_timings_model.dart';
+import 'package:laundryday/models/service_timings_model.dart';
 import 'package:laundryday/core/base_client_class.dart';
-import 'package:laundryday/resources/api_routes.dart';
+import 'package:laundryday/constants/api_routes.dart';
 
 class ServiceTimingService {
    Future<Either<String, ServiceTimingModel>> serviceTimings(

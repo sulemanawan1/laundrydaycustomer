@@ -4,18 +4,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:laundryday/core/date_picker_handler.dart';
+import 'package:laundryday/shared/reuseable_date_picker.dart';
 import 'package:laundryday/helpers/validation_helper.dart';
 import 'package:laundryday/provider/user_notifier.dart';
-import 'package:laundryday/resources/assets_manager.dart';
+import 'package:laundryday/constants/assets_manager.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/more/help/agent_registration/provider/delivery_agent_registartion_states.dart';
 import 'package:laundryday/screens/more/help/agent_registration/provider/delivery_agent_registration_notifier.dart';
 import 'package:laundryday/models/city_model.dart' as citymodel;
 import 'package:laundryday/models/country_model.dart' as countrymodel;
 import 'package:laundryday/models/region_model.dart' as regionmodel;
-import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/resources/sized_box.dart';
+import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/sized_box.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/utils.dart';
 import 'package:laundryday/screens/more/help/agent_registration/widgets/agent_document_picker.dart';
@@ -59,7 +59,7 @@ class AgentRegistration extends ConsumerWidget {
                   Center(
                     child: GestureDetector(
                       onTap: () {
-                        Utils().resuableCameraGalleryBottomSheet(
+                        Utils.resuableCameraGalleryBottomSheet(
                             context: context,
                             onCamerButtonPressed: () {
                               controller.pickImage(
@@ -371,7 +371,7 @@ class AgentRegistration extends ConsumerWidget {
                         20.ph,
                         AgentDocumentPicker(
                             onTap: () {
-                              Utils().resuableCameraGalleryBottomSheet(
+                              Utils.resuableCameraGalleryBottomSheet(
                                   context: context,
                                   onCamerButtonPressed: () {
                                     controller.pickIdentityImage(
@@ -392,7 +392,7 @@ class AgentRegistration extends ConsumerWidget {
                         AgentDocumentPicker(
                             imageFile: states.drivingLicenseImage,
                             onTap: () {
-                              Utils().resuableCameraGalleryBottomSheet(
+                              Utils.resuableCameraGalleryBottomSheet(
                                   context: context,
                                   onCamerButtonPressed: () {
                                     controller.pickdrivingLicenceImage(
@@ -412,7 +412,7 @@ class AgentRegistration extends ConsumerWidget {
                         AgentDocumentPicker(
                             imageFile: states.registrationImage,
                             onTap: () {
-                              Utils().resuableCameraGalleryBottomSheet(
+                              Utils.resuableCameraGalleryBottomSheet(
                                   context: context,
                                   onCamerButtonPressed: () {
                                     controller.pickRegistrationeImage(
@@ -432,7 +432,7 @@ class AgentRegistration extends ConsumerWidget {
                         AgentDocumentPicker(
                             imageFile: states.frontImage,
                             onTap: () {
-                              Utils().resuableCameraGalleryBottomSheet(
+                              Utils.resuableCameraGalleryBottomSheet(
                                   context: context,
                                   onCamerButtonPressed: () {
                                     controller.pickFrontImage(
@@ -452,7 +452,7 @@ class AgentRegistration extends ConsumerWidget {
                         AgentDocumentPicker(
                             imageFile: states.rearImage,
                             onTap: () {
-                              Utils().resuableCameraGalleryBottomSheet(
+                              Utils.resuableCameraGalleryBottomSheet(
                                   context: context,
                                   onCamerButtonPressed: () {
                                     controller.pickRearImage(

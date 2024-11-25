@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/resources/font_manager.dart';
-import 'package:laundryday/resources/sized_box.dart';
-import 'package:laundryday/resources/value_manager.dart';
-import 'package:laundryday/screens/laundries/model/services_timings_model.dart';
+import 'package:laundryday/models/service_timings_model.dart';
+import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/font_manager.dart';
+import 'package:laundryday/constants/sized_box.dart';
+import 'package:laundryday/constants/value_manager.dart';
 import 'package:laundryday/screens/laundry_items/model/category_item_model.dart';
 import 'package:laundryday/screens/laundry_items/provider/laundry_items.notifier.dart';
 

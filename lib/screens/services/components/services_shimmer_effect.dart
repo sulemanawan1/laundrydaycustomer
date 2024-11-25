@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:laundryday/resources/sized_box.dart';
+import 'package:laundryday/constants/sized_box.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ServiceShimmerEffect extends StatelessWidget {

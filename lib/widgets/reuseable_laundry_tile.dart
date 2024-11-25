@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/screens/laundries/model/google_laundry_model.dart';
-import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/resources/sized_box.dart';
-import 'package:laundryday/screens/laundries/model/laundry_by_area.model.dart'
+import 'package:laundryday/models/google_laundry_model.dart';
+import 'package:laundryday/models/laundry_by_area.model.dart'
     as laundrybyareamodel;
+import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/sized_box.dart';
 
 class ResuableLaundryTile extends StatelessWidget {
   final laundrybyareamodel.Datum laundry;
@@ -96,7 +96,7 @@ class ResuableLaundryTile extends StatelessWidget {
                 ),
                 5.pw,
                 Text(
-                  laundry.rating.toString(),
+                  laundry.branch!.rating.toString(),
                   style: getSemiBoldStyle(
                     color: ColorManager.blackColor,
                   ),
@@ -132,10 +132,10 @@ class ResuableDeliveryPickuPLaundryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> parts = laundry.destinationAddresses.toString().split('،');
+    // List<String> parts = laundry.destinationAddresses.toString().split('،');
 
-    String part3 = (parts.length > 1) ? parts[1].trim() : '';
-    String part4 = '';
+    // String part3 = (parts.length > 1) ? parts[1].trim() : '';
+    // String part4 = '';
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       elevation: 6,
@@ -195,24 +195,12 @@ class ResuableDeliveryPickuPLaundryTile extends StatelessWidget {
                       ),
                       subtitle: Padding(
                         padding: const EdgeInsets.only(top: 10),
-                        child: Row(
-                          children: [
-                            Text(
-                              textDirection: TextDirection.ltr,
-                              maxLines: 2,
-                              "${part3}",
-                              style: getSemiBoldStyle(
-                                  color: ColorManager.greyColor),
-                            ),
-                            2.pw,
-                            Text(
-                              textDirection: TextDirection.ltr,
-                              maxLines: 2,
-                              "${part4}",
-                              style: getSemiBoldStyle(
-                                  color: ColorManager.purpleColor),
-                            )
-                          ],
+                        child: Text(
+                          textDirection: TextDirection.ltr,
+                          maxLines: 2,
+                          "${laundry.destinationAddresses}",
+                          style:
+                              getSemiBoldStyle(color: ColorManager.greyColor),
                         ),
                       ),
                     ),
@@ -253,7 +241,7 @@ class ResuableDeliveryPickuPLaundryTile extends StatelessWidget {
                 ),
                 5.pw,
                 Text(
-                  "${laundry.distance}",
+                  "${laundry.distanceInKm.toStringAsFixed(1)} KM",
                   style: getRegularStyle(
                     color: ColorManager.greyColor,
                   ),

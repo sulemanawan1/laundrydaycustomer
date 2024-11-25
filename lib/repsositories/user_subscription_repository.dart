@@ -4,7 +4,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:laundryday/core/base_client_class.dart';
 import 'package:laundryday/models/user_subscription_model.dart';
-import 'package:laundryday/resources/api_routes.dart';
+import 'package:laundryday/constants/api_routes.dart';
 
 class UserSubscriptionRepository {
   Future<Either<String, UserSubscriptionModel>> createSubscription(
@@ -62,5 +62,23 @@ class UserSubscriptionRepository {
     }
   }
 
+
+  Future<Either<String, UserSubscriptionModel>> updateBranch(
+      {required Map data}) async {
+    try {
+      var url = Api.updateBranch;
+
+      var response = await BaseClientClass.postFormReq(url, data);
+
+      if (response is http.Response) {
+        return right(userSubscriptionModelFromJson(response.body));
+      } else {
+        return left(response);
+      }
+    } catch (e, s) {
+      log(s.toString());
+      return left('An Error Occured');
+    }
+  }
 
 }

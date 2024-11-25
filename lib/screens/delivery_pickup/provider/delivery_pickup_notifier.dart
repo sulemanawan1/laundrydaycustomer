@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/helpers/order_helper.dart';
 import 'package:laundryday/services/image_picker_service.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_states.dart';
-import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/constants/colors.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 
 class DeliveryPickupNotifier extends StateNotifier<DeliveryPickupStates> {

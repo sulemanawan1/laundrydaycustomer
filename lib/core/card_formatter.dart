@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CardUtils {
+class CardFormatter {
   static String? validateCVV(String? value) {
     if (value == null || value.isEmpty) {
       return "This field is required";
@@ -192,6 +192,7 @@ class CardUtils {
     return widget;
   }
 }
+
 enum CardType {
   Master,
   Visa,

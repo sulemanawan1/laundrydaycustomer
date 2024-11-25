@@ -1,16 +1,20 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:laundryday/core/utils.dart';
+import 'package:laundryday/helpers/laundries_helper.dart';
 import 'package:laundryday/helpers/order_helper.dart';
-import 'package:laundryday/resources/assets_manager.dart';
-import 'package:laundryday/resources/font_manager.dart';
+import 'package:laundryday/models/google_laundry_model.dart';
+import 'package:laundryday/constants/assets_manager.dart';
+import 'package:laundryday/constants/font_manager.dart';
 import 'package:laundryday/screens/laundries/components/delivery_pickup_heading.dart';
 import 'package:laundryday/screens/laundries/components/service_timing_dialog.dart';
-import 'package:laundryday/screens/laundries/model/google_laundry_model.dart';
 import 'package:laundryday/screens/laundries/provider/laundries_notifier.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
-import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/resources/sized_box.dart';
+import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/sized_box.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/widgets/heading.dart';
@@ -19,7 +23,7 @@ import 'package:laundryday/widgets/my_loader.dart';
 import 'package:laundryday/widgets/reusable_order_now_widget.dart';
 import 'package:laundryday/screens/services/model/services_model.dart'
     as servicemodel;
-import 'package:laundryday/screens/laundries/model/laundry_by_area.model.dart'
+import 'package:laundryday/models/laundry_by_area.model.dart'
     as laundrybyareamodel;
 import 'package:laundryday/widgets/reuseable_laundry_tile.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
@@ -260,7 +264,7 @@ class _LaundriesState extends ConsumerState<Laundries> {
                                       ),
                                       2.pw,
                                       Text(
-                                        '${laundry.distance}',
+                                        '${laundry.distanceInKm}',
                                         style: getRegularStyle(
                                             color: Color(0xFF1F2732),
                                             fontSize: FontSize.s10),
@@ -335,21 +339,82 @@ class _LaundriesState extends ConsumerState<Laundries> {
                                     context: context);
 
                             if (isAvailable) {
-                              showDialog<void>(
-                                  useSafeArea: true,
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                        insetPadding: const EdgeInsets.all(10),
-                                        clipBehavior:
-                                            Clip.antiAliasWithSaveLayer,
-                                        title: Center(
-                                          child: Heading(
-                                            title: 'Select Service Type',
+                              bool nameAljabrOrAlrahdenExist =
+                                  hasNameAljabrOrAlrahden(
+                                      laundryName: laundry.name!);
+
+                              if (nameAljabrOrAlrahdenExist) {
+                                LaundryTimings laundryTimings =
+                                    getAlajabrOrAlrahdenTimings();
+
+                                if (laundryTimings.isOpen) {
+                                  log("${laundry.name} is Opened. isOpen = ${laundryTimings.isOpen}");
+                                  showDialog<void>(
+                                      useSafeArea: true,
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                            insetPadding:
+                                                const EdgeInsets.all(10),
+                                            clipBehavior:
+                                                Clip.antiAliasWithSaveLayer,
+                                            title: Center(
+                                              child: Heading(
+                                                title: 'Select Service Type',
+                                              ),
+                                            ),
+                                            content: ServiceTimingDialog());
+                                      });
+                                } else {
+                                  log("${laundry.name} is Closed. isOpen = ${laundryTimings.isOpen}");
+
+                                  Utils.showResuableBottomSheet(
+                                      context: context,
+                                      widget: Column(
+                                        children: [
+                                          20.ph,
+                                          Icon(
+                                            Icons.schedule,
+                                            size: 80,
                                           ),
-                                        ),
-                                        content: ServiceTimingDialog());
-                                  });
+                                          Text(
+                                            textAlign: TextAlign.center,
+                                            'Try Again Later.',
+                                            style: getSemiBoldStyle(
+                                                fontSize: FontSize.s12,
+                                                color: ColorManager.blackColor),
+                                          ),
+                                          20.ph,
+                                          Text(
+                                            textAlign: TextAlign.center,
+                                            "${laundry.name!.toUpperCase()} takes a break between ${laundryTimings.breakStart} and ${laundryTimings.breakEnd}",
+                                            style: getSemiBoldStyle(
+                                                fontSize: FontSize.s14,
+                                                color: ColorManager.greyColor),
+                                          ),
+                                          20.ph,
+                                        ],
+                                      ),
+                                      title: laundry.name!);
+                                }
+                              } else {
+                                showDialog<void>(
+                                    useSafeArea: true,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                          insetPadding:
+                                              const EdgeInsets.all(10),
+                                          clipBehavior:
+                                              Clip.antiAliasWithSaveLayer,
+                                          title: Center(
+                                            child: Heading(
+                                              title: 'Select Service Type',
+                                            ),
+                                          ),
+                                          content: ServiceTimingDialog());
+                                    });
+                              }
                             }
                           },
                           laundry: laundry,
@@ -393,8 +458,60 @@ class _LaundriesState extends ConsumerState<Laundries> {
                                     context: context);
 
                             if (isAvailable) {
-                              GoRouter.of(context)
-                                  .pushNamed(RouteNames.deliveryPickup);
+
+
+                              bool nameAljabrOrAlrahdenExist =
+                                  hasNameAljabrOrAlrahden(
+                                      laundryName: laundry.name!);
+
+                              if (nameAljabrOrAlrahdenExist) {
+
+
+
+                                LaundryTimings laundryTimings =
+                                    getAlajabrOrAlrahdenTimings();
+
+                                if (laundryTimings.isOpen) {
+
+                                  GoRouter.of(context)
+                                      .pushNamed(RouteNames.deliveryPickup);
+                                      
+                                } else {
+                                  log("${laundry.name} is Closed. isOpen = ${laundryTimings.isOpen}");
+
+                                  Utils.showResuableBottomSheet(
+                                      context: context,
+                                      widget: Column(
+                                        children: [
+                                          20.ph,
+                                          Icon(
+                                            Icons.schedule,
+                                            size: 80,
+                                          ),
+                                          Text(
+                                            textAlign: TextAlign.center,
+                                            'Try Again Later.',
+                                            style: getSemiBoldStyle(
+                                                fontSize: FontSize.s12,
+                                                color: ColorManager.blackColor),
+                                          ),
+                                          20.ph,
+                                          Text(
+                                            textAlign: TextAlign.center,
+                                            "${laundry.name!.toUpperCase()} takes a break between ${laundryTimings.breakStart} and ${laundryTimings.breakEnd}",
+                                            style: getSemiBoldStyle(
+                                                fontSize: FontSize.s14,
+                                                color: ColorManager.greyColor),
+                                          ),
+                                          20.ph,
+                                        ],
+                                      ),
+                                      title: laundry.name!);
+                                }
+                              } else {
+                                GoRouter.of(context)
+                                    .pushNamed(RouteNames.deliveryPickup);
+                              }
                             }
                           },
                         );

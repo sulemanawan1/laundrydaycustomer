@@ -56,7 +56,7 @@ class UpdateAddressNotifier extends StateNotifier<UpdateAddressState> {
   }
 
   Future<LocationData?> getCurrentCameraPosition() async {
-    LocationData? pos = await GoogleServices().getLocation();
+    LocationData? pos = await GoogleServices.getLocation();
     if (pos != null) {
       log(pos.latitude.toString());
       log(pos.longitude.toString());

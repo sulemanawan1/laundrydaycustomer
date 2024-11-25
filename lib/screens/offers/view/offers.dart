@@ -4,18 +4,15 @@ import 'package:go_router/go_router.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/helpers/date_helper.dart';
-import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/resources/font_manager.dart';
-import 'package:laundryday/resources/sized_box.dart';
-import 'package:laundryday/resources/value_manager.dart';
+import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/font_manager.dart';
+import 'package:laundryday/constants/sized_box.dart';
+import 'package:laundryday/constants/value_manager.dart';
 import 'package:laundryday/screens/offers/provider/offers_notifier.dart';
+import 'package:laundryday/screens/subscription_laundry/provider/subscription_laundry_states.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
-import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/my_loader.dart';
-import 'package:laundryday/widgets/my_textform_field.dart';
-
-import '../../../core/utils.dart';
 
 class Offers extends ConsumerWidget {
   Offers({super.key});
@@ -77,8 +74,10 @@ class Offers extends ConsumerWidget {
 
                                           if (subscriptionPlanModel != null) {
                                             context.pushNamed(
-                                              RouteNames.subscriptionLaundry,
-                                            );
+                                                RouteNames.subscriptionLaundry,
+                                                extra:
+                                                    SubscriptionLaundryScreenType
+                                                        .select);
                                           }
                                         },
                                         child: Card(
@@ -233,22 +232,7 @@ class Offers extends ConsumerWidget {
                                         horizontal: AppPadding.p10),
                                     child: Column(
                                       children: [
-                                        // SizedBox(
-                                        //   height: 300,
-                                        //   child: GoogleMap(
-                                        //     initialCameraPosition:
-                                        //         CameraPosition(
-                                        //             target: initialPosition,
-                                        //             zoom: 14),
-                                        //     polygons: polygons,
-                                        //     onMapCreated: (GoogleMapController
-                                        //         gcontroller) {
-                                        //       googleMapController = gcontroller;
-                                        //     },
-                                        //   ),
-                                        // ),
                                         20.ph,
-
                                         Card(
                                           color: ColorManager.silverWhite,
                                           child: Padding(
@@ -260,6 +244,15 @@ class Offers extends ConsumerWidget {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
                                                 children: [
+                                                  20.ph,
+                                                  Text(
+                                                    'Plan Details',
+                                                    style: getSemiBoldStyle(
+                                                      color: ColorManager
+                                                          .greyColor,
+                                                      fontSize: FontSize.s16,
+                                                    ),
+                                                  ),
                                                   20.ph,
                                                   Row(
                                                     mainAxisAlignment:
@@ -367,6 +360,28 @@ class Offers extends ConsumerWidget {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
+                                                        'Total Visits',
+                                                        style: getSemiBoldStyle(
+                                                            color: ColorManager
+                                                                .blackColor,
+                                                            fontSize:
+                                                                FontSize.s12),
+                                                      ),
+                                                      Text(
+                                                        '${activeSubscription.subscriptionDetail!.totalVisits.toString().toUpperCase()}',
+                                                        style: getMediumStyle(
+                                                            color: ColorManager
+                                                                .blackColor),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  20.ph,
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
                                                         'Status',
                                                         style: getSemiBoldStyle(
                                                             color: ColorManager
@@ -392,109 +407,115 @@ class Offers extends ConsumerWidget {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        'Next Billing Date\n${DateHelper.formatDate(DateHelper.getNextMonthDate(activeSubscription.endTime!).toString())}',
+                                                        'Updation Count',
                                                         style: getSemiBoldStyle(
                                                             color: ColorManager
                                                                 .blackColor,
                                                             fontSize:
                                                                 FontSize.s12),
                                                       ),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          // Utils.showReusableDialog(
-                                                          //     context: context,
-                                                          //     title: 'Are you sure you want to cancel subscription?',
-                                                          //     widget: Column(
-                                                          //       mainAxisSize:
-                                                          //           MainAxisSize
-                                                          //               .min,
-                                                          //       children: [
-                                                          //         10.ph,
-                                                          //         Text(
-                                                          //           'Your Subscription will be cancelled immediately.',
-                                                          //           style: getMediumStyle(
-                                                          //               color: ColorManager
-                                                          //                   .greyColor,
-                                                          //               fontSize:
-                                                          //                   FontSize.s10),
-                                                          //         ),
-                                                          //         20.ph,
-                                                          //         MyButton(
-                                                          //             color: ColorManager
-                                                          //                 .lightGrey,
-                                                          //             textColor:
-                                                          //                 ColorManager
-                                                          //                     .blackColor,
-                                                          //             onPressed:
-                                                          //                 () {
-                                                          //               context
-                                                          //                   .pop();
-                                                          //             },
-                                                          //             title:
-                                                          //                 'Keep Subscription'),
-                                                          //         20.ph,
-                                                          //         MyButton(
-                                                          //             color: ColorManager
-                                                          //                 .redColor,
-                                                          //             onPressed:
-                                                          //                 () {
-                                                          //               // ref.read(yourAreaController.notifier).cancelSubscription(
-                                                          //               //     planId: activeSubscription
-                                                          //               //         .id!,
-                                                          //               //     context:
-                                                          //               //         context,
-                                                          //               //     ref:
-                                                          //               //         ref);
-                                                          //             },
-                                                          //             title:
-                                                          //                 'Cancel Subscription'),
-                                                          //         20.ph,
-                                                          //       ],
-                                                          //     ));
-                                                        },
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Text(
-                                                            'Cancel Subscription',
-                                                            style: getSemiBoldStyle(
-                                                                color:
-                                                                    ColorManager
-                                                                        .redColor,
-                                                                fontSize:
-                                                                    FontSize
-                                                                        .s10),
-                                                          ),
-                                                        ),
+                                                      Text(
+                                                        '${activeSubscription.subscriptionDetail!.branchEditCount.toString().toUpperCase()}/3',
+                                                        style: getMediumStyle(
+                                                            color: ColorManager
+                                                                .blackColor),
                                                       ),
                                                     ],
                                                   ),
                                                   20.ph,
+                                                  Text(
+                                                    'Branch Information',
+                                                    style: getSemiBoldStyle(
+                                                      color: ColorManager
+                                                          .greyColor,
+                                                      fontSize: FontSize.s16,
+                                                    ),
+                                                  ),
+                                                  20.ph,
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        'Name',
+                                                        style: getSemiBoldStyle(
+                                                            color: ColorManager
+                                                                .blackColor,
+                                                            fontSize:
+                                                                FontSize.s12),
+                                                      ),
+                                                      Text(
+                                                        activeSubscription
+                                                            .subscriptionDetail!
+                                                            .branchName
+                                                            .toString()
+                                                            .toUpperCase(),
+                                                        style: getMediumStyle(
+                                                            color: ColorManager
+                                                                .blackColor),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  20.ph,
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        'Address',
+                                                        style: getSemiBoldStyle(
+                                                            color: ColorManager
+                                                                .blackColor,
+                                                            fontSize:
+                                                                FontSize.s12),
+                                                      ),
+                                                      Text(
+                                                        activeSubscription
+                                                            .subscriptionDetail!
+                                                            .branchAddress
+                                                            .toString()
+                                                            .toUpperCase(),
+                                                        style: getMediumStyle(
+                                                            color: ColorManager
+                                                                .blackColor),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.bottomRight,
+                                                    child: TextButton(
+                                                        onPressed: () {
+
+                                                          ref
+                                                              .read(
+                                                                  offerProvider
+                                                                      .notifier)
+                                                              .selectUserSubscription(
+                                                                  userSubscriptionModel:
+                                                                      activeSubscription);
+
+
+
+                                                          context.pushNamed(
+                                                              RouteNames
+                                                                  .subscriptionLaundry,
+                                                              extra:
+                                                                  SubscriptionLaundryScreenType
+                                                                      .update);
+                                                        },
+                                                        child: Text(
+                                                          'Update Branch',
+                                                          style: getSemiBoldStyle(
+                                                              color: ColorManager
+                                                                  .primaryColor),
+                                                        )),
+                                                  ),
                                                 ]),
                                           ),
                                         ),
-
-                                        20.ph,
-                                        // if (selectDistrict != null) ...[
-                                        //   MyButton(
-                                        //       onPressed: () {
-                                        //         var data = {
-                                        //           "district_id":
-                                        //               selectDistrict.districtId,
-                                        //           "id": activeSubscription.id
-                                        //         };
-
-                                        //         ref
-                                        //             .read(yourAreaController
-                                        //                 .notifier)
-                                        //             .updateDistrict(
-                                        //                 data: data,
-                                        //                 ref: ref,
-                                        //                 context: context);
-                                        //       },
-                                        //       title: 'Update Area')
-                                        // ],
                                       ],
                                     ),
                                   );

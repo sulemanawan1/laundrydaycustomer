@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/resources/api_routes.dart';
-import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/resources/font_manager.dart';
-import 'package:laundryday/resources/sized_box.dart';
-import 'package:laundryday/resources/value_manager.dart';
+import 'package:laundryday/constants/api_routes.dart';
+import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/font_manager.dart';
+import 'package:laundryday/constants/sized_box.dart';
+import 'package:laundryday/constants/value_manager.dart';
 import 'package:laundryday/screens/laundry_items/model/category_item_model.dart';
 import 'package:laundryday/widgets/custom_cache_netowork_image.dart';
 

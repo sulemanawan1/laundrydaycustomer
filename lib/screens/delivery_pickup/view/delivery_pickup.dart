@@ -9,14 +9,13 @@ import 'package:laundryday/widgets/payment_summary_widget.dart';
 import 'package:laundryday/screens/delivery_pickup/components/scan_receipt_widget.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_notifier.dart';
 import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_states.dart';
-import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/resources/sized_box.dart';
-import 'package:laundryday/resources/value_manager.dart';
+import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/sized_box.dart';
+import 'package:laundryday/constants/value_manager.dart';
 import 'package:laundryday/widgets/address_detail_widget.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/screens/laundries/provider/laundries_notifier.dart';
-import 'package:laundryday/screens/laundry_items/components/attention_widget.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
 
 final deliverPickupProvider = StateNotifierProvider.autoDispose<

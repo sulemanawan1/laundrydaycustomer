@@ -38,7 +38,7 @@ class AddAddressNotifier extends StateNotifier<AddAddressState> {
   }
 
   Future<CameraPosition?> getCurrentCameraPosition() async {
-    LocationData? pos = await GoogleServices().getLocation();
+    LocationData? pos = await GoogleServices.getLocation();
     if (pos != null) {
       log(pos.latitude.toString());
       log(pos.longitude.toString());
@@ -62,7 +62,7 @@ class AddAddressNotifier extends StateNotifier<AddAddressState> {
   }
 
   Future coordinateToAddress({required LatLng taget}) async {
-    String? address = await GoogleServices().coordinateToAddress(latLng: taget);
+    String? address = await GoogleServices.coordinateToAddress(latLng: taget);
     log(address.toString());
     state = state.copyWith(address: address);
   }
@@ -104,7 +104,7 @@ class AddAddressNotifier extends StateNotifier<AddAddressState> {
   }
 
   intitilzeAddress() async {
-    LocationData? position = await GoogleServices().getLocation();
+    LocationData? position = await GoogleServices.getLocation();
 
     if (position != null) {
       final newCameraPosition = CameraPosition(

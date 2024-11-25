@@ -64,7 +64,7 @@ class Datum {
   String? subscriptionStatus;
   String? verificationStatus;
   int? totalOrders;
-  dynamic rating;
+  double? rating;
   int? userId;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -111,7 +111,7 @@ class Datum {
     String? subscriptionStatus,
     String? verificationStatus,
     int? totalOrders,
-    int? rating,
+    double? rating,
     int? userId,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -160,7 +160,7 @@ class Datum {
         subscriptionStatus: json["subscription_status"],
         verificationStatus: json["verification_status"],
         totalOrders: json["total_orders"],
-        rating: json["rating"],
+        rating: json["rating"]?.toDouble(),
         userId: json["user_id"],
         createdAt: json["created_at"] == null
             ? null
@@ -220,7 +220,7 @@ class Branch {
   String? licenceImage;
   String? openTime;
   String? closeTime;
-  int? rating;
+  double? rating;
   String? verificationStatus;
   int? laundryId;
   DateTime? createdAt;
@@ -265,7 +265,7 @@ class Branch {
     String? licenceImage,
     String? openTime,
     String? closeTime,
-    int? rating,
+    double? rating,
     String? verificationStatus,
     int? laundryId,
     DateTime? createdAt,
@@ -310,7 +310,7 @@ class Branch {
         licenceImage: json["licence_image"],
         openTime: json["open_time"],
         closeTime: json["close_time"],
-        rating: json["rating"],
+        rating: json["rating"]?.toDouble(),
         verificationStatus: json["verification_status"],
         laundryId: json["laundry_id"],
         createdAt: json["created_at"] == null

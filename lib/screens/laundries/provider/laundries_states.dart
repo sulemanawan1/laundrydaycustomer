@@ -1,7 +1,7 @@
-import 'package:laundryday/screens/laundries/model/google_laundry_model.dart';
-import 'package:laundryday/screens/laundries/model/laundry_by_area.model.dart'
+import 'package:laundryday/models/google_laundry_model.dart';
+import 'package:laundryday/models/laundry_by_area.model.dart'
     as laundrybyareamodel;
-import 'package:laundryday/screens/laundries/model/services_timings_model.dart'
+import 'package:laundryday/models/service_timings_model.dart'
     as servicetimingmodel;
 
 class LaundriesStates {

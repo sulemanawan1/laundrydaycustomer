@@ -9,12 +9,10 @@ class GoogleLaundryModel {
   dynamic distance;
   dynamic duration;
   dynamic vicinity;
-
   dynamic originAddresses;
   dynamic destinationAddresses;
   double distanceInKm;
   GoogleLaundryModel({
-  
     required this.name,
     required this.rating,
     required this.openingHours,
@@ -36,14 +34,13 @@ class GoogleLaundryModel {
     dynamic lng,
     dynamic distance,
     dynamic duration,
-        dynamic originAddresses,
-
+    dynamic originAddresses,
     dynamic vicinity,
     dynamic destinationAddresses,
     double? distanceInKm,
   }) {
     return GoogleLaundryModel(
-      vicinity: vicinity??this.vicinity,
+      vicinity: vicinity ?? this.vicinity,
       name: name ?? this.name,
       rating: rating ?? this.rating,
       openingHours: openingHours ?? this.openingHours,
@@ -59,7 +56,7 @@ class GoogleLaundryModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'vicinity':vicinity,
+      'vicinity': vicinity,
       'name': name,
       'rating': rating,
       'openingHours': openingHours,
@@ -75,7 +72,7 @@ class GoogleLaundryModel {
 
   factory GoogleLaundryModel.fromMap(Map<String, dynamic> map) {
     return GoogleLaundryModel(
-      vicinity: map['vicinity'] ?? null ,
+      vicinity: map['vicinity'] ?? null,
       name: map['name'] ?? null,
       rating: map['rating'] ?? null,
       openingHours: map['openingHours'] ?? null,
@@ -111,7 +108,7 @@ class GoogleLaundryModel {
         other.lng == lng &&
         other.distance == distance &&
         other.duration == duration &&
-        other.vicinity==vicinity&&
+        other.vicinity == vicinity &&
         other.originAddresses == originAddresses &&
         other.destinationAddresses == destinationAddresses &&
         other.distanceInKm == distanceInKm;
@@ -126,7 +123,7 @@ class GoogleLaundryModel {
         lng.hashCode ^
         distance.hashCode ^
         duration.hashCode ^
-        vicinity.hashCode^
+        vicinity.hashCode ^
         originAddresses.hashCode ^
         destinationAddresses.hashCode ^
         distanceInKm.hashCode;

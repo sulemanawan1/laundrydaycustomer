@@ -9,7 +9,7 @@ import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/utils.dart';
 import 'package:laundryday/provider/user_notifier.dart';
-import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/constants/colors.dart';
 import 'package:laundryday/screens/auth/login/provider/login_notifier.dart';
 import 'package:laundryday/screens/home/provider/home_notifier.dart';
 import 'package:laundryday/screens/more/profile/provider/change_mobile_number_verification_states.dart';

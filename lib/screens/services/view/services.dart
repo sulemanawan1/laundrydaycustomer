@@ -1,21 +1,24 @@
+import 'dart:convert';
+import 'dart:developer';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:laundryday/models/address_model.dart';
+import 'package:go_router/go_router.dart';
+import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/screens/services/components/customer_on_going_order_card.dart';
 import 'package:laundryday/screens/services/components/services_shimmer_effect.dart';
 import 'package:laundryday/screens/services/components/services_card.dart';
 import 'package:laundryday/screens/services/model/services_model.dart';
-import 'package:laundryday/services/google_service.dart';
 import 'package:laundryday/widgets/my_loader.dart';
 import 'package:laundryday/screens/services/components/address_bottom_sheet_widget.dart';
 import 'package:laundryday/screens/services/model/customer_order_model.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
-import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/resources/sized_box.dart';
+import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/sized_box.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
     as myaddressmodel;
-import 'package:laundryday/resources/value_manager.dart';
+import 'package:laundryday/constants/value_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 
 class Services extends ConsumerStatefulWidget {
@@ -28,6 +31,35 @@ class Services extends ConsumerStatefulWidget {
 class _ServicesState extends ConsumerState<Services> {
   @override
   void initState() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      log(message.data['type']);
+      log(message.data['data'].toString());
+      var data = jsonDecode(message.data['data'].toString());
+
+      log('Received a foreground message: ${message.notification?.title}');
+
+      if (message.data['type'] == 'Order') {
+        int orderId = data['order']['id'];
+
+        ref.invalidate(customerOrderProvider);
+        context.pushReplacementNamed(RouteNames.orderProcess, extra: orderId);
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      log(message.data['type'].toString());
+      log(message.data['data'].toString());
+      log('Received a foreground message: ${message.notification?.title}');
+
+      var data = jsonDecode(message.data['data'].toString());
+
+      if (message.data['type'] == 'Order') {
+        int orderId = data['order']['id'];
+
+        context.pushReplacementNamed(RouteNames.orderProcess, extra: orderId);
+      }
+    });
+
     super.initState();
   }
 

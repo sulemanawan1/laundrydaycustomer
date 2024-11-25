@@ -11,9 +11,9 @@ import 'package:laundryday/screens/laundries/provider/laundries_notifier.dart';
 import 'package:laundryday/screens/laundry_items/components/attention_widget.dart';
 import 'package:laundryday/screens/laundry_items/components/item_bottom_sheet_widget.dart';
 import 'package:laundryday/screens/laundry_items/provider/laundry_items.notifier.dart';
-import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/resources/sized_box.dart';
-import 'package:laundryday/resources/value_manager.dart';
+import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/sized_box.dart';
+import 'package:laundryday/constants/value_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/widgets/my_loader.dart';
 import 'package:laundryday/widgets/reuseable_laundry_detail_banner_card.dart';
@@ -57,8 +57,7 @@ class _LaundryItemsState extends ConsumerState<LaundryItems> {
           rating: selectedLaundry.rating.toString(),
           serviceName: selectedService.serviceName.toString(),
           address: selectedLaundry.destinationAddresses,
-          distance: selectedLaundry.distance,
-          duration: selectedLaundry.duration,
+          distance: selectedLaundry.distanceInKm.toString(),
         ),
       ] else if (selectedService.serviceName!.toLowerCase().trim() ==
           'clothes') ...[
@@ -68,7 +67,6 @@ class _LaundryItemsState extends ConsumerState<LaundryItems> {
           serviceName: selectedService.serviceName.toString(),
           address: selectedLaundryByArea.branch!.address.toString(),
           distance: selectedLaundryByArea.distance.toString(),
-          duration: selectedLaundryByArea.duration.toString(),
         ),
       ] else if (selectedService.serviceName!.toLowerCase().trim() ==
           'blankets') ...[
@@ -78,7 +76,6 @@ class _LaundryItemsState extends ConsumerState<LaundryItems> {
           serviceName: selectedService.serviceName.toString(),
           address: selectedLaundryByArea.branch!.address.toString(),
           distance: selectedLaundryByArea.distance.toString(),
-          duration: selectedLaundryByArea.duration.toString(),
         ),
       ],
       30.ph,

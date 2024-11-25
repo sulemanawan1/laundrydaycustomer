@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/resources/assets_manager.dart';
-import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/resources/sized_box.dart';
+import 'package:laundryday/constants/assets_manager.dart';
+import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/sized_box.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ReusabelLaundryDetailBannerCard extends StatelessWidget {
   final String serviceName;
   final String branchName;
   final String rating;
-  final String duration;
   final String distance;
-
   final String address;
 
   ReusabelLaundryDetailBannerCard({
     required this.serviceName,
     required this.branchName,
     required this.rating,
-    required this.duration,
     required this.distance,
     required this.address,
     super.key,
@@ -110,7 +107,7 @@ class ReusabelLaundryDetailBannerCard extends StatelessWidget {
                       children: [
                         10.pw,
                         Text(
-                          duration,
+                          distance,
                           style: getRegularStyle(color: ColorManager.greyColor),
                         ),
                       ],

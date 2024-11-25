@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:fpdart/fpdart.dart';
 import 'package:laundryday/core/base_client_class.dart';
-import 'package:laundryday/resources/api_routes.dart';
+import 'package:laundryday/constants/api_routes.dart';
 import 'package:http/http.dart' as http;
 import 'package:laundryday/screens/more/help/agent_registration/model/delivery_agent_registartion_model.dart';
 

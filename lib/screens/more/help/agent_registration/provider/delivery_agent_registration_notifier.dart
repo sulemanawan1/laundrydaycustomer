@@ -8,11 +8,13 @@ import 'package:fpdart/fpdart.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/repsositories/city_repository.dart';
+import 'package:laundryday/repsositories/country_repository.dart';
+import 'package:laundryday/repsositories/region_repository.dart';
+import 'package:laundryday/constants/colors.dart';
 import 'package:laundryday/screens/more/help/agent_registration/service/agent_registration_service.dart';
 import 'package:laundryday/services/image_picker_service.dart';
 import 'package:laundryday/helpers/date_helper.dart';
-import 'package:laundryday/screens/add_laundry/data/repository/add_laundry_repository.dart';
 import 'package:laundryday/screens/home/provider/home_notifier.dart';
 import 'package:laundryday/screens/more/help/agent_registration/model/delivery_agent_registartion_model.dart';
 import 'package:laundryday/screens/more/help/agent_registration/provider/delivery_agent_registartion_states.dart';
@@ -23,6 +25,7 @@ import 'package:laundryday/models/region_model.dart' as regionmodel;
 import 'package:http/http.dart' as http;
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/core/utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final getDeliveryAgentApi = Provider((ref) {
   return AgentRegistrationService();
@@ -90,7 +93,7 @@ class DeliveryAgentRegistrationNotifier
   }
 
   void countries() async {
-    var data = await AddLaundryRepository.countries();
+    var data = await CountryRepository.countries();
 
     if (kDebugMode) {
       print("Data $data");
@@ -107,7 +110,7 @@ class DeliveryAgentRegistrationNotifier
   }
 
   void regions() async {
-    var data = await AddLaundryRepository.regions();
+    var data = await RegionRepository.regions();
 
     if (kDebugMode) {
       print("Data $data");
@@ -124,7 +127,7 @@ class DeliveryAgentRegistrationNotifier
   }
 
   void cities({required int regionId}) async {
-    var data = await AddLaundryRepository.cities(regionId: regionId);
+    var data = await CityRepository.cities(regionId: regionId);
     if (kDebugMode) {
       print("Data $data");
     }
@@ -139,18 +142,18 @@ class DeliveryAgentRegistrationNotifier
     }
   }
 
-  void districts({required int cityId}) async {
-    var data = await AddLaundryRepository.districts(cityId: cityId);
+  // void districts({required int cityId}) async {
+  //   var data = await AddLaundryRepository.districts(cityId: cityId);
 
-    if (data is districtmodel.DistrictModel) {
-      districtModel = data;
-      state = state.copyWith(
-        districtModel: data,
-      );
-    } else {
-      state = state.copyWith(districtModel: null);
-    }
-  }
+  //   if (data is districtmodel.DistrictModel) {
+  //     districtModel = data;
+  //     state = state.copyWith(
+  //       districtModel: data,
+  //     );
+  //   } else {
+  //     state = state.copyWith(districtModel: null);
+  //   }
+  // }
 
   selectedCountry({required countrymodel.Datum selectedCoutry}) {
     state.regionModel = null;
@@ -263,6 +266,8 @@ class DeliveryAgentRegistrationNotifier
     }
   }
 
+ 
+
   Future<void> registerDeliveryAgent(
       {required Map<String, String> files,
       required Map<String, String> data,
@@ -281,6 +286,7 @@ class DeliveryAgentRegistrationNotifier
 
         errors.forEach((key, value) {
           (value as List).forEach((v) {
+           
             BotToast.showNotification(
               leading: (cancelFunc) => Icon(
                 Icons.info,

@@ -1,7 +1,4 @@
-import 'dart:convert';
-import 'dart:developer';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -146,21 +143,15 @@ class NotificationService {
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
       handleMessages(event);
     });
+    
   }
 
   handleMessages(RemoteMessage message) async {
     // User user = await MySharedPreferences.getUserData();
 
-    var type = message.data['type'].toString();
-    var data = message.data['data'].toString();
+   
 
-    if (type == 'Order') {
-      log(type);
-
-      Map datas = jsonDecode(data);
-    }
-
-    //   Get.toNamed(noticeboardscreen, arguments: [user, resident]);
+      // Get.toNamed(noticeboardscreen, arguments: [user, resident]);
     // } else if (message.data['type'] == 'PreApproveEntry') {
     //   Get.toNamed(preapproveentryscreen, arguments: [user, resident]);
     // } else if (message.data['type'] == 'Report') {

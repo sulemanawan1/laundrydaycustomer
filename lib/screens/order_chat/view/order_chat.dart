@@ -9,11 +9,11 @@ import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/screens/order_chat/provider/order_chat_notifier.dart';
 import 'package:laundryday/screens/order_chat/widgets/chat_textfield.dart';
 import 'package:laundryday/screens/order_process/view/order_process.dart';
-import 'package:laundryday/resources/assets_manager.dart';
-import 'package:laundryday/resources/font_manager.dart';
-import 'package:laundryday/resources/sized_box.dart';
-import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/resources/value_manager.dart';
+import 'package:laundryday/constants/assets_manager.dart';
+import 'package:laundryday/constants/font_manager.dart';
+import 'package:laundryday/constants/sized_box.dart';
+import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/value_manager.dart';
 import 'package:voice_message_package/voice_message_package.dart';
 
 class OrderChat extends ConsumerStatefulWidget {

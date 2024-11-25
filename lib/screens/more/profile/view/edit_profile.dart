@@ -1,16 +1,14 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/models/user_model.dart';
-import 'package:laundryday/resources/api_routes.dart';
-import 'package:laundryday/resources/assets_manager.dart';
-import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/constants/api_routes.dart';
+import 'package:laundryday/constants/assets_manager.dart';
+import 'package:laundryday/constants/colors.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
-import 'package:laundryday/resources/sized_box.dart';
-import 'package:laundryday/resources/value_manager.dart';
+import 'package:laundryday/constants/sized_box.dart';
 import 'package:laundryday/core/utils.dart';
 import 'package:laundryday/screens/more/profile/provider/edit_profile_notifier.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
@@ -49,7 +47,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
           Center(
             child: GestureDetector(
               onTap: () {
-                Utils().resuableCameraGalleryBottomSheet(
+                Utils.resuableCameraGalleryBottomSheet(
                     context: context,
                     onCamerButtonPressed: () {
                       controller.pickImage(

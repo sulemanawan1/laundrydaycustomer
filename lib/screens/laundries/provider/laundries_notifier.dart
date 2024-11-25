@@ -4,24 +4,19 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:http/http.dart' as http;
-import 'package:laundryday/core/utils.dart';
-import 'package:laundryday/screens/laundries/model/google_laundry_model.dart';
-import 'package:laundryday/screens/laundries/model/google_distance_matrix_model.dart';
-import 'package:laundryday/screens/laundries/model/laundry_by_area.model.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:laundryday/helpers/distance_calculator_helper.dart';
+import 'package:laundryday/models/google_laundry_model.dart';
+import 'package:laundryday/models/laundry_by_area.model.dart';
 import 'package:laundryday/screens/laundries/provider/laundries_states.dart';
 import 'package:laundryday/screens/laundries/service/laundries_services.dart';
-import 'package:laundryday/resources/api_routes.dart';
-import 'package:laundryday/screens/laundries/model/services_timings_model.dart'
-    as servicetimingmodel;
-import 'dart:math';
-import 'package:laundryday/screens/laundries/model/laundry_by_area.model.dart'
-    as laundrybyareamodel;
+import 'package:laundryday/models/service_timings_model.dart'  as servicetimingmodel;
+import 'package:laundryday/models/laundry_by_area.model.dart'as laundrybyareamodel;
 import 'package:laundryday/screens/laundries/service/service_timing_service.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
-import 'package:laundryday/screens/services/model/services_model.dart'
-    as servicemodel;
+import 'package:laundryday/screens/services/model/services_model.dart' as servicemodel;
+import 'package:laundryday/services/google_service.dart';
 
 final laundriesServicesProvider = Provider((ref) {
   return LaundriesServices();
@@ -97,60 +92,43 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
     required double userLat,
     required double userLng,
   }) async {
-    print(userLat);
-    print(userLng);
-
     try {
       List<GoogleLaundryModel> laundries = [];
 
-      final placesResponse = await _fetchNearbyLaundries(userLat, userLng);
+      final placesResponse = await GoogleServices.fetchNearbyLaundries(
+          lat: userLat, lng: userLng, radius: 3000);
+
+      String? originAddresses = await GoogleServices.coordinateToAddress(
+          latLng: LatLng(userLat, userLng));
 
       if (placesResponse.statusCode == 200) {
         final data = jsonDecode(placesResponse.body);
         List<dynamic> laundryList = data['results'];
 
-        // Prepare distance matrix requests
-        List<Future<DistanceMatrixResponse?>> distanceMatrixFutures =
-            laundryList.map((laundry) async {
-          final lat = laundry['geometry']['location']['lat'];
-          final lng = laundry['geometry']['location']['lng'];
-
-          return await _fetchDistanceMatrix(
-            laundryLat: lat,
-            laundryLng: lng,
-            userLat: userLat,
-            userLng: userLng,
-          );
-        }).toList();
-
-        // Execute all distance matrix requests in parallel
-        List<DistanceMatrixResponse?> distanceMatrixResults =
-            await Future.wait(distanceMatrixFutures);
-
-        // Process the results
         for (int i = 0; i < laundryList.length; i++) {
           var laundry = laundryList[i];
-          var distanceMatrixResult = distanceMatrixResults[i];
 
-          if (distanceMatrixResult != null) {
-            laundries.add(
-              GoogleLaundryModel(vicinity: '',
-                distanceInKm: distanceMatrixResult.distanceInMeter,
-                destinationAddresses:
-                    distanceMatrixResult.destination_addresses,
-                originAddresses: distanceMatrixResult.originAddresses,
-                name: laundry['name'],
-                rating: laundry['rating'],
-                openingHours: laundry['opening_hours'] != null
-                    ? laundry['opening_hours']['open_now']
-                    : false,
-                lat: laundry['geometry']['location']['lat'],
-                lng: laundry['geometry']['location']['lng'],
-                duration: distanceMatrixResult.durationText,
-                distance: distanceMatrixResult.distanceText,
-              ),
-            );
-          }
+          double distanceInKm = DistanceCalculatorHelper.calculateDistance(
+              userLat,
+              userLng,
+              laundry['geometry']['location']['lat'],
+              laundry['geometry']['location']['lng']);
+
+          laundries.add(
+            GoogleLaundryModel(
+              vicinity: laundry['vicinity'] ?? null,
+              distanceInKm: distanceInKm,
+              destinationAddresses: laundry['vicinity'],
+              originAddresses: originAddresses,
+              name: laundry['name'],
+              rating: laundry['rating'],
+              openingHours: laundry['opening_hours']?['open_now'] ?? false,
+              lat: laundry['geometry']['location']['lat'],
+              lng: laundry['geometry']['location']['lng'],
+              duration: null,
+              distance: null,
+            ),
+          );
         }
         List<String> excludeWords = [
           'سيارات',
@@ -162,11 +140,8 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
         ];
 
         List<GoogleLaundryModel> filteredLaundry = laundries.where((item) {
-          return !excludeWords.any(
-                  (word) => item.name.toString().toLowerCase().contains(word))
-              //     &&
-              // item.distanceInKm <= 3.0
-              ;
+          return !excludeWords
+              .any((word) => item.name.toString().toLowerCase().contains(word));
         }).toList();
 
         return right(filteredLaundry);
@@ -184,61 +159,44 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
     required double userLat,
     required double userLng,
   }) async {
-    print(userLat);
-    print(userLng);
-
     try {
       List<GoogleLaundryModel> laundries = [];
 
-      final placesResponse = await _fetchNearbyLaundries(userLat, userLng);
+      String? originAddresses = await GoogleServices.coordinateToAddress(
+          latLng: LatLng(userLat, userLng));
+
+      final placesResponse = await GoogleServices.fetchNearbyLaundries(
+          lat: userLat, lng: userLng, radius: 3000);
 
       if (placesResponse.statusCode == 200) {
         final data = jsonDecode(placesResponse.body);
+
         List<dynamic> laundryList = data['results'];
 
-        // Prepare distance matrix requests
-        List<Future<DistanceMatrixResponse?>> distanceMatrixFutures =
-            laundryList.map((laundry) async {
-          final lat = laundry['geometry']['location']['lat'];
-          final lng = laundry['geometry']['location']['lng'];
-
-          return await _fetchDistanceMatrix(
-            laundryLat: lat,
-            laundryLng: lng,
-            userLat: userLat,
-            userLng: userLng,
-          );
-        }).toList();
-
-        // Execute all distance matrix requests in parallel
-        List<DistanceMatrixResponse?> distanceMatrixResults =
-            await Future.wait(distanceMatrixFutures);
-
-        // Process the results
         for (int i = 0; i < laundryList.length; i++) {
           var laundry = laundryList[i];
-          var distanceMatrixResult = distanceMatrixResults[i];
 
-          if (distanceMatrixResult != null) {
-            laundries.add(
-              GoogleLaundryModel(
-                vicinity: '',
-                distanceInKm: distanceMatrixResult.distanceInMeter,
-                destinationAddresses:
-                    distanceMatrixResult.destination_addresses,
-                originAddresses: distanceMatrixResult.originAddresses,
-                name: laundry['name'],
-                rating: laundry['rating'],
-                openingHours: laundry['opening_hours'] != null
-                    ? laundry['opening_hours']['open_now']
-                    : false,
-                lat: laundry['geometry']['location']['lat'],
-                lng: laundry['geometry']['location']['lng'],
-                duration: distanceMatrixResult.durationText,
-                distance: distanceMatrixResult.distanceText,
-              ),
-            );
-          }
+          double distanceInKm = DistanceCalculatorHelper.calculateDistance(
+              userLat,
+              userLng,
+              laundry['geometry']['location']['lat'],
+              laundry['geometry']['location']['lng']);
+
+          laundries.add(
+            GoogleLaundryModel(
+              vicinity: laundry['vicinity'] ?? null,
+              distanceInKm: distanceInKm,
+              destinationAddresses: laundry['vicinity'],
+              originAddresses: originAddresses,
+              name: laundry['name'],
+              rating: laundry['rating'],
+              openingHours: laundry['opening_hours']?['open_now'] ?? false,
+              lat: laundry['geometry']['location']['lat'],
+              lng: laundry['geometry']['location']['lng'],
+              duration: null,
+              distance: null,
+            ),
+          );
         }
 
         List<String> excludeWords = [
@@ -267,64 +225,10 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
     }
   }
 
-  Future<http.Response> _fetchNearbyLaundries(double lat, double lng) async {
-    final url = Uri.parse(
-      'https://${Api.googleBaseUrl}/maps/api/place/nearbysearch/json?location=$lat,$lng&radius=800&type=laundry&key=${Api.googleKey}&language=ar',
-    );
-    return await http.get(url);
-  }
-
-  Future<DistanceMatrixResponse?> _fetchDistanceMatrix({
-    required double laundryLat,
-    required double laundryLng,
-    required double userLat,
-    required double userLng,
-  }) async {
-    final url = Uri.parse(
-      'https://${Api.googleBaseUrl}/maps/api/distancematrix/json?origins=$userLat,$userLng&destinations=$laundryLat,$laundryLng&key=${Api.googleKey}&language=ar',
-    );
-
-    final response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      final element = data['rows'][0]['elements'][0];
-      final destinationAddresses = data['destination_addresses'][0];
-      final originAddresses = data['origin_addresses'][0];
-
-      return DistanceMatrixResponse(
-          originAddresses: originAddresses,
-          destination_addresses: destinationAddresses,
-          durationText: element['duration']['text'],
-          distanceText: element['distance']['text'],
-          distanceInMeter:
-              Utils.metertoKilometer(element['distance']['value']));
-    }
-
-    return null;
-  }
-
   selectedLaundry({required GoogleLaundryModel selectedLaundry}) {
     print(selectedLaundry.name.toString());
 
     state = state.copyWith(selectedLaundry: selectedLaundry);
-  }
-
-  double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-    const double earthRadius = 6371; // Earth's radius in km
-    double dLat = _degreesToRadians(lat2 - lat1);
-    double dLon = _degreesToRadians(lon2 - lon1);
-    double a = sin(dLat / 2) * sin(dLat / 2) +
-        cos(_degreesToRadians(lat1)) *
-            cos(_degreesToRadians(lat2)) *
-            sin(dLon / 2) *
-            sin(dLon / 2);
-    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
-    return earthRadius * c;
-  }
-
-  double _degreesToRadians(double degrees) {
-    return degrees * pi / 180;
   }
 
   Future<bool> nearByAgents(
@@ -368,3 +272,6 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
     }
   }
 }
+
+
+

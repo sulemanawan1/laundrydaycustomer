@@ -10,34 +10,36 @@ import 'package:laundryday/screens/offers/provider/offers_states.dart';
 import 'package:laundryday/models/susbcription_plan_model.dart'
     as subscriptionplanmodel;
 import 'package:laundryday/screens/subscription/provider/subscription_notifier.dart';
+import 'package:laundryday/models/user_subscription_model.dart'
+    as usersubscriptionmodel;
 
-final subscriptionPlanRepoProvider = Provider.autoDispose((ref) {
+final subscriptionPlanRepoProvider = Provider((ref) {
   return SubscriptionPlanRepository();
 });
 
 final subscriptionPlanProvider =
-    FutureProvider.autoDispose<Either<String, SubscriptionPlanModel>>((ref) {
+    FutureProvider<Either<String, SubscriptionPlanModel>>((ref) {
   return ref.read(subscriptionPlanRepoProvider).subscriptionPlans();
 });
 
-final userRepoProvider = Provider.autoDispose((ref) => UserRepository());
+final userRepoProvider = Provider((ref) => UserRepository());
 
 final fetchUserProvider =
-    FutureProvider.autoDispose<Either<String, UserModel>>((ref) {
+    FutureProvider<Either<String, UserModel>>((ref) {
   final userId = ref.read(userProvider).userModel!.user!.id;
   return ref.read(userRepoProvider).fetchUser(userId: userId!);
 });
 
 final activeUserSubscriptionProvider =
-    FutureProvider.autoDispose<Either<String, UserSubscriptionModel>>((ref) {
-  final userId =
-      ref.read(userProvider).userModel!.user!.id;
+    FutureProvider<Either<String, UserSubscriptionModel>>((ref) {
+  final userId = ref.read(userProvider).userModel!.user!.id;
   return ref
       .read(userSubscriptionRepoProvider)
       .activeSubscription(userId: userId!);
 });
 
-final offerProvider = StateNotifierProvider< OffersNotifier,OffersStates>((ref) => OffersNotifier());
+final offerProvider = StateNotifierProvider<OffersNotifier, OffersStates>(
+    (ref) => OffersNotifier());
 
 class OffersNotifier extends StateNotifier<OffersStates> {
   OffersNotifier() : super(OffersStates());
@@ -45,5 +47,10 @@ class OffersNotifier extends StateNotifier<OffersStates> {
   selectSubscription(
       {required subscriptionplanmodel.Datum selectedSubscription}) {
     state = state.copyWith(subscriptionPlanModel: selectedSubscription);
+  }
+
+  selectUserSubscription(
+      {required usersubscriptionmodel.Data userSubscriptionModel}) {
+    state = state.copyWith(userSubscriptionModel: userSubscriptionModel);
   }
 }

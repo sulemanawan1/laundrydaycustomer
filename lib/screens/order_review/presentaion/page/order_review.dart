@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:laundryday/core/fees_calculations.dart';
 import 'package:laundryday/core/utils.dart';
 import 'package:laundryday/helpers/order_helper.dart';
-import 'package:laundryday/resources/font_manager.dart';
+import 'package:laundryday/constants/font_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/laundries/view/laundries.dart';
 import 'package:laundryday/widgets/my_loader.dart';
@@ -20,9 +20,9 @@ import 'package:laundryday/screens/laundries/provider/laundries_notifier.dart';
 import 'package:laundryday/screens/laundry_items/model/item_variation_model.dart';
 import 'package:laundryday/screens/laundry_items/provider/laundry_items.notifier.dart';
 import 'package:laundryday/screens/order_review/presentaion/riverpod/order_review_notifier.dart';
-import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/resources/sized_box.dart';
-import 'package:laundryday/resources/value_manager.dart';
+import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/sized_box.dart';
+import 'package:laundryday/constants/value_manager.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
@@ -1079,101 +1079,3 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
   }
 }
 
-class Schedule {
-  final String day;
-  final int dayNumber; // 1 = Monday, 7 = Sunday
-  final List<TimeRange> openHours;
-
-  Schedule(
-      {required this.day, required this.dayNumber, required this.openHours});
-}
-
-class TimeRange {
-  final TimeOfDay start;
-  final TimeOfDay end;
-
-  TimeRange({required this.start, required this.end});
-}
-
-List<Schedule> storeSchedule = [
-  Schedule(
-    day: 'Thursday',
-    dayNumber: 4,
-    openHours: [
-      TimeRange(
-        start: TimeOfDay(hour: 9, minute: 0),
-        end: TimeOfDay(hour: 14, minute: 0),
-      ),
-      TimeRange(
-        start: TimeOfDay(hour: 16, minute: 0),
-        end: TimeOfDay(hour: 23, minute: 30),
-      ),
-    ],
-  ),
-  Schedule(
-    day: 'Friday',
-    dayNumber: 5,
-    openHours: [
-      TimeRange(
-        start: TimeOfDay(hour: 12, minute: 30),
-        end: TimeOfDay(hour: 23, minute: 30),
-      ),
-    ],
-  ),
-  Schedule(
-    day: 'Saturday',
-    dayNumber: 6,
-    openHours: [
-      TimeRange(
-        start: TimeOfDay(hour: 9, minute: 0),
-        end: TimeOfDay(hour: 14, minute: 0),
-      ),
-      TimeRange(
-        start: TimeOfDay(hour: 16, minute: 0),
-        end: TimeOfDay(hour: 23, minute: 30),
-      ),
-    ],
-  ),
-  Schedule(
-    day: 'Sunday',
-    dayNumber: 7,
-    openHours: [
-      TimeRange(
-        start: TimeOfDay(hour: 9, minute: 0),
-        end: TimeOfDay(hour: 14, minute: 0),
-      ),
-      TimeRange(
-        start: TimeOfDay(hour: 16, minute: 0),
-        end: TimeOfDay(hour: 23, minute: 30),
-      ),
-    ],
-  ),
-  Schedule(
-    day: 'Monday',
-    dayNumber: 1,
-    openHours: [
-      TimeRange(
-        start: TimeOfDay(hour: 9, minute: 0),
-        end: TimeOfDay(hour: 14, minute: 0),
-      ),
-      TimeRange(
-        start: TimeOfDay(hour: 16, minute: 0),
-        end: TimeOfDay(hour: 23, minute: 30),
-      ),
-    ],
-  ),
-  Schedule(
-    day: 'Tuesday',
-    dayNumber: 2,
-    openHours: [
-      TimeRange(
-        start: TimeOfDay(hour: 9, minute: 0),
-        end: TimeOfDay(hour: 14, minute: 0),
-      ),
-      TimeRange(
-        start: TimeOfDay(hour: 16, minute: 0),
-        end: TimeOfDay(hour: 23, minute: 30),
-      ),
-    ],
-  ),
-];

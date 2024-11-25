@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/resources/sized_box.dart';
-import 'package:laundryday/resources/value_manager.dart';
+import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/sized_box.dart';
+import 'package:laundryday/constants/value_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/services/flutter_phone_direct_caller.dart';
 import 'package:laundryday/widgets/reusbale_dialog.dart';
 
 class Utils {
+  Utils._();
   static showToast(
       {required msg,
       Color? backgroundColor,
@@ -48,6 +49,7 @@ class Utils {
       required String title,
       Color? backgroundColor}) {
     showModalBottomSheet(
+      useSafeArea: true,
       backgroundColor: backgroundColor ?? backgroundColor,
       context: context,
       shape: const RoundedRectangleBorder(
@@ -106,7 +108,7 @@ class Utils {
     ));
   }
 
-  Future<dynamic> resuableCameraGalleryBottomSheet(
+  static Future<dynamic> resuableCameraGalleryBottomSheet(
       {required BuildContext context,
       required void Function()? onCamerButtonPressed,
       required void Function()? onGalleryButtonPressed}) {
@@ -165,8 +167,7 @@ class Utils {
     return meter / 1000;
   }
 
-
- static  directCallBottomSheeet(
+  static directCallBottomSheeet(
       {required BuildContext context, required String mobileNumber}) {
     showModalBottomSheet(
       backgroundColor: Colors.transparent,

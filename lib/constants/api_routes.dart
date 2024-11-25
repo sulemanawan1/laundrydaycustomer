@@ -1,9 +1,9 @@
 class Api {
   static const String baseUrl = 'http://192.168.1.5:8000/api/';
   static const String imageUrl = 'http://192.168.1.5:8000/storage/';
-  static const String googleBaseUrl = "maps.gomaps.pro";
+  static const String googleBaseUrl = "maps.googleapis.com";
 
-  static const String googleKey = "AlzaSyhZDjl1rS7DRcv0rw_ZOYKacj08QpvG_6F";
+  static const String googleKey = "AIzaSyBWh1CNv4DHMHLSD-EVOrJYOFXefDNyKIw";
   //Auth
   static const String checkUserByMobileNumber =
       "${baseUrl}check-user-by-mobile-number";
@@ -55,6 +55,8 @@ class Api {
   static const String pickupOrder = "${baseUrl}orders/pickup-order";
 
   static const String roundTripOrder = "${baseUrl}orders/round-trip";
+  static const String pickupOrderRoundTrip = "${baseUrl}orders/pickup-order-round-trip";
+  static const String pickupRequestUpdate = "${baseUrl}orders/pickup-request-update";
   static const String paymentCollected = "${baseUrl}orders/payment-collected";
 
   static const String order = "${baseUrl}orders/detail?id=";
@@ -76,7 +78,8 @@ class Api {
 
   static const String createUserSubscriptions =
       "${baseUrl}user_subscriptions/create";
-
+  static const String updateBranch =
+      "${baseUrl}user_subscriptions/update/branch";
   static const String activeUserSubscription =
       "${baseUrl}user_subscriptions/active/";
         static const String cancelUserSubscription =

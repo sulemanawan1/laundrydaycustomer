@@ -24,6 +24,12 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
   log("Handling a background message: ${message.data['type']}");
   log("Handling a background message: ${message.data['data']}");
+
+  //  if (message.data['type'] == 'Order Ready') {
+
+  // } else if (message.data['type'] == 'Order') {
+  //   GoRouter.of(context).pushReplacementNamed(RouteNames.orderProcess, extra: orderId);
+  // }
 }
 
 var uuid = Uuid();

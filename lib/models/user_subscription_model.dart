@@ -11,30 +11,36 @@ String userSubscriptionModelToJson(UserSubscriptionModel data) =>
     json.encode(data.toJson());
 
 class UserSubscriptionModel {
+  bool? success;
   String? message;
   Data? data;
 
   UserSubscriptionModel({
+    this.success,
     this.message,
     this.data,
   });
 
   UserSubscriptionModel copyWith({
+    bool? success,
     String? message,
     Data? data,
   }) =>
       UserSubscriptionModel(
+        success: success ?? this.success,
         message: message ?? this.message,
         data: data ?? this.data,
       );
 
   factory UserSubscriptionModel.fromJson(Map<String, dynamic> json) =>
       UserSubscriptionModel(
+        success: json["success"],
         message: json["message"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
+        "success": success,
         "message": message,
         "data": data?.toJson(),
       };
@@ -178,92 +184,85 @@ class Data {
 
 class SubscriptionDetail {
   int? userSubscriptionId;
-  int? districtId;
-  District? district;
+  double? userLat;
+  double? userLng;
+  dynamic userAddress;
+  String? branchName;
+  double? branchLat;
+  double? branchLng;
+  String? branchAddress;
+  int? branchEditCount;
+  int? totalVisits;
+  int? remainingVisits;
 
   SubscriptionDetail({
     this.userSubscriptionId,
-    this.districtId,
-    this.district,
+    this.userLat,
+    this.userLng,
+    this.userAddress,
+    this.branchName,
+    this.branchLat,
+    this.branchLng,
+    this.branchAddress,
+    this.branchEditCount,
+    this.totalVisits,
+    this.remainingVisits,
   });
 
   SubscriptionDetail copyWith({
     int? userSubscriptionId,
-    int? districtId,
-    District? district,
+    double? userLat,
+    double? userLng,
+    dynamic userAddress,
+    String? branchName,
+    double? branchLat,
+    double? branchLng,
+    String? branchAddress,
+    int? branchEditCount,
+    int? totalVisits,
+    int? remainingVisits,
   }) =>
       SubscriptionDetail(
         userSubscriptionId: userSubscriptionId ?? this.userSubscriptionId,
-        districtId: districtId ?? this.districtId,
-        district: district ?? this.district,
+        userLat: userLat ?? this.userLat,
+        userLng: userLng ?? this.userLng,
+        userAddress: userAddress ?? this.userAddress,
+        branchName: branchName ?? this.branchName,
+        branchLat: branchLat ?? this.branchLat,
+        branchLng: branchLng ?? this.branchLng,
+        branchAddress: branchAddress ?? this.branchAddress,
+        branchEditCount: branchEditCount ?? this.branchEditCount,
+        totalVisits: totalVisits ?? this.totalVisits,
+        remainingVisits: remainingVisits ?? this.remainingVisits,
       );
 
   factory SubscriptionDetail.fromJson(Map<String, dynamic> json) =>
       SubscriptionDetail(
         userSubscriptionId: json["user_subscription_id"],
-        districtId: json["district_id"],
-        district: json["district"] == null
-            ? null
-            : District.fromJson(json["district"]),
+        userLat: json["user_lat"]?.toDouble(),
+        userLng: json["user_lng"]?.toDouble(),
+        userAddress: json["user_address"],
+        branchName: json["branch_name"],
+        branchLat: json["branch_lat"]?.toDouble(),
+        branchLng: json["branch_lng"]?.toDouble(),
+        branchAddress: json["branch_address"],
+        branchEditCount: json["branch_edit_count"],
+        totalVisits: json["total_visits"],
+        remainingVisits: json["remaining_visits"],
       );
 
   Map<String, dynamic> toJson() => {
         "user_subscription_id": userSubscriptionId,
-        "district_id": districtId,
-        "district": district?.toJson(),
-      };
-}
-
-class District {
-  int? districtId;
-  String? nameAr;
-  String? nameEn;
-  int? cityId;
-  int? regionId;
-  String? boundaries;
-
-  District({
-    this.districtId,
-    this.nameAr,
-    this.nameEn,
-    this.cityId,
-    this.regionId,
-    this.boundaries,
-  });
-
-  District copyWith({
-    int? districtId,
-    String? nameAr,
-    String? nameEn,
-    int? cityId,
-    int? regionId,
-    String? boundaries,
-  }) =>
-      District(
-        districtId: districtId ?? this.districtId,
-        nameAr: nameAr ?? this.nameAr,
-        nameEn: nameEn ?? this.nameEn,
-        cityId: cityId ?? this.cityId,
-        regionId: regionId ?? this.regionId,
-        boundaries: boundaries ?? this.boundaries,
-      );
-
-  factory District.fromJson(Map<String, dynamic> json) => District(
-        districtId: json["district_id"],
-        nameAr: json["name_ar"],
-        nameEn: json["name_en"],
-        cityId: json["city_id"],
-        regionId: json["region_id"],
-        boundaries: json["boundaries"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "district_id": districtId,
-        "name_ar": nameAr,
-        "name_en": nameEn,
-        "city_id": cityId,
-        "region_id": regionId,
-        "boundaries": boundaries,
+        "user_lat": userLat,
+        "user_lng": userLng,
+        "user_address": userAddress,
+        "branch_name": branchName,
+        "branch_lat": branchLat,
+        "branch_lng": branchLng,
+        "branch_address": branchAddress,
+        "branch_edit_count": branchEditCount,
+        "total_visits": totalVisits,
+        "remaining_visits": remainingVisits,
       };
 }
 

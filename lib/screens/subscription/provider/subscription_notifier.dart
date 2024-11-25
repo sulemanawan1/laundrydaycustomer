@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/models/user_subscription_model.dart';
 import 'package:laundryday/repsositories/user_subscription_repository.dart';
-import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/constants/colors.dart';
 import 'package:laundryday/screens/offers/provider/offers_notifier.dart';
 import 'package:laundryday/screens/subscription/provider/subscription_states.dart';
 
@@ -49,16 +49,15 @@ class SubscriptionNotifier extends StateNotifier<SubscriptionStates> {
       context.pop();
       context.pop();
 
-      ref.refresh(fetchUserProvider);
-      ref.refresh(activeUserSubscriptionProvider);
+      ref.invalidate(fetchUserProvider);
+      ref.invalidate(activeUserSubscriptionProvider);
 
-      // ref.refresh(activeUserSubscriptionProvider);
-
-      // context.pushReplacementNamed(RouteNames().yourArea);
-
+      
       Future.delayed(Duration(seconds: 3), () {
         BotToast.closeAllLoading();
       });
     });
   }
+
+
 }

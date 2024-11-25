@@ -1,20 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/resources/assets_manager.dart';
-import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/resources/font_manager.dart';
-import 'package:laundryday/resources/sized_box.dart';
+import 'package:laundryday/constants/assets_manager.dart';
+import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/font_manager.dart';
+import 'package:laundryday/constants/sized_box.dart';
+import 'package:laundryday/helpers/order_helper.dart';
 import 'package:laundryday/screens/services/model/customer_order_model.dart';
+import 'package:laundryday/screens/services/provider/services_notifier.dart';
 
-class CustomerOnGoingOrderCard extends StatelessWidget {
+class CustomerOnGoingOrderCard extends ConsumerWidget {
   final List<Order> orders;
 
   const CustomerOnGoingOrderCard({super.key, required this.orders});
 
+
+  String? calculateHoursLeft(DateTime endTime) {
+    DateTime now = DateTime.now();
+    Duration difference = endTime.difference(now);
+
+    if (difference.inHours == 0) {
+      return null;
+    }
+    // Return the number of hours left
+    return "${difference.inHours.toString()}:${difference.inMinutes.toString()}";
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -34,8 +50,104 @@ class CustomerOnGoingOrderCard extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
               onTap: () {
-                context.pushReplacementNamed(RouteNames.orderProcess,
-                    extra: orders[index].id);
+                if (orders[index].status ==
+                    getRoundTripStatus(
+                        orderStatus: OrderStatusesList.readyForDelivery)) {
+                  showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) => Dialog(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: IconButton(
+                                  onPressed: () {
+                                    context.pop();
+                                  },
+                                  icon: Icon(Icons.close)),
+                            ),
+                            Image.asset(
+                              AssetImages.check,
+                              height: 80,
+                            ),
+                            10.ph,
+                            Text(
+                              textAlign: TextAlign.center,
+                              'Your order is ready. Would you like to receive it now?',
+                              style: getMediumStyle(
+                                  fontSize: FontSize.s16,
+                                  color: ColorManager.blackColor),
+                            ),
+                            Center(
+                              child: OutlinedButton(
+                                  onPressed: () {
+                                    context.pushReplacementNamed(
+                                        RouteNames.orderProcess,
+                                        extra: orders[index].id);
+                                  },
+                                  child: Text(
+                                    'Order Details',
+                                    style: getMediumStyle(
+                                        color: ColorManager.primaryColor),
+                                  )),
+                            ),
+                            25.ph,
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          WidgetStateColor.resolveWith(
+                                              (c) => ColorManager.lightGrey)),
+                                  onPressed: () {
+                                    ref
+                                        .read(serviceProvider.notifier)
+                                        .pickupRequestUpdate(data: {
+                                      "id": orders[index].id
+                                    }, ref: ref, context: context);
+                                  },
+                                  child: Text(
+                                    'I will Order Later.',
+                                    style: getRegularStyle(
+                                        fontSize: 14,
+                                        color: ColorManager.blackColor),
+                                  )),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          WidgetStateColor.resolveWith((c) =>
+                                              ColorManager.primaryColor)),
+                                  onPressed: () {
+                                    ref
+                                        .read(serviceProvider.notifier)
+                                        .pickupOrderRoundTrip(data: {
+                                      "id": orders[index].id
+                                    }, ref: ref, context: context);
+                                  },
+                                  child: Text(
+                                    'Order Now',
+                                    style: getRegularStyle(
+                                        fontSize: 14,
+                                        color: ColorManager.whiteColor),
+                                  )),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  context.pushReplacementNamed(RouteNames.orderProcess,
+                      extra: orders[index].id);
+                }
               },
               child: Card(
                 color: ColorManager.silverWhite,
@@ -46,72 +158,46 @@ class CustomerOnGoingOrderCard extends StatelessWidget {
                     children: [
                       5.ph,
                       ListTile(
-                        title: Text(orders[index].branchName.toString()),
+                        title: Text(
+                          orders[index].branchName.toString(),
+                          style: getSemiBoldStyle(
+                              color: ColorManager.blackColor,
+                              fontSize: FontSize.s14),
+                        ),
                         leading: Image.asset(
                           AssetImages.laundryIcon,
                           width: 40,
                         ),
                         trailing: Text(
-                          orders[index].id.toString(),
+                         orders[index].id.toString(),
                           style: getSemiBoldStyle(
                               color: ColorManager.greyColor,
-                              fontSize: FontSize.s12),
+                              fontSize: FontSize.s14),
                         ),
                       ),
                       5.ph,
-                      // Row(
-                      //     mainAxisAlignment: MainAxisAlignment.start,
-                      //     children: orders[index]
-                      //         .orderStatuses!
-                      //         .map((e) => (e.status == 'pending' ||
-                      //                     e.status == 'accepted') ||
-                      //                 e.status == 'received' ||
-                      //                 e.status == 'at_customer'
-                      //             ? Expanded(
-                      //                 flex: orders[index].status == e.status
-                      //                     ? 2
-                      //                     : 1,
-                      //                 child: Padding(
-                      //                   padding: const EdgeInsets.only(
-                      //                       right: AppPadding.p6),
-                      //                   child: Container(
-                      //                     height: 5,
-                      //                     decoration: BoxDecoration(
-                      //                         borderRadius:
-                      //                             BorderRadius.circular(
-                      //                                 AppSize.s4),
-                      //                         color: orders[index].status ==
-                      //                                 e.status
-                      //                             ? Color(0xFF7862EB)
-                      //                                 .withOpacity(0.3)
-                      //                             : Color(0xFF7862EB)),
-                      //                   ),
-                      //                 ),
-                      //               )
-                      //             : Expanded(
-                      //                 child: Padding(
-                      //                   padding: const EdgeInsets.only(
-                      //                       right: AppPadding.p6),
-                      //                   child: Container(
-                      //                     width: 30,
-                      //                     height: 5,
-                      //                     decoration: BoxDecoration(
-                      //                         borderRadius:
-                      //                             BorderRadius.circular(
-                      //                                 AppSize.s4),
-                      //                         color: Color(0xFFD9D9D9)),
-                      //                   ),
-                      //                 ),
-                      //               ))
-                      //         .toList()),
-                      // 5.ph,
                       Text(
-                        getOrderStatusMessage(status: orders[index].status!),
+                        orders[index].type == 'round-trip'
+                            ? getRoundTripOrderStatusMessage(
+                                status: orders[index].status!)
+                            : getOrderStatusMessage(
+                                status:orders[index].status!),
                         style: getSemiBoldStyle(
                             color: ColorManager.nprimaryColor,
-                            fontSize: FontSize.s12),
+                            fontSize: FontSize.s14),
                       ),
-                      5.ph
+                      5.ph,
+                      if (orders[index].countDownEnd != null &&
+                          (orders[index].status ==
+                              'delivering-to-store')) ...[
+                        5.ph,
+                        Text(
+                          'Order Delivery After  ${DateFormat('EEEE, dd MMM yyyy hh:mm:ss a').format(orders[index].countDownEnd!)}',
+                          style:
+                              getSemiBoldStyle(color: ColorManager.blackColor),
+                        ),
+                        5.ph,
+                      ]
                     ],
                   ),
                 ),
@@ -121,24 +207,5 @@ class CustomerOnGoingOrderCard extends StatelessWidget {
         ),
       ],
     );
-  }
-}
-
-String getOrderStatusMessage({required String status}) {
-  switch (status) {
-    case 'pending':
-      return 'Searching for Courier';
-    case 'accepted':
-      return 'Delivery Agent arrived to Laundry.';
-    case 'received':
-      return 'Delivery Agent Recived the order.';
-    case 'at_customer':
-      return 'Delivery Agent near you';
-    case 'delivered':
-      return 'Order is delivered';
-    case 'canceled':
-      return 'Order is canceled';
-    default:
-      return 'Unknown order status';
   }
 }

@@ -4,17 +4,21 @@ import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/resources/font_manager.dart';
-import 'package:laundryday/resources/sized_box.dart';
-import 'package:laundryday/resources/value_manager.dart';
-import 'package:laundryday/screens/laundries/model/google_laundry_model.dart';
+import 'package:laundryday/helpers/distance_calculator_helper.dart';
+import 'package:laundryday/models/google_laundry_model.dart';
+import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/font_manager.dart';
+import 'package:laundryday/constants/sized_box.dart';
+import 'package:laundryday/constants/value_manager.dart';
+import 'package:laundryday/screens/offers/provider/offers_notifier.dart';
 import 'package:laundryday/screens/subscription_laundry/provider/subscription_laundry_notifier.dart';
+import 'package:laundryday/screens/subscription_laundry/provider/subscription_laundry_states.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
 
 class SubscriptionLaundry extends ConsumerStatefulWidget {
-  SubscriptionLaundry({super.key});
+  final SubscriptionLaundryScreenType screenType;
+  SubscriptionLaundry({super.key, required this.screenType});
 
   @override
   ConsumerState<SubscriptionLaundry> createState() =>
@@ -34,23 +38,56 @@ class _SubscriptionLaundryState extends ConsumerState<SubscriptionLaundry> {
     var markers = ref.watch(subscriptionLaundryProvider).markers;
     var laundries = ref.watch(subscriptionLaundryProvider).laundries;
     var selectedBranch = ref.watch(subscriptionLaundryProvider).selectedBranch;
+    var userSubscriptionModel = ref.watch(offerProvider).userSubscriptionModel;
+    var address = ref.watch(subscriptionLaundryProvider).address;
 
     return Scaffold(
       bottomSheet: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: MyButton(
-            color: selectedBranch == null
-                ? ColorManager.greyColor
-                : ColorManager.primaryColor,
-            title: 'Select',
-            onPressed: selectedBranch == null
-                ? null
-                : () {
-                    context.pushNamed(RouteNames.subscription);
-                  }),
+        child:
+            widget.screenType.name == SubscriptionLaundryScreenType.select.name
+                ? MyButton(
+                    color: selectedBranch == null
+                        ? ColorManager.greyColor
+                        : ColorManager.primaryColor,
+                    title: 'Select',
+                    onPressed: selectedBranch == null
+                        ? null
+                        : () {
+                            context.pushNamed(RouteNames.subscription);
+                          })
+                : MyButton(
+                    color: selectedBranch == null
+                        ? ColorManager.greyColor
+                        : ColorManager.primaryColor,
+                    title: 'Update',
+                    onPressed: selectedBranch == null
+                        ? null
+                        : () {
+                            if (userSubscriptionModel != null) {
+                              Map data = {
+                                "id": userSubscriptionModel.id,
+                                "branch_name": selectedBranch.name!,
+                                "branch_address": selectedBranch.vicinity,
+                                "branch_lat": selectedBranch.lat,
+                                "branch_lng": selectedBranch.lng,
+                                "user_lat": initialLatLng!.latitude,
+                                "user_lng": initialLatLng.longitude,
+                                "user_address": address
+                              };
+
+                              ref
+                                  .read(subscriptionLaundryProvider.notifier)
+                                  .updateBranch(
+                                      data: data, context: context, ref: ref);
+                            }
+                          }),
       ),
       appBar: MyAppBar(
-        title: 'Subscription Laundry',
+        title:
+            widget.screenType.name == SubscriptionLaundryScreenType.select.name
+                ? 'Subscription Laundry'
+                : 'Update Branch',
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
@@ -64,19 +101,6 @@ class _SubscriptionLaundryState extends ConsumerState<SubscriptionLaundry> {
                 alignment: Alignment.bottomRight,
                 children: [
                   GoogleMap(
-                    // circles: initialLatLng != null
-                    //     ? {
-                    //         Circle(
-                    //             strokeColor: ColorManager.nprimaryColor,
-                    //             strokeWidth: 1,
-                    //             fillColor:
-                    //                 ColorManager.nprimaryColor.withOpacity(0.2),
-                    //             circleId: CircleId('branches'),
-                    //             radius: 3000,
-                    //             center: initialLatLng)
-                    //       }
-                    //     : {},
-                    // polygons: district == null ? {} : polygons,
                     compassEnabled: false,
                     myLocationEnabled: true,
                     zoomControlsEnabled: false,
@@ -165,7 +189,7 @@ class _SubscriptionLaundryState extends ConsumerState<SubscriptionLaundry> {
                                     style: getRegularStyle(
                                         fontSize: FontSize.s12,
                                         color: ColorManager.greyColor),
-                                    '${ref.read(subscriptionLaundryProvider.notifier).calculateDistance(initialLatLng!.latitude, initialLatLng.longitude, laundry.lat, laundry.lng).toStringAsFixed(2)} KM'),
+                                    '${DistanceCalculatorHelper.calculateDistance(initialLatLng!.latitude, initialLatLng.longitude, laundry.lat, laundry.lng).toStringAsFixed(2)} KM'),
                               ],
                             ),
                       subtitle: Text(laundry.vicinity),

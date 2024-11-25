@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:laundryday/resources/assets_manager.dart';
-import 'package:laundryday/resources/value_manager.dart';
+import 'package:laundryday/constants/assets_manager.dart';
+import 'package:laundryday/constants/value_manager.dart';
 
 enum OrderScreenType { delivery_pickup, normal }
 
@@ -10,6 +10,7 @@ enum OrderStatusesList {
   received,
   atCustomer,
   delivered,
+  readyForDelivery,
   collectingFromCustomer,
   paymentCollected,
   secondTripAssigned
@@ -66,6 +67,9 @@ String getPickupStatus({required OrderStatusesList orderStatus}) {
     case OrderStatusesList.atCustomer:
       return 'at_customer';
 
+    case OrderStatusesList.readyForDelivery:
+      return 'ready_for_delivery';
+
     default:
       return 'Unknown status';
   }
@@ -91,6 +95,9 @@ String getRoundTripStatus({required OrderStatusesList orderStatus}) {
     case OrderStatusesList.paymentCollected:
       return 'payment-collected';
 
+    case OrderStatusesList.readyForDelivery:
+      return 'ready_for_delivery';
+
     case OrderStatusesList.secondTripAssigned:
       return 'second-trip-assigned';
     default:
@@ -98,24 +105,7 @@ String getRoundTripStatus({required OrderStatusesList orderStatus}) {
   }
 }
 
-String getStatusMessage({required String status}) {
-  switch (status) {
-    case 'pending':
-      return 'Searching for Courier';
-    case 'accepted':
-      return 'Agent arrived to Laundry.';
-    case 'received':
-      return 'Agent Recived the order.';
-    case 'at_customer':
-      return 'Agent near you';
-    case 'delivered':
-      return 'Order is completed';
-    case 'canceled':
-      return 'Order is canceled';
-    default:
-      return 'Unknown order status';
-  }
-}
+//
 
 String getPickupOrderStatusMessage({required String status}) {
   switch (status) {
@@ -125,6 +115,8 @@ String getPickupOrderStatusMessage({required String status}) {
       return 'Agent arrived to Laundry.';
     case 'received':
       return 'Agent Recived the order.';
+    case 'ready_for_delivery':
+      return 'Your Order is ready for Pickup.';
     case 'at_customer':
       return 'Agent near you';
     case 'delivered':
@@ -148,6 +140,9 @@ String getStatusImage({required String status}) {
 
     case 'collecting-from-customer':
       return AssetImages.collectingFromCustomer;
+
+    case 'ready_for_delivery':
+      return AssetImages.check;
     case 'delivering-to-store':
       return AssetImages.invoice;
     case 'delivered':
@@ -171,7 +166,8 @@ String getRoundTripOrderStatusMessage({required String status}) {
       return 'Items Collected';
     case 'delivering-to-store':
       return 'The Invoice has been Issued';
-
+    case 'ready_for_delivery':
+      return 'Your Order is ready for Pickup.';
     case 'payment-collected':
       return 'Payment Successful';
     case 'second-trip-assigned':
@@ -200,7 +196,8 @@ String getRoundTripOrderDescription({required String status}) {
 
     case 'delivering-to-store':
       return 'The Agent will recieve your order when service time is completed';
-
+    case 'ready_for_delivery':
+      return 'Your Order is ready for Pickup.';
     case 'payment-collected':
       return 'Payment Successful';
     case 'second-trip-assigned':
@@ -231,7 +228,8 @@ String getOrderDescription({required String status}) {
       return 'Delivery Agent  recieved order, he is on his way.';
     case 'at_customer':
       return 'Delivery Agent near you , be ready to get your order.';
-
+    case 'ready_for_delivery':
+      return 'Your Order is ready for Pickup.';
     case 'delivered':
       return 'Your Order is completed, we hope to see you again';
     case 'canceled':
@@ -255,6 +253,8 @@ String getOrderStatusMessage({required String status}) {
       return 'Order is delivered';
     case 'canceled':
       return 'Order is canceled';
+    case 'ready_for_delivery':
+      return 'Your Order is ready for Pickup';
     default:
       return 'Unknown order status';
   }

@@ -5,14 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:laundryday/screens/order_process/components/pickup_order.dart';
 import 'package:laundryday/screens/order_process/components/round_trip_order.dart';
 import 'package:laundryday/helpers/order_helper.dart';
-import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/services/pusher_service.dart';
-import 'package:laundryday/resources/sized_box.dart';
+import 'package:laundryday/constants/colors.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_loader.dart';
-import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/screens/order_process/providers/order_process_notifier.dart';
 import 'package:laundryday/screens/order_process/providers/order_process_states.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
@@ -42,10 +39,6 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
       ref
           .read(orderProcessProvider.notifier)
           .getOrderDetail(orderId: widget.orderId, ref: ref, context: context);
-
-      final userModel = ref.read(userProvider).userModel;
-
-      PusherService(userModel: userModel!, ref: ref).initCLinet();
     });
   }
 
@@ -53,26 +46,29 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
   Widget build(BuildContext context) {
     var orderState = ref.watch(orderProcessProvider).orderState;
     var orderModel = ref.watch(orderProcessProvider).orderModel;
+
     OrderType? orderType;
     if (orderState is OrderStateLoadedState) {
       orderType = getOrderType(orderType: orderModel.order!.type.toString());
     }
 
     return PopScope(
-      canPop: false, //When false, blocks the current route from being popped.
+      canPop: false,
       onPopInvoked: (didpop) async {
         if (didpop) {
           return;
         }
         Future.delayed(Duration(seconds: 0), () {
-          ref.invalidate(serviceProvider);
-
+          // ref.invalidate(serviceProvider);
+          ref.invalidate(customerOrderProvider);
           context.goNamed(RouteNames.home);
         });
       },
       child: Scaffold(
           appBar: MyAppBar(
             onPressed: () {
+              // ref.invalidate(serviceProvider);
+              ref.invalidate(customerOrderProvider);
               context.goNamed(RouteNames.home);
             },
             title: 'order',
@@ -144,8 +140,4 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
           )),
     );
   }
-
- 
-  
 }
-

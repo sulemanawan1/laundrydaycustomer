@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:laundryday/core/base_client_class.dart';
 import 'package:laundryday/models/token_model.dart';
-import 'package:laundryday/resources/api_routes.dart';
+import 'package:laundryday/constants/api_routes.dart';
 import 'package:http/http.dart' as http;
 
 class OrderChatService {

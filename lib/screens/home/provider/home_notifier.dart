@@ -13,7 +13,8 @@ class HomeNotifier extends StateNotifier<HomeStates> {
     log(index.toString());
 
     if (index == 2) {
-      ref.refresh(fetchUserProvider);
+      ref.invalidate(fetchUserProvider);
+      ref.invalidate(activeUserSubscriptionProvider);
     }
     state = state.copyWith(index: index);
   }

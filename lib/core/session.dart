@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:laundryday/models/user_model.dart';
 import 'package:laundryday/provider/user_notifier.dart';
-import 'package:laundryday/resources/my_shareprefrences_constants.dart';
+import 'package:laundryday/constants/my_shareprefrences_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MySharedPreferences {

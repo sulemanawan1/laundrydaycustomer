@@ -4,7 +4,7 @@ import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/screens/order_chat/provider/order_chat_notifier.dart';
 import 'package:laundryday/screens/order_chat/widgets/chat_image_picker.dart';
 import 'package:laundryday/screens/order_process/view/order_process.dart';
-import 'package:laundryday/resources/colors.dart';
+import 'package:laundryday/constants/colors.dart';
 
 class ChatTextField extends StatelessWidget {
   final WidgetRef ref;

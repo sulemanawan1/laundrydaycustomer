@@ -1,11 +1,9 @@
 import 'package:image_picker/image_picker.dart';
-
 import 'package:laundryday/models/city_model.dart' as citymodel;
 import 'package:laundryday/models/country_model.dart' as countrymodel;
 import 'package:laundryday/models/district_model.dart' as districtmodel;
 import 'package:laundryday/models/region_model.dart' as regionmodel;
 import 'package:laundryday/screens/more/help/agent_registration/model/delivery_agent_registartion_model.dart';
-
 enum IDType { residentId, nationalId }
 
 // National Id,Residen Id

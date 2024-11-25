@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/resources/colors.dart';
-import 'package:laundryday/resources/sized_box.dart';
-import 'package:laundryday/screens/laundries/model/google_laundry_model.dart';
+import 'package:laundryday/models/google_laundry_model.dart';
+import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/sized_box.dart';
 
 class LaundryDetailCard extends StatelessWidget {
   final GoogleLaundryModel laundry;
@@ -59,17 +59,18 @@ class LaundryDetailCard extends StatelessWidget {
             Row(
               children: [
                 Icon(
-                  Icons.directions_walk,
+                  Icons.location_on,
                   size: 14,
                   color: ColorManager.primaryColor,
                 ),
                 10.pw,
                 Text(
-                  laundry.duration.toString(),
+                  "${laundry.distanceInKm.toStringAsFixed(1)} Km",
                   style: getMediumStyle(color: ColorManager.greyColor),
                 ),
               ],
             ),
+            8.ph,
           ]),
         ),
       ),
