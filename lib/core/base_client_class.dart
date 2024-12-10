@@ -54,13 +54,13 @@ class BaseClientClass {
     try {
       var request = http.MultipartRequest('POST', Uri.parse(url));
 
-      // Adding headers
+      //  headers
       Map<String, String> headers = {
         // Uncomment and replace 'your-token' with the actual token
         // 'Authorization': 'Bearer ${userModel.token}',
       };
 
-      // Adding the file if it exists
+      //  the file if it exists
       if (files != null) {
         for (var entry in files.entries) {
           request.files
