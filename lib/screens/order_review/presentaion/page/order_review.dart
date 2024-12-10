@@ -113,6 +113,19 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
   void initState() {
     super.initState();
 
+    // ref.read(orderReviewProvider.notifier).calculate(
+    //   data: {
+
+
+
+
+
+
+
+    //   },
+    //   ref: ref,
+    // );
+
     if (widget.orderType == OrderScreenType.normal) {
       ref.read(orderReviewProvider.notifier).getAllItems();
     }
@@ -904,7 +917,6 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                                       'total_price': 0,
                                       "delivery_type":
                                           selecteddeliveryType.deliveryType,
-                                    
                                       "items": items
                                           .map((e) => {
                                                 "item_variation_id": e.id,
@@ -912,7 +924,6 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                                                 "quantity": e.quantity
                                               })
                                           .toList(),
-                                          
                                     };
                                   } else {
                                     data = {
@@ -1080,4 +1091,3 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
     );
   }
 }
-

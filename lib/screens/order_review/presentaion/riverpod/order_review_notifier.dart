@@ -7,18 +7,38 @@ import 'package:laundryday/core/utils.dart';
 import 'package:laundryday/helpers/db_helper.dart';
 import 'package:laundryday/constants/assets_manager.dart';
 import 'package:laundryday/models/order_model.dart';
+import 'package:laundryday/models/order_summary_model.dart';
+import 'package:laundryday/repsositories/order_summary_repository.dart';
 import 'package:laundryday/screens/laundry_items/model/item_variation_model.dart';
 import 'package:laundryday/screens/order_review/data/models/payment_option_model.dart';
 import 'package:laundryday/repsositories/order_repository.dart';
 import 'package:laundryday/screens/order_review/presentaion/riverpod/order_review_states.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
+import 'package:laundryday/shared/provider/user_notifier.dart';
+
+final orderSummaryRepoProvider = Provider((ref) {
+  return OrderSummaryRepository();
+});
+
+final orderSumaryProvder =
+    FutureProvider.autoDispose<Either<String, OrderSummaryModel>>((ref) async {
+  final userModel = ref.read(userProvider).userModel;
+  return await ref.read(orderSummaryRepoProvider).calculate(data: {
+    // pickup_only_from_store
+    "code": "20%OFF",
+    "order_type": "drop_and_pickup_from_store",
+    "user_id": 4,
+    "distance": 3000,
+    "items": [
+      {"item_variation_id": 1, "price": 10.1, "quantity": 10},
+      {"item_variation_id": 1, "price": 10, "quantity": 4}
+    ]
+  });
+});
 
 final orderReviewProvider =
     StateNotifierProvider.autoDispose<OrderReviewNotifier, OrderReviewStates>(
         (ref) {
-
-  
-
   return OrderReviewNotifier();
 });
 
@@ -46,9 +66,8 @@ class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
           isLoading: false,
           items: [],
           isRecording: false,
-        )) {
-    
-  }
+          
+        )) {}
 
   Future getAllItems() async {
     List<ItemVariation> items =
@@ -62,6 +81,19 @@ class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
   selectDeliveryType({required DelivertTypeModel deliveryTypeModel}) {
     state = state.copyWith(selecteddeliveryType: deliveryTypeModel);
   }
+
+  // calculate(
+  //     {required Map data,
+  //     required WidgetRef ref,
+  //    }) async {
+
+  //   Either<String, OrderSummaryModel> apiData =
+  //       await _orderSummaryRepository.calculate(data: data);
+
+  //   apiData.fold((l) {}, (r) {
+  //     log(r.data!.deliveryFees.toString());
+  //   });
+  // }
 
   pickupOrder(
       {required Map data,
@@ -157,7 +189,6 @@ class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
     });
   }
 
- 
   selectPaymentOption({required PaymentOptionModel selectedPaymentOption}) {
     state = state.copyWith(selectedPaymentOption: selectedPaymentOption);
   }
