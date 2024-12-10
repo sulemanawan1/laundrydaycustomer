@@ -1,42 +1,49 @@
-name: Flutter CI/CD
-
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
-
+      - master
+  push:
+    branches:
+      - main
+      - master
+      - develop
+name: "Build & Release"
 jobs:
   build:
-    name: Build and Test
-    runs-on: ubuntu-latest
-
+    name: Build & Release
+    runs-on: macos-latest
     steps:
-      # Step 1: Checkout the code
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      # Step 2: Set up Flutter
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
         with:
-          flutter-version: 'stable'
+          distribution: 'zulu'
+          java-version: '12'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          architecture: x64
 
-      # Step 3: Install dependencies
-      - name: Install dependencies
-        run: flutter pub get
+      - run: flutter build apk --release --split-per-abi
+      - run: |
+          flutter build ios --no-codesign
+          cd build/ios/iphoneos
+          mkdir Payload
+          cd Payload
+          ln -s ../Runner.app
+          cd ..
+          zip -r app.ipa Payload
+      - name: Push to Releases
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/apk/release/*,build/ios/iphoneos/app.ipa"
+          tag: v1.0.${{ github.run_number }}
+          token: ${{ secrets.TOKEN }}
 
-      # Step 4: Run tests
-      - name: Run tests
-        run: flutter test
 
-      # Step 5: Build APK (for Android)
-      - name: Build APK
-        run: flutter build apk --release
 
-      # Step 6: Build IPA (for iOS, optional)
-      - name: Build IPA
-        if: runner.os == 'macOS'
-        run: flutter build ios --release
+
+
+
+# push to master, main, develop
+# pull request on main master
