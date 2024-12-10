@@ -3,7 +3,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:laundryday/models/susbcription_plan_model.dart';
 import 'package:laundryday/models/user_model.dart';
 import 'package:laundryday/models/user_subscription_model.dart';
-import 'package:laundryday/provider/user_notifier.dart';
+import 'package:laundryday/shared/provider/user_notifier.dart';
 import 'package:laundryday/repsositories/subscription_plan_repository.dart';
 import 'package:laundryday/repsositories/user_repository.dart';
 import 'package:laundryday/screens/offers/provider/offers_states.dart';
@@ -24,8 +24,7 @@ final subscriptionPlanProvider =
 
 final userRepoProvider = Provider((ref) => UserRepository());
 
-final fetchUserProvider =
-    FutureProvider<Either<String, UserModel>>((ref) {
+final fetchUserProvider = FutureProvider<Either<String, UserModel>>((ref) {
   final userId = ref.read(userProvider).userModel!.user!.id;
   return ref.read(userRepoProvider).fetchUser(userId: userId!);
 });
@@ -33,9 +32,10 @@ final fetchUserProvider =
 final activeUserSubscriptionProvider =
     FutureProvider<Either<String, UserSubscriptionModel>>((ref) {
   final userId = ref.read(userProvider).userModel!.user!.id;
+
   return ref
       .read(userSubscriptionRepoProvider)
-      .activeSubscription(userId: userId!);
+      .activeSubscription(userId: userId!, role: 'customer');
 });
 
 final offerProvider = StateNotifierProvider<OffersNotifier, OffersStates>(

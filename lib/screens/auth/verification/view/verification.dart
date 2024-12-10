@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
+import 'package:laundryday/constants/font_manager.dart';
 import 'package:laundryday/helpers/validation_helper.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/auth/verification/provider/verification_notifier.dart';
@@ -11,7 +12,7 @@ import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:pinput/pinput.dart';
 
-class Verification extends ConsumerWidget  {
+class Verification extends ConsumerWidget {
   final String verificationId;
   Verification({super.key, required this.verificationId});
   @override
@@ -20,8 +21,7 @@ class Verification extends ConsumerWidget  {
     final isLoading = ref.watch(verificationProvider).isLoading;
     final key = GlobalKey<FormState>();
 
-    return 
-    Scaffold(
+    return Scaffold(
       body: Form(
         key: key,
         child: Padding(
@@ -30,8 +30,6 @@ class Verification extends ConsumerWidget  {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-
-
               Card(
                 elevation: 0,
                 shape: RoundedRectangleBorder(
@@ -47,7 +45,12 @@ class Verification extends ConsumerWidget  {
                       color: ColorManager.primaryColor,
                     ),
                     10.ph,
-                    const Heading(title: 'Verification'),
+                    Text(
+                      'Verification',
+                      style: getSemiBoldStyle(
+                          color: ColorManager.blackColor,
+                          fontSize: FontSize.s14),
+                    ),
                     10.ph,
                     HeadingMedium(
                         title: "Enter your 6 digits\nVerification Code."),
@@ -97,8 +100,5 @@ class Verification extends ConsumerWidget  {
         ),
       ),
     );
-  
-  
-  
   }
 }

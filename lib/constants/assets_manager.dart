@@ -18,7 +18,8 @@ class AssetImages {
   static const String call = '${assetBaseUrl}call.png';
   static const String chat = '${assetBaseUrl}chat.png';
   static const String rating = '${assetBaseUrl}rating.png';
-  static const String readyForDelivery = '${assetBaseUrl}ready_for_delivery.jpeg';
+  static const String readyForDelivery =
+      '${assetBaseUrl}ready_for_delivery.jpeg';
   static const String car = '${assetBaseUrl}car.png';
   static const String user = '${assetBaseUrl}user.png';
   static const String carpet = '${assetBaseUrl}carpet.jpg';
@@ -30,4 +31,6 @@ class AssetImages {
   static const String check = '${assetBaseUrl}check.png';
   static const String marker = '${assetBaseUrl}marker.png';
   static const String selectedMarker = '${assetBaseUrl}selected_marker.png';
+  static const String tick = '${assetBaseUrl}tick.png';
+  static const String notFound = '${assetBaseUrl}not_found.png';
 }

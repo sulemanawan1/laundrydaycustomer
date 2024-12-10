@@ -13,7 +13,7 @@ import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/laundries/view/laundries.dart';
 import 'package:laundryday/widgets/my_loader.dart';
 import 'package:laundryday/widgets/payment_summary_widget.dart';
-import 'package:laundryday/provider/user_notifier.dart';
+import 'package:laundryday/shared/provider/user_notifier.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/screens/laundries/provider/laundries_notifier.dart';
@@ -904,6 +904,7 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                                       'total_price': 0,
                                       "delivery_type":
                                           selecteddeliveryType.deliveryType,
+                                    
                                       "items": items
                                           .map((e) => {
                                                 "item_variation_id": e.id,
@@ -911,6 +912,7 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                                                 "quantity": e.quantity
                                               })
                                           .toList(),
+                                          
                                     };
                                   } else {
                                     data = {

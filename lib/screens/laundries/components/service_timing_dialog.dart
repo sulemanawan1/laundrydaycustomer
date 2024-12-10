@@ -10,8 +10,8 @@ import 'package:laundryday/constants/sized_box.dart';
 import 'package:laundryday/screens/laundries/provider/laundries_notifier.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
 import 'package:laundryday/widgets/custom_cache_netowork_image.dart';
-import 'package:laundryday/screens/services/model/services_model.dart'
-    as servicemodel;
+import 'package:laundryday/models/services_model.dart' as servicemodel;
+
 import 'package:laundryday/widgets/my_loader.dart';
 
 class ServiceTimingDialog extends ConsumerWidget {

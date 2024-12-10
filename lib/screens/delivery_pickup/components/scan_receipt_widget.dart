@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/screens/delivery_pickup/view/delivery_pickup.dart';
 import 'package:laundryday/constants/colors.dart';
 import 'package:laundryday/constants/sized_box.dart';
-import 'package:laundryday/widgets/heading.dart';
 
 class ScanReceiptWidget extends StatelessWidget {
   final WidgetRef ref;
@@ -108,9 +108,8 @@ class ScanReceiptWidget extends StatelessWidget {
                             color: ColorManager.primaryColor,
                           ),
                           10.ph,
-                          const Heading(
-                            title: 'Scan Recipt',
-                          )
+                          Text('Scan Recipt',style: getSemiBoldStyle(color: ColorManager.blackColor),)
+                          
                         ],
                       )
                     : Image.file(File(states.image!.path.toString()))),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/provider/user_notifier.dart';
+import 'package:laundryday/shared/provider/user_notifier.dart';
 import 'package:laundryday/constants/colors.dart';
 import 'package:laundryday/constants/font_manager.dart';
 import 'package:laundryday/constants/sized_box.dart';
@@ -113,6 +113,7 @@ class Subscription extends ConsumerWidget {
                           "branch_lng": selectedBranch.lng,
                           "user_lat": userLatLng!.latitude,
                           "user_lng": userLatLng.longitude,
+                          "role": 'customer'
                           // "user_address": "Al Mahamid AhHazhm"
                         };
                         ref

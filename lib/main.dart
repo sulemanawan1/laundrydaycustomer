@@ -17,6 +17,7 @@ import 'config/routes/app_routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 @pragma('vm:entry-point')
+
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
@@ -28,13 +29,17 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   //  if (message.data['type'] == 'Order Ready') {
 
   // } else if (message.data['type'] == 'Order') {
-  //   GoRouter.of(context).pushReplacementNamed(RouteNames.orderProcess, extra: orderId);
+
   // }
+
+
+
 }
 
 var uuid = Uuid();
 
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
@@ -48,6 +53,8 @@ void main() async {
     name: 'Popup Notification',
     visibility: NotificationVisibility.VISIBILITY_PUBLIC,
   );
+
+
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
@@ -77,6 +84,7 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     final GoRouter routes = ref.read(goRouterProvider);
 
     return MaterialApp.router(

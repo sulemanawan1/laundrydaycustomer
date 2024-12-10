@@ -5,11 +5,11 @@ import 'package:laundryday/constants/colors.dart';
 import 'package:laundryday/constants/sized_box.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
+import 'package:laundryday/models/order_list_model.dart';
 import 'package:laundryday/screens/services/components/customer_on_going_order_card.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
-import 'package:laundryday/screens/services/model/customer_order_model.dart';
 import 'package:laundryday/widgets/my_loader.dart';
 
 class Orders extends ConsumerWidget {
@@ -34,7 +34,7 @@ class Orders extends ConsumerWidget {
                     return data.fold((l) {
                       return Text(l);
                     }, (r) {
-                      List<Order> orders = r.order!;
+                      List<Order> orders = r.orders!;
                       return CustomerOnGoingOrderCard(orders: orders);
                     });
                   },

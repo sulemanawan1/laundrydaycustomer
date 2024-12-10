@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/font_manager.dart';
 import 'package:laundryday/constants/sized_box.dart';
 import 'package:laundryday/constants/value_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/services/flutter_phone_direct_caller.dart';
-import 'package:laundryday/widgets/reusbale_dialog.dart';
 
 class Utils {
   Utils._();
+  
   static showToast(
       {required msg,
       Color? backgroundColor,
@@ -31,16 +32,23 @@ class Utils {
     required List<Widget> buttons,
   }) {
     showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return ReusableDialog(
-          title: title,
-          description: description,
-          buttons: buttons,
-        );
-      },
-    );
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              title,
+              style: getSemiBoldStyle(
+                  color: ColorManager.blackColor, fontSize: FontSize.s14),
+            ),
+            content: Text(
+              description,
+              style: getMediumStyle(
+                  color: ColorManager.blackColor, fontSize: FontSize.s12),
+            ),
+            actions: buttons,
+          );
+        });
   }
 
   static showResuableBottomSheet(

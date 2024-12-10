@@ -5,28 +5,35 @@ import 'package:fpdart/fpdart.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/core/utils.dart';
-import 'package:laundryday/screens/order_review/data/models/order_model.dart';
-import 'package:laundryday/screens/order_review/data/order_repository.dart';
+import 'package:laundryday/models/order_list_model.dart';
+import 'package:laundryday/models/order_model.dart';
+import 'package:laundryday/repsositories/order_repository.dart';
 import 'package:laundryday/services/google_service.dart';
-import 'package:laundryday/provider/user_notifier.dart';
+import 'package:laundryday/shared/provider/user_notifier.dart';
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart';
-import 'package:laundryday/screens/services/model/customer_order_model.dart';
 import 'package:laundryday/screens/services/provider/services_states.dart';
-import 'package:laundryday/screens/services/service/customer_order_repository.dart';
+import 'package:laundryday/repsositories/order_list_repository.dart';
 import 'package:laundryday/screens/services/service/services_service.dart';
-import 'package:laundryday/screens/services/model/services_model.dart'
-    as servicemodel;
+import 'package:laundryday/models/services_model.dart' as servicemodel;
 
 final customerOrdersApi = Provider((ref) {
-  return CustomerOrderRepository();
+  return OrderListRepository();
 });
 
 final customerOrderProvider =
-    FutureProvider.autoDispose<Either<String, CustomerOrderModel>>((ref) async {
+    FutureProvider.autoDispose<Either<String, OrderListModel>>((ref) async {
   final userModel = ref.read(userProvider).userModel;
   return await ref
       .read(customerOrdersApi)
       .customerOrders(userId: userModel!.user!.id!);
+});
+
+final pendingPickupRequestProvider =
+    FutureProvider.autoDispose<Either<String, OrderListModel>>((ref) async {
+  final userModel = ref.read(userProvider).userModel;
+  return await ref
+      .read(customerOrdersApi)
+      .pendingPickupRequests(userId: userModel!.user!.id!);
 });
 
 final servicesApi = Provider((ref) {
@@ -150,6 +157,7 @@ class ServicesNotifier extends StateNotifier<ServicesStates> {
     }, (r) {
       context.pop();
       ref.invalidate(customerOrderProvider);
+      ref.invalidate(pendingPickupRequestProvider);
       BotToast.closeAllLoading();
 
       // context.pushReplacementNamed(RouteNames.orderProcess,

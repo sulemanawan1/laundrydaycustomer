@@ -1,8 +1,9 @@
 import 'dart:math';
 
-class DistanceCalculatorHelper {
-  DistanceCalculatorHelper._();
-   static   double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+class DistanceCalculator {
+  DistanceCalculator._();
+  static double calculateDistance(
+      double lat1, double lon1, double lat2, double lon2) {
     const double radiusOfEarthKm = 6371.0; // Radius of Earth in kilometers
     double dLat = _degreesToRadians(lat2 - lat1);
     double dLon = _degreesToRadians(lon2 - lon1);

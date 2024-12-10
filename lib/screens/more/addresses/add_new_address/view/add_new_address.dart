@@ -4,7 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:laundryday/models/address_model.dart';
 import 'package:laundryday/services/google_service.dart';
 import 'package:laundryday/helpers/validation_helper.dart';
-import 'package:laundryday/provider/user_notifier.dart';
+import 'package:laundryday/shared/provider/user_notifier.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/more/addresses/add_new_address/provider/add_new_address_notifier.dart';
 import 'package:laundryday/constants/colors.dart';

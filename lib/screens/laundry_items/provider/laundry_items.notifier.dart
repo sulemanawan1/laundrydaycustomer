@@ -10,10 +10,11 @@ import 'package:laundryday/screens/laundry_items/model/item_variation_size_model
 
 import 'package:laundryday/screens/laundry_items/provider/laundry_item_states.dart';
 import 'package:laundryday/screens/laundry_items/service/laundry_item_service.dart';
-import 'package:laundryday/screens/services/model/services_model.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
 import 'package:laundryday/screens/laundry_items/model/category_item_model.dart'
     as categorymodel;
+
+import '../../../models/services_model.dart';
 
 final laundryItemProver =
     StateNotifierProvider.autoDispose<LaundryItemsNotifier, LaundryItemStates>(

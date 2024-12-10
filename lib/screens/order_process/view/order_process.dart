@@ -6,7 +6,6 @@ import 'package:laundryday/screens/order_process/components/pickup_order.dart';
 import 'package:laundryday/screens/order_process/components/round_trip_order.dart';
 import 'package:laundryday/helpers/order_helper.dart';
 import 'package:laundryday/constants/colors.dart';
-import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_loader.dart';
@@ -61,15 +60,21 @@ class _OrderProcessState extends ConsumerState<OrderProcess> {
         Future.delayed(Duration(seconds: 0), () {
           // ref.invalidate(serviceProvider);
           ref.invalidate(customerOrderProvider);
-          context.goNamed(RouteNames.home);
+          ref.invalidate(pendingPickupRequestProvider);
+
+          context.pop();
         });
       },
       child: Scaffold(
           appBar: MyAppBar(
             onPressed: () {
               // ref.invalidate(serviceProvider);
+              ref.invalidate(pendingPickupRequestProvider);
+
               ref.invalidate(customerOrderProvider);
-              context.goNamed(RouteNames.home);
+              context.pop();
+
+              // context.goNamed(RouteNames.home);
             },
             title: 'order',
             actions: [

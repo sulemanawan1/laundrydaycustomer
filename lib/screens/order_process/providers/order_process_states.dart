@@ -1,5 +1,5 @@
 import 'package:laundryday/models/chat_profile_model.dart';
-import 'package:laundryday/screens/order_review/data/models/order_model.dart';
+import 'package:laundryday/models/order_model.dart';
 
 class OrderProcessStates {
   OrderState orderState;

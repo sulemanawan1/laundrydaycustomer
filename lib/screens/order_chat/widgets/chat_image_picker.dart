@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:laundryday/provider/user_notifier.dart';
+import 'package:laundryday/shared/provider/user_notifier.dart';
 import 'package:laundryday/screens/order_chat/provider/order_chat_notifier.dart';
 import 'package:laundryday/screens/order_process/view/order_process.dart';
 import 'package:laundryday/constants/colors.dart';

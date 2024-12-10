@@ -1,4 +1,3 @@
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -39,11 +38,11 @@ class NotificationService {
     // Android Channel Initialization
     AndroidNotificationChannel androidNotificationChannel =
         const AndroidNotificationChannel(
-      "high_importance_channel",
-      "high_importance_channel",
-      description: "smart-gate-notification",
-      importance: Importance.high,
-    );
+            "high_importance_channel", "high_importance_channel",
+            description: "smart-gate-notification",
+            importance: Importance.high,
+            enableLights: true,
+            enableVibration: true);
 
     AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(
@@ -143,15 +142,12 @@ class NotificationService {
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
       handleMessages(event);
     });
-    
   }
 
   handleMessages(RemoteMessage message) async {
     // User user = await MySharedPreferences.getUserData();
 
-   
-
-      // Get.toNamed(noticeboardscreen, arguments: [user, resident]);
+    // Get.toNamed(noticeboardscreen, arguments: [user, resident]);
     // } else if (message.data['type'] == 'PreApproveEntry') {
     //   Get.toNamed(preapproveentryscreen, arguments: [user, resident]);
     // } else if (message.data['type'] == 'Report') {

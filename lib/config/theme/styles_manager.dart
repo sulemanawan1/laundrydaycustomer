@@ -20,7 +20,7 @@ TextStyle getRegularStyle(
 
 // Medium TextStyle
 
-TextStyle getMediumStyle(
+  TextStyle getMediumStyle(
     {double fontSize = FontSize.s10, required Color color}) {
   return _getTextStyle(
       FontConstant.fontFamily, fontSize, FontWeightManager.medium, color);

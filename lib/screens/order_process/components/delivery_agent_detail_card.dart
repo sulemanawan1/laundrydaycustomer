@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/models/chat_profile_model.dart';
+import 'package:laundryday/models/order_model.dart' as ordermodel;
 import 'package:laundryday/screens/order_process/view/order_process.dart';
 import 'package:laundryday/constants/assets_manager.dart';
 import 'package:laundryday/constants/colors.dart';
@@ -12,8 +13,7 @@ import 'package:laundryday/constants/value_manager.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/models/user_model.dart';
-import 'package:laundryday/screens/order_review/data/models/order_model.dart'
-    as ordermodel;
+
 import '../../../core/utils.dart';
 
 class DeliveryAgentCard extends StatelessWidget {

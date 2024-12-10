@@ -45,6 +45,14 @@ class _MoreState extends State<More> {
                     ),
                     ListTile(
                       trailing: const Icon(Icons.navigate_next),
+                      leading: const Icon(Icons.wallet),
+                      title: const Text('Wallet'),
+                      onTap: () {
+                        context.pushNamed(RouteNames.wallet);
+                      },
+                    ),
+                    ListTile(
+                      trailing: const Icon(Icons.navigate_next),
                       leading: const Icon(Icons.location_on),
                       title: const Text('Addresses'),
                       onTap: () {

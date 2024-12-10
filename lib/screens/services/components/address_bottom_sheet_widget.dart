@@ -9,8 +9,8 @@ import 'package:laundryday/constants/sized_box.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
 import 'package:laundryday/widgets/my_button.dart';
-import 'package:laundryday/screens/services/model/services_model.dart'
-    as servicemodel;
+import 'package:laundryday/models/services_model.dart' as servicemodel;
+
 import 'package:laundryday/screens/more/addresses/my_addresses/model/my_addresses_model.dart'
     as myaddressmodel;
 import 'package:laundryday/widgets/my_loader.dart';

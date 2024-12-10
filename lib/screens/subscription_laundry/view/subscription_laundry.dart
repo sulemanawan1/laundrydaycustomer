@@ -189,7 +189,7 @@ class _SubscriptionLaundryState extends ConsumerState<SubscriptionLaundry> {
                                     style: getRegularStyle(
                                         fontSize: FontSize.s12,
                                         color: ColorManager.greyColor),
-                                    '${DistanceCalculatorHelper.calculateDistance(initialLatLng!.latitude, initialLatLng.longitude, laundry.lat, laundry.lng).toStringAsFixed(2)} KM'),
+                                    '${DistanceCalculator.calculateDistance(initialLatLng!.latitude, initialLatLng.longitude, laundry.lat, laundry.lng).toStringAsFixed(2)} KM'),
                               ],
                             ),
                       subtitle: Text(laundry.vicinity),

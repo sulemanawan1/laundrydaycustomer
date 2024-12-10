@@ -5,7 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/helpers/order_helper.dart';
-import 'package:laundryday/provider/user_notifier.dart';
+import 'package:laundryday/models/order_model.dart';
+import 'package:laundryday/shared/provider/user_notifier.dart';
 import 'package:laundryday/constants/api_routes.dart';
 import 'package:laundryday/constants/assets_manager.dart';
 import 'package:laundryday/constants/colors.dart';
@@ -19,9 +20,7 @@ import 'package:laundryday/screens/order_process/components/laundry_detail_butto
 import 'package:laundryday/screens/order_process/components/order_id_button.dart';
 import 'package:laundryday/screens/order_process/components/order_status_card.dart';
 import 'package:laundryday/screens/order_process/view/order_process.dart';
-import 'package:laundryday/screens/order_review/data/models/order_model.dart';
 import 'package:laundryday/screens/order_review/presentaion/riverpod/payment_method_nofifier.dart';
-import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/payment_summary_widget.dart';
 
@@ -131,6 +130,7 @@ class RoundTripOrder extends ConsumerWidget {
                   color: Color(0xFFF9F9F9)),
             ),
           ),
+        
           if (orderModel.order!.paymentStatus == 'unpaid') ...[
             Card(
               elevation: 0,
@@ -140,7 +140,11 @@ class RoundTripOrder extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     10.ph,
-                    const Heading(title: "Payment Method"),
+                    Text(
+                      'Payment Method',
+                      style: getSemiBoldStyle(
+                          color: ColorManager.blackColor, fontSize: 14),
+                    ),
                     10.ph,
                     InkWell(
                       onTap: () {
@@ -230,10 +234,15 @@ class RoundTripOrder extends ConsumerWidget {
                                                     : const Icon(
                                                         Icons.circle_outlined),
                                                 10.pw,
-                                                Heading(
-                                                    title: paymentMethods[index]
-                                                        .name
-                                                        .toString())
+                                                Text(
+                                                  paymentMethods[index]
+                                                      .name
+                                                      .toString(),
+                                                  style: getSemiBoldStyle(
+                                                      color: ColorManager
+                                                          .blackColor,
+                                                      fontSize: 14),
+                                                ),
                                               ]),
                                             ),
                                           );
@@ -296,10 +305,13 @@ class RoundTripOrder extends ConsumerWidget {
                             ],
                           ),
                           const Spacer(),
-                          Heading(
-                            color: ColorManager.primaryColor,
-                            title: 'Change',
-                          )
+
+                          Text(
+                            'Change',
+                            style: getSemiBoldStyle(
+                                color: ColorManager.primaryColor, fontSize: 14),
+                          ),
+                         
                         ],
                       ),
                     ),
@@ -308,6 +320,7 @@ class RoundTripOrder extends ConsumerWidget {
                 ),
               ),
             ),
+          
             selectedPaymentMethod.name == 'apple pay'
                 ? Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),

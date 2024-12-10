@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:laundryday/shared/reuseable_date_picker.dart';
 import 'package:laundryday/helpers/validation_helper.dart';
-import 'package:laundryday/provider/user_notifier.dart';
+import 'package:laundryday/shared/provider/user_notifier.dart';
 import 'package:laundryday/constants/assets_manager.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/more/help/agent_registration/provider/delivery_agent_registartion_states.dart';

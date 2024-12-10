@@ -55,12 +55,18 @@ class Api {
   static const String pickupOrder = "${baseUrl}orders/pickup-order";
 
   static const String roundTripOrder = "${baseUrl}orders/round-trip";
-  static const String pickupOrderRoundTrip = "${baseUrl}orders/pickup-order-round-trip";
-  static const String pickupRequestUpdate = "${baseUrl}orders/pickup-request-update";
+  static const String pickupOrderRoundTrip =
+      "${baseUrl}orders/pickup-order-round-trip";
+  static const String pickupRequestUpdate =
+      "${baseUrl}orders/pickup-request-update";
   static const String paymentCollected = "${baseUrl}orders/payment-collected";
 
   static const String order = "${baseUrl}orders/detail?id=";
+
   static const String customerOrders = "${baseUrl}orders/customer?user_id=";
+  static const String pendingPickupRequests =
+      "${baseUrl}orders/pending-pickup-requests/?user_id=";
+
   static const String storeFcmToken = "${baseUrl}device_tokens/store-fcm-token";
   static const String fcmTokens = "${baseUrl}device_tokens/fcm-tokens";
   static const String itemVariationSizes =
@@ -74,7 +80,7 @@ class Api {
   static const String updateUser = "${baseUrl}users/update";
   static const String updateUserMobileNumber =
       "${baseUrl}users/update-mobile-number";
-        static const String subscriptionPlans = "${baseUrl}subscription_plans/type";
+  static const String subscriptionPlans = "${baseUrl}subscription_plans/type";
 
   static const String createUserSubscriptions =
       "${baseUrl}user_subscriptions/create";
@@ -82,6 +88,9 @@ class Api {
       "${baseUrl}user_subscriptions/update/branch";
   static const String activeUserSubscription =
       "${baseUrl}user_subscriptions/active/";
-        static const String cancelUserSubscription =
+  static const String cancelUserSubscription =
       "${baseUrl}user_subscriptions/cancel/";
+  static const String walletBalance =
+      "${baseUrl}wallet/";
+      
 }

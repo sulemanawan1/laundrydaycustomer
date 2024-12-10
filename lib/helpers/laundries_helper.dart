@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 
-bool hasNameAljabrOrAlrahden({required String laundryName}) {
+bool haveNameAljabrOrAlrahden({required String laundryName}) {
   String name = laundryName.trim().toLowerCase();
   String withoutSpaceName = name.replaceAll(' ', '');
   name = withoutSpaceName;
@@ -11,6 +11,19 @@ bool hasNameAljabrOrAlrahden({required String laundryName}) {
       name.contains('alrahden');
 }
 
+bool hasNameAlrahden({required String laundryName}) {
+  String name = laundryName.trim().toLowerCase();
+  String withoutSpaceName = name.replaceAll(' ', '');
+  name = withoutSpaceName;
+  return name.contains('الرهدن') || name.contains('alrahden');
+}
+
+bool hasNameAljabr({required String laundryName}) {
+  String name = laundryName.trim().toLowerCase();
+  String withoutSpaceName = name.replaceAll(' ', '');
+  name = withoutSpaceName;
+  return name.contains('الجبر') || name.contains('aljabr');
+}
 
 
 class LaundryTimings {
@@ -28,8 +41,6 @@ class LaundryTimings {
 }
 
 LaundryTimings getAlajabrOrAlrahdenTimings() {
-
-  
   final now = DateTime.now();
   final currentTime = TimeOfDay(hour: now.hour, minute: now.minute);
 
@@ -43,16 +54,15 @@ LaundryTimings getAlajabrOrAlrahdenTimings() {
   final breakStart = TimeOfDay(hour: 14, minute: 0); // 2:00 pm
   final breakEnd = TimeOfDay(hour: 16, minute: 0); // 4:00 pm
 
-    // Check if current time is within operating hours but not during the break
-    if (isWithinTime(currentTime, morningStart, morningEnd) &&
-        !isWithinTime(currentTime, breakStart, breakEnd)) {
-      return LaundryTimings(
-          morningEnd: formatTimeOfDay(morningEnd),
-          morningStart: formatTimeOfDay(morningStart),
-          isOpen: true,
-          breakStart: formatTimeOfDay(breakStart),
-          breakEnd: formatTimeOfDay(breakEnd));
-    
+  // Check if current time is within operating hours but not during the break
+  if (isWithinTime(currentTime, morningStart, morningEnd) &&
+      !isWithinTime(currentTime, breakStart, breakEnd)) {
+    return LaundryTimings(
+        morningEnd: formatTimeOfDay(morningEnd),
+        morningStart: formatTimeOfDay(morningStart),
+        isOpen: true,
+        breakStart: formatTimeOfDay(breakStart),
+        breakEnd: formatTimeOfDay(breakEnd));
   }
   return LaundryTimings(
       morningEnd: formatTimeOfDay(morningEnd),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/constants/colors.dart';
 import 'package:laundryday/constants/sized_box.dart';
 import 'package:laundryday/widgets/my_button.dart';
-import 'package:laundryday/widgets/heading.dart';
 
 class ReusableCheckOutCard extends StatelessWidget {
   final void Function()? onPressed;
@@ -24,22 +24,32 @@ class ReusableCheckOutCard extends StatelessWidget {
         child: Column(children: [
           15.ph,
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Heading(
-              title: "Total",
-              color: ColorManager.greyColor,
+            Text(
+              'Total',
+              style: getSemiBoldStyle(
+                color: ColorManager.greyColor,
+              ),
             ),
-            Heading(
-              title: "Qty",
-              color: ColorManager.greyColor,
+            Text(
+              'Qty',
+              style: getSemiBoldStyle(
+                color: ColorManager.greyColor,
+              ),
             )
           ]),
           8.ph,
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Heading(
-              title: "$total SAR",
+            Text(
+              "$total SAR",
+              style: getSemiBoldStyle(
+                color: ColorManager.greyColor,
+              ),
             ),
-            Heading(
-              title: "$quantity Items",
+            Text(
+              "$quantity Items",
+              style: getSemiBoldStyle(
+                color: ColorManager.greyColor,
+              ),
             )
           ]),
           8.ph,

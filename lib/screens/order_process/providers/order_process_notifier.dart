@@ -5,10 +5,9 @@ import 'package:fpdart/fpdart.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:laundryday/core/utils.dart';
 import 'package:laundryday/models/chat_profile_model.dart';
+import 'package:laundryday/models/order_model.dart';
 import 'package:laundryday/screens/order_process/providers/order_process_states.dart';
-import 'package:laundryday/screens/order_process/services/order_service.dart';
-import 'package:laundryday/screens/order_review/data/models/order_model.dart';
-import 'package:laundryday/screens/order_review/data/order_repository.dart';
+import 'package:laundryday/repsositories/order_repository.dart';
 
 class OrderProcessNotifier extends StateNotifier<OrderProcessStates> {
   late GoogleMapController mapController;
@@ -20,7 +19,6 @@ class OrderProcessNotifier extends StateNotifier<OrderProcessStates> {
             orderModel: OrderModel(),
             orderState: OrderStateInitialState()));
 
-  OrderService _orderService = OrderService();
   OrderRepository _orderRepository = OrderRepository();
   updaterOrder({required OrderModel order}) {
     state = state.copyWith(orderModel: order);
@@ -63,7 +61,7 @@ class OrderProcessNotifier extends StateNotifier<OrderProcessStates> {
       state = state.copyWith(orderState: OrderStateInitialState());
 
       Either<String, OrderModel> apiData =
-          await _orderService.getOrderDetail(orderId: orderId);
+          await _orderRepository.getOrderDetail(orderId: orderId);
 
       apiData.fold((l) {
         state = state.copyWith(

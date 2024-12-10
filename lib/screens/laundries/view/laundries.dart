@@ -21,8 +21,8 @@ import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_loader.dart';
 import 'package:laundryday/widgets/reusable_order_now_widget.dart';
-import 'package:laundryday/screens/services/model/services_model.dart'
-    as servicemodel;
+import 'package:laundryday/models/services_model.dart' as servicemodel;
+
 import 'package:laundryday/models/laundry_by_area.model.dart'
     as laundrybyareamodel;
 import 'package:laundryday/widgets/reuseable_laundry_tile.dart';
@@ -340,7 +340,7 @@ class _LaundriesState extends ConsumerState<Laundries> {
 
                             if (isAvailable) {
                               bool nameAljabrOrAlrahdenExist =
-                                  hasNameAljabrOrAlrahden(
+                                  haveNameAljabrOrAlrahden(
                                       laundryName: laundry.name!);
 
                               if (nameAljabrOrAlrahdenExist) {
@@ -458,24 +458,17 @@ class _LaundriesState extends ConsumerState<Laundries> {
                                     context: context);
 
                             if (isAvailable) {
-
-
                               bool nameAljabrOrAlrahdenExist =
-                                  hasNameAljabrOrAlrahden(
+                                  haveNameAljabrOrAlrahden(
                                       laundryName: laundry.name!);
 
                               if (nameAljabrOrAlrahdenExist) {
-
-
-
                                 LaundryTimings laundryTimings =
                                     getAlajabrOrAlrahdenTimings();
 
                                 if (laundryTimings.isOpen) {
-
                                   GoRouter.of(context)
                                       .pushNamed(RouteNames.deliveryPickup);
-                                      
                                 } else {
                                   log("${laundry.name} is Closed. isOpen = ${laundryTimings.isOpen}");
 

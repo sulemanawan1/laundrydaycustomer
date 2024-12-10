@@ -6,10 +6,10 @@ import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/core/utils.dart';
 import 'package:laundryday/helpers/db_helper.dart';
 import 'package:laundryday/constants/assets_manager.dart';
+import 'package:laundryday/models/order_model.dart';
 import 'package:laundryday/screens/laundry_items/model/item_variation_model.dart';
-import 'package:laundryday/screens/order_review/data/models/order_model.dart';
 import 'package:laundryday/screens/order_review/data/models/payment_option_model.dart';
-import 'package:laundryday/screens/order_review/data/order_repository.dart';
+import 'package:laundryday/repsositories/order_repository.dart';
 import 'package:laundryday/screens/order_review/presentaion/riverpod/order_review_states.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
 

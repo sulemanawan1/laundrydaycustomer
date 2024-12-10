@@ -5,7 +5,7 @@ import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/widgets/custom_cache_netowork_image.dart';
 import 'package:laundryday/widgets/my_loader.dart';
 import 'package:laundryday/helpers/date_helper.dart';
-import 'package:laundryday/provider/user_notifier.dart';
+import 'package:laundryday/shared/provider/user_notifier.dart';
 import 'package:laundryday/screens/order_chat/provider/order_chat_notifier.dart';
 import 'package:laundryday/screens/order_chat/widgets/chat_textfield.dart';
 import 'package:laundryday/screens/order_process/view/order_process.dart';

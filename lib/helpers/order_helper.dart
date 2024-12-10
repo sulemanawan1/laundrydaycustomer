@@ -7,13 +7,14 @@ enum OrderScreenType { delivery_pickup, normal }
 enum OrderStatusesList {
   pending,
   accepted,
+  rejected,
   received,
   atCustomer,
   delivered,
   readyForDelivery,
   collectingFromCustomer,
   paymentCollected,
-  secondTripAssigned
+  agentNotFound
 }
 
 enum PaymentStatuses {
@@ -70,6 +71,9 @@ String getPickupStatus({required OrderStatusesList orderStatus}) {
     case OrderStatusesList.readyForDelivery:
       return 'ready_for_delivery';
 
+    case OrderStatusesList.agentNotFound:
+      return 'agent_not_found';
+
     default:
       return 'Unknown status';
   }
@@ -98,8 +102,6 @@ String getRoundTripStatus({required OrderStatusesList orderStatus}) {
     case OrderStatusesList.readyForDelivery:
       return 'ready_for_delivery';
 
-    case OrderStatusesList.secondTripAssigned:
-      return 'second-trip-assigned';
     default:
       return 'Unknown status';
   }
@@ -110,6 +112,8 @@ String getRoundTripStatus({required OrderStatusesList orderStatus}) {
 String getPickupOrderStatusMessage({required String status}) {
   switch (status) {
     case 'pending':
+      return 'Searching for Courier';
+    case 'rejected':
       return 'Searching for Courier';
     case 'accepted':
       return 'Agent arrived to Laundry.';
@@ -123,6 +127,8 @@ String getPickupOrderStatusMessage({required String status}) {
       return 'Order is completed';
     case 'canceled':
       return 'Order is canceled';
+    case 'agent_not_found':
+      return 'Agent Not Found.';
     default:
       return 'Unknown order status';
   }
@@ -131,6 +137,9 @@ String getPickupOrderStatusMessage({required String status}) {
 String getStatusImage({required String status}) {
   switch (status) {
     case 'pending':
+      return AssetImages.pendingStatus;
+
+    case 'rejected':
       return AssetImages.pendingStatus;
     case 'accepted':
       return AssetImages.acceptedStatus;
@@ -151,6 +160,9 @@ String getStatusImage({required String status}) {
     case 'at_customer':
       return AssetImages.atCustomerStatus;
 
+    case 'agent_not_found':
+      return AssetImages.notFound;
+
     default:
       return AssetImages.pendingStatus;
   }
@@ -159,6 +171,8 @@ String getStatusImage({required String status}) {
 String getRoundTripOrderStatusMessage({required String status}) {
   switch (status) {
     case 'pending':
+      return 'Searching for Courier';
+    case 'rejected':
       return 'Searching for Courier';
     case 'accepted':
       return 'Approach You';
@@ -170,11 +184,8 @@ String getRoundTripOrderStatusMessage({required String status}) {
       return 'Your Order is ready for Pickup.';
     case 'payment-collected':
       return 'Payment Successful';
-    case 'second-trip-assigned':
-      return "Items servicing";
     case 'received':
       return "Item Received";
-
     case 'at_customer':
       return "Agent arrived";
 
@@ -200,8 +211,7 @@ String getRoundTripOrderDescription({required String status}) {
       return 'Your Order is ready for Pickup.';
     case 'payment-collected':
       return 'Payment Successful';
-    case 'second-trip-assigned':
-      return "Your items have been given to the laundry for servicing.";
+
     case 'received':
       return "The agent has picked up your item from the laundry and will deliver it to you shortly.";
 
@@ -222,6 +232,10 @@ String getOrderDescription({required String status}) {
   switch (status) {
     case 'pending':
       return """Patience always pay off.kindly allow us some time while we are looking for available courier.""";
+
+    case 'rejected':
+      return """Patience always pay off.kindly allow us some time while we are looking for available courier.""";
+
     case 'accepted':
       return 'Delivery Agent Arrived to store and he will get your order soon';
     case 'received':
@@ -234,6 +248,9 @@ String getOrderDescription({required String status}) {
       return 'Your Order is completed, we hope to see you again';
     case 'canceled':
       return 'Order is canceled';
+
+    case 'agent_not_found':
+      return 'Agent Not Found.Try Again Later.';
     default:
       return 'Unknown order status';
   }
@@ -243,6 +260,10 @@ String getOrderStatusMessage({required String status}) {
   switch (status) {
     case 'pending':
       return 'Searching for Courier';
+
+    case 'rejected':
+      return 'Searching for Courier';
+
     case 'accepted':
       return 'Delivery Agent arrived to Laundry.';
     case 'received':
@@ -255,6 +276,9 @@ String getOrderStatusMessage({required String status}) {
       return 'Order is canceled';
     case 'ready_for_delivery':
       return 'Your Order is ready for Pickup';
+
+    case 'agent_not_found':
+      return 'Agent Not Found.Try Again Later.';
     default:
       return 'Unknown order status';
   }

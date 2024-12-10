@@ -1,9 +1,9 @@
 const double varPercentage = (15 / 100);
 
 // Pickup
+double deliveryFeesPickup = 6.0;
+double operationFeesPickup = 7.0;
 
-double deliveryFeesPickup = 8.0;
-double operationFeesPickup = 6.0;
 
 // Round Trip - Pickup from Home Deliver to Laundry
 

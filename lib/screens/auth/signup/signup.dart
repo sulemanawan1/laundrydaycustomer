@@ -7,7 +7,6 @@ import 'package:laundryday/constants/sized_box.dart';
 import 'package:laundryday/constants/value_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/widgets/my_button.dart';
-import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_textform_field.dart';
 
 class SignUp extends ConsumerWidget {
@@ -31,9 +30,9 @@ class SignUp extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(mobileNumber),
-            const Heading(
-              title: "Enter your Full Name?",
-            ),
+
+            Text("Enter your Full Name?",style: getSemiBoldStyle(color: ColorManager.blackColor),)
+           ,
             SizedBox(
               height: 100,
               child: Row(

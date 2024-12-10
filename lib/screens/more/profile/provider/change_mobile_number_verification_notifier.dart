@@ -8,7 +8,8 @@ import 'package:go_router/go_router.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/core/utils.dart';
-import 'package:laundryday/provider/user_notifier.dart';
+import 'package:laundryday/models/user_model.dart';
+import 'package:laundryday/shared/provider/user_notifier.dart';
 import 'package:laundryday/constants/colors.dart';
 import 'package:laundryday/screens/auth/login/provider/login_notifier.dart';
 import 'package:laundryday/screens/home/provider/home_notifier.dart';
@@ -90,7 +91,7 @@ class ChangeMobileNumberVerificationNotifier
       {required Map data,
       required WidgetRef ref,
       required BuildContext context}) async {
-    Either<String, int> apiData =
+    Either<String, UserModel> apiData =
         await ref.read(getUserProfileApi).updateUserMobileNumber(data: data);
 
     apiData.fold((l) {

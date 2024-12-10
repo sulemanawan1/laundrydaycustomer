@@ -10,12 +10,14 @@ import 'package:laundryday/models/google_laundry_model.dart';
 import 'package:laundryday/models/laundry_by_area.model.dart';
 import 'package:laundryday/screens/laundries/provider/laundries_states.dart';
 import 'package:laundryday/screens/laundries/service/laundries_services.dart';
-import 'package:laundryday/models/service_timings_model.dart'  as servicetimingmodel;
-import 'package:laundryday/models/laundry_by_area.model.dart'as laundrybyareamodel;
+import 'package:laundryday/models/service_timings_model.dart'
+    as servicetimingmodel;
+import 'package:laundryday/models/laundry_by_area.model.dart'
+    as laundrybyareamodel;
 import 'package:laundryday/screens/laundries/service/service_timing_service.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
-import 'package:laundryday/screens/services/model/services_model.dart' as servicemodel;
+import 'package:laundryday/models/services_model.dart' as servicemodel;
 import 'package:laundryday/services/google_service.dart';
 
 final laundriesServicesProvider = Provider((ref) {
@@ -108,7 +110,7 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
         for (int i = 0; i < laundryList.length; i++) {
           var laundry = laundryList[i];
 
-          double distanceInKm = DistanceCalculatorHelper.calculateDistance(
+          double distanceInKm = DistanceCalculator.calculateDistance(
               userLat,
               userLng,
               laundry['geometry']['location']['lat'],
@@ -176,7 +178,7 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
         for (int i = 0; i < laundryList.length; i++) {
           var laundry = laundryList[i];
 
-          double distanceInKm = DistanceCalculatorHelper.calculateDistance(
+          double distanceInKm = DistanceCalculator.calculateDistance(
               userLat,
               userLng,
               laundry['geometry']['location']['lat'],
@@ -272,6 +274,3 @@ class LaundriesNotifier extends StateNotifier<LaundriesStates> {
     }
   }
 }
-
-
-

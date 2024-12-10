@@ -8,10 +8,9 @@ import 'package:laundryday/constants/colors.dart';
 import 'package:laundryday/constants/font_manager.dart';
 import 'package:laundryday/constants/sized_box.dart';
 import 'package:laundryday/constants/value_manager.dart';
+import 'package:laundryday/models/order_model.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
-import 'package:laundryday/screens/order_review/data/models/order_model.dart';
 import 'package:laundryday/screens/order_review/presentaion/riverpod/payment_method_nofifier.dart';
-import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/widgets/my_button.dart';
 import 'package:laundryday/widgets/payment_summary_widget.dart';
 
@@ -212,9 +211,11 @@ class PaymentWidget extends ConsumerWidget {
                                   ],
                                 ),
                                 const Spacer(),
-                                Heading(
-                                  color: ColorManager.nprimaryColor,
-                                  title: 'Change',
+                                Text(
+                                  'Change',
+                                  style: getSemiBoldStyle(
+                                      fontSize: 14,
+                                      color: ColorManager.nprimaryColor),
                                 )
                               ],
                             ),
@@ -330,7 +331,10 @@ class ChangePaymentMethod extends ConsumerWidget {
                             )
                           : const Icon(Icons.circle_outlined),
                       10.pw,
-                      Heading(title: paymentMethods[index].name.toString())
+                      Text(
+                        paymentMethods[index].name.toString(),
+                        style: getRegularStyle(color: ColorManager.blackColor),
+                      )
                     ]),
                   ),
                 );

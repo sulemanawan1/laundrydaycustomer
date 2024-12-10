@@ -9,14 +9,13 @@ import 'package:laundryday/constants/colors.dart';
 import 'package:laundryday/constants/font_manager.dart';
 import 'package:laundryday/constants/sized_box.dart';
 import 'package:laundryday/helpers/order_helper.dart';
-import 'package:laundryday/screens/services/model/customer_order_model.dart';
+import 'package:laundryday/models/order_list_model.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
 
 class CustomerOnGoingOrderCard extends ConsumerWidget {
   final List<Order> orders;
 
   const CustomerOnGoingOrderCard({super.key, required this.orders});
-
 
   String? calculateHoursLeft(DateTime endTime) {
     DateTime now = DateTime.now();
@@ -30,7 +29,7 @@ class CustomerOnGoingOrderCard extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -86,8 +85,7 @@ class CustomerOnGoingOrderCard extends ConsumerWidget {
                             Center(
                               child: OutlinedButton(
                                   onPressed: () {
-                                    context.pushReplacementNamed(
-                                        RouteNames.orderProcess,
+                                    context.pushNamed(RouteNames.orderProcess,
                                         extra: orders[index].id);
                                   },
                                   child: Text(
@@ -107,9 +105,10 @@ class CustomerOnGoingOrderCard extends ConsumerWidget {
                                   onPressed: () {
                                     ref
                                         .read(serviceProvider.notifier)
-                                        .pickupRequestUpdate(data: {
-                                      "id": orders[index].id
-                                    }, ref: ref, context: context);
+                                        .pickupRequestUpdate(
+                                            data: {"id": orders[index].id},
+                                            ref: ref,
+                                            context: context);
                                   },
                                   child: Text(
                                     'I will Order Later.',
@@ -128,9 +127,10 @@ class CustomerOnGoingOrderCard extends ConsumerWidget {
                                   onPressed: () {
                                     ref
                                         .read(serviceProvider.notifier)
-                                        .pickupOrderRoundTrip(data: {
-                                      "id": orders[index].id
-                                    }, ref: ref, context: context);
+                                        .pickupOrderRoundTrip(
+                                            data: {"id": orders[index].id},
+                                            ref: ref,
+                                            context: context);
                                   },
                                   child: Text(
                                     'Order Now',
@@ -139,13 +139,15 @@ class CustomerOnGoingOrderCard extends ConsumerWidget {
                                         color: ColorManager.whiteColor),
                                   )),
                             ),
+                          
                           ],
                         ),
                       ),
                     ),
                   );
+                
                 } else {
-                  context.pushReplacementNamed(RouteNames.orderProcess,
+                  context.pushNamed(RouteNames.orderProcess,
                       extra: orders[index].id);
                 }
               },
@@ -169,7 +171,7 @@ class CustomerOnGoingOrderCard extends ConsumerWidget {
                           width: 40,
                         ),
                         trailing: Text(
-                         orders[index].id.toString(),
+                          orders[index].id.toString(),
                           style: getSemiBoldStyle(
                               color: ColorManager.greyColor,
                               fontSize: FontSize.s14),
@@ -181,15 +183,14 @@ class CustomerOnGoingOrderCard extends ConsumerWidget {
                             ? getRoundTripOrderStatusMessage(
                                 status: orders[index].status!)
                             : getOrderStatusMessage(
-                                status:orders[index].status!),
+                                status: orders[index].status!),
                         style: getSemiBoldStyle(
                             color: ColorManager.nprimaryColor,
                             fontSize: FontSize.s14),
                       ),
                       5.ph,
                       if (orders[index].countDownEnd != null &&
-                          (orders[index].status ==
-                              'delivering-to-store')) ...[
+                          (orders[index].status == 'delivering-to-store')) ...[
                         5.ph,
                         Text(
                           'Order Delivery After  ${DateFormat('EEEE, dd MMM yyyy hh:mm:ss a').format(orders[index].countDownEnd!)}',

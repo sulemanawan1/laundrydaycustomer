@@ -1,7 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:laundryday/screens/services/model/customer_order_model.dart';
-import 'package:laundryday/screens/services/model/services_model.dart'
-    as servicemodel;
+import 'package:laundryday/models/order_model.dart';
+import 'package:laundryday/models/services_model.dart' as servicemodel;
 
 class ServicesStates {
   List<Order> order;

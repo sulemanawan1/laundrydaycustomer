@@ -50,5 +50,10 @@ class RouteNames {
   static final String subscriptionLaundry =
       "subscription_laundry";
        static final String subscription = "subscription";
+        static final String pendingPickupRequests = "pending_pickup_requests";
+        static final String wallet =
+      "wallet";
       
 }
+
+

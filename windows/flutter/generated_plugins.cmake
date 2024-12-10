@@ -11,7 +11,6 @@ list(APPEND FLUTTER_PLUGIN_LIST
   firebase_storage
   permission_handler_windows
   record_windows
-  smart_auth
   url_launcher_windows
 )
 

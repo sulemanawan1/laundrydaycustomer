@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
-import 'package:laundryday/provider/user_notifier.dart';
 import 'package:laundryday/constants/api_routes.dart';
 import 'package:laundryday/constants/colors.dart';
 import 'package:laundryday/constants/sized_box.dart';
@@ -9,7 +8,7 @@ import 'package:laundryday/constants/value_manager.dart';
 import 'package:laundryday/screens/services/components/address_bottom_sheet_widget.dart';
 import 'package:laundryday/widgets/custom_cache_netowork_image.dart';
 
-import '../model/services_model.dart';
+import '../../../models/services_model.dart';
 
 class ServicesCard extends ConsumerWidget {
   final List<Datum>? serviceModel;
@@ -17,7 +16,6 @@ class ServicesCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userId = ref.read(userProvider).userModel!.user!.id;
 
     ;
     return Padding(

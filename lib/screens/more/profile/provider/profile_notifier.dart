@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:laundryday/models/user_model.dart';
-import 'package:laundryday/provider/user_notifier.dart';
-import 'package:laundryday/screens/more/profile/service/user_service.dart';
+import 'package:laundryday/repsositories/user_repository.dart';
+import 'package:laundryday/shared/provider/user_notifier.dart';
 
 final getUserProfileApi = Provider((ref) {
-  return UserService();
+  return UserRepository();
 });
 
 final userProfileProvider =

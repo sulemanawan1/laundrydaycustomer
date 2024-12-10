@@ -45,10 +45,11 @@ class UserSubscriptionRepository {
   }
 
   Future<Either<String, UserSubscriptionModel>> activeSubscription(
-      {required int userId}) async {
+      {required int userId, required String role}) async {
     try {
       var url = Api.activeUserSubscription;
-      var param = userId.toString();
+      var param = "${userId.toString()}/$role";
+      
       var response = await BaseClientClass.get(url, param);
 
       if (response is http.Response) {

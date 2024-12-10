@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:laundryday/config/theme/styles_manager.dart';
 import 'package:laundryday/constants/colors.dart';
+import 'package:laundryday/constants/font_manager.dart';
 import 'package:laundryday/constants/value_manager.dart';
-import 'package:laundryday/widgets/heading.dart';
 
 class DelieveryPickupHeading extends StatelessWidget {
   const DelieveryPickupHeading({
@@ -25,12 +26,13 @@ class DelieveryPickupHeading extends StatelessWidget {
             ),
             child: Center(
                 child: Padding(
-              padding: const EdgeInsets.all(AppSize.s8),
-              child: Heading(
-                title: 'Recieving from the Laundry',
-                color: ColorManager.whiteColor,
-              ),
-            )),
+                    padding: const EdgeInsets.all(AppSize.s8),
+                    child: Text(
+                      'Recieving from the Laundry',
+                      style: getSemiBoldStyle(
+                          color: ColorManager.whiteColor,
+                          fontSize: FontSize.s15),
+                    ))),
           ),
         ),
       ),
