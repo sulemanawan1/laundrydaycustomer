@@ -92,5 +92,9 @@ class Api {
       "${baseUrl}user_subscriptions/cancel/";
   static const String walletBalance =
       "${baseUrl}wallet/";
+  static const String calculate = "${baseUrl}orders/calculate";
+
+
+
       
 }
