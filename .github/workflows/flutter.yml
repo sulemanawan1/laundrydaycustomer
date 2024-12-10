@@ -8,23 +8,34 @@ on:
       - main
       - master
       - develop
+
 name: "Build & Release"
+
 jobs:
   build:
     name: Build & Release
     runs-on: macos-latest
+
     steps:
+      # Checkout the repository
       - uses: actions/checkout@v3
+
+      # Set up Java (use Java 11)
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '12'
+          java-version: '11'
+
+      # Set up Flutter
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           architecture: x64
 
+      # Build APK for Android
       - run: flutter build apk --release --split-per-abi
+
+      # Build IPA for iOS
       - run: |
           flutter build ios --no-codesign
           cd build/ios/iphoneos
@@ -33,17 +44,11 @@ jobs:
           ln -s ../Runner.app
           cd ..
           zip -r app.ipa Payload
+
+      # Push built artifacts to GitHub Releases
       - name: Push to Releases
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/apk/release/*,build/ios/iphoneos/app.ipa"
+          artifacts: "build/app/outputs/apk/release/*.apk,build/ios/iphoneos/app.ipa"
           tag: v1.0.${{ github.run_number }}
           token: ${{ secrets.TOKEN }}
-
-
-
-
-
-
-# push to master, main, develop
-# pull request on main master

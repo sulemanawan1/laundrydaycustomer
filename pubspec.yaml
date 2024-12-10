@@ -17,7 +17,6 @@ dependencies:
  
     
 
-
   pinput: ^5.0.0
   shared_preferences: ^2.2.2
   fluttertoast: ^8.2.4
