@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:laundryday/core/utils.dart';
 import 'package:laundryday/models/address_model.dart';
-import 'package:laundryday/models/google_distance_matrix_model.dart';
 import 'package:laundryday/constants/api_routes.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:location/location.dart';
@@ -87,33 +85,5 @@ class GoogleServices {
     }
   }
 
-  static Future<DistanceMatrixResponse?> fetchDistanceMatrix({
-    required double laundryLat,
-    required double laundryLng,
-    required double userLat,
-    required double userLng,
-  }) async {
-    final url = Uri.parse(
-      'https://${Api.googleBaseUrl}/maps/api/distancematrix/json?origins=$userLat,$userLng&destinations=$laundryLat,$laundryLng&key=${Api.googleKey}&language=ar',
-    );
-
-    final response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      final element = data['rows'][0]['elements'][0];
-      final destinationAddresses = data['destination_addresses'][0];
-      final originAddresses = data['origin_addresses'][0];
-
-      return DistanceMatrixResponse(
-          originAddresses: originAddresses,
-          destination_addresses: destinationAddresses,
-          durationText: element['duration']['text'],
-          distanceText: element['distance']['text'],
-          distanceInMeter:
-              Utils.metertoKilometer(element['distance']['value']));
-    }
-
-    return null;
-  }
+  
 }

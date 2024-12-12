@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -91,6 +92,7 @@ class DeliveryAgentCard extends StatelessWidget {
                         children: [
                           GestureDetector(
                               onTap: () async {
+                                BotToast.showLoading();
                                 String? chatroomId = await createChatRoom(
                                     userModel, orderDeliveries);
 
@@ -109,6 +111,7 @@ class DeliveryAgentCard extends StatelessWidget {
                                       .read(orderProcessProvider.notifier)
                                       .selectChatProfile(
                                           chatProfileModel: chatProfileModel);
+                                  BotToast.closeAllLoading();
 
                                   context.pushNamed(
                                     RouteNames.orderChat,

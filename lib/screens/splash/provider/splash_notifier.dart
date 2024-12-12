@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laundryday/shared/provider/user_notifier.dart';
-import 'package:laundryday/shared/provider/user_states.dart';
 import 'package:laundryday/screens/splash/provider/splash_states.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/core/session.dart';

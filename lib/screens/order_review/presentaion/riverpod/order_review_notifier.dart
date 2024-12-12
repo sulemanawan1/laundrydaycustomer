@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
@@ -6,35 +8,15 @@ import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/core/utils.dart';
 import 'package:laundryday/helpers/db_helper.dart';
 import 'package:laundryday/constants/assets_manager.dart';
+import 'package:laundryday/models/google_distance_matrix_model.dart';
 import 'package:laundryday/models/order_model.dart';
-import 'package:laundryday/models/order_summary_model.dart';
-import 'package:laundryday/repsositories/order_summary_repository.dart';
+import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_notifier.dart';
 import 'package:laundryday/screens/laundry_items/model/item_variation_model.dart';
 import 'package:laundryday/screens/order_review/data/models/payment_option_model.dart';
 import 'package:laundryday/repsositories/order_repository.dart';
 import 'package:laundryday/screens/order_review/presentaion/riverpod/order_review_states.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
-import 'package:laundryday/shared/provider/user_notifier.dart';
-
-final orderSummaryRepoProvider = Provider((ref) {
-  return OrderSummaryRepository();
-});
-
-final orderSumaryProvder =
-    FutureProvider.autoDispose<Either<String, OrderSummaryModel>>((ref) async {
-  final userModel = ref.read(userProvider).userModel;
-  return await ref.read(orderSummaryRepoProvider).calculate(data: {
-    // pickup_only_from_store
-    "code": "20%OFF",
-    "order_type": "drop_and_pickup_from_store",
-    "user_id": 4,
-    "distance": 3000,
-    "items": [
-      {"item_variation_id": 1, "price": 10.1, "quantity": 10},
-      {"item_variation_id": 1, "price": 10, "quantity": 4}
-    ]
-  });
-});
+import 'package:laundryday/shared/provider/distance_details_notifier.dart';
 
 final orderReviewProvider =
     StateNotifierProvider.autoDispose<OrderReviewNotifier, OrderReviewStates>(
@@ -66,7 +48,6 @@ class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
           isLoading: false,
           items: [],
           isRecording: false,
-          
         )) {}
 
   Future getAllItems() async {
@@ -82,18 +63,26 @@ class OrderReviewNotifier extends StateNotifier<OrderReviewStates> {
     state = state.copyWith(selecteddeliveryType: deliveryTypeModel);
   }
 
-  // calculate(
-  //     {required Map data,
-  //     required WidgetRef ref,
-  //    }) async {
+  Future<DistanceMatrixResponse?> fetchDistanceMatrix(
+      {required DistanceDataModel distanceDataModel,
+      required WidgetRef ref,
+      required BuildContext context}) async {
+    DistanceMatrixResponse? distanceMatrixResponse = await ref
+        .read(distanceApiRepo)
+        .fetchDistanceMatrix(
+            laundryLat: distanceDataModel.branchLat!,
+            laundryLng: distanceDataModel.branchLng!,
+            userLat: distanceDataModel.userLat!,
+            userLng: distanceDataModel.userLng!);
 
-  //   Either<String, OrderSummaryModel> apiData =
-  //       await _orderSummaryRepository.calculate(data: data);
+    if (distanceMatrixResponse is DistanceMatrixResponse) {
+      return distanceMatrixResponse;
+    } else {
+      log('iam in else');
 
-  //   apiData.fold((l) {}, (r) {
-  //     log(r.data!.deliveryFees.toString());
-  //   });
-  // }
+      return null;
+    }
+  }
 
   pickupOrder(
       {required Map data,

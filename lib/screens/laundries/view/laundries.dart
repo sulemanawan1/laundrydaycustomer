@@ -9,6 +9,7 @@ import 'package:laundryday/helpers/order_helper.dart';
 import 'package:laundryday/models/google_laundry_model.dart';
 import 'package:laundryday/constants/assets_manager.dart';
 import 'package:laundryday/constants/font_manager.dart';
+import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_notifier.dart';
 import 'package:laundryday/screens/laundries/components/delivery_pickup_heading.dart';
 import 'package:laundryday/screens/laundries/components/service_timing_dialog.dart';
 import 'package:laundryday/screens/laundries/provider/laundries_notifier.dart';
@@ -55,6 +56,8 @@ class _LaundriesState extends ConsumerState<Laundries> {
     final pickupLaundires = ref.watch(pickupLaundriesProvider);
     final selectedAddress = ref.watch(selectedAddressProvider);
     final branchbyArea = ref.watch(branchbyAreaProvider);
+    final selectedLaundry = ref.read(laundriessProvider).selectedLaundry;
+
     return Scaffold(
       appBar: MyAppBar(
         title: selectedService?.serviceName.toString(),
@@ -442,6 +445,7 @@ class _LaundriesState extends ConsumerState<Laundries> {
                       itemCount: laundries.length,
                       itemBuilder: (BuildContext context, int index) {
                         GoogleLaundryModel laundry = laundries[index];
+                        
                         return ResuableDeliveryPickuPLaundryTile(
                           laundry: laundry,
                           onTap: () async {
@@ -467,8 +471,13 @@ class _LaundriesState extends ConsumerState<Laundries> {
                                     getAlajabrOrAlrahdenTimings();
 
                                 if (laundryTimings.isOpen) {
-                                  GoRouter.of(context)
-                                      .pushNamed(RouteNames.deliveryPickup);
+                                  GoRouter.of(context).pushNamed(
+                                      RouteNames.deliveryPickup,
+                                      extra: DistanceDataModel(
+                                          branchLat: laundry.lat!,
+                                          branchLng: laundry.lng!,
+                                          userLat: selectedAddress.lat!,
+                                          userLng: selectedAddress.lng!));
                                 } else {
                                   log("${laundry.name} is Closed. isOpen = ${laundryTimings.isOpen}");
 
@@ -502,8 +511,13 @@ class _LaundriesState extends ConsumerState<Laundries> {
                                       title: laundry.name!);
                                 }
                               } else {
-                                GoRouter.of(context)
-                                    .pushNamed(RouteNames.deliveryPickup);
+                                GoRouter.of(context).pushNamed(
+                                    RouteNames.deliveryPickup,
+                                    extra: DistanceDataModel(
+                                        branchLat: laundry.lat!,
+                                        branchLng: laundry.lng!,
+                                        userLat: selectedAddress.lat!,
+                                        userLng: selectedAddress.lng!));
                               }
                             }
                           },

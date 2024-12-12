@@ -1,16 +1,23 @@
-import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:laundryday/core/fees_calculations.dart';
 import 'package:laundryday/core/utils.dart';
+import 'package:laundryday/helpers/date_helper.dart';
 import 'package:laundryday/helpers/order_helper.dart';
 import 'package:laundryday/constants/font_manager.dart';
 import 'package:laundryday/config/theme/styles_manager.dart';
+import 'package:laundryday/models/coupon_model.dart';
+import 'package:laundryday/models/google_distance_matrix_model.dart' as d;
+import 'package:laundryday/models/order_summary_model.dart';
+import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_notifier.dart';
 import 'package:laundryday/screens/laundries/view/laundries.dart';
+import 'package:laundryday/screens/order_review/presentaion/riverpod/coupon_notifier.dart';
+import 'package:laundryday/screens/order_review/presentaion/riverpod/order_summary_notifer.dart';
+import 'package:laundryday/shared/app_state.dart';
+import 'package:laundryday/shared/provider/distance_details_notifier.dart';
 import 'package:laundryday/widgets/my_loader.dart';
 import 'package:laundryday/widgets/payment_summary_widget.dart';
 import 'package:laundryday/shared/provider/user_notifier.dart';
@@ -22,7 +29,6 @@ import 'package:laundryday/screens/laundry_items/provider/laundry_items.notifier
 import 'package:laundryday/screens/order_review/presentaion/riverpod/order_review_notifier.dart';
 import 'package:laundryday/constants/colors.dart';
 import 'package:laundryday/constants/sized_box.dart';
-import 'package:laundryday/constants/value_manager.dart';
 import 'package:laundryday/config/routes/route_names.dart';
 import 'package:laundryday/widgets/my_app_bar.dart';
 import 'package:laundryday/widgets/my_button.dart';
@@ -30,10 +36,6 @@ import 'package:laundryday/widgets/heading.dart';
 import 'package:laundryday/screens/order_review/presentaion/riverpod/payment_method_nofifier.dart';
 import 'package:laundryday/screens/services/provider/addresses_notifier.dart';
 import 'package:laundryday/screens/services/provider/services_notifier.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:record/record.dart';
-import 'package:voice_message_package/voice_message_package.dart';
 
 class OrderReview extends ConsumerStatefulWidget {
   final OrderScreenType orderType;
@@ -48,87 +50,56 @@ class OrderReview extends ConsumerStatefulWidget {
 }
 
 class _OrderReviewState extends ConsumerState<OrderReview> {
-  int totalSeconds = 0;
-  final record = AudioRecorder();
-  File? audioFile;
-  bool isRecording = false;
-  Timer? timer;
-  late VoiceController voiceController;
-
-  void stopRecording() async {
-    await record.stop();
-    timer!.cancel();
-    totalSeconds = 0;
-    isRecording = false;
-
-    setState(() {});
-  }
-
-  String formatTime(int seconds) {
-    int minutes = seconds ~/ 60;
-    int remainingSeconds = seconds % 60;
-
-    return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
-  }
-
-  void startRecording() async {
-    if (await record.hasPermission()) {
-      Directory documentDirectory = await getApplicationDocumentsDirectory();
-      String path = join(documentDirectory.path,
-          '${DateTime.now().microsecondsSinceEpoch}.wav');
-      // Start recording to file
-      await record.start(
-          const RecordConfig(
-            encoder: AudioEncoder.wav,
-            bitRate: 128000,
-            sampleRate: 44100,
-          ),
-          path: path);
-      isRecording = true;
-
-      timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        totalSeconds++;
-        log('Recording Time :$totalSeconds');
-
-        setState(() {});
-        if (totalSeconds >= 90) {
-          stopRecording();
-        }
-      });
-
-      audioFile = File(path);
-
-      setState(() {});
-    }
-  }
-
   @override
   void dispose() {
     super.dispose();
-    record.dispose();
-    timer?.cancel();
   }
 
   @override
   void initState() {
     super.initState();
 
-    // ref.read(orderReviewProvider.notifier).calculate(
-    //   data: {
+    Future.delayed(Duration(seconds: 0), () async {
+      final userId = ref.watch(userProvider).userModel!.user!.id;
+      final distanceData = ref.read(distanceDetailProvider);
+      final selectedLaundryByArea =
+          ref.watch(laundriessProvider).selectedLaundryByArea;
+      final selectedAddress = ref.watch(selectedAddressProvider);
 
+      if (widget.orderType == OrderScreenType.normal) {
+        d.DistanceMatrixResponse? distanceMatrixResponse = await ref
+            .read(orderReviewProvider.notifier)
+            .fetchDistanceMatrix(
+                distanceDataModel: DistanceDataModel(
+                    branchLat: selectedLaundryByArea.branch!.lat,
+                    branchLng: selectedLaundryByArea.branch!.lng,
+                    userLat: selectedAddress!.lat!,
+                    userLng: selectedAddress.lng!),
+                ref: ref,
+                context: context);
 
+        if (distanceMatrixResponse != null) {
+          ref.invalidate(distanceDetailProvider);
 
+          ref.read(distanceDetailProvider.notifier).state =
+              distanceMatrixResponse;
+        }
 
-
-
-
-    //   },
-    //   ref: ref,
-    // );
-
-    if (widget.orderType == OrderScreenType.normal) {
-      ref.read(orderReviewProvider.notifier).getAllItems();
-    }
+        ref.read(orderReviewProvider.notifier).getAllItems();
+      } else {
+        Future.wait([
+          ref.read(orderSummaryProvider.notifier).calulate(ref: ref, data: {
+            "order_type": 'pickup_only_from_store',
+            "user_id": userId,
+            "distance": distanceData!.distanceInMeter,
+          }),
+          ref.read(couponProvider.notifier).validAllcoupons(ref: ref, data: {
+            "user_id": userId,
+            "eligible_for": "pickup_only_from_store"
+          })
+        ]);
+      }
+    });
   }
 
   @override
@@ -146,19 +117,32 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
     final selectedPaymentMethod =
         ref.watch(PaymentMethodProvider).selectedPaymentMethod;
     final isLoading = ref.watch(orderReviewProvider).isLoading;
-
     final deliveryTypes = ref.watch(orderReviewProvider).deliveryTypes;
     final selecteddeliveryType =
         ref.watch(orderReviewProvider).selecteddeliveryType;
     final count = ref.watch(laundryItemProver).count;
     final total = ref.watch(laundryItemProver).total;
-    final isBlanketSelected =
-        ref.watch(deliverPickupProvider).isBlanketSelected;
-    final isCarpetSelected = ref.watch(deliverPickupProvider).isCarpetSelected;
-    final additionalDeliveryFee =
-        ref.watch(deliverPickupProvider).additionalDeliveryFee;
-    final additionalOperationFee =
-        ref.watch(deliverPickupProvider).additionalOperationFee;
+    final orderSummary = ref.watch(orderSummaryProvider);
+    final coupons = ref.watch(couponProvider);
+    final distanceData = ref.read(distanceDetailProvider);
+
+    // ref.listen<CouponStates>(couponProvider, (previous, next) {
+    //   if (next.appState is AppErrorState) {
+    //     showDialog(
+    //       context: context,
+    //       builder: (context) => AlertDialog(
+    //         title: Text("Error"),
+    //         content: Text((next.appState as AppErrorState).error.toString()),
+    //         actions: [
+    //           TextButton(
+    //             onPressed: () => Navigator.of(context).pop(),
+    //             child: Text("OK"),
+    //           ),
+    //         ],
+    //       ),
+    //     );
+    //   }
+    // });
 
     return Scaffold(
       appBar: MyAppBar(title: 'Review Order'),
@@ -178,11 +162,10 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    5.ph,
                                     const Heading(
                                       title: 'Order Details',
                                     ),
-                                    8.ph,
+                                    15.ph,
                                     Container(
                                       color: ColorManager.silverWhite,
                                       height: 200,
@@ -194,103 +177,47 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                                                 .toString(),
                                           )),
                                     ),
-                                    8.ph,
-                                    _recording(),
-                                    8.ph,
-                                    if (isCarpetSelected == true ||
-                                        isBlanketSelected == true)
-                                      PaymentSummaryText(
-                                          text1: 'Additional Fee',
-                                          text2:
-                                              '${additionalOperationFee + additionalDeliveryFee}'),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                Utils.showReusableDialog(
-                                                    context: context,
-                                                    title: 'Note',
-                                                    description:
-                                                        '''Your delivery fee will increase if the number of items exceeds 7. If the items are clothes, an additional 1 SAR will be added to the delivery fee for each item. In the case of carpets and blankets, if the number exceeds 2, an extra 2 SAR will be added to the delivery fee for each type of carpet or blanket. ''',
-                                                    buttons: [
-                                                      OutlinedButton(
-                                                          onPressed: () {
-                                                            context.pop();
-                                                          },
-                                                          child: Text('Okay'))
-                                                    ]);
-                                              },
-                                              child: Row(
-                                                children: [
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text('Delivery Fee',
-                                                          style: getRegularStyle(
-                                                              fontSize: 14,
-                                                              color: Color(
-                                                                  0xFF818181))),
-                                                      10.pw,
-                                                      Text(
-                                                        'Will be Change',
-                                                        style: getMediumStyle(
-                                                            color: ColorManager
-                                                                .blackColor),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  4.pw,
-                                                  IconButton(
-                                                    splashRadius: 20,
-                                                    onPressed: null,
-                                                    icon: Icon(
-                                                      Icons.info,
-                                                      color: ColorManager.amber,
-                                                    ),
-                                                    iconSize: 20,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Text(
-                                              "${getTotal(deliveryFee: selectedService!.deliveryFee!, operationFee: selectedService.operationFee!).toStringAsFixed(2)} SAR",
-                                              style: getMediumStyle(
-                                                color: Color(0xFF242424),
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        5.ph,
-                                        Divider(
-                                          color: Color(0xFF818181),
-                                        ),
-                                      ],
-                                    ),
-                                    PaymentSummaryText(
-                                        text1: 'Vat ',
-                                        text2:
-                                            "${getVat(deliveryFee: selectedService.deliveryFee!, operationFee: selectedService.operationFee!).toStringAsFixed(2)}"),
-                                    PaymentSummaryText(
-                                      text1style: getSemiBoldStyle(
-                                          fontSize: 14,
-                                          color: ColorManager.blackColor),
-                                      text1: 'Delivery cost Including VAT ',
-                                      text2: getTotalIncludedVat(
-                                              deliveryFee:
-                                                  selectedService.deliveryFee!,
-                                              operationFee:
-                                                  selectedService.operationFee!)
-                                          .toStringAsFixed(2),
-                                    )
+                                    15.ph,
+                                    if (coupons.appState
+                                        is AppInitialState) ...[
+                                      Loader()
+                                    ] else if (coupons.appState
+                                        is AppLoadingState) ...[
+                                      Loader()
+                                    ] else if (coupons.appState
+                                        is AppLoadedState) ...[
+                                      BuildCouponList(
+                                          items: items,
+                                          orderType: 'pickup_only_from_store',
+                                          couponModel: ((coupons.appState
+                                                  as AppLoadedState)
+                                              .data) as CouponModel)
+                                    ] else if (coupons.appState
+                                        is AppErrorState) ...[
+                                      Text((coupons.appState as AppErrorState)
+                                          .error
+                                          .toString())
+                                    ],
+                                    15.ph,
+                                    if (orderSummary.appState
+                                        is AppInitialState) ...[
+                                      Loader()
+                                    ] else if (orderSummary.appState
+                                        is AppLoadingState) ...[
+                                      Loader()
+                                    ] else if (orderSummary.appState
+                                        is AppLoadedState) ...[
+                                      OrderSummaryWidget(
+                                          orderSummaryModel: (orderSummary
+                                                  .appState as AppLoadedState)
+                                              .data as OrderSummaryModel)
+                                    ] else if (orderSummary.appState
+                                        is AppErrorState) ...[
+                                      Text((orderSummary.appState
+                                              as AppErrorState)
+                                          .error
+                                          .toString())
+                                    ],
                                   ]),
                             ),
                           ),
@@ -501,12 +428,7 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                                         deliveryPickupReceipt.path,
                                   };
 
-                                  if (audioFile != null) {
-                                    files.addAll({
-                                      'recording': audioFile!.path,
-                                    });
-                                  }
-                                  var total = selectedService.deliveryFee! +
+                                  var total = selectedService!.deliveryFee! +
                                       selectedService.operationFee!;
 
                                   Map data = {
@@ -532,10 +454,6 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                                     "branch_name": selectedLaundry.name,
                                     "customer_lat": selectedAddress.lat!,
                                     "customer_lng": selectedAddress.lng!,
-                                    "additional_operation_fee":
-                                        additionalOperationFee,
-                                    "additional_delivery_fee":
-                                        additionalDeliveryFee,
                                   };
                                   ref
                                       .read(orderReviewProvider.notifier)
@@ -550,7 +468,9 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                       ]),
                 )
               : SingleChildScrollView(
+                
                   child: Column(
+                    
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -572,11 +492,49 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                         itemCount: deliveryTypes.length,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
-                            onTap: () {
+                            onTap: () async {
+                              BotToast.showLoading();
+                              print(distanceData!.distanceInMeter.toString());
+
                               ref
                                   .read(orderReviewProvider.notifier)
                                   .selectDeliveryType(
                                       deliveryTypeModel: deliveryTypes[index]);
+
+                              log(deliveryTypes[index].deliveryType);
+
+                              Future.wait([
+                                ref
+                                    .read(orderSummaryProvider.notifier)
+                                    .calulate(ref: ref, data: {
+                                  "order_type":
+                                      deliveryTypes[index].deliveryType,
+                                  "user_id": userId,
+                                  "distance": distanceData.distanceInMeter,
+                                  "items": items
+                                      .map((e) => {
+                                            "item_variation_id": e.id,
+                                            "price": e.price,
+                                            "quantity": e.quantity
+                                          })
+                                      .toList(),
+                                }),
+                                ref
+                                    .read(couponProvider.notifier)
+                                    .validAllcoupons(ref: ref, data: {
+                                  "user_id": userId,
+                                  "eligible_for":
+                                      deliveryTypes[index].deliveryType
+                                })
+                              ]).then((v) {
+                                Future.delayed(Duration(milliseconds: 600), () {
+                                  BotToast.closeAllLoading();
+                                }).onError((e, s) {
+                                  Utils.showToast(msg: e.toString());
+
+                                  BotToast.closeAllLoading();
+                                });
+                              });
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -670,7 +628,36 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
                         },
                       ),
                       10.ph,
-                      _recording(),
+                      if (coupons.appState is AppInitialState) ...[
+                        SizedBox()
+                      ] else if (coupons.appState is AppLoadingState) ...[
+                        Loader()
+                      ] else if (coupons.appState is AppLoadedState) ...[
+                        BuildCouponList(
+                            items: items,
+                            orderType: selecteddeliveryType!.deliveryType,
+                            couponModel: ((coupons.appState as AppLoadedState)
+                                .data) as CouponModel)
+                      ] else if (coupons.appState is AppErrorState) ...[
+                        Text((coupons.appState as AppErrorState)
+                            .error
+                            .toString())
+                      ],
+                      15.ph,
+                      if (orderSummary.appState is AppInitialState) ...[
+                        SizedBox()
+                      ] else if (orderSummary.appState is AppLoadingState) ...[
+                        Loader()
+                      ] else if (orderSummary.appState is AppLoadedState) ...[
+                        OrderSummaryWidget(
+                            orderSummaryModel:
+                                (orderSummary.appState as AppLoadedState).data
+                                    as OrderSummaryModel)
+                      ] else if (orderSummary.appState is AppErrorState) ...[
+                        Text((orderSummary.appState as AppErrorState)
+                            .error
+                            .toString())
+                      ],
                       10.ph,
                       Card(
                         elevation: 0,
@@ -982,111 +969,172 @@ class _OrderReviewState extends ConsumerState<OrderReview> {
       ),
     );
   }
+}
 
-  Card _recording() {
-    return Card(
-      color: ColorManager.silverWhite,
-      child: Column(
-        children: [
-          Row(
-            children: [
-              isRecording == false
-                  ? Row(
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              startRecording();
-                            },
-                            icon:
-                                Icon(Icons.mic, color: ColorManager.blueColor)),
-                        5.pw,
-                        Text(
-                          'Record your Order instructions.',
-                          style:
-                              getSemiBoldStyle(color: ColorManager.blackColor),
-                        )
-                      ],
-                    )
-                  : Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              stopRecording();
-                            },
-                            icon: Icon(
-                              Icons.stop,
-                              color: ColorManager.redColor,
-                            )),
-                        5.pw,
-                        Text(
-                          'Stop Recording ${formatTime(totalSeconds)}',
-                          style:
-                              getSemiBoldStyle(color: ColorManager.blackColor),
-                        )
-                      ],
-                    )
-            ],
-          ),
-          audioFile?.path != null
-              ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  10.ph,
-                  VoiceMessageView(
-                    backgroundColor: ColorManager.whiteColor,
-                    activeSliderColor: ColorManager.primaryColor,
-                    circlesColor: ColorManager.primaryColor,
-                    controller: voiceController = VoiceController(
-                        audioSrc: audioFile!.path.toString(),
-                        maxDuration: const Duration(seconds: 90),
-                        isFile: true,
-                        onComplete: () {},
-                        onPause: () {},
-                        onPlaying: () {}),
-                    innerPadding: 12,
-                    cornerRadius: 20,
-                    size: 38,
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: AppPadding.p10),
-                    child: OutlinedButton(
-                        style: ButtonStyle(
-                            overlayColor: WidgetStateColor.resolveWith(
-                                (states) =>
-                                    ColorManager.redColor.withOpacity(0.1)),
-                            textStyle: WidgetStateProperty.resolveWith(
-                              (states) => getSemiBoldStyle(
-                                  color: ColorManager.blackColor),
-                            ),
-                            side: WidgetStateBorderSide.resolveWith((states) =>
-                                BorderSide(color: ColorManager.redColor))),
-                        onPressed: () {
-                          audioFile = null;
-                          stopRecording();
-                          voiceController.dispose();
-                          setState(() {});
-                        },
-                        child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.delete,
-                                color: ColorManager.redColor,
-                              ),
-                              Text(
-                                'Delete',
-                                style: getSemiBoldStyle(
-                                    color: ColorManager.blackColor),
-                              )
-                            ],
-                          ),
-                        )),
-                  ),
-                  10.ph,
-                ])
-              : const SizedBox(),
+class OrderSummaryWidget extends StatelessWidget {
+  final OrderSummaryModel orderSummaryModel;
+
+  const OrderSummaryWidget({super.key, required this.orderSummaryModel});
+
+  @override
+  Widget build(BuildContext context) {
+    Data? orderSummary = orderSummaryModel.data;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        PaymentSummaryText(
+            text1: 'Delivery Fees',
+            text2: orderSummary!.deliveryFees.toString()),
+        PaymentSummaryText(text1: 'Vat', text2: orderSummary.vat.toString()),
+        PaymentSummaryText(
+            text1: 'Delivery Fees Inc Tax',
+            text2: orderSummary.deliveryFeesIncTax.toString()),
+        if (orderSummary.discount != null) ...[
+          if (orderSummary.discount! > 0)
+            PaymentSummaryText(
+                text1: 'Discount', text2: orderSummary.discount.toString()),
         ],
+        if (orderSummary.totalItems != null) ...[
+          if (orderSummary.totalItems! > 0)
+            PaymentSummaryText(
+                text2PostFix: null,
+                text1: 'Total Items',
+                text2: orderSummary.totalItems.toString()),
+        ],
+      ]),
+    );
+  }
+}
+
+class SmallCouponCard extends StatelessWidget {
+  final String title;
+  final String couponCode;
+  final bool selectedCouponCode;
+
+  const SmallCouponCard({
+    Key? key,
+    required this.title,
+    required this.selectedCouponCode,
+    required this.couponCode,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+          color: ColorManager.lightGrey,
+          borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: getMediumStyle(color: ColorManager.redColor, fontSize: 10),
+            ),
+            Text(
+              'Code: $couponCode',
+              style:
+                  getMediumStyle(color: ColorManager.greyColor, fontSize: 12),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Container(
+                child: selectedCouponCode
+                    ? Text(
+                        'Applied',
+                        style:
+                            getSemiBoldStyle(color: ColorManager.nprimaryColor),
+                      )
+                    : Text(
+                        'Apply',
+                        style: getSemiBoldStyle(color: ColorManager.blackColor),
+                      )),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class BuildCouponList extends ConsumerWidget {
+  final CouponModel couponModel;
+  final String orderType;
+  final List<ItemVariation> items;
+
+  const BuildCouponList(
+      {super.key,
+      required this.couponModel,
+      required this.orderType,
+      required this.items});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userId = ref.watch(userProvider).userModel!.user!.id;
+    final distanceData = ref.read(distanceDetailProvider);
+    final selectedCoupon = ref.read(couponProvider).selectedCoupon;
+
+    return SizedBox(
+      height: 100,
+      child: ListView.builder(
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        scrollDirection: Axis.horizontal,
+        itemCount: couponModel.coupon!.length,
+        itemBuilder: (BuildContext context, int index) {
+          Coupon coupon = couponModel.coupon![index];
+          return GestureDetector(
+            onTap: () {
+              if (selectedCoupon != couponModel.coupon![index]) {
+                ref
+                    .read(couponProvider.notifier)
+                    .selectedCoupon(coupon: coupon);
+
+                final data = {
+                  "code": coupon.code,
+                  "order_type": orderType,
+                  "user_id": userId,
+                  "distance": distanceData!.distanceInMeter,
+                  "items": items
+                      .map((e) => {
+                            "item_variation_id": e.id,
+                            "price": e.price,
+                            "quantity": e.quantity
+                          })
+                      .toList(),
+                };
+                ref
+                    .read(orderSummaryProvider.notifier)
+                    .calulate(ref: ref, data: data);
+              } else {
+                ref.read(couponProvider).selectedCoupon = null;
+                final data = {
+                  "order_type": orderType,
+                  "user_id": userId,
+                  "distance": distanceData!.distanceInMeter,
+                  "items": items
+                      .map((e) => {
+                            "item_variation_id": e.id,
+                            "price": e.price,
+                            "quantity": e.quantity
+                          })
+                      .toList(),
+                };
+                ref
+                    .read(orderSummaryProvider.notifier)
+                    .calulate(ref: ref, data: data);
+              }
+            },
+            child: SmallCouponCard(
+                selectedCouponCode: selectedCoupon == coupon,
+                title:
+                    "Expired in ${DateHelper.calculateTimeUntilExpiry(coupon.expiryDate!)}",
+                couponCode: coupon.code.toString()),
+          );
+        },
       ),
     );
   }

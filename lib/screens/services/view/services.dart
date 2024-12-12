@@ -325,7 +325,7 @@ class _ServicesState extends ConsumerState<Services> {
         ),
         onRefresh: () => Future.wait([
           ref.refresh(pendingPickupRequestProvider.future),
-          // ref.refresh(servicesProvider.future),
+          ref.refresh(servicesProvider.future),
           ref.refresh(customerOrderProvider.future)
         ]),
       ),

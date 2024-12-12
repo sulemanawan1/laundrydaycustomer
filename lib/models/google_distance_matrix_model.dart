@@ -165,7 +165,7 @@ class DistanceMatrixResponse {
   final String distanceText;
   final String originAddresses;
   final String destination_addresses;
-  final double distanceInMeter;
+  final int distanceInMeter;
 
   DistanceMatrixResponse(
       {required this.originAddresses,

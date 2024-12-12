@@ -93,6 +93,7 @@ class Api {
   static const String walletBalance =
       "${baseUrl}wallet/";
   static const String calculate = "${baseUrl}orders/calculate";
+  static const String validAllcoupons = "${baseUrl}coupons/valid-all";
 
 
 

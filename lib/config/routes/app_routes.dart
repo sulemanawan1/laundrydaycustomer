@@ -7,6 +7,7 @@ import 'package:laundryday/screens/add_new_card.dart/add_new_card.dart';
 import 'package:laundryday/screens/auth/login/view/login.dart';
 import 'package:laundryday/screens/auth/signup/signup.dart';
 import 'package:laundryday/screens/auth/verification/view/verification.dart';
+import 'package:laundryday/screens/delivery_pickup/provider/delivery_pickup_notifier.dart';
 import 'package:laundryday/screens/more/addresses/update_addresses/view/update_address.dart';
 import 'package:laundryday/screens/laundries/view/laundries.dart';
 import 'package:laundryday/screens/laundry_items/view/laundry_items.dart';
@@ -148,7 +149,7 @@ final goRouterProvider = Provider<GoRouter>((ref) => GoRouter(
           name: RouteNames.deliveryPickup,
           path: "/delivery_pickup",
           builder: (context, state) {
-            return DeliveryPickup();
+            return DeliveryPickup(distanceDataModel: state.extra as DistanceDataModel,);
           }),
       GoRoute(
         name: RouteNames.orderChat,

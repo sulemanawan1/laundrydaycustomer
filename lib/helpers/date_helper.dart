@@ -20,4 +20,25 @@ class DateHelper {
 
     return formattedDate;
   }
+
+ static String calculateTimeUntilExpiry(DateTime expiryDate) {
+    final DateTime now = DateTime.now();
+
+    if (expiryDate.isBefore(now)) {
+      return 'Expired';
+    }
+
+    final Duration difference = expiryDate.difference(now);
+
+    if (difference.inDays < 7) {
+      return '${difference.inDays} days';
+    } else if (difference.inDays < 30) {
+      return '${(difference.inDays / 7).floor()} weeks';
+    } else if (difference.inDays < 365) {
+      return '${(difference.inDays / 30).floor()} months';
+    } else {
+      return '${(difference.inDays / 365).floor()} years';
+    }
+  }
+
 }

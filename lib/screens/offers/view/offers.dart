@@ -220,309 +220,313 @@ class Offers extends ConsumerWidget {
                       },
                       loading: () => const Loader());
                 } else {
-                  return SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        activeSubscription.when(
-                            data: (data) => data.fold((l) => Text(l), (r) {
-                                  var activeSubscription = r.data;
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      ref.invalidate(fetchUserProvider);
+                      ref.invalidate(activeUserSubscriptionProvider);
+                    },
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Column(
+                        children: [
+                          activeSubscription.when(
+                              data: (data) => data.fold((l) => Text(l), (r) {
+                                    var activeSubscription = r.data;
 
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: AppPadding.p10),
-                                    child: Column(
-                                      children: [
-                                        20.ph,
-                                        Card(
-                                          color: ColorManager.silverWhite,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  20.ph,
-                                                  Text(
-                                                    'Plan Details',
-                                                    style: getSemiBoldStyle(
-                                                      color: ColorManager
-                                                          .greyColor,
-                                                      fontSize: FontSize.s16,
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: AppPadding.p10),
+                                      child: Column(
+                                        children: [
+                                          20.ph,
+                                          Card(
+                                            color: ColorManager.silverWhite,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    20.ph,
+                                                    Text(
+                                                      'Plan Details',
+                                                      style: getSemiBoldStyle(
+                                                        color: ColorManager
+                                                            .greyColor,
+                                                        fontSize: FontSize.s16,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  20.ph,
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        'Plan',
-                                                        style: getSemiBoldStyle(
-                                                            color: ColorManager
-                                                                .blackColor,
-                                                            fontSize:
-                                                                FontSize.s12),
-                                                      ),
-                                                      Text(
-                                                        activeSubscription!
-                                                            .subscriptionPlan!
-                                                            .name
-                                                            .toString(),
-                                                        style: getMediumStyle(
-                                                            color: ColorManager
-                                                                .blackColor),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  20.ph,
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        'Type',
-                                                        style: getSemiBoldStyle(
-                                                            color: ColorManager
-                                                                .blackColor,
-                                                            fontSize:
-                                                                FontSize.s12),
-                                                      ),
-                                                      Text(
-                                                        activeSubscription
-                                                            .subscriptionPlan!
-                                                            .subscriptionType!
-                                                            .toString(),
-                                                        style: getMediumStyle(
-                                                            color: ColorManager
-                                                                .blackColor),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  20.ph,
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        'Start Date',
-                                                        style: getSemiBoldStyle(
-                                                            color: ColorManager
-                                                                .blackColor,
-                                                            fontSize:
-                                                                FontSize.s12),
-                                                      ),
-                                                      Text(
-                                                        DateHelper.formatDate(
-                                                            activeSubscription
-                                                                .startTime!
-                                                                .toString()),
-                                                        style: getMediumStyle(
-                                                            color: ColorManager
-                                                                .blackColor),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  20.ph,
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        'End Date',
-                                                        style: getSemiBoldStyle(
-                                                            color: ColorManager
-                                                                .blackColor,
-                                                            fontSize:
-                                                                FontSize.s12),
-                                                      ),
-                                                      Text(
-                                                        DateHelper.formatDate(
-                                                            activeSubscription
-                                                                .endTime!
-                                                                .toString()),
-                                                        style: getMediumStyle(
-                                                            color: ColorManager
-                                                                .blackColor),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  20.ph,
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        'Total Visits',
-                                                        style: getSemiBoldStyle(
-                                                            color: ColorManager
-                                                                .blackColor,
-                                                            fontSize:
-                                                                FontSize.s12),
-                                                      ),
-                                                      Text(
-                                                        '${activeSubscription.subscriptionDetail!.totalVisits.toString().toUpperCase()}',
-                                                        style: getMediumStyle(
-                                                            color: ColorManager
-                                                                .blackColor),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  20.ph,
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        'Status',
-                                                        style: getSemiBoldStyle(
-                                                            color: ColorManager
-                                                                .blackColor,
-                                                            fontSize:
-                                                                FontSize.s12),
-                                                      ),
-                                                      Text(
-                                                        activeSubscription
-                                                            .status
-                                                            .toString()
-                                                            .toUpperCase(),
-                                                        style: getMediumStyle(
-                                                            color: ColorManager
-                                                                .blackColor),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  20.ph,
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        'Updation Count',
-                                                        style: getSemiBoldStyle(
-                                                            color: ColorManager
-                                                                .blackColor,
-                                                            fontSize:
-                                                                FontSize.s12),
-                                                      ),
-                                                      Text(
-                                                        '${activeSubscription.subscriptionDetail!.branchEditCount.toString().toUpperCase()}/3',
-                                                        style: getMediumStyle(
-                                                            color: ColorManager
-                                                                .blackColor),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  20.ph,
-                                                  Text(
-                                                    'Branch Information',
-                                                    style: getSemiBoldStyle(
-                                                      color: ColorManager
-                                                          .greyColor,
-                                                      fontSize: FontSize.s16,
-                                                    ),
-                                                  ),
-                                                  20.ph,
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        'Name',
-                                                        style: getSemiBoldStyle(
-                                                            color: ColorManager
-                                                                .blackColor,
-                                                            fontSize:
-                                                                FontSize.s12),
-                                                      ),
-                                                      Text(
-                                                        activeSubscription
-                                                            .subscriptionDetail!
-                                                            .branchName
-                                                            .toString()
-                                                            .toUpperCase(),
-                                                        style: getMediumStyle(
-                                                            color: ColorManager
-                                                                .blackColor),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  20.ph,
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        'Address',
-                                                        style: getSemiBoldStyle(
-                                                            color: ColorManager
-                                                                .blackColor,
-                                                            fontSize:
-                                                                FontSize.s12),
-                                                      ),
-                                                      Text(
-                                                        activeSubscription
-                                                            .subscriptionDetail!
-                                                            .branchAddress
-                                                            .toString()
-                                                            .toUpperCase(),
-                                                        style: getMediumStyle(
-                                                            color: ColorManager
-                                                                .blackColor),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.bottomRight,
-                                                    child: TextButton(
-                                                        onPressed: () {
-
-                                                          ref
-                                                              .read(
-                                                                  offerProvider
-                                                                      .notifier)
-                                                              .selectUserSubscription(
-                                                                  userSubscriptionModel:
-                                                                      activeSubscription);
-
-
-
-                                                          context.pushNamed(
-                                                              RouteNames
-                                                                  .subscriptionLaundry,
-                                                              extra:
-                                                                  SubscriptionLaundryScreenType
-                                                                      .update);
-                                                        },
-                                                        child: Text(
-                                                          'Update Branch',
+                                                    20.ph,
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          'Plan',
                                                           style: getSemiBoldStyle(
                                                               color: ColorManager
-                                                                  .primaryColor),
-                                                        )),
-                                                  ),
-                                                ]),
+                                                                  .blackColor,
+                                                              fontSize:
+                                                                  FontSize.s12),
+                                                        ),
+                                                        Text(
+                                                          activeSubscription!
+                                                              .subscriptionPlan!
+                                                              .name
+                                                              .toString(),
+                                                          style: getMediumStyle(
+                                                              color: ColorManager
+                                                                  .blackColor),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    20.ph,
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          'Type',
+                                                          style: getSemiBoldStyle(
+                                                              color: ColorManager
+                                                                  .blackColor,
+                                                              fontSize:
+                                                                  FontSize.s12),
+                                                        ),
+                                                        Text(
+                                                          activeSubscription
+                                                              .subscriptionPlan!
+                                                              .subscriptionType!
+                                                              .toString(),
+                                                          style: getMediumStyle(
+                                                              color: ColorManager
+                                                                  .blackColor),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    20.ph,
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          'Start Date',
+                                                          style: getSemiBoldStyle(
+                                                              color: ColorManager
+                                                                  .blackColor,
+                                                              fontSize:
+                                                                  FontSize.s12),
+                                                        ),
+                                                        Text(
+                                                          DateHelper.formatDate(
+                                                              activeSubscription
+                                                                  .startTime!
+                                                                  .toString()),
+                                                          style: getMediumStyle(
+                                                              color: ColorManager
+                                                                  .blackColor),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    20.ph,
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          'End Date',
+                                                          style: getSemiBoldStyle(
+                                                              color: ColorManager
+                                                                  .blackColor,
+                                                              fontSize:
+                                                                  FontSize.s12),
+                                                        ),
+                                                        Text(
+                                                          DateHelper.formatDate(
+                                                              activeSubscription
+                                                                  .endTime!
+                                                                  .toString()),
+                                                          style: getMediumStyle(
+                                                              color: ColorManager
+                                                                  .blackColor),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    20.ph,
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          'Total Visits',
+                                                          style: getSemiBoldStyle(
+                                                              color: ColorManager
+                                                                  .blackColor,
+                                                              fontSize:
+                                                                  FontSize.s12),
+                                                        ),
+                                                        Text(
+                                                          '${activeSubscription.subscriptionDetail!.totalVisits.toString().toUpperCase()}',
+                                                          style: getMediumStyle(
+                                                              color: ColorManager
+                                                                  .blackColor),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    20.ph,
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          'Status',
+                                                          style: getSemiBoldStyle(
+                                                              color: ColorManager
+                                                                  .blackColor,
+                                                              fontSize:
+                                                                  FontSize.s12),
+                                                        ),
+                                                        Text(
+                                                          activeSubscription
+                                                              .status
+                                                              .toString()
+                                                              .toUpperCase(),
+                                                          style: getMediumStyle(
+                                                              color: ColorManager
+                                                                  .blackColor),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    20.ph,
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          'Updation Count',
+                                                          style: getSemiBoldStyle(
+                                                              color: ColorManager
+                                                                  .blackColor,
+                                                              fontSize:
+                                                                  FontSize.s12),
+                                                        ),
+                                                        Text(
+                                                          '${activeSubscription.subscriptionDetail!.branchEditCount.toString().toUpperCase()}/3',
+                                                          style: getMediumStyle(
+                                                              color: ColorManager
+                                                                  .blackColor),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    20.ph,
+                                                    Text(
+                                                      'Branch Information',
+                                                      style: getSemiBoldStyle(
+                                                        color: ColorManager
+                                                            .greyColor,
+                                                        fontSize: FontSize.s16,
+                                                      ),
+                                                    ),
+                                                    20.ph,
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          'Name',
+                                                          style: getSemiBoldStyle(
+                                                              color: ColorManager
+                                                                  .blackColor,
+                                                              fontSize:
+                                                                  FontSize.s12),
+                                                        ),
+                                                        Text(
+                                                          activeSubscription
+                                                              .subscriptionDetail!
+                                                              .branchName
+                                                              .toString()
+                                                              .toUpperCase(),
+                                                          style: getMediumStyle(
+                                                              color: ColorManager
+                                                                  .blackColor),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    20.ph,
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          'Address',
+                                                          style: getSemiBoldStyle(
+                                                              color: ColorManager
+                                                                  .blackColor,
+                                                              fontSize:
+                                                                  FontSize.s12),
+                                                        ),
+                                                        Text(
+                                                          activeSubscription
+                                                              .subscriptionDetail!
+                                                              .branchAddress
+                                                              .toString()
+                                                              .toUpperCase(),
+                                                          style: getMediumStyle(
+                                                              color: ColorManager
+                                                                  .blackColor),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.bottomRight,
+                                                      child: TextButton(
+                                                          onPressed: () {
+                                                            ref
+                                                                .read(offerProvider
+                                                                    .notifier)
+                                                                .selectUserSubscription(
+                                                                    userSubscriptionModel:
+                                                                        activeSubscription);
+
+                                                            context.pushNamed(
+                                                                RouteNames
+                                                                    .subscriptionLaundry,
+                                                                extra:
+                                                                    SubscriptionLaundryScreenType
+                                                                        .update);
+                                                          },
+                                                          child: Text(
+                                                            'Update Branch',
+                                                            style: getSemiBoldStyle(
+                                                                color: ColorManager
+                                                                    .primaryColor),
+                                                          )),
+                                                    ),
+                                                  ]),
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                            error: (error, s) => Text(error.toString()),
-                            loading: () => const Loader()),
-                      ],
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                              error: (error, s) => Text(error.toString()),
+                              loading: () => const Loader()),
+                        ],
+                      ),
                     ),
                   );
                 }

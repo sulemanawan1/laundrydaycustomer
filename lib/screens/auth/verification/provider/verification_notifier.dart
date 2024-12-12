@@ -7,7 +7,6 @@ import 'package:laundryday/services/device_info_service.dart';
 import 'package:laundryday/services/notifcation_service.dart';
 import 'package:laundryday/models/user_model.dart' as usermodel;
 import 'package:laundryday/shared/provider/user_notifier.dart';
-import 'package:laundryday/shared/provider/user_states.dart';
 import 'package:laundryday/screens/auth/login/provider/login_notifier.dart';
 import 'package:laundryday/screens/auth/verification/provider/verification_states.dart';
 import 'package:laundryday/screens/auth/verification/service/device_token_repository.dart';
