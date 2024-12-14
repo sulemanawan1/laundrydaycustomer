@@ -57,7 +57,7 @@ dependencies:
   uuid: ^4.5.0
   googleapis_auth: ^1.6.0
   firebase_storage: ^12.3.1
-  flutter_phone_direct_caller: ^2.1.1
+  flutter_phone_direct_caller: any
   easy_localization: ^3.0.7
   restart_app: any
   app_settings: ^5.1.1

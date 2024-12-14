@@ -1,34 +1,39 @@
+// Root build.gradle
+
 buildscript {
-    ext.kotlin_version = '2.1.0'
+    ext.kotlin_version = '1.9.0'  // Ensure you're using the correct Kotlin version
     repositories {
-        google()
-        mavenCentral()
+        google()  // For Android-specific dependencies
+        mavenCentral()  // For general dependencies
     }
-
     dependencies {
+        // Kotlin plugin for Gradle
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.google.gms:google-services:4.3.15'
-        classpath 'com.android.tools.build:gradle:7.3.1'
+        
+        // Google Services for Firebase, Analytics, etc.
+        classpath 'com.google.gms:google-services:4.3.15'  // Ensure the latest version is used
 
+        // Android Gradle Plugin (AGP)
+        classpath 'com.android.tools.build:gradle:7.4.0'  // Ensure AGP version is compatible with Gradle
     }
 }
 
 allprojects {
     repositories {
-        google()
-        mavenCentral()
-         
+        google()  // Android-specific repositories
+        mavenCentral()  // General repositories
     }
 }
 
-rootProject.buildDir = '../build'
+rootProject.buildDir = '../build'  // Set a custom build directory for the root project
+
+// Ensure subprojects use the correct build directory
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
-    project.evaluationDependsOn(':app')
+    project.evaluationDependsOn(':app')  // Ensure 'app' module is evaluated before others
 }
 
+// Clean task for deleting build directories
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
