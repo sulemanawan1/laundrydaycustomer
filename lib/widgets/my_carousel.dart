@@ -1,12 +1,12 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as cc;
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class MyCarousel extends StatefulWidget {
 
-  CarouselController? carouselController;
+  cc.CarouselController? carouselController;
   double? aspectRatio;
-  dynamic Function(int, CarouselPageChangedReason)? onPageChanged;
+  dynamic Function(int,cc. CarouselPageChangedReason)? onPageChanged;
   MyCarousel(
       {super.key,
     
@@ -26,7 +26,7 @@ class _MyCarouselState extends State<MyCarousel> {
     Card(
       color: Colors.transparent,
       elevation: 0,
-      child: CarouselSlider(
+      child: cc.CarouselSlider(
         carouselController: widget.carouselController,
         items: []
             .map((e) => ClipRRect(
@@ -38,7 +38,7 @@ class _MyCarouselState extends State<MyCarousel> {
                   ),
                 ))
             .toList(),
-        options: CarouselOptions(
+        options: cc.CarouselOptions(
           padEnds: true,
           viewportFraction: 1,
           aspectRatio: widget.aspectRatio ?? 16 / 6,
@@ -56,3 +56,6 @@ class _MyCarouselState extends State<MyCarousel> {
     );
   }
 }
+
+
+
